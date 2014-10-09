@@ -1,12 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pplive.ads</groupId>
-		<artifactId>ads-vnow</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>ppadmanager</artifactId>
+	<groupId>com.lehealth</groupId>
+	<artifactId>api</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<build>
 		<resources>
@@ -72,60 +69,19 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<!-- for img-->
-		<dependency>
-			<groupId>jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.13</version>
-		</dependency>
-		<!-- for mailtemplate-->
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.19</version>
-		</dependency>
-		<!-- Merge added start-->
 		<dependency>
      	 	<groupId>org.codehaus.jackson</groupId>
      	 	<artifactId>jackson-mapper-asl</artifactId>
+     	 	<version></version>
    		 </dependency>
-		<dependency>
-			<groupId>bouncycastle</groupId>
-			<artifactId>bcprov-jdk15</artifactId>
-			<version>140</version>
-		</dependency>
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
 			<version>1.12</version>
 		</dependency>
-		
-        <!-- Merge added end-->
-            
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-digester</groupId>
-			<artifactId>commons-digester</artifactId>
-			<version>1.5</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>jdom</groupId>
-			<artifactId>jdom</artifactId>
-
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -134,115 +90,72 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.jexcelapi</groupId>
-			<artifactId>jxl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<classifier>jdk15</classifier>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
+			<version></version>
 		</dependency>		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>2.6.3</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>vnow-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.javazoom</groupId>
-			<artifactId>uploadbean</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.danga</groupId>
-			<artifactId>memcached</artifactId>
-			<version>1.6</version>
-		</dependency>
-		<dependency>
-			<groupId>struts</groupId>
-			<artifactId>struts</artifactId>
-			<version>1.2.9</version>
-		</dependency>
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.3.1</version>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 		<groupId>org.apache.httpcomponents</groupId>
@@ -255,78 +168,18 @@
 			<version>4.3</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-nop</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.servlets</groupId>
-			<artifactId>cos</artifactId>
-			<version>09May2002</version>
+			<version></version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>3.8</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml</artifactId>
-      <version>3.8</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.3</version>
-    </dependency>
-		<dependency>
-			<groupId>com.pplive.ads</groupId>
-			<artifactId>ads-baselib</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.pplive.ads</groupId>
-			<artifactId>ads-common</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency> 
-   			<groupId>org.jasig.cas.client</groupId> 
-   			<artifactId>cas-client-core</artifactId> 
-   			<version>3.2.1</version> 
-   		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>pplive-nexus</id>
-	        <name>Internal Maven Central Repository of PPLive R&amp;D </name>
-	        <url>http://bug01:8082/nexus/content/groups/public/</url>
-		</repository>
-    	<repository>
-	        <id>thirdparty</id>
-	        <name>thirdparty</name>
-	        <url>http://bug01:8082/nexus/content/repositories/thirdparty/</url>
-        </repository>
-   </repositories>
 </project>

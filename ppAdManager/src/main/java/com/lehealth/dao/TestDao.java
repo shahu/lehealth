@@ -1,4 +1,4 @@
-package com.pplive.ads.admanager.dao;
+package com.lehealth.dao;
 
 public interface TestDao {
 	public void test();

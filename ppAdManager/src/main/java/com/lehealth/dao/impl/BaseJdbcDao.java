@@ -1,4 +1,4 @@
-package com.pplive.ads.admanager.dao.impl;
+package com.lehealth.dao.impl;
 
 import javax.sql.DataSource;
 

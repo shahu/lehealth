@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.pplive.ads.admanager.intercept;
+package com.lehealth.intercept;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.pplive.ads.admanager.dao.impl;
+package com.lehealth.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import com.lehealth.dao.TestDao;
+import com.lehealth.service.TestService;
 import com.pplive.ads.admanager.bean.ThrowBean;
 import com.pplive.ads.admanager.bean.WebInventoryResult;
-import com.pplive.ads.admanager.dao.TestDao;
-import com.pplive.ads.admanager.service.TestService;
 import com.util.SuperDate;
 
 @Repository("testDao")

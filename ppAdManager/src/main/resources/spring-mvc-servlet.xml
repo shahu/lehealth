@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	>
+
+	<context:annotation-config />
+	<!-- 自动扫描的包名 -->
+	<context:component-scan base-package="com.pplive.ads.admanager,com.util" />
+
+	<!-- 默认的注解映射的支持 -->
+	<mvc:annotation-driven />
+
+	<!-- 视图解释类 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" /><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+	</bean>
+
+	<!-- 对静态资源文件的访问 方案一 （二选一） -->
+	<!-- <mvc:default-servlet-handler /> -->
+
+	<!-- annotation默认的方法映射适配器 -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="order" value="1" />
+		<property name = "alwaysUseFullPath" value = "true" />
+	</bean>
+	<!-- 拦截器 -->  
+    <mvc:interceptors>  
+        <!-- 多个拦截器,顺序执行 -->  
+		<mvc:interceptor><!--每新增一个Controller，都需要在这里写入其命名空间,并且该拦截器必须放在第一位置 -->
+			<mvc:mapping path="/myOrder/*"/>
+			<mvc:mapping path="/labelManage/*"/>
+			<mvc:mapping path="/groupInfoSync/*"/>
+			<mvc:mapping path="/vpaid/*"/>
+			<mvc:mapping path="/defaultad/*" />
+			<mvc:mapping path="/exchange/*"/>
+			<mvc:mapping path="/order/*" />
+			<mvc:mapping path="/concertSchedule/*" />
+			<mvc:mapping path="/query/*" />
+			<mvc:mapping path="/sendmail/*"/>
+			<mvc:mapping path="/dashboard/*" />
+			<mvc:mapping path="/dataMonitor/*" />
+			<mvc:mapping path="/defaultad/*" />
+			<mvc:mapping path="/system/*" />
+			<mvc:mapping path="/download/*" />
+			<mvc:mapping path="/generalvast/*"/>
+			<mvc:mapping path="/materialschedule/*"/>
+			<mvc:mapping path="/materialsync/*"/>
+			<mvc:mapping path="/material/*" />
+			<mvc:mapping path="/materialgroup/*" />
+			<mvc:mapping path="/netunion/*" />
+			<mvc:mapping path="/syslog/*" />
+			<mvc:mapping path="/policy/*"/>
+			<mvc:mapping path="/presale/*" />
+			<mvc:mapping path="/priority/*" />
+			<mvc:mapping path="/stock/*" />
+			<mvc:mapping path="/selector/*" />
+			<mvc:mapping path="/throwactivity/*" />
+			<mvc:mapping path="/upload/*" />
+			<mvc:mapping path="/vastreport/*" />
+			<mvc:mapping path="/vpaid/*"/>
+			<mvc:mapping path="/inventory/*" />
+			<mvc:mapping path="/xmlschema/*" />
+			<bean class="com.pplive.ads.admanager.intercept.PreprocessSessionInterceptor"></bean>
+		</mvc:interceptor>    
+        <mvc:interceptor>
+        	<mvc:mapping path="/labelManage/*"/>
+        	<mvc:mapping path="/groupInfoSync/*"/>
+        	<mvc:mapping path="/vpaid/*"/>  
+			<mvc:mapping path="/defaultad/*" />
+        	<mvc:mapping path="/exchange/*"/>
+			<mvc:mapping path="/order/*" />
+			<mvc:mapping path="/concertSchedule/*" />
+			<mvc:mapping path="/query/*" />
+			<mvc:mapping path="/sendmail/*"/>
+			<mvc:mapping path="/dashboard/*" />
+			<mvc:mapping path="/dataMonitor/*" />
+			<mvc:mapping path="/defaultad/*" />
+			<mvc:mapping path="/system/*" />
+			<mvc:mapping path="/download/*" />
+			<mvc:mapping path="/generalvast/*"/>
+			<mvc:mapping path="/materialschedule/*"/>
+			<mvc:mapping path="/materialsync/*"/>
+			<mvc:mapping path="/material/*" />
+			<mvc:mapping path="/materialgroup/*" />
+			<mvc:mapping path="/netunion/*" />
+			<mvc:mapping path="/syslog/*" />
+			<mvc:mapping path="/policy/*"/>
+			<mvc:mapping path="/presale/*" />
+			<mvc:mapping path="/priority/*" />
+			<mvc:mapping path="/stock/*" />
+			<mvc:mapping path="/selector/*" />
+			<mvc:mapping path="/throwactivity/*" />
+			<mvc:mapping path="/upload/*" />
+			<mvc:mapping path="/vastreport/*" />
+			<mvc:mapping path="/vpaid/*"/>
+			<mvc:mapping path="/inventory/*" />
+			<mvc:mapping path="/xmlschema/*" />
+            <bean class="com.pplive.ads.admanager.intercept.UsrMessageIntercept"></bean>  
+        </mvc:interceptor>  
+    </mvc:interceptors> 
+	
+	<!-- spring mvc整合json，处理JSON数据转换的 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<!-- 为了处理返回的JSON数据的编码，默认是ISO-88859-1的，这里把它设置为UTF-8,解决有乱码的情况 -->
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<util:properties id="applicationProps" location="classpath:Constant.properties"/>
+	<mvc:resources mapping="/resources-#{applicationProps['application.version']}/presale/ads/js/**"  location="/presale/ads/js/"/>
+	<mvc:resources mapping="/resources-#{applicationProps['application.version']}/selector/js/**"  location="/selector/js/"/>
+	<mvc:resources mapping="/resources-#{applicationProps['application.version']}/js/**"  location="/js/"/>
+<!-- 		<mvc:resources mapping="/resources-#{applicationProps['application.version']}/presale/ads/css/**" location="/presale/ads/css/"/>
+	<mvc:resources mapping="/resources-#{applicationProps['application.version']}/presale/ads/css/preSale.css" location="/presale/ads/css/preSale.css"/>
+	<mvc:resources mapping="/resources-#{applicationProps['application.version']}/presale/ads/css/reset.css" location="/presale/ads/css/reset.css"/>
+	<mvc:resources mapping="/resources-#{applicationProps['application.version']}/presale/ads/css/style.css" location="/presale/ads/css/style.css"/> 
+	<mvc:resources location="/css/" mapping="/css/**"/>-->
+	<mvc:resources location="/js/" mapping="/js/**"/>
+
+</beans>

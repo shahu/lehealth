@@ -1,0 +1,394 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<context:component-scan base-package="com.pplive,com.util"/>
+	<context:component-scan base-package="com.pptv" />
+	<context:component-scan base-package="com.pplive.web.ad.bean.playlist.xml" />
+	<context:annotation-config />
+	<tx:annotation-driven transaction-manager="txManager" />
+    <!-- ========================= Start of PERSISTENCE DEFINITIONS ========================= -->
+    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:init.properties</value>
+        </property>
+    </bean>
+    
+
+    
+    <!-- Choose the dialect that matches your "dataSource" definition -->
+    <bean id="dataSourceDefault" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>${datasource.driverClassName}</value>
+        </property>
+        <property name="url">
+            <value>${datasource.url}</value>
+        </property>
+        <property name="username">
+            <value>${datasource.username}</value>
+        </property>
+        <property name="password">
+            <value>${datasource.password}</value>
+        </property>
+        <property name="maxActive">
+            <value>${datasource.maxActive}</value>
+        </property>
+        <property name="maxIdle">
+            <value>${datasource.maxIdle}</value>
+        </property>
+        <property name="maxWait">
+            <value>${datasource.maxWait}</value>
+        </property>
+        <property name="defaultAutoCommit">
+            <value>${datasource.defaultAutoCommit}</value>
+        </property>
+    </bean>
+    <bean id="dataSourceDefault4Read" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>${datasource.read.driverClassName}</value>
+        </property>
+        <property name="url">
+            <value>${datasource.read.url}</value>
+        </property>
+        <property name="username">
+            <value>${datasource.read.username}</value>
+        </property>
+        <property name="password">
+            <value>${datasource.read.password}</value>
+        </property>
+        <property name="maxActive">
+            <value>${datasource.read.maxActive}</value>
+        </property>
+        <property name="maxIdle">
+            <value>${datasource.read.maxIdle}</value>
+        </property>
+        <property name="maxWait">
+            <value>${datasource.read.maxWait}</value>
+        </property>
+        <property name="defaultAutoCommit">
+            <value>${datasource.read.defaultAutoCommit}</value>
+        </property>
+        <property name="testWhileIdle">
+            <value>${datasource.read.testWhileIdle}</value>
+        </property>
+        <property name="timeBetweenEvictionRunsMillis">
+            <value>${datasource.read.timeBetweenEvictionRunsMillis}</value>
+        </property>
+        <property name="minEvictableIdleTimeMillis">
+            <value>${datasource.read.minEvictableIdleTimeMillis}</value>
+        </property>
+        
+    </bean>
+    <bean id="mailSender" class="com.util.mail.MailSender" scope="prototype">
+        <property name="mailServerHost">
+            <value>${mail.serverHost}</value>
+        </property>
+        <property name="mailServerAccount">
+            <value>${mail.serverAccount}</value>
+        </property>
+        <property name="mailServerPassword">
+            <value>${mail.serverPassword}</value>
+        </property>
+        <property name="fromMail">
+            <value>${mail.fromMail}</value>
+        </property>
+        <property name="fromUserName">
+            <value>${mail.fromUserName}</value>
+        </property>
+        <property name="replyMail">
+            <value>${mail.replyMail}</value>
+        </property>
+    </bean>
+    
+    <bean id="serviceLocator" class="com.pplive.web.ad.comm.jdbc.ServiceLocator">
+        <property name="dataSource">
+            <ref local="dataSourceDefault"/>
+        </property>
+        <property name="dataSource2">
+            <ref local="dataSourceDefault4Read"/>
+        </property>
+    </bean>  
+    <bean id="propertisLoadTasker" class="com.pplive.web.ad.task.PropertiesLoadTask"/>
+    
+    <bean id="propertisLoadTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+        <property name="delay">
+            <value>10000</value>
+        </property>
+        <property name="period">
+            <value>10000</value>
+        </property>
+        <property name="timerTask">
+            <ref local="propertisLoadTasker"/>
+        </property>
+    </bean>
+    
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref local="propertisLoadTask"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Task-->
+    <!-- 每3个小时5分的时候计算上一个小时的投放点击率并发送提醒邮件-->
+     <bean id="ClickRateRemindTasker" class="org.springframework.scheduling.quartz.JobDetailBean">
+     	<property name="jobClass">
+     		<value>com.pplive.web.ad.task.ClickRateRemindTask</value>
+       	</property>
+       	<property name="jobDataAsMap">
+        	<map>
+          		<entry key="mailSender">
+             		<ref local="mailSender"/>
+           		</entry>
+         	</map>
+       	</property>
+     </bean>
+     <bean id="ClickRateRemindTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+     	<property name="jobDetail">
+        	<ref bean="ClickRateRemindTasker"/>
+     	</property>
+     	<property name="cronExpression">
+			<value>0 5 0/3 * * ?</value>
+     	</property>
+     </bean>
+    <!--每天的0点0分1秒停止过期的投放-->
+    <bean id="ThrowActivityStopTasker" class="org.springframework.scheduling.quartz.JobDetailBean">
+    	<property name="jobClass">
+       		<value>com.pplive.web.ad.task.ThrowActivityStopTask</value>
+       	</property>
+    </bean>
+
+    <bean id="ThrowActivityStopTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+       <property name="jobDetail">
+           <ref bean="ThrowActivityStopTasker"></ref>
+       </property>
+       <property name="cronExpression">
+           <value>1 0 0 * * ?</value>
+       </property>
+    </bean>
+   
+   <!--每小时检查一次订单，添加报警和邮件-->
+   <bean id="WarningCheckTasker" class="org.springframework.scheduling.quartz.JobDetailBean">
+      <property name="jobClass">
+        <value>com.pplive.ads.admanager.task.WarningTask</value>   
+      </property>
+   </bean>
+
+   <bean id="WarningCheckTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+       <property name="jobDetail">
+           <ref bean="WarningCheckTasker"></ref>
+       </property>
+       <property name="cronExpression">
+           <value>0 0 * * * ?</value>  <!-- 0秒 0分 任意小时 任意天 任意月 -->
+       </property>
+   </bean>
+   
+   <!-- 每十分钟更新一次DataCache -->
+   <bean id="DataCacheSyncTasker" class="org.springframework.scheduling.quartz.JobDetailBean">
+      <property name="jobClass">
+        <value>com.pplive.ads.admanager.task.DataCacheSyncTask</value>   
+      </property>
+   </bean>
+
+   <bean id="DataCacheSyncTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+       <property name="jobDetail">
+           <ref bean="DataCacheSyncTasker"></ref>
+       </property>
+       <property name="cronExpression">
+           <value>0 0/10 * * * ?</value>  <!-- 0秒 10分 任意小时 任意天 任意月 -->
+       </property>
+   </bean>
+   
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+	    	<list>
+	     		<ref bean="ThrowActivityStopTask"></ref>
+	     		<ref bean="WarningCheckTask"></ref>
+	     		<ref bean="DataCacheSyncTask"></ref>
+	     	</list>
+	   </property>
+	</bean>
+	
+	
+    <!-- 定时任务 -->
+    <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" />
+	<task:scheduler id="scheduler" pool-size="20" />
+	<task:executor id="executor" pool-size="20" rejection-policy="CALLER_RUNS" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+    <!-- Service -->
+    <bean id="serialNumberService" class="com.pplive.web.ad.service.SerialNumberService"/>
+    <bean id="dataDicService" class="com.pplive.web.ad.service.DataDictionaryService"/>
+    <bean id="orderService" class="com.pplive.web.ad.service.OrderService">
+        <property name="dicService" ref="dataDicService"/>
+    </bean>
+    
+    <bean id="throwActivityService" class="com.pplive.web.ad.service.ThrowActivityService">
+        <property name="dicService" ref="dataDicService"/>
+        <property name="orderService" ref="orderService"/>
+        <property name="snService" ref="serialNumberService"/>
+        <property name="throwActivityDao" ref="throwActivityDao"/> 
+    </bean>
+    
+    <!-- Service -->
+    <bean id="constant" class="com.pplive.ads.baselib.Constant">
+		<property name="properties">
+			<props>
+				<prop key="des3key_hexiv">${des3key_hexiv}</prop>
+				<prop key="des3key_1">${des3key_1}</prop>
+				<prop key="des3key_2">${des3key_2}</prop>
+				<prop key="des3key_3">${des3key_3}</prop>
+				<prop key="des3key_4">${des3key_4}</prop>
+				<prop key="des3key_5">${des3key_5}</prop>
+				<prop key="des3key_6">${des3key_6}</prop>
+				<prop key="des3key_7">${des3key_7}</prop>
+				<prop key="des3key_8">${des3key_8}</prop>
+				<prop key="des3key_9">${des3key_9}</prop>
+				<prop key="des3key_10">${des3key_10}</prop>
+				<prop key="MD5_KEY">${MD5_KEY}</prop>
+				<prop key="selector.http.get.url">${selector.http.get.url}</prop>
+				<prop key="selector.http.post.url">${selector.http.post.url}</prop>
+				<prop key="selector.http.connection.timeout">${selector.http.connection.timeout}</prop>
+				<prop key="selector.http.socket.timeout">${selector.http.socket.timeout}</prop>
+				<prop key="email.address">${email.address}</prop>
+				<prop key="email.protocol">${email.protocol}</prop>
+				<prop key="email.host">${email.host}</prop>
+				<prop key="email.port">${email.port}</prop>
+				<prop key="email.auth">${email.auth}</prop>
+				<prop key="email.username">${email.username}</prop>
+				<prop key="email.password">${email.password}</prop>
+				<!-- <prop key="InventoryUrl">${InventoryUrl}</prop> -->
+				<prop key="preSale.Monday">${preSale.Monday}</prop>
+				<prop key="preSale.Tuesday">${preSale.Tuesday}</prop>
+				<prop key="preSale.Wendesday">${preSale.Wendesday}</prop>
+				<prop key="preSale.Thursday">${preSale.Thursday}</prop>
+				<prop key="preSale.Friday">${preSale.Friday}</prop>
+				<prop key="preSale.Saturday">${preSale.Saturday}</prop>
+				<prop key="preSale.Sunday">${preSale.Sunday}</prop>
+				<prop key="login.cookie.domain">${login.cookie.domain}</prop>
+				<prop key="login.cookie.expired">${login.cookie.expired}</prop>
+			</props>
+		</property>
+	</bean>
+	
+    <!-- 调度协调 -->
+    <bean id="baseJdbcDao" class="com.pplive.adcontrol.jdbc.dao.BaseJdbcDao">
+	    <property name="dataSource" ref="dataSourceDefault"/>
+	    <property name="dataSource4Read" ref="dataSourceDefault4Read"/>
+	</bean>
+    <bean id="concertScheduleDao" class="com.pplive.concertSchedule.dao.impl.ConcertScheduleDaoImpl" parent="baseJdbcDao" />
+    <bean id="concertScheduleService" class="com.pplive.concertSchedule.service.impl.ConcertScheduleServiceImpl">
+    	<property name="concertScheduleDao" ref="concertScheduleDao" />
+    </bean>
+    <bean id="adSystemVariableDao" class="com.pplive.adcontrol.dao.impl.AdSystemVariableDaoImpl" parent="baseJdbcDao" />
+    <bean id="adSystemVariableService" class="com.pplive.adcontrol.service.impl.AdSystemVariableServiceImpl">
+    	<property name="adSystemVariableDao" ref="adSystemVariableDao" />
+    </bean>
+        
+    <bean id="orderSummaryService" class="com.pplive.ads.admanager.service.impl.OrderSummaryServiceImpl">
+    	<property name="orderSummaryDao" ref="orderSummaryDao" />
+    </bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="dataSourceDefault" />
+		</property>
+	</bean>
+	<bean id="txInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref bean="txManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,-Exception</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="txBeanNameProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>txInterceptor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+				<value>*ServiceImpl</value>
+				<value>UploadDao</value>
+				<value>orderDao</value>
+				<value>*Dao</value>
+				<value>*DaoImpl</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSourceDefault"></constructor-arg>
+		<qualifier value="jdbcTemplate"/> 		
+	</bean>
+	<bean class="com.pplive.web.ad.comm.jdbc.SpringframeworkUtil"></bean>
+	
+	<import resource="classpath:spring-mvc-servlet.xml"/>
+	
+	<!-- send mail -->
+	<bean id="freeMarker" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/freemarkertemplate/"/><!--指定模板文件目录-->
+		<property name="freemarkerSettings"><!-- 设置FreeMarker环境属性-->
+			<props>
+				<prop key="template_update_delay">86400</prop><!--刷新模板的周期，单位为秒-->
+				<prop key="default_encoding">UTF-8</prop><!--模板的编码格式 -->
+				<prop key="locale">zh_CN</prop><!-- 本地化设置-->
+			</props>
+		</property>  
+    </bean>
+    
+    <bean id="smtpAuthenticator" class="com.pplive.ads.admanager.dailyreport.SmtpAuthenticator">  
+		<constructor-arg value="Ads_notice" ></constructor-arg>  
+		<constructor-arg value="pp1ive_ad_!#%_PWD" ></constructor-arg>  
+	</bean> 	
+    <bean id="mailSession" class="javax.mail.Session">  
+	    <constructor-arg>
+		    <props>  
+		    	<prop key="mail.smtp.auth">true</prop>
+		    </props>  
+	    </constructor-arg>  
+	    <constructor-arg ref="smtpAuthenticator" />  
+    </bean>
+    <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+	    <property name="host" value="mail.pptv.com" />
+	    <property name="port" value="587" />
+	    <property name="session" ref="mailSession" />
+    </bean>  
+    <bean id="sendMailService" class="com.pplive.ads.admanager.dailyreport.SendMailService">  
+        <property name="freeMarkerConf" ref="freeMarker"></property>
+        <property name="sender" ref="sender"></property>  
+    </bean>
+    
+	<bean id="systemConfig"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<set>
+				<value>classpath:system</value>
+			</set>
+		</property>
+		<property name="cacheSeconds" value="-1" />
+	</bean>
+	<bean id="AdAreaCommonDao" class="com.pplive.adcontrol.dao.impl.AdAreaCommonDaoImpl" parent="baseJdbcDao"/>
+    <bean id="adPriorityCommonService" class="com.pplive.adcontrol.service.impl.AdPriorityCommonServiceImpl">
+    	<property name="adAreaCommonDao" ref="AdAreaCommonDao"/>
+    </bean>
+</beans>

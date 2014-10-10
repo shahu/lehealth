@@ -21,6 +21,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.lehealth.service.TestService;
+
 @Controller
 @RequestMapping("/test")
 public class TestController {

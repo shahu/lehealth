@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<context:component-scan base-package="com.lehealth"/>
+	
+	<context:annotation-config />
+	
+	<tx:annotation-driven transaction-manager="txManager" />
+    
+    <!-- Choose the dialect that matches your "dataSource" definition -->
+    <bean id="dataSourceDefault" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>${datasource.driverClassName}</value>
+        </property>
+        <property name="url">
+            <value>${datasource.url}</value>
+        </property>
+        <property name="username">
+            <value>${datasource.username}</value>
+        </property>
+        <property name="password">
+            <value>${datasource.password}</value>
+        </property>
+        <property name="maxActive">
+            <value>${datasource.maxActive}</value>
+        </property>
+        <property name="maxIdle">
+            <value>${datasource.maxIdle}</value>
+        </property>
+        <property name="maxWait">
+            <value>${datasource.maxWait}</value>
+        </property>
+        <property name="defaultAutoCommit">
+            <value>${datasource.defaultAutoCommit}</value>
+        </property>
+    </bean>
+    <bean id="dataSourceDefault4Read" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>${datasource.read.driverClassName}</value>
+        </property>
+        <property name="url">
+            <value>${datasource.read.url}</value>
+        </property>
+        <property name="username">
+            <value>${datasource.read.username}</value>
+        </property>
+        <property name="password">
+            <value>${datasource.read.password}</value>
+        </property>
+        <property name="maxActive">
+            <value>${datasource.read.maxActive}</value>
+        </property>
+        <property name="maxIdle">
+            <value>${datasource.read.maxIdle}</value>
+        </property>
+        <property name="maxWait">
+            <value>${datasource.read.maxWait}</value>
+        </property>
+        <property name="defaultAutoCommit">
+            <value>${datasource.read.defaultAutoCommit}</value>
+        </property>
+        <property name="testWhileIdle">
+            <value>${datasource.read.testWhileIdle}</value>
+        </property>
+        <property name="timeBetweenEvictionRunsMillis">
+            <value>${datasource.read.timeBetweenEvictionRunsMillis}</value>
+        </property>
+        <property name="minEvictableIdleTimeMillis">
+            <value>${datasource.read.minEvictableIdleTimeMillis}</value>
+        </property>
+    </bean>
+	
+    <!-- 定时任务 -->
+    <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" />
+	
+	<task:scheduler id="scheduler" pool-size="20" />
+	
+	<task:executor id="executor" pool-size="20" rejection-policy="CALLER_RUNS" />
+	
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="dataSourceDefault" />
+		</property>
+	</bean>
+	
+	<bean id="txInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref bean="txManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED,-Exception</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="txBeanNameProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>txInterceptor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+				<value>*ServiceImpl</value>
+				<value>*Dao</value>
+				<value>*DaoImpl</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSourceDefault"></constructor-arg>
+		<qualifier value="jdbcTemplate"/> 		
+	</bean>
+	
+	<bean class="com.pplive.web.ad.comm.jdbc.SpringframeworkUtil"></bean>
+	
+	<import resource="classpath:spring-mvc-servlet.xml"/>
+	
+	<bean id="systemConfig" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<set>
+				<value>classpath:system</value>
+			</set>
+		</property>
+		<property name="cacheSeconds" value="-1" />
+	</bean>
+	
+</beans>

@@ -1,13 +1,11 @@
 package com.lehealth.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.lehealth.dao.TestDao;
+import com.lehealth.service.TestService;
 
 @Service("testService")
 public class TestServiceImpl implements TestService {
@@ -15,10 +13,10 @@ public class TestServiceImpl implements TestService {
     @Autowired
     @Qualifier("testDao")
     private TestDao testDao;
+
+	public void test() {
+		this.testDao.test();
+	}
     
-    @Override
-    public void test() {
-    	testDao.test();
-    }
 
 }

@@ -8,12 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/**
- * @author Administrator
- *
- * @version , 2009-10-13
- * @since 
- */
 @Repository("BaseJdbcDao")
 public class BaseJdbcDao {
 

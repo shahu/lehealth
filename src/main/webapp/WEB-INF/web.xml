@@ -3,7 +3,7 @@
 	
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>app.root</param-value>
+		<param-value>lehealth.root</param-value>
 	</context-param>
 	
 	<!--由Sprng载入的Log4j配置文件位置-->
@@ -66,6 +66,6 @@
         <session-timeout>6000</session-timeout>
     </session-config>
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 </web-app>

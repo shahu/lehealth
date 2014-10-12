@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.lehealth</groupId>
-	<artifactId>api</artifactId>
+	<groupId>com.test</groupId>
+	<artifactId>lehealth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
@@ -29,7 +29,7 @@
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.10</version>
 				<configuration>
-					<contextPath>/ppadmanager</contextPath>
+					<contextPath>/lehealth</contextPath>
 					<connectors>
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
 							<port>8080</port>
@@ -122,6 +122,13 @@
 			<version>${spring.version}</version>
 		</dependency>
 		
+		<!-- cglib -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		
 		<!-- json -->
 		<dependency>
      	 	<groupId>org.codehaus.jackson</groupId>
@@ -177,6 +184,12 @@
 			<version>5.1.17</version>
 		</dependency>
 	
+		<!-- datasource -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
 		<!-- jersey -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -208,6 +221,18 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.11</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.11</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -29,10 +29,13 @@ public class TestController {
     @Qualifier("testService")
     private TestService testService;
 	
-	@RequestMapping(value = "/test.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/test.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,String> test(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		Map<String,String> map=new HashMap<String,String>();
+		map.put("test1", "a");
+		map.put("test2", "b");
+		System.out.println("control");
 		return map;
 	}
 }

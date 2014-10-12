@@ -22,6 +22,12 @@
 	
 	<tx:annotation-driven transaction-manager="txManager" />
     
+    <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:init.properties</value>
+        </property>
+    </bean>
+    
     <!-- Choose the dialect that matches your "dataSource" definition -->
     <bean id="dataSourceDefault" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName">
@@ -131,8 +137,6 @@
 		<constructor-arg ref="dataSourceDefault"></constructor-arg>
 		<qualifier value="jdbcTemplate"/> 		
 	</bean>
-	
-	<bean class="com.pplive.web.ad.comm.jdbc.SpringframeworkUtil"></bean>
 	
 	<import resource="classpath:spring-mvc-servlet.xml"/>
 	

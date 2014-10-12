@@ -45,8 +45,8 @@
 	<!-- 拦截器 -->  
     <mvc:interceptors>  
         <!-- 多个拦截器,顺序执行 -->  
-		<mvc:interceptor><!--每新增一个Controller，都需要在这里写入其命名空间,并且该拦截器必须放在第一位置 -->
-			<mvc:mapping path="/api/*"/>
+		<mvc:interceptor>
+			<mvc:mapping path="/test/*"/>
 			<bean class="com.lehealth.intercept.Interceptor"></bean>
 		</mvc:interceptor>    
     </mvc:interceptors> 

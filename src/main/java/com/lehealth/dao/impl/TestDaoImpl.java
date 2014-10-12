@@ -10,12 +10,20 @@ import com.lehealth.dao.TestDao;
 public class TestDaoImpl extends BaseJdbcDao implements TestDao {
 
 	public void test() {
-		String sql="select b from test where a=:a";
+		String sql="select count(1) as c from test";
+		//MapSqlParameterSource msps=new MapSqlParameterSource();
+		//msps.addValue("a", 2);
+		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
+		if(rs.next()){
+			System.out.println("dao1:"+rs.getString("c"));
+		}
+		
+		sql="select id as c from test where b=:index";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("a", "a");
-		SqlRowSet rs=this.jdbcTemplate4Read.queryForRowSet(sql,msps);
-		while(rs.next()){
-			System.out.println("dao:"+rs.getString("b")+","+rs.getString("id"));
+		msps.addValue("index", "33");
+		rs=this.namedJdbcTemplate4Read.queryForRowSet(sql,msps);
+		if(rs.next()){
+			System.out.println("dao2:"+rs.getString("c"));
 		}
 	}
 

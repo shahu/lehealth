@@ -36,6 +36,7 @@ public class TestController {
 		map.put("test1", "a");
 		map.put("test2", "b");
 		System.out.println("control");
+		this.testService.test();
 		return map;
 	}
 }

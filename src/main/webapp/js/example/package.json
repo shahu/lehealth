@@ -1,0 +1,28 @@
+{
+  "family": "",
+  "name": "business-layer",
+  "version": "1.0.0",
+  "description": "business logic",
+  "homepage": "https://github.com/shahu/lehealth",
+  "author": "yefeizhang",
+  "maintainers": [
+    "yefeizhang"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shahu/lehealth.git"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "keywords": [],
+  "licenses": "MIT",
+  "spm": {
+    "output": [
+    	"lehealth/index.js"
+    ],
+    "alias": {},
+    "devAlias": {},
+    "engines": {}
+  }
+}

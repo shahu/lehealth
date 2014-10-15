@@ -1,0 +1,29 @@
+{
+  "family": "",
+  "name": "lehealth",
+  "version": "1.0.0",
+  "description": "lehealth frontend project",
+  "homepage": "https://github.com/shahu/lehealth",
+  "author": "yefeizhang",
+  "maintainers": [
+    "yefeizhang"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shahu/lehealth.git"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "keywords": [],
+  "licenses": "MIT",
+  "spm": {
+    "output": [
+      "lehealth.js",
+      "lehealth.css"
+    ],
+    "alias": {},
+    "devAlias": {},
+    "engines": {}
+  }
+}

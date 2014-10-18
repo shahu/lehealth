@@ -6,42 +6,22 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
 </head>
 <body>
-	<div data-role="page" id="intro">
-		<div data-role="header" data-position="fixed">
-			<h1>欢迎</h1>
-		</div>
+	<div data-role="page" id="frontpage">
 		<div data-role="content">
-			<a href="#exp" data-rel="dialog" data-transition="slide">我是帅哥</a><br>
-			<button style="width:40%" data-inline="true">同意</button>
-			<button style="width:40%" data-inline="true">反对</button>
-		</div>
-		<div data-role="footer" data-position="fixed">
-			<h1>回到顶部</h1>
+			<div id="trend" style="width:100%; height:40%;">
+				<h1>血压趋势</h1><br />
+				<div id="chatwraper" style="">
+					
+				</div>
+			</div>
 		</div>
 	</div>
-	<div data-role="page" id="exp">
-		<div data-role="header">
-			<h1>个人经历</h1>
-		</div>
-		<div data-role="content">
-			<a href="#exp2" data-transition="slide">去年生孩子了</a>
-		</div>
-	</div>
-	<div data-role="page" id="exp2">
-		<div data-role="header">
-			<h1>吹比经历</h1>
-		</div>
-		<div data-role="content">
-			<a href="#intro" data-transition="slide" data-direction="reverse">去年生孩子了</a>
-		</div>
-	</div>	
 	<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
 	<script src="js/seajs-config.js"></script>
 	<script>
-		seajs.use('example/lehealth/index', function(lehealth) {
+		seajs.use('file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/example/lehealth/index', function(lehealth) {
 			lehealth.render();
 		});
-		seajs.use('jquery_mobile');
 	</script>
 </body>
 </html>

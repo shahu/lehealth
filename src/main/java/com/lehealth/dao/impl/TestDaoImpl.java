@@ -11,8 +11,6 @@ public class TestDaoImpl extends BaseJdbcDao implements TestDao {
 
 	public void test() {
 		String sql="select count(1) as c from test";
-		//MapSqlParameterSource msps=new MapSqlParameterSource();
-		//msps.addValue("a", 2);
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		if(rs.next()){
 			System.out.println("dao1:"+rs.getString("c"));

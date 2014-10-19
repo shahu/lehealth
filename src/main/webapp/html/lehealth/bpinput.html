@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>血压录入</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
+</head>
+<body>
+	<div data-role="page" id="frontpage">
+		<div data-role="content" style="overflow:hidden">
+			<div id="bpinput">
+				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">血压数据录入</div>
+				<div id="sdp" style="width:100%">
+					<div style="font-size:14px; height:40px; line-height:40px">
+						<span style="font-size:20px; font-weight:bold;">收缩压</span>/毫米汞柱	
+					</div>
+					<div style="width:100%; margin: 20px 0px">
+						<input type="range" name="points" id="points" value="50" min="0" max="100" data-highlight="true">	
+					</div>
+				</div>
+				<div id="sdp">
+					<div style="font-size:14px; height:40px; line-height:40px">
+						<span style="font-size:20px; font-weight:bold;">舒张压</span>/毫米汞柱	
+					</div>
+					<div style="width:100%; margin: 20px 0px">
+						<input type="range" name="points" id="points" value="50" min="0" max="100" data-highlight="true">	
+					</div>						
+				</div>				
+				<div id="dpdeta" style="width:100%">
+					<div style="font-size:14px; height:40px; line-height:40px">
+						<span style="font-size:20px; font-weight:bold;">脉搏压</span>/毫米汞柱	
+					</div>
+					<div style="width:100%; margin: 20px 0px">
+						<input type="range" name="points" id="points" value="50" min="0" max="100" data-highlight="true">	
+					</div>						
+				</div>				
+			</div>
+			<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
+				<input type="button" id="record_data" value="录入用药数据"></input>
+				<input type="button" id="gohome" value="返回主页"></input>
+			</div>			
+		</div>
+	</div>
+	<script src="file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+	<script src="file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/seajs-config.js"></script>
+	<script>
+		seajs.use('file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/example/lehealth/bpinput', function(lehealth) {
+			lehealth.render();
+			lehealth.bindEvent();
+		});
+	</script>
+</body>
+</html>

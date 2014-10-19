@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>在线咨询</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
+</head>
+<body>
+	<div data-role="page" id="frontpage">
+		<div data-role="content" style="overflow:hidden">
+			<div id="bpinput">
+				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">在线咨询</div>
+				<div id="input_data" style="margin-top:30px;">
+										    					    				    				    
+				</div>			
+			</div>
+		</div>
+	</div>
+	<script src="file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+	<script src="file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/seajs-config.js"></script>
+	<script>
+		seajs.use('file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/example/lehealth/consultlist', function(lehealth) {
+			lehealth.render();
+			lehealth.bindEvent();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>血压数据</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
+</head>
+<body>
+	<div data-role="page" id="frontpage">
+		<div data-role="content" style="overflow:hidden">
+			<div id="trend">
+				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">血压趋势</div>
+				<div id="trendchart" style="background-color:pink;height:160px;width:100%">
+					
+				</div>
+			</div>
+			<div id="judge">
+				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">系统评估</div>
+				<div id="judgechart">
+					<div id="judgechartcontainer" style="height:200px; width:180px;float:left; background-color:yellow">
+
+					</div>
+					<div id="judge_text" style="float:left; font-size:30px; color:green; font-weight:bold; margin-left:30px;margin-top:30px">
+						优秀
+					</div>
+					<div style="clear:both"> </div>
+					<div style="font-size:14px;margin-top:10px;">
+						您今天还未录入血压数据，请点击录入
+						<br>
+						<span style="color:red">&lt或已从云端获取&gt</span>
+					</div>
+				</div>
+			</div>
+			<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
+				<input type="button" id="record_data" value="录入数据"></input>
+				<input type="button" id="gohome" value="返回主页"></input>
+			</div>			
+		</div>
+	</div>
+	<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+	<script src="js/seajs-config.js"></script>
+	<script>
+		seajs.use('file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/example/lehealth/bpmonitor', function(lehealth) {
+			lehealth.render();
+			lehealth.bindEvent();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
+</head>
+<body>
+	<div data-role="page" id="frontpage">
+		<div data-role="content" style="overflow:hidden">
+			<div id="bpinput">
+				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">用药数据录入</div>
+				<div id="input_data" style="margin-top:30px;">
+						<div style="width:100%;margin:bottom:20px;">
+							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left">药名</label>
+							<select name="medacine_name" id="medacine_name" style="width:79%">
+							      <option value="1">白加黑</option>
+							      <option value="2">红牛</option>
+							      <option value="3">络活喜</option>
+						    </select>							
+						    <div style="clear:both"></div>
+						</div>
+<div style="width:100%;margin:bottom:20px;">
+							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left"> 片次</label>
+							<select name="medacine_name" id="medacine_name" style="width:79%">
+							      <option value="1">1</option>
+							      <option value="2">2</option>
+							      <option value="3">3</option>
+						    </select>							
+						    <div style="clear:both"></div>
+						</div>	
+						<div style="width:100%;margin:bottom:20px;">
+							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left">剂量</label>
+							<select name="medacine_name" id="medacine_name" style="width:79%">
+							      <option value="1">1g</option>
+							      <option value="2">1kg</option>
+							      <option value="3">1t</option>
+						    </select>							
+						    <div style="clear:both"></div>
+						</div>	
+						<div style="width:100%;margin:bottom:20px;">
+							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left">时间</label>
+							<select name="medacine_name" id="medacine_name" style="width:79%">
+							      <option value="1">早饭前</option>
+							      <option value="2">早饭后</option>
+							      <option value="3">午饭前</option>
+								  <option value="4">午饭后</option>
+							      <option value="5">晚饭前</option>
+							      <option value="6">晚饭后</option>							      
+						    </select>							
+						    <div style="clear:both"></div>
+						</div>																
+					    					    				    				    
+				</div>			
+			</div>
+			<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
+				<input type="button" id="record_data" value="录入用药数据"></input>
+				<input type="button" id="gohome" value="返回主页"></input>
+			</div>			
+		</div>
+	</div>
+	<script src="file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+	<script src="file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/seajs-config.js"></script>
+	<script>
+		seajs.use('file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/example/lehealth/medicationinput', function(lehealth) {
+			lehealth.render();
+			lehealth.bindEvent();
+		});
+	</script>
+</body>
+</html>

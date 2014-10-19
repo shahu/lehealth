@@ -61,7 +61,7 @@
 			</list>
 		</property>
 	</bean>
-	<util:properties id="applicationProps" location="classpath:constant.properties"/>
 	<mvc:resources mapping="/js/**" location="/js/"/>
-
+	<mvc:resources mapping="/css/**" location="/css/"/>
+	
 </beans>

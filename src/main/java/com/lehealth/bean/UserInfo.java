@@ -1,12 +1,13 @@
 package com.lehealth.bean;
 
 public class UserInfo {
-	private String loginId="";
-	private String token="";
-	private String gender="";
-	private int age=0;
-	private double height=0;
-	private double weight=0;
+	private String loginId="test1";
+	private String token="testa";
+	private String gender="男";
+	private int age=30;
+	private double height=180;
+	private double weight=65;
+	
 	public String getLoginId() {
 		return loginId;
 	}

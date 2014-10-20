@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lehealth.bean.BpInfo;
+import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.util.Constant;
 
@@ -32,13 +32,13 @@ public class BloodpressureController {
 	//血压数据获取
 	@ResponseBody
 	@RequestMapping(value = "/bprecord.do", method = RequestMethod.GET)
-	public ResponseBean<BpInfo> searchBpRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ResponseBean<BloodpressureInfo> searchBpRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
 		logger.info(loginId+","+password);
 		
-		ResponseBean<BpInfo> responseBody=new ResponseBean<BpInfo>();
-		BpInfo bpInfo=new BpInfo();
+		ResponseBean<BloodpressureInfo> responseBody=new ResponseBean<BloodpressureInfo>();
+		BloodpressureInfo bpInfo=new BloodpressureInfo();
 		int lastDays=60;
 		Random r=new Random();
 		Date d=new Date();

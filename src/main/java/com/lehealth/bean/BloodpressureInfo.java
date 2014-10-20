@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BpInfo {
+public class BloodpressureInfo {
 	private int status=1;
 	
 	//时刻-血压值

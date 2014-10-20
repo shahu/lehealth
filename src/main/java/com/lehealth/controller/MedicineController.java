@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lehealth.bean.BpInfo;
+import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.util.Constant;

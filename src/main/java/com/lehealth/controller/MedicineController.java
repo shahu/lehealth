@@ -1,7 +1,9 @@
 package com.lehealth.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.bean.BpInfo;
+import com.lehealth.bean.MedicineInfo;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.util.Constant;
 
@@ -31,27 +34,26 @@ public class MedicineController {
 	//获取用药信息
 	@ResponseBody
 	@RequestMapping(value = "/medicinerecord.do", method = RequestMethod.GET)
-	public ResponseBean<BpInfo> searchMedicineRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ResponseBean<MedicineInfo> searchMedicineRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
 		logger.info(loginId+","+password);
 		
-		ResponseBean<BpInfo> responseBody=new ResponseBean<BpInfo>();
-		BpInfo bpInfo=new BpInfo();
+		ResponseBean<MedicineInfo> responseBody=new ResponseBean<MedicineInfo>();
+		MedicineInfo medicineInfo=new MedicineInfo();
 		int lastDays=30;
 		Random r=new Random();
-		Date d=DateUtils.addDays(new Date(), -1);
-		bpInfo.setDates(d, lastDays);
-		Map<String,Integer> map1=new HashMap<String,Integer>();
-		Map<String,Integer> map2=new HashMap<String,Integer>();
+		Date d=new Date();
+		Map<Integer,ArrayList<Date>> map=new HashMap<Integer,ArrayList<Date>>();
 		while(lastDays>0){
-			map1.put(DateFormatUtils.format(d, Constant.dateFormat_yyyy_mm_dd), 6+r.nextInt(6));
-			map2.put(DateFormatUtils.format(d, Constant.dateFormat_yyyy_mm_dd), 12+r.nextInt(6));
+			int key=r.nextInt(5);
+			if(!map.containsKey(key)){
+				map.put(key, new ArrayList<Date>());
+			}
+			map.get(key).add(DateUtils.addDays(d, -lastDays));
 			lastDays--;
 		}
-		bpInfo.setDbp(map1);
-		bpInfo.setSbp(map2);
-		responseBody.setResult(bpInfo);
+		responseBody.setResult(medicineInfo);
 		return responseBody;
 	}
 	
@@ -59,11 +61,12 @@ public class MedicineController {
 	@ResponseBody
 	@RequestMapping(value = "/medicinerecord.do", method = RequestMethod.POST)
 	public ResponseBean<String> modifyMedicineRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		String checkDate=StringUtils.trimToEmpty(request.getParameter("checkDate"));
-		String medicineName=StringUtils.trimToEmpty(request.getParameter("medicineName"));
-		logger.info(loginId+","+password+","+checkDate+","+medicineName);
+		String loginId=StringUtils.trimToEmpty(request.getParameter("l"));
+		String password=StringUtils.trimToEmpty(request.getParameter("p"));
+		String medicineDate=StringUtils.trimToEmpty(request.getParameter("md"));
+		String medicineId=StringUtils.trimToEmpty(request.getParameter("mi"));
+		String medicineName=StringUtils.trimToEmpty(request.getParameter("mn"));
+		logger.info(loginId+","+password+","+medicineDate+","+medicineId+","+medicineName);
 		
 		ResponseBean<String> responseBody=new ResponseBean<String>();
 		responseBody.setResult("");

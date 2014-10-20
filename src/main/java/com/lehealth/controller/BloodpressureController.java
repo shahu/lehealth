@@ -25,9 +25,9 @@ import com.lehealth.util.Constant;
 
 @Controller
 @RequestMapping("/api")
-public class BloodPressureController {
+public class BloodpressureController {
 	
-	private static Logger logger = Logger.getLogger(BloodPressureController.class);
+	private static Logger logger = Logger.getLogger(BloodpressureController.class);
 	
 	//血压数据获取
 	@ResponseBody
@@ -39,15 +39,15 @@ public class BloodPressureController {
 		
 		ResponseBean<BpInfo> responseBody=new ResponseBean<BpInfo>();
 		BpInfo bpInfo=new BpInfo();
-		int lastDays=30;
+		int lastDays=60;
 		Random r=new Random();
-		Date d=DateUtils.addDays(new Date(), -1);
-		bpInfo.setDates(d, lastDays);
-		Map<String,Integer> map1=new HashMap<String,Integer>();
-		Map<String,Integer> map2=new HashMap<String,Integer>();
+		Date d=new Date();
+		Map<Date,Integer> map1=new HashMap<Date,Integer>();
+		Map<Date,Integer> map2=new HashMap<Date,Integer>();
 		while(lastDays>0){
-			map1.put(DateFormatUtils.format(d, Constant.dateFormat_yyyy_mm_dd), 70+r.nextInt(20));
-			map2.put(DateFormatUtils.format(d, Constant.dateFormat_yyyy_mm_dd), 90+r.nextInt(20));
+			d=DateUtils.addHours(d, -12);
+			map1.put(d, 70+r.nextInt(20));
+			map2.put(d, 90+r.nextInt(20));
 			lastDays--;
 		}
 		bpInfo.setDbp(map1);

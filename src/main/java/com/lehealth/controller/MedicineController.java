@@ -3,7 +3,6 @@ package com.lehealth.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.bean.ResponseBean;
-import com.lehealth.util.Constant;
 
 @Controller
 @RequestMapping("/api")

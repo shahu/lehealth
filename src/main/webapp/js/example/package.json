@@ -19,9 +19,20 @@
   "licenses": "MIT",
   "spm": {
     "output": [
-    	"lehealth/index.js"
+    	"lehealth/activitylist.js",
+      "lehealth/bpinput.js",
+      "lehealth/bpmonitor.js",
+      "lehealth/consultlist.js",
+      "lehealth/expertdetail.js",
+      "lehealth/medicationinput.js",
+      "lehealth/medicationrecord.js"
     ],
-    "alias": {},
+    "alias": {
+      "jquery": "jquery/jquery/1.7.2/jquery",
+      "jquery_mobile": "jquery-mobile/1.4.4/jquery.mobile",
+      "highcharts": "highcharts/4.0.3/highcharts-all",
+      "highcharts_theme": "highcharts/4.0.3/highchartsTheme"      
+    },
     "devAlias": {},
     "engines": {}
   }

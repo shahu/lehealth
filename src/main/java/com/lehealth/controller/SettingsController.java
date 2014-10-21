@@ -1,10 +1,14 @@
 package com.lehealth.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.UserInfo;
 
 @Controller
 @RequestMapping("/api")
@@ -24,11 +27,11 @@ public class SettingsController {
 	
 	//获取血压控制设置
 	@ResponseBody
-	@RequestMapping(value = "/getBloodpressureInfo.do", method = RequestMethod.GET)
-	public ResponseBean<BloodpressureConfig> getBloodpressureInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/bpsetting.do", method = RequestMethod.GET)
+	public ResponseBean<BloodpressureConfig> getBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		logger.info(loginId+","+password);
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		logger.info(loginId+","+token);
 		
 		ResponseBean<BloodpressureConfig> responseBody=new ResponseBean<BloodpressureConfig>();
 		BloodpressureConfig bpConfig=new BloodpressureConfig();
@@ -39,11 +42,17 @@ public class SettingsController {
 	
 	//更新血压控制设置
 	@ResponseBody
-	@RequestMapping(value = "/updateBloodpressureInfo.do", method = RequestMethod.POST)
-	public ResponseBean<String> updateBloodpressureInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/bpsetting.do", method = RequestMethod.POST)
+	public ResponseBean<String> modifyBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		logger.info(loginId+","+password);
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		
+		int dbp1=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("dbp1")));
+		int dbp2=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("dbp2")));
+		int sbp1=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("sbp1")));
+		int sbp2=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("sbp2")));
+		
+		logger.info(loginId+","+token+","+dbp1+","+dbp2+","+sbp1+","+sbp2);
 		
 		ResponseBean<String> responseBody=new ResponseBean<String>();
 		responseBody.setResult("");
@@ -53,26 +62,32 @@ public class SettingsController {
 	
 	//获取用药设置
 	@ResponseBody
-	@RequestMapping(value = "/getMedicineInfo.do", method = RequestMethod.GET)
-	public ResponseBean<MedicineConfig> getMedicineInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.GET)
+	public ResponseBean<List<MedicineConfig>> getMedicinesetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		logger.info(loginId+","+password);
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		logger.info(loginId+","+token);
 		
-		ResponseBean<MedicineConfig> responseBody=new ResponseBean<MedicineConfig>();
-		MedicineConfig medicineConfig=new MedicineConfig();
-		responseBody.setResult(medicineConfig);
+		ResponseBean<List<MedicineConfig>> responseBody=new ResponseBean<List<MedicineConfig>>();
+		List<MedicineConfig> list=new ArrayList<MedicineConfig>();
+		responseBody.setResult(list);
 		
 		return responseBody;
 	}
 	
 	//更新用药设置
 	@ResponseBody
-	@RequestMapping(value = "/updateMedicineInfo.do", method = RequestMethod.POST)
-	public ResponseBean<String> updateMedicineInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.POST)
+	public ResponseBean<String> modifyMedicinesetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		logger.info(loginId+","+password);
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		int medicineId=NumberUtils.toInt(request.getParameter("Medicineid"));
+		int amount=NumberUtils.toInt(request.getParameter("amount"));
+		int frequency=NumberUtils.toInt(request.getParameter("frequency"));
+		int timing=NumberUtils.toInt(request.getParameter("timing"));
+		String startDateStr=StringUtils.trimToEmpty(request.getParameter("datefrom"));
+		String endDateStr=StringUtils.trimToEmpty(request.getParameter("dateto"));
+		logger.info(loginId+","+token+","+medicineId+","+amount+","+frequency+","+timing+","+startDateStr+","+endDateStr);
 		
 		ResponseBean<String> responseBody=new ResponseBean<String>();
 		responseBody.setResult("");
@@ -80,34 +95,8 @@ public class SettingsController {
 		return responseBody;
 	}
 	
-	//获取个人信息
-	@ResponseBody
-	@RequestMapping(value = "/getUserInfo.do", method = RequestMethod.GET)
-	public ResponseBean<UserInfo> getUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		logger.info(loginId+","+password);
-		
-		ResponseBean<UserInfo> responseBody=new ResponseBean<UserInfo>();
-		UserInfo user=new UserInfo();
-		responseBody.setResult(user);
-		
-		return responseBody;
-	}
+	//TODO 获取个人信息
 	
-	
-	//更新个人信息
-	@ResponseBody
-	@RequestMapping(value = "/getUserInfo.do", method = RequestMethod.POST)
-	public ResponseBean<String> updateUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
-		logger.info(loginId+","+password);
-		
-		ResponseBean<String> responseBody=new ResponseBean<String>();
-		responseBody.setResult("");
-		
-		return responseBody;
-	}
+	//TODO 更新个人信息
 	
 }

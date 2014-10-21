@@ -1,33 +1,42 @@
 package com.lehealth.bean;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.commons.lang3.time.DateFormatUtils;
+
+import com.lehealth.util.Constant;
 
 public class BloodpressureInfo {
-	private int status=1;
-	
-	//时刻-血压值
-	private Map<Date,Integer> dbp=new HashMap<Date, Integer>();
-	private Map<Date,Integer> sbp=new HashMap<Date, Integer>();
-	
-	public int getStatus() {
-		return status;
+	private Date date=new Date();
+	private int dbp=0;
+	private int sbp=0;
+	private int heartrate=0;
+	public String getDate() {
+		if(date==null){
+			return "";
+		}
+		return DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
 	}
-	public void setStatus(int status) {
-		this.status = status;
+	public void setDate(Date date) {
+		this.date = date;
 	}
-	public Map<Date, Integer> getDbp() {
+	public int getDbp() {
 		return dbp;
 	}
-	public void setDbp(Map<Date, Integer> dbp) {
+	public void setDbp(int dbp) {
 		this.dbp = dbp;
 	}
-	public Map<Date, Integer> getSbp() {
+	public int getSbp() {
 		return sbp;
 	}
-	public void setSbp(Map<Date, Integer> sbp) {
+	public void setSbp(int sbp) {
 		this.sbp = sbp;
+	}
+	public int getHeartrate() {
+		return heartrate;
+	}
+	public void setHeartrate(int heartrate) {
+		this.heartrate = heartrate;
 	}
 	
 }

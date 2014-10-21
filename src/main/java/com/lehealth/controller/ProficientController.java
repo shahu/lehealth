@@ -10,11 +10,6 @@ public class ProficientController {
 
 	private static Logger logger = Logger.getLogger(ProficientController.class);
 	
-	//获取下线活动和推荐内容列表
-	
-	
-	//获取下线活动内容
-	
-	
+	//TODO 推荐内容列表
 	
 }

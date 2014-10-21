@@ -21,6 +21,7 @@ public class LoginController {
 	private static Logger logger = Logger.getLogger(LoginController.class);
 	
 	//用户信息
+	//TODO 只返回ok即可，没有必要返回用户信息
 	@ResponseBody
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public ResponseBean<UserInfo> login(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

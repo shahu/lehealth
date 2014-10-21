@@ -1,9 +1,11 @@
 package com.lehealth.bean;
 
 public class ResponseBean<T> {
-	private int errorcode=200;
+	
+	private int errorcode=0;
 	private String errormsg="";
 	private T result;
+	
 	public int getErrorcode() {
 		return errorcode;
 	}

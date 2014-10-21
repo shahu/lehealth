@@ -2,20 +2,19 @@ package com.lehealth.bean;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import com.lehealth.util.Constant;
-
 public class BloodpressureInfo {
+	
+	//TODO date不止到天
 	private Date date=new Date();
 	private int dbp=0;
 	private int sbp=0;
 	private int heartrate=0;
-	public String getDate() {
+	
+	public long getDate() {
 		if(date==null){
-			return "";
+			return 0;
 		}
-		return DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
+		return date.getTime();
 	}
 	public void setDate(Date date) {
 		this.date = date;

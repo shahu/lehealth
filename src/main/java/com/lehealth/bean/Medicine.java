@@ -1,7 +1,8 @@
 package com.lehealth.bean;
 
 public class Medicine {
-	//药物增加厂商用于区别
+	
+	//TODO 药物增加厂商用于区别
 	private int id=0;
 	private String name="";
 	

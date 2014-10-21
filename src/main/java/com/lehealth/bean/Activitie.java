@@ -2,11 +2,8 @@ package com.lehealth.bean;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import com.lehealth.util.Constant;
-
 public class Activitie {
+	
 	private int id=0;
 	private String name="";
 	private Date startTime=new Date();
@@ -15,6 +12,7 @@ public class Activitie {
 	private String location="";
 	private String desc="";
 	//TODO 报名状态
+	
 	public int getId() {
 		return id;
 	}
@@ -27,20 +25,20 @@ public class Activitie {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getStartTime() {
+	public long getStartTime() {
 		if(startTime==null){
-			return "";
+			return 0;
 		}
-		return DateFormatUtils.format(startTime, Constant.dateFormat_yyyy_mm_dd_hh_mm_ss);
+		return startTime.getTime();
 	}
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
-	public String getEndtime() {
+	public long getEndtime() {
 		if(endtime==null){
-			return "";
+			return 0;
 		}
-		return DateFormatUtils.format(endtime, Constant.dateFormat_yyyy_mm_dd_hh_mm_ss);
+		return endtime.getTime();
 	}
 	public void setEndtime(Date endtime) {
 		this.endtime = endtime;

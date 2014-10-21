@@ -2,10 +2,6 @@ package com.lehealth.bean;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import com.lehealth.util.Constant;
-
 public class MedicineConfig {
 
 	private int medicineId=0;
@@ -14,6 +10,7 @@ public class MedicineConfig {
 	private int timing=0;
 	private Date startTime=new Date();
 	private Date endTime=new Date();
+	
 	public int getMedicineId() {
 		return medicineId;
 	}
@@ -38,20 +35,20 @@ public class MedicineConfig {
 	public void setTiming(int timing) {
 		this.timing = timing;
 	}
-	public String getDatefrom() {
+	public long getDatefrom() {
 		if(startTime==null){
-			return "";
+			return 0;
 		}
-		return DateFormatUtils.format(startTime, Constant.dateFormat_yyyy_mm_dd);
+		return startTime.getTime();
 	}
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
-	public String getDateto() {
+	public long getDateto() {
 		if(endTime==null){
-			return "";
+			return 0;
 		}
-		return DateFormatUtils.format(endTime, Constant.dateFormat_yyyy_mm_dd);
+		return endTime.getTime();
 	}
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;

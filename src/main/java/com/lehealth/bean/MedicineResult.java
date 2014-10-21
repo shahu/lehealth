@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MedicineResult {
+	
 	private int status=0;
-	//药品id-服用时间
 	private List<MedicineInfo> medicineTimes=new ArrayList<MedicineInfo>();
+	
 	public int getStatus() {
 		return status;
 	}

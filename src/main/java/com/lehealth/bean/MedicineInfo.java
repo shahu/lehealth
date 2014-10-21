@@ -2,21 +2,19 @@ package com.lehealth.bean;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import com.lehealth.util.Constant;
-
 public class MedicineInfo {
+	
 	private Date date=new Date();
 	//TODO 用id好点
 	private String medicinename="";
 	private int amount=0;
 	private int frequency=0;
-	public String getDate() {
+	
+	public long getDate() {
 		if(date==null){
-			return "";
+			return 0;
 		}
-		return DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
+		return date.getTime();
 	}
 	public void setDate(Date date) {
 		this.date = date;

@@ -1,6 +1,7 @@
 package com.lehealth.bean;
 
 public class Doctor {
+	
 	private int id=0;
 	private String name="";
 	private int gender=0;
@@ -8,6 +9,7 @@ public class Doctor {
 	//TODO 医院id
 	private String hospital="";
 	private String desc="";
+	
 	public int getId() {
 		return id;
 	}

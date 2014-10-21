@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BloodpressureResult {
-	private int status=1;
 	
-	//时刻-血压值
+	private int status=1;
 	private List<BloodpressureInfo> infos=new ArrayList<BloodpressureInfo>();
 	
 	public int getStatus() {

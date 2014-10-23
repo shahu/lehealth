@@ -10,4 +10,5 @@ public interface BloodpressureDao {
 	//更新用户血压记录
 	public void insertBloodpressureRecord();
 	
+	public void test();
 }

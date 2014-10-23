@@ -63,7 +63,7 @@ public class SettingsController {
 	//获取用药设置
 	@ResponseBody
 	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.GET)
-	public ResponseBean<List<MedicineConfig>> getMedicinesetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ResponseBean<List<MedicineConfig>> getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		logger.info(loginId+","+token);
@@ -78,7 +78,7 @@ public class SettingsController {
 	//更新用药设置
 	@ResponseBody
 	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.POST)
-	public ResponseBean<String> modifyMedicinesetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ResponseBean<String> modifyMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		int medicineId=NumberUtils.toInt(request.getParameter("Medicineid"));

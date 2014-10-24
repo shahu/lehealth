@@ -7,21 +7,21 @@
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
 	</head>
 	<body>
-		<div data-role="page" id="frontpage">
+		<div data-role="page" id="bpmonitor">
 			<div data-role="content" style="overflow:hidden">
 				<div id="trend">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">血压趋势</div>
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">血压趋势</div>
 					<div id="trendchart" style="height:140px;width:90%">
 						
 					</div>
 				</div>
 				<div id="judge">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">系统评估</div>
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">系统评估</div>
 					<div id="judgechart">
 						<div id="judgechartcontainer" style="height:140px; width:140px;float:left;">
 						</div>
 						<div id="judge_text" style="float:left; font-size:30px; color:green; font-weight:bold; margin-left:30px;margin-top:30px">
-							优秀
+							
 						</div>
 						<div style="clear:both"> </div>
 						<div style="font-size:14px;margin-top:10px;">
@@ -31,9 +31,20 @@
 						</div>
 					</div>
 				</div>
+				<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">
+					<div data-role="header">
+						<h1>提示</h1>
+						<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
+					</div>
+					<div data-role="content">
+						<div class="dialog_text" style="text-align:center">
+							
+						</div>
+					</div>
+				</div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
-					<input type="button" id="record_data" value="录入数据"></input>
-					<input type="button" id="gohome" value="返回主页"></input>
+					<a id="record_data" data-role="button" href="/lehealth/bpinput.html" data-transition="slide">录入数据</a>
+					<a id="gohome" data-role="button" href="http://www.lehealth.com" data-transition="slide">返回主页</a>
 				</div>
 			</div>
 		</div>
@@ -42,7 +53,6 @@
 		<script>
 			seajs.use(seajs.prefix + 'example/lehealth/bpmonitor', function(lehealth) {
 				lehealth.render();
-				lehealth.bindEvent();
 			});
 		</script>
 	</body>

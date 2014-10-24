@@ -1,10 +1,5 @@
 /*map start*/
 seajs.production = true;
-if(seajs.production) {
-	seajs.prefix = '';
-} else {
-	seajs.prefix = '/lehealth/js/'
-}
 if(seajs.production){
     seajs.config({
         map : [
@@ -13,28 +8,40 @@ if(seajs.production){
 		"lehealth/activitylist-5148d5608a621c4c1916f144777989d8.js"
 	],
 	[
+		"lehealth/bpconfig.js",
+		"lehealth/bpconfig-81f6fab42ea0042c1d565ac4eace89ce.js"
+	],
+	[
 		"lehealth/bpinput.js",
-		"lehealth/bpinput-9d985ba66e37ae36d8ac5a949d7b27fb.js"
+		"lehealth/bpinput-d56759c5b758a3c79fac1c3a74507cd6.js"
 	],
 	[
 		"lehealth/bpmonitor.js",
-		"lehealth/bpmonitor-cb46e27f408ac3a44d6379b39ceb86fa.js"
+		"lehealth/bpmonitor-b135a68bfaf8cdbdf52eee38107c1f9a.js"
+	],
+	[
+		"lehealth/config.js",
+		"lehealth/config-898392d2b79e41404fc12f00fca68e21.js"
 	],
 	[
 		"lehealth/consultlist.js",
-		"lehealth/consultlist-6a6a59cb6f8e00d4b9499ae256d4a104.js"
+		"lehealth/consultlist-f048f5cb09cc7bf1bfa96996f933baeb.js"
 	],
 	[
 		"lehealth/expertdetail.js",
 		"lehealth/expertdetail-9c924b6246d928cf901f8243518ecbbd.js"
 	],
 	[
+		"lehealth/medicationconfig.js",
+		"lehealth/medicationconfig-67eb005f282032f93fe55b57188aeeb1.js"
+	],
+	[
 		"lehealth/medicationinput.js",
-		"lehealth/medicationinput-3478eedf4126b1653b98c7ca73162de7.js"
+		"lehealth/medicationinput-283503f702da3666ef5c3e0372c59b3c.js"
 	],
 	[
 		"lehealth/medicationrecord.js",
-		"lehealth/medicationrecord-6cb88fb5baa20ea0e2ef64df11d71c48.js"
+		"lehealth/medicationrecord-50a134d76a7604df45a05d1b5d47de14.js"
 	]
 ]
     });

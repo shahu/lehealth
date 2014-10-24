@@ -7,84 +7,33 @@
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
 	</head>
 	<body>
-		<div data-role="page" id="frontpage">
+		<div data-role="page" id="doctorlist">
 			<div data-role="content" style="overflow:hidden">
 				<div id="bpinput">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">在线咨询</div>
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">在线咨询</div>
 					<div id="input_data" style="margin-top:30px;">
 						<span style="font-size:16px;display:block; color: gray">名医推荐</span>
-						<ul data-role="listview" data-inset="true">
-							<li>
+						<ul data-role="listview" data-inset="true" id="listwraper">
+							
+							<!-- <li>
 								<a href="#">
 									<img src="images/person.jpg" style="width:80px; height:80px">
 									<h2>张医生</h2>
 									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
 								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="images/person.jpg" style="width:80px; height:80px">
-									<h2>张医生</h2>
-									<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-								</a>
-							</li>
+							</li> -->
 						</ul>
+					</div>
+				</div>
+			</div>
+			<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">
+				<div data-role="header">
+					<h1>提示</h1>
+					<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
+				</div>
+				<div data-role="content">
+					<div class="dialog_text" style="text-align:center">
+						
 					</div>
 				</div>
 			</div>
@@ -94,7 +43,6 @@
 		<script>
 			seajs.use(seajs.prefix + 'example/lehealth/consultlist', function(lehealth) {
 				lehealth.render();
-				lehealth.bindEvent();
 			});
 		</script>
 	</body>

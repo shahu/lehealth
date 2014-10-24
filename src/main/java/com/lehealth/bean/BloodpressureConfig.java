@@ -1,12 +1,21 @@
 package com.lehealth.bean;
 
+import com.pplive.util.json.JacksonGlobalMappers;
+
 public class BloodpressureConfig {
 
+	private String userId="";
 	private int dbp1=0;
 	private int dbp2=0;
 	private int sbp1=0;
 	private int sbp2=0;
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public int getDbp1() {
 		return dbp1;
 	}
@@ -32,4 +41,7 @@ public class BloodpressureConfig {
 		this.sbp2 = sbp2;
 	}
 	
+	public String toJson(){
+		return JacksonGlobalMappers.getNoNullJsonStr(this);
+	}
 }

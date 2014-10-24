@@ -1,13 +1,11 @@
 package com.lehealth.bean;
 
-import java.util.Date;
-
 public class Activitie {
 	
 	private int id=0;
 	private String name="";
-	private Date startTime=new Date();
-	private Date endtime=new Date();
+	private long startTimeStamp=0;
+	private long endtimeStamp=0;
 	//TODO 医院id
 	private String location="";
 	private String desc="";
@@ -25,24 +23,6 @@ public class Activitie {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getStartTime() {
-		if(startTime==null){
-			return 0;
-		}
-		return startTime.getTime();
-	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	public long getEndtime() {
-		if(endtime==null){
-			return 0;
-		}
-		return endtime.getTime();
-	}
-	public void setEndtime(Date endtime) {
-		this.endtime = endtime;
-	}
 	public String getLocation() {
 		return location;
 	}
@@ -55,5 +35,16 @@ public class Activitie {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+	public long getStartTimeStamp() {
+		return startTimeStamp;
+	}
+	public void setStartTimeStamp(long startTimeStamp) {
+		this.startTimeStamp = startTimeStamp;
+	}
+	public long getEndtimeStamp() {
+		return endtimeStamp;
+	}
+	public void setEndtimeStamp(long endtimeStamp) {
+		this.endtimeStamp = endtimeStamp;
+	}
 }

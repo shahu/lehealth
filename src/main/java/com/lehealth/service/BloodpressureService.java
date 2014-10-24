@@ -1,5 +1,6 @@
 package com.lehealth.service;
 
+import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.BloodpressureResult;
 
 public interface BloodpressureService {
@@ -8,6 +9,6 @@ public interface BloodpressureService {
 	public BloodpressureResult getBloodpressureRecords();
 	
 	//更新用户血压记录
-	public String modifyBloodpressureRecord();
+	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo);
 	
 }

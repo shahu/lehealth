@@ -1,13 +1,15 @@
 package com.lehealth.service;
 
-import com.lehealth.bean.UserInfo;
+import com.lehealth.type.ErrorCodeType;
 
 public interface LoginService {
 	
-	//获取用户信息
-	public UserInfo getUserInfo();
-	
 	//注册新用户
-	public String registerNewUser();
+	public ErrorCodeType registerNewUser(String loginId,String password);
 	
+	//获取用户token
+	public ErrorCodeType getUser(String loginId,String password);
+	
+	//校验用户
+	public String getUserId(String loginId,String token);
 }

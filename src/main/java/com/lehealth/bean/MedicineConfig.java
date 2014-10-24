@@ -1,15 +1,14 @@
 package com.lehealth.bean;
 
-import java.util.Date;
-
 public class MedicineConfig {
 
+	private String userId="";
 	private int medicineId=0;
 	private int amount=0;
 	private int frequency=0;
 	private int timing=0;
-	private Date startTime=new Date();
-	private Date endTime=new Date();
+	private long datefromStamp=0;
+	private long datetoStamp=0;
 	
 	public int getMedicineId() {
 		return medicineId;
@@ -35,23 +34,23 @@ public class MedicineConfig {
 	public void setTiming(int timing) {
 		this.timing = timing;
 	}
-	public long getDatefrom() {
-		if(startTime==null){
-			return 0;
-		}
-		return startTime.getTime();
+	public String getUserId() {
+		return userId;
 	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public long getDateto() {
-		if(endTime==null){
-			return 0;
-		}
-		return endTime.getTime();
+	public long getDatefromStamp() {
+		return datefromStamp;
 	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
+	public void setDatefromStamp(long datefromStamp) {
+		this.datefromStamp = datefromStamp;
+	}
+	public long getDatetoStamp() {
+		return datetoStamp;
+	}
+	public void setDatetoStamp(long datetoStamp) {
+		this.datetoStamp = datetoStamp;
 	}
 	
 }

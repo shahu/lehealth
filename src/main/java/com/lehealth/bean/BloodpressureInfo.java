@@ -1,23 +1,25 @@
 package com.lehealth.bean;
 
-import java.util.Date;
-
 public class BloodpressureInfo {
 	
+	private String userId="";
 	//TODO date不止到天
-	private Date date=new Date();
+	private long dateStamp=0;
 	private int dbp=0;
 	private int sbp=0;
 	private int heartrate=0;
 	
-	public long getDate() {
-		if(date==null){
-			return 0;
-		}
-		return date.getTime();
+	public String getUserId() {
+		return userId;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public long getDateStamp() {
+		return dateStamp;
+	}
+	public void setDateStamp(long dateStamp) {
+		this.dateStamp = dateStamp;
 	}
 	public int getDbp() {
 		return dbp;

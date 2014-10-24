@@ -12,7 +12,7 @@ import com.lehealth.dao.SettingsDao;
 public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	public BloodpressureConfig selectBloodpressureSetting() {
-		// TODO Auto-generated method stub
+		String sql="";
 		return null;
 	}
 

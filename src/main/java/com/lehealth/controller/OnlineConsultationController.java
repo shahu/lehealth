@@ -1,37 +1,53 @@
 package com.lehealth.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.lehealth.bean.Activitie;
 import com.lehealth.bean.Doctor;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.service.LoginService;
+import com.lehealth.service.OnlineConsultationService;
+import com.lehealth.type.ErrorCodeType;
+import com.pplive.util.json.JacksonGlobalMappers;
 
 @Controller
 @RequestMapping("/api")
 public class OnlineConsultationController {
 
+	@Autowired
+	@Qualifier("loginService")
+	private LoginService loginService;
+	
+	@Autowired
+	@Qualifier("onlineConsultationService")
+	private OnlineConsultationService onlineConsultationService;
+	
 	private static Logger logger = Logger.getLogger(OnlineConsultationController.class);
 	
 	//获取医生列表
 	@ResponseBody
 	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
-	public ResponseBean<List<Doctor>> doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		logger.info("doctors");
-		
-		ResponseBean<List<Doctor>> responseBody=new ResponseBean<List<Doctor>>();
-		List<Doctor> list=new ArrayList<Doctor>();
-		responseBody.setResult(list);
+	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.getUserId(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			List<Doctor> list=this.onlineConsultationService.getDoctors();
+			responseBody.setResult(JacksonGlobalMappers.getNoNullJsonStr(list));
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
 		return responseBody;
 	}
 	
@@ -39,14 +55,17 @@ public class OnlineConsultationController {
 	//获取线下活动列表
 	@ResponseBody
 	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)
-	public ResponseBean<List<Activitie>> activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		//用户报名信息
-		logger.info("activities");
-		
-		ResponseBean<List<Activitie>> responseBody=new ResponseBean<List<Activitie>>();
-		List<Activitie> list=new ArrayList<Activitie>();
-		responseBody.setResult(list);
-		
+	public ResponseBean activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.getUserId(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			List<Activitie> list=this.onlineConsultationService.getAtivities();
+			responseBody.setResult(JacksonGlobalMappers.getNoNullJsonStr(list));
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
 		return responseBody;
 	}
 	

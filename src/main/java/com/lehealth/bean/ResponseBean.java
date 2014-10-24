@@ -1,27 +1,25 @@
 package com.lehealth.bean;
 
-public class ResponseBean<T> {
+import com.lehealth.type.ErrorCodeType;
+
+public class ResponseBean {
 	
-	private int errorcode=0;
-	private String errormsg="";
-	private T result;
+	private ErrorCodeType type=ErrorCodeType.normal;
+	private String result="";
 	
 	public int getErrorcode() {
-		return errorcode;
+		return  type.getCode();
 	}
-	public void setErrorcode(int errorcode) {
-		this.errorcode = errorcode;
+	public void setType(ErrorCodeType type) {
+		this.type=type;
 	}
 	public String getErrormsg() {
-		return errormsg;
+		return type.getMessage();
 	}
-	public void setErrormsg(String errormsg) {
-		this.errormsg = errormsg;
-	}
-	public T getResult() {
+	public String getResult() {
 		return result;
 	}
-	public void setResult(T result) {
+	public void setResult(String result) {
 		this.result = result;
 	}
 }

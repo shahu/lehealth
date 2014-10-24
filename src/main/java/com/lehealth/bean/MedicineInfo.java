@@ -1,41 +1,49 @@
 package com.lehealth.bean;
 
-import java.util.Date;
-
 public class MedicineInfo {
 	
-	private Date date=new Date();
-	//TODO 用id好点
-	private String medicinename="";
-	private int amount=0;
-	private int frequency=0;
+	private String userId="";
+	private long dateStamp=0;
+	private int medicineId=0;
+	private float amount=0;
+	private float frequency=0;
+	private int timing=0;
 	
-	public long getDate() {
-		if(date==null){
-			return 0;
-		}
-		return date.getTime();
+	public String getUserId() {
+		return userId;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getMedicinename() {
-		return medicinename;
+	public long getDateStamp() {
+		return dateStamp;
 	}
-	public void setMedicinename(String medicinename) {
-		this.medicinename = medicinename;
+	public void setDateStamp(long dateStamp) {
+		this.dateStamp = dateStamp;
 	}
-	public int getAmount() {
+	public int getMedicineId() {
+		return medicineId;
+	}
+	public void setMedicineId(int medicineId) {
+		this.medicineId = medicineId;
+	}
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public int getFrequency() {
+	public float getFrequency() {
 		return frequency;
 	}
-	public void setFrequency(int frequency) {
+	public void setFrequency(float frequency) {
 		this.frequency = frequency;
+	}
+	public int getTiming() {
+		return timing;
+	}
+	public void setTiming(int timing) {
+		this.timing = timing;
 	}
 	
 }

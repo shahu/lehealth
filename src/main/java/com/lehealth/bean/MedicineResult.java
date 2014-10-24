@@ -3,9 +3,12 @@ package com.lehealth.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pplive.util.json.JacksonGlobalMappers;
+
 public class MedicineResult {
 	
-	private int status=0;
+	private int status=1;
+	private int score=0;
 	private List<MedicineInfo> medicineTimes=new ArrayList<MedicineInfo>();
 	
 	public int getStatus() {
@@ -19,5 +22,15 @@ public class MedicineResult {
 	}
 	public void setMedicineTimes(List<MedicineInfo> medicineTimes) {
 		this.medicineTimes = medicineTimes;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public String toJson(){
+		return JacksonGlobalMappers.getNoNullJsonStr(this);
 	}
 }

@@ -140,13 +140,4 @@
 	
 	<import resource="classpath:spring-mvc-servlet.xml"/>
 	
-	<bean id="systemConfig" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames">
-			<set>
-				<value>classpath:system</value>
-			</set>
-		</property>
-		<property name="cacheSeconds" value="-1" />
-	</bean>
-	
 </beans>

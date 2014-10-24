@@ -96,6 +96,7 @@
 					</configuration>
 				</plugin>
 		</plugins>
+		<finalName>lehealth</finalName>
 	</build>
 	<dependencies>
 		<dependency>

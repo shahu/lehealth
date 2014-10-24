@@ -34,4 +34,8 @@ public class MedicineCategroy {
 		this.medicines = medicines;
 	}
 	
+	public void addMedicine(Medicine medicine) {
+		this.medicines.add(medicines);
+	}
+	
 }

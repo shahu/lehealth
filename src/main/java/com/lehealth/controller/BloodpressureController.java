@@ -43,7 +43,7 @@ public class BloodpressureController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords();
+			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId);
 			responseBody.setResult(result.toJson());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);

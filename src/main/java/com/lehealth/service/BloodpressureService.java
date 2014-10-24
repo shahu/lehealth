@@ -6,7 +6,7 @@ import com.lehealth.bean.BloodpressureResult;
 public interface BloodpressureService {
 	
 	//获取用户血压记录
-	public BloodpressureResult getBloodpressureRecords();
+	public BloodpressureResult getBloodpressureRecords(String userId);
 	
 	//更新用户血压记录
 	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo);

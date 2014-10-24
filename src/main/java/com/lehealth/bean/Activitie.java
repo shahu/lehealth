@@ -10,6 +10,7 @@ public class Activitie {
 	private String location="";
 	private String desc="";
 	//TODO 报名状态
+	private String externalurl="";
 	
 	public int getId() {
 		return id;
@@ -46,5 +47,11 @@ public class Activitie {
 	}
 	public void setEndtimeStamp(long endtimeStamp) {
 		this.endtimeStamp = endtimeStamp;
+	}
+	public String getExternalurl() {
+		return externalurl;
+	}
+	public void setExternalurl(String externalurl) {
+		this.externalurl = externalurl;
 	}
 }

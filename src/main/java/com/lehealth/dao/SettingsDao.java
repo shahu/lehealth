@@ -1,22 +1,23 @@
 package com.lehealth.dao;
 
 import java.util.List;
+
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
 
 public interface SettingsDao {
 
 	//获取血压控制设置
-	public BloodpressureConfig selectBloodpressureSetting();
+	public BloodpressureConfig selectBloodpressureSetting(String userId);
 	
 	//更新血压控制设置
-	public String updateBloodpressureSetting();
+	public boolean updateBloodpressureSetting(BloodpressureConfig bpConfig);
 	
 	//获取用药设置
-	public List<MedicineConfig> selectMedicineSettings();
+	public List<MedicineConfig> selectMedicineSettings(String userId);
 	
 	//更新用药设置
-	public String updateMedicineSetting();
+	public boolean updateMedicineSetting(MedicineConfig mConfig);
 	
 	//TODO 获取个人信息
 	

@@ -1,14 +1,14 @@
 package com.lehealth.dao;
 
-import com.lehealth.bean.BloodpressureResult;
+import java.util.List;
+import com.lehealth.bean.BloodpressureInfo;
 
 public interface BloodpressureDao {
 	
 	//获取用户血压记录
-	public BloodpressureResult selectBloodpressureRecords();
+	public List<BloodpressureInfo> selectBloodpressureRecords(String userId);
 	
 	//更新用户血压记录
-	public void insertBloodpressureRecord();
+	public boolean insertBloodpressureRecord(BloodpressureInfo info);
 	
-	public void test();
 }

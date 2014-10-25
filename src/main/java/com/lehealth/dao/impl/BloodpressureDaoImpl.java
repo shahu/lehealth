@@ -17,7 +17,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public List<BloodpressureInfo> selectBloodpressureRecords(String userId) {
-		String sql="SELECT * FROM BpRecords WHERE userid=:userid ORDER BY recordtime DESC limit 7";
+		String sql="SELECT * FROM BpRecords WHERE userid=:userid ORDER BY recordDate DESC limit 7";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		List<BloodpressureInfo> list = new ArrayList<BloodpressureInfo>();
@@ -45,7 +45,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		msps.addValue("recordDate", new Date(info.getDate()));
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO BpRecords VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,:date,now())";
+			sql="INSERT INTO BpRecords VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,:recordDate,now())";
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;

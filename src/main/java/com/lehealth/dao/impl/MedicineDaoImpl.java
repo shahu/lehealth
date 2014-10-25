@@ -1,13 +1,10 @@
 package com.lehealth.dao.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -48,10 +45,9 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
 	public List<MedicineInfo> selectMedicineRecords(String userId) {
-		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid and userdate>=:beginTime ORDER BY userdate DESC  limit 7";
+		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid ORDER BY recordDate DESC limit 7";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
-		msps.addValue("beginTime", new Timestamp(DateUtils.addDays(new Date(), -7).getTime()));
 		List<MedicineInfo> list = new ArrayList<MedicineInfo>();
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){

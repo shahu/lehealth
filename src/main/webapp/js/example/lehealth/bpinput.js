@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var submitBpUrl = "/api/bprecord";
+	var submitBpUrl = "/lehealth/api/bprecord.do";
 
 	exports.render = function() {
 		$(document).bind("pageinit", function() {

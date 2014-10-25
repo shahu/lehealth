@@ -28,7 +28,9 @@
       "lehealth/medicationrecord.js",
       "lehealth/config.js",
       "lehealth/bpconfig.js",
-      "lehealth/medicationconfig.js"
+      "lehealth/medicationconfig.js",
+      "leheanth/login.js",
+      "lehealth/common.js"
     ],
     "alias": {
       "jquery": "jquery/jquery/1.7.2/jquery",

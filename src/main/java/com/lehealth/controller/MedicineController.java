@@ -91,16 +91,16 @@ public class MedicineController {
 	@ResponseBody
 	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
 	public ResponseBean medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+//		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+//		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+//		String userId=this.loginService.checkUser4Token(loginId, token);
+//		if(StringUtils.isNotBlank(userId)){
 			List<MedicineCategroy> list=this.medicineService.getMedicines();
 			responseBody.setResult(list);
-		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
-		}
+//		}else{
+//			responseBody.setType(ErrorCodeType.invalidToken);
+//		}
 		return responseBody;
 	}
 }

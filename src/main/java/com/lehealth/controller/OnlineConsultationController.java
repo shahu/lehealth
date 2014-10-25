@@ -37,16 +37,16 @@ public class OnlineConsultationController {
 	@ResponseBody
 	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
 	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+//		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+//		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+//		String userId=this.loginService.checkUser4Token(loginId, token);
+//		if(StringUtils.isNotBlank(userId)){
 			List<Doctor> list=this.onlineConsultationService.getDoctors();
 			responseBody.setResult(list);
-		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
-		}
+//		}else{
+//			responseBody.setType(ErrorCodeType.invalidToken);
+//		}
 		return responseBody;
 	}
 	
@@ -55,16 +55,16 @@ public class OnlineConsultationController {
 	@ResponseBody
 	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)
 	public ResponseBean activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+//		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+//		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+//		String userId=this.loginService.checkUser4Token(loginId, token);
+//		if(StringUtils.isNotBlank(userId)){
 			List<Activitie> list=this.onlineConsultationService.getAtivities();
 			responseBody.setResult(list);
-		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
-		}
+//		}else{
+//			responseBody.setType(ErrorCodeType.invalidToken);
+//		}
 		return responseBody;
 	}
 	

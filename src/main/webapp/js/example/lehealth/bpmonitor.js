@@ -200,9 +200,11 @@ define(function(require, exports, module) {
 						success: function(rspData) {
 							if (rspData.errorcode) {
 								if (rspData.errorcode == 1) { //用户校验失败
+									util.setCookie("jump", encodeURIComponent("/lehealth/bpmonitor.html"));
 									util.showDialog("请重新登录", "bpmonitor");
+									util.dismissDialog("bpmonitor");
 									setTimeout(function() {
-										$.mobile.changePage("/lehealth/login.html?jump=" + encodeURIComponent("/lehealth/bpmonitor.html"), "slide");
+										$.mobile.changePage("/lehealth/login.html", "slide");
 									}, 2000);
 									return;
 								}

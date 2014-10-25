@@ -8,14 +8,14 @@ define(function(require, exports, module) {
 
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
 		});
 	};
 
 	exports.bindEvent = function() {
-		$(document).bind("pageinit", function() {
-			$('#doLogin').one('click', function(event) {
+		$(document).bind("pageshow", function() {
+			$('#doLogin').on('click', function(event) {
 				var username = $('#login_username').val(),
 					pwd = $('#login_pwd').val();
 				if(username && pwd) {
@@ -33,12 +33,13 @@ define(function(require, exports, module) {
 								console.error("login error: " + rspData.errormsg);
 								util.showDialog("登录失败, " + rspData.errormsg, "login");
 							} else {
+								var jumpUrl = util.getCookieByKey("jump");
+								util.setCookie("jump", "");
 								util.showDialog("登录成功", "login");
 								util.setCookie("loginid", encodeURIComponent(rspData.result.loginid));
 								util.setCookie("tk", encodeURIComponent(rspData.result.token));
 								//两秒后跳转指定页面，否则跳转首页
 								setTimeout(function() {
-									var jumpUrl = util.getParams("jump");
 									if(jumpUrl) {
 										$.mobile.changePage(jumpUrl, "slide");
 									} else {
@@ -59,7 +60,7 @@ define(function(require, exports, module) {
 				}
 			});
 
-			$("#doRegister").one("click", function(event) {
+			$("#doRegister").on("click", function(event) {
 				var username = $("#register_username").val(),
 					pwd = $("#register_pwd").val(),
 					repwd = $("#register_repwd").val();

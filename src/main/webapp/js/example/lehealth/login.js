@@ -42,7 +42,7 @@ define(function(require, exports, module) {
 									if(jumpUrl) {
 										$.mobile.changePage(jumpUrl, "slide");
 									} else {
-										$.mobile.changePage("http://www.lehealth.com", "slide");
+										$.mobile.changePage("http://lehealth.net.cn/", "slide");
 									}
 								}, 2000);
 							}

@@ -34,7 +34,7 @@ public class MedicineServiceImpl implements MedicineService{
 
 	@Override
 	public boolean modifyMedicineRecord(MedicineInfo mInfo) {
-		return this.medicineDao.insertMedicineRecord(mInfo);
+		return this.medicineDao.updateMedicineRecord(mInfo);
 	}
 
 	@Override

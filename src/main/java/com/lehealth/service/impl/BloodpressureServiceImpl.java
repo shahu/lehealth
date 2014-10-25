@@ -33,7 +33,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 
 	@Override
 	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo) {
-		return this.bloodpressureDao.insertBloodpressureRecord(bpInfo);
+		return this.bloodpressureDao.updateBloodpressureRecord(bpInfo);
 	}
 
 }

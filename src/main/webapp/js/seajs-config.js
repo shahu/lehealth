@@ -58,7 +58,7 @@ if(seajs.production){
 if(seajs.production) {
 	seajs.prefix = '';
 } else {
-	seajs.prefix = '/lehealth/js/'
+	seajs.prefix = 'file:///Users/macbook/code/lehealth/git/lehealth/src/main/webapp/js/';//'/lehealth/js/'
 }
 /*map end*/
 seajs.config({

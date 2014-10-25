@@ -2,8 +2,8 @@ package com.lehealth.bean;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.lehealth.util.JacksonGlobalMappers;
 import com.lehealth.util.TokenUtils;
-import com.pplive.util.json.JacksonGlobalMappers;
 
 public class User {
 

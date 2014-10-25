@@ -22,7 +22,7 @@ import com.lehealth.bean.ResponseBean;
 import com.lehealth.service.LoginService;
 import com.lehealth.service.SettingsService;
 import com.lehealth.type.ErrorCodeType;
-import com.pplive.util.json.JacksonGlobalMappers;
+import com.lehealth.util.JacksonGlobalMappers;
 
 @Controller
 @RequestMapping("/api")

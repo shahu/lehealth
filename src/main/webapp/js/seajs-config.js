@@ -1,5 +1,5 @@
 /*map start*/
-seajs.production = true;
+seajs.production = false;
 if(seajs.production){
     seajs.config({
         map : [

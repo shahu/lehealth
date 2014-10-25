@@ -1,6 +1,6 @@
 package com.lehealth.bean;
 
-import com.pplive.util.json.JacksonGlobalMappers;
+import com.lehealth.util.JacksonGlobalMappers;
 
 public class BloodpressureConfig {
 

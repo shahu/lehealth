@@ -3,7 +3,7 @@ package com.lehealth.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pplive.util.json.JacksonGlobalMappers;
+import com.lehealth.util.JacksonGlobalMappers;
 
 public class MedicineResult {
 	

@@ -3,6 +3,7 @@ package com.lehealth.dao.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -46,7 +47,8 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		String sql="UPDATE Bpsetting SET dbp1=:dbp1,dbp2 =:dbp2,sbp1 =:sbp1,sbp2 =:sbp2 WHERE userid=:userid;";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO Bpsetting VALUE(NULL,:userid,:dbp1,:dbp2,:sbp1,:sbp2)";
+			sql="INSERT INTO Bpsetting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2)";
+			msps.addValue("uuid", UUID.randomUUID());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;
@@ -95,7 +97,8 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		String sql="UPDATE MedicineSetting SET amount=:amount,frequency=:frequency,timing=:timing,datefrom=:datefrom,dateto=:dateto WHERE userid=:userid AND medicineid=:medicineid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO MedicineSetting VALUE(NULL,:userid,:medicineid,:amount,:frequency,:timing,:datefrom,:dateto)";
+			sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,:datefrom,:dateto)";
+			msps.addValue("uuid", UUID.randomUUID());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;

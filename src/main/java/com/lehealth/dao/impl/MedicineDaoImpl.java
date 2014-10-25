@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -44,14 +45,38 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
 	public List<MedicineInfo> selectMedicineRecords(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		List<MedicineInfo> list = new ArrayList<MedicineInfo>();
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		while(rs.next()){
+			MedicineInfo info=new MedicineInfo();
+			info.setAmount(rs.getFloat("amount"));
+			info.setDateStamp(rs.getDate("userdate").getTime());
+			info.setFrequency(rs.getFloat("frequency"));
+			info.setMedicineId(rs.getInt("medicineid"));
+			info.setTiming(rs.getInt("timing"));
+			list.add(info);
+		}
+		return list;
 	}
 
 	@Override
 	public boolean insertMedicineRecord(MedicineInfo info) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql="INSERT INTO MedicineRecords VALUE(NULL,:userid,:medicineid,:amount,:frequency,:timing,now())";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", info.getUserId());
+		msps.addValue("medicineid", info.getMedicineId());
+		msps.addValue("amount", info.getAmount());
+		msps.addValue("frequency", info.getFrequency());
+		msps.addValue("timing", info.getTiming());
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 }

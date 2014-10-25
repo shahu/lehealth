@@ -3,7 +3,7 @@ package com.lehealth.type;
 public enum ErrorCodeType {
 	normal(0,""),
 	invalidUser(1,"invalid user"),
-	invalidToken(1,"invalid Yoken"),
+	invalidToken(1,"invalid Token"),
 	repeatUser(2,"repeat loginid"),
 	abnormal(3,"eroor");
 	

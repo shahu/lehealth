@@ -12,9 +12,9 @@ define(function(require, exports, module) {
 	};
 
 	exports.bindEvent = function() {
-		// $(document).on("pageshow", function() {
+		$(document).on("pageshow", function() {
 			console.info('init');
-			$("#dp_record_bpdata").one('click', function(event) {
+			$("#dp_record_bpdata").one('click', function do_record_bpdateFn(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),
 					sbp = $('#sbp').val(),
@@ -42,6 +42,7 @@ define(function(require, exports, module) {
 								return;
 							}
 							util.showDialog("提交数据失败，请重新提交", "bpinputpage");
+							$("#dp_record_bpdata").unbind('click').one('click', do_record_bpdateFn);
 						} else {
 							//两秒后隐藏
 							setTimeout(function() {
@@ -51,10 +52,11 @@ define(function(require, exports, module) {
 					},
 					error: function(xhr, errormsg) {
 						util.showDialog("提交数据失败，请重新提交", "bpinputpage");
+						$("#dp_record_bpdata").unbind('click').one('click', do_record_bpdateFn);
 					}
 				});
 			});
-		// });
+		});
 	};
 
 });

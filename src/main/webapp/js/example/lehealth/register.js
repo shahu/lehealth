@@ -52,7 +52,6 @@ define(function(require, exports, module) {
 						} else {
 							console.info("b");
 							util.showDialog("注册成功, 请登录", "register");
-							$("#doRegister").unbind('click').one('click', doRegisterFn);
 							setTimeout(function() {
 								$.mobile.changePage("#login", {transition: "slide",reverse:"true",changeHash: true});
 							}, 2000);

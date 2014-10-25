@@ -14,9 +14,9 @@ define(function(require, exports, module) {
 	};
 
 	exports.bindEvent = function() {
-		$(document).one("pageshow", function() {
+		$(document).on("pageshow", function() {
 
-			$("#doRegister").on("click", function(event) {
+			$("#doRegister").one("click", function(event) {
 				var username = $("#register_username").val(),
 					pwd = $("#register_pwd").val(),
 					repwd = $("#register_repwd").val();

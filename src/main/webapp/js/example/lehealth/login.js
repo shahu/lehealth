@@ -14,7 +14,7 @@ define(function(require, exports, module) {
 	};
 
 	exports.bindEvent = function() {
-		$(document).one("pageshow", function() {
+		$(document).on("pageshow", function() {
 			$('#doLogin').one('click', function(event) {
 				var username = $('#login_username').val(),
 					pwd = $('#login_pwd').val();
@@ -43,7 +43,7 @@ define(function(require, exports, module) {
 									if(jumpUrl) {
 										$.mobile.changePage(jumpUrl, "slide");
 									} else {
-										$.mobile.changePage("http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com", "slide");
+										window.location.href = "http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com";
 									}
 								}, 2000);
 							}

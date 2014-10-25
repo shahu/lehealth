@@ -20,6 +20,10 @@ if(seajs.production){
 		"lehealth/bpmonitor-b135a68bfaf8cdbdf52eee38107c1f9a.js"
 	],
 	[
+		"lehealth/common.js",
+		"lehealth/common-53e04aa01fd3373885207aaa3c0a377f.js"
+	],
+	[
 		"lehealth/config.js",
 		"lehealth/config-898392d2b79e41404fc12f00fca68e21.js"
 	],
@@ -42,6 +46,10 @@ if(seajs.production){
 	[
 		"lehealth/medicationrecord.js",
 		"lehealth/medicationrecord-50a134d76a7604df45a05d1b5d47de14.js"
+	],
+	[
+		"leheanth/login.js",
+		"leheanth/login-d41d8cd98f00b204e9800998ecf8427e.js"
 	]
 ]
     });

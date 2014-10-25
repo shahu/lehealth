@@ -4,13 +4,13 @@ define(function(require, exports, module) {
 	//这个方法要在页面加载完成后调用，用来隐藏手机上的地址栏
 	exports.hideAddressBar = function() {
 		return;
-		if (document.documentElement.scrollHeight <= document.documentElement.clientHeight) {
-			bodyTag = document.getElementsByTagName('body')[0];
-			bodyTag.style.height = document.documentElement.clientWidth / screen.width * screen.height + 'px';
-		}
-		setTimeout(function() {
-			window.scrollTo(0, 1)
-		}, 0);
+		// if (document.documentElement.scrollHeight <= document.documentElement.clientHeight) {
+		// 	bodyTag = document.getElementsByTagName('body')[0];
+		// 	bodyTag.style.height = document.documentElement.clientWidth / screen.width * screen.height + 'px';
+		// }
+		// setTimeout(function() {
+		// 	window.scrollTo(0, 1)
+		// }, 0);
 	};
 
 	var r = {

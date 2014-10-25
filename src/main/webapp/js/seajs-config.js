@@ -58,7 +58,7 @@ if(seajs.production){
 if(seajs.production) {
 	seajs.prefix = '';
 } else {
-	seajs.prefix = '/lehealth/js/'
+	seajs.prefix = '/lehealth/js/';
 }
 /*map end*/
 seajs.config({

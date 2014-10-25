@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 
 	exports.bindEvent = function() {
 		$(document).bind("pageinit", function() {
-			$('#doLogin').on('click', function(event) {
+			$('#doLogin').one('click', function(event) {
 				var username = $('#login_username').val(),
 					pwd = $('#login_pwd').val();
 				if(username && pwd) {
@@ -59,7 +59,7 @@ define(function(require, exports, module) {
 				}
 			});
 
-			$("#doRegister").on("click", function(event) {
+			$("#doRegister").one("click", function(event) {
 				var username = $("#register_username").val(),
 					pwd = $("#register_pwd").val(),
 					repwd = $("#register_repwd").val();

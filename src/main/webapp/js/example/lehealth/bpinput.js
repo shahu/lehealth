@@ -13,7 +13,7 @@ define(function(require, exports, module) {
 
 	exports.bindEvent = function() {
 		$(document).bind("pageshow", function() {
-			$("#record_data").on('click', function(event) {
+			$("#record_data").one('click', function(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),
 					sbp = $('#sbp').val(),

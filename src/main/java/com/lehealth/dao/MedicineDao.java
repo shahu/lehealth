@@ -11,7 +11,7 @@ public interface MedicineDao {
 	public List<MedicineInfo> selectMedicineRecords(String userId);
 	
 	//更新用药记录
-	public boolean insertMedicineRecord(MedicineInfo info);
+	public boolean updateMedicineRecord(MedicineInfo info);
 	
 	//获取药物列表
 	public List<MedicineCategroy> selectMedicines();

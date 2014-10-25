@@ -9,6 +9,8 @@ public class Doctor {
 	//TODO 医院id
 	private String hospital="";
 	private String desc="";
+	private String thumbnail="";
+	private String image="";
 	
 	public int getId() {
 		return id;
@@ -45,6 +47,18 @@ public class Doctor {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 }

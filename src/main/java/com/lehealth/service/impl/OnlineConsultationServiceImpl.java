@@ -21,12 +21,19 @@ public class OnlineConsultationServiceImpl implements OnlineConsultationService{
 	
 	private static Logger logger = Logger.getLogger(OnlineConsultationServiceImpl.class);
 
+	@Override
 	public List<Doctor> getDoctors() {
 		return this.onlineConsultationDao.selectDoctors();
 	}
 
+	@Override
 	public List<Activitie> getAtivities() {
 		return this.onlineConsultationDao.selectAtivities();
+	}
+
+	@Override
+	public Doctor getDoctor(int doctorId) {
+		return this.onlineConsultationDao.selectDoctorById(doctorId);
 	}
 	
 }

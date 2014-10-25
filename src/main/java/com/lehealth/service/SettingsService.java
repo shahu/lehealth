@@ -19,6 +19,9 @@ public interface SettingsService {
 	//更新用药设置
 	public boolean modifyMedicineSetting(MedicineConfig mConfig);
 	
+	//删除用药设置
+	public boolean delMedicineSetting(String userId,int medicineId);
+	
 	//TODO 获取个人信息
 	
 	//TODO 更新个人信息

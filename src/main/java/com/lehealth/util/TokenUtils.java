@@ -8,6 +8,7 @@ public class TokenUtils {
 
 	public static void main(String[] args) {
 		System.out.println(buildToken("ryl","202cb962ac59075b964b07152d234b70"));
+		System.out.println(DigestUtils.md5Hex("12345678"));
 	}
 	
 	public static String buildToken(String loginId,String password){

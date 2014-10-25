@@ -20,6 +20,7 @@ import com.lehealth.util.TokenUtils;
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
+	@Override
 	public List<MedicineCategroy> selectMedicines() {
 		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
 		Map<Integer,MedicineCategroy> map=new HashMap<Integer,MedicineCategroy>();
@@ -66,8 +67,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	}
 
 	@Override
-	public boolean insertMedicineRecord(MedicineInfo info) {
-		String sql="INSERT INTO MedicineRecords VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,now())";
+	public boolean updateMedicineRecord(MedicineInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("uuid", TokenUtils.buildUUid());
 		msps.addValue("userid", info.getUserid());
@@ -75,9 +75,17 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		msps.addValue("amount", info.getAmount());
 		msps.addValue("frequency", info.getFrequency());
 		msps.addValue("timing", info.getTiming());
+		msps.addValue("recordDate", info.getTiming());
+		String sql="UPDATE MedicineRecords SET amount=:amount,frequency=:frequency,timing=:timing,updateTime=NOW() WHERE recordDate=:recordDate AND medicineid=:medicineid AND userid=:userid";;
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			return false;
+			sql="INSERT INTO MedicineRecords VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,:recordDate,now())";
+			i=this.namedJdbcTemplate.update(sql, msps);
+			if(i==0){
+				return false;
+			}else{
+				return true;
+			}
 		}else{
 			return true;
 		}

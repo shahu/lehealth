@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.ResponseBean;
@@ -134,6 +136,27 @@ public class SettingsController {
 		return responseBody;
 	}
 	
+	//删除用药设置
+	@ResponseBody
+	@RequestMapping(value = "/medicinesettingdel.do", method = RequestMethod.POST)
+	public ResponseBean medicinesettingdel(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
+			if(this.settingsService.delMedicineSetting(userId,medicineId)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+			
 	//TODO 获取个人信息
 	
 	//TODO 更新个人信息

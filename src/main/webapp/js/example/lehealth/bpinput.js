@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 							if (rspData.errorcode === 1) {
 								util.showDialog("请重新登录", "bpinputpage");
 								setTimeout(function() {
-									$.mobile.changePage("/lehealth/login.html", "slide");
+									$.mobile.changePage("/lehealth/login.html?jump=" + encodeURIComponent("/lehealth/bpinput.html"), "slide");
 								}, 2000);
 								return;
 							}

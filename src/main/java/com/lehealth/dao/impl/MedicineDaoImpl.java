@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -64,8 +65,9 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
 	public boolean insertMedicineRecord(MedicineInfo info) {
-		String sql="INSERT INTO MedicineRecords VALUE(NULL,:userid,:medicineid,:amount,:frequency,:timing,now())";
+		String sql="INSERT INTO MedicineRecords VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,now())";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("uuid", UUID.randomUUID());
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("medicineid", info.getMedicineId());
 		msps.addValue("amount", info.getAmount());

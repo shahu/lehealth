@@ -2,6 +2,7 @@ package com.lehealth.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -33,8 +34,9 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public boolean insertBloodpressureRecord(BloodpressureInfo info) {
-		String sql="INSERT INTO BpRecords VALUE(NULL,:userid,:dbp,:sbp,:heartrate,now())";
+		String sql="INSERT INTO BpRecords VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,now())";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("uuid", UUID.randomUUID());
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("dbp", info.getDbp());
 		msps.addValue("sbp", info.getSbp());

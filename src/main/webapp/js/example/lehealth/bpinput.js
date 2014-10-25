@@ -35,7 +35,6 @@ define(function(require, exports, module) {
 						if (rspData.errorcode) {
 							if (rspData.errorcode === 1) {
 								util.setCookie("jump", encodeURIComponent("/lehealth/bpinput.html"));
-								util.showDialog("请重新登录", "bpinputpage");
 								setTimeout(function() {
 									$.mobile.changePage("/lehealth/login.html", "slide");
 								}, 2000);
@@ -43,7 +42,6 @@ define(function(require, exports, module) {
 							}
 							util.showDialog("提交数据失败，请重新提交", "bpinputpage");
 						} else {
-							util.showDialog("提交成功", "bpinputpage");
 							//两秒后隐藏
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/bpmonitor.html", "slide");

@@ -35,7 +35,6 @@ define(function(require, exports, module) {
 							} else {
 								var jumpUrl = util.getCookieByKey("jump");
 								util.setCookie("jump", "");
-								util.showDialog("登录成功", "login");
 								util.setCookie("loginid", encodeURIComponent(rspData.result.loginid));
 								util.setCookie("tk", encodeURIComponent(rspData.result.token));
 								//两秒后跳转指定页面，否则跳转首页

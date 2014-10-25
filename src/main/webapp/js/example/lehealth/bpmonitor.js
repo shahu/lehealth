@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var getBpRecordUrl = "/lehealth/api/bprecords.do";
 
 	exports.render = function() {
-		$(document).one("pageshow", function() {
+		$(document).on("pageshow", function() {
 
 			console.info('init');
 

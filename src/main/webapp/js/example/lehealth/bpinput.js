@@ -34,9 +34,10 @@ define(function(require, exports, module) {
 					success: function(rspData) {
 						if (rspData.errorcode) {
 							if (rspData.errorcode === 1) {
+								util.setCookie("jump", encodeURIComponent("/lehealth/bpinput.html"));
 								util.showDialog("请重新登录", "bpinputpage");
 								setTimeout(function() {
-									$.mobile.changePage("/lehealth/login.html?jump=" + encodeURIComponent("/lehealth/bpinput.html"), "slide");
+									$.mobile.changePage("/lehealth/login.html", "slide");
 								}, 2000);
 								return;
 							}

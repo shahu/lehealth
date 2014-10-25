@@ -25,13 +25,11 @@ define(function(require, exports, module) {
 						for (var i = 0; i < results.length; i++) {
 							var doctor = results[i];
 							html += 
-								'<li>
-									<a href="/lehealth/expertdetail.html" id="' + doctor.id + '">
-										<img src="images/person.jpg" style="width:80px; height:80px">
-										<h2>' + doctor.name + '</h2>
-										<p>' + doctor.desc + '</p>
-									</a>
-								</li>';
+								'<li><a href="/lehealth/expertdetail.html" id="' 
+									+ doctor.id + 
+									'"><img src="images/person.jpg" style="width:80px; height:80px"><h2>' 
+									+ doctor.name 
+									+ '</h2><p>' + doctor.desc + '</p></a></li>';
 						}
 						$('#listwraper').empty();
 						$('#listwraper').html(html);

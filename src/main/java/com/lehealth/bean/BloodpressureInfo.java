@@ -2,24 +2,24 @@ package com.lehealth.bean;
 
 public class BloodpressureInfo {
 	
-	private String userId="";
+	private String userid="";
 	//TODO date不止到天
-	private long dateStamp=0;
+	private long date=0;
 	private int dbp=0;
 	private int sbp=0;
 	private int heartrate=0;
 	
-	public String getUserId() {
-		return userId;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public long getDateStamp() {
-		return dateStamp;
+	public long getDate() {
+		return date;
 	}
-	public void setDateStamp(long dateStamp) {
-		this.dateStamp = dateStamp;
+	public void setDate(long date) {
+		this.date = date;
 	}
 	public int getDbp() {
 		return dbp;

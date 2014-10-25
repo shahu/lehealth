@@ -39,7 +39,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean updateBloodpressureSetting(BloodpressureConfig bpConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", bpConfig.getUserId());
+		msps.addValue("userId", bpConfig.getUserid());
 		msps.addValue("dbp1", bpConfig.getDbp1());
 		msps.addValue("dbp2", bpConfig.getDbp2());
 		msps.addValue("sbp1", bpConfig.getSbp1());
@@ -48,7 +48,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			sql="INSERT INTO Bpsetting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2)";
-			msps.addValue("uuid", UUID.randomUUID());
+			msps.addValue("uuid", UUID.randomUUID().toString());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;
@@ -73,12 +73,12 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 			long datefrom=rs.getDate("datefrom").getTime();
 			long dateto=rs.getDate("dateto").getTime();
 			MedicineConfig mConfig=new MedicineConfig();
-			mConfig.setMedicineId(medicineid);
+			mConfig.setMedicineid(medicineid);
 			mConfig.setAmount(amount);
 			mConfig.setFrequency(frequency);
 			mConfig.setTiming(timing);
-			mConfig.setDatefromStamp(datefrom);
-			mConfig.setDatetoStamp(dateto);
+			mConfig.setDatefrom(datefrom);
+			mConfig.setDateto(dateto);
 			list.add(mConfig);
 		}
 		return list;
@@ -87,18 +87,18 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean updateMedicineSetting(MedicineConfig mConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", mConfig.getUserId());
+		msps.addValue("userId", mConfig.getUserid());
 		msps.addValue("amount", mConfig.getAmount());
 		msps.addValue("frequency", mConfig.getFrequency());
-		msps.addValue("medicineid", mConfig.getMedicineId());
+		msps.addValue("medicineid", mConfig.getMedicineid());
 		msps.addValue("timing", mConfig.getTiming());
-		msps.addValue("datefrom", new Timestamp(mConfig.getDatefromStamp()));
-		msps.addValue("dateto", new Timestamp(mConfig.getDatetoStamp()));
+		msps.addValue("datefrom", new Timestamp(mConfig.getDatefrom()));
+		msps.addValue("dateto", new Timestamp(mConfig.getDateto()));
 		String sql="UPDATE MedicineSetting SET amount=:amount,frequency=:frequency,timing=:timing,datefrom=:datefrom,dateto=:dateto WHERE userid=:userid AND medicineid=:medicineid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,:datefrom,:dateto)";
-			msps.addValue("uuid", UUID.randomUUID());
+			msps.addValue("uuid", UUID.randomUUID().toString());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;

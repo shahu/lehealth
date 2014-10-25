@@ -47,7 +47,7 @@ public class OnlineConsultationController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<Doctor> list=this.onlineConsultationService.getDoctors();
-			responseBody.setResult(JacksonGlobalMappers.getNoNullJsonStr(list));
+			responseBody.setResult(list);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -65,7 +65,7 @@ public class OnlineConsultationController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<Activitie> list=this.onlineConsultationService.getAtivities();
-			responseBody.setResult(JacksonGlobalMappers.getNoNullJsonStr(list));
+			responseBody.setResult(list);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

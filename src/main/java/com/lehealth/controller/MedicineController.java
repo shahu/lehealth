@@ -49,7 +49,7 @@ public class MedicineController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			MedicineResult result=this.medicineService.getMedicineRecords(userId);
-			responseBody.setResult(result.toJson());
+			responseBody.setResult(result);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -71,8 +71,8 @@ public class MedicineController {
 			float frequency=NumberUtils.toFloat(request.getParameter("frequency"));
 			int timing=NumberUtils.toInt(request.getParameter("timing"));
 			MedicineInfo mInfo=new MedicineInfo();
-			mInfo.setUserId(userId);
-			mInfo.setMedicineId(medicineId);
+			mInfo.setUserid(userId);
+			mInfo.setMedicineid(medicineId);
 			mInfo.setFrequency(frequency);
 			mInfo.setAmount(amount);
 			mInfo.setTiming(timing);
@@ -97,7 +97,7 @@ public class MedicineController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<MedicineCategroy> list=this.medicineService.getMedicines();
-			responseBody.setResult(JacksonGlobalMappers.getNoNullJsonStr(list));
+			responseBody.setResult(list);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

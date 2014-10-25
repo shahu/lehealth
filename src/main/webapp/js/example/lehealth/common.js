@@ -69,7 +69,7 @@ define(function(require, exports, module) {
 	exports.setCookie = function(key, value) {
 		var exp = new Date(); //获得当前时间  
 		exp.setTime(exp.getTime() + 365 * 24 * 60 * 60 * 1000); //换成毫秒  
-		document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+		document.cookie = key + "=" + escape(value) + ";expires=" + exp.toGMTString();
 	};
 
 	//提示信息

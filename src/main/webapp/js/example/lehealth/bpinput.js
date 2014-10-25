@@ -45,7 +45,7 @@ define(function(require, exports, module) {
 							util.showDialog("提交成功", "bpinputpage");
 							//两秒后隐藏
 							setTimeout(function() {
-								util.dismissDialog("bpinputpage");
+								$.mobile.changePage("/lehealth/bpmonitor", "slide");
 							}, 2000);
 						}
 					},

@@ -1,39 +1,39 @@
 package com.lehealth.bean;
 
 import org.apache.commons.codec.digest.DigestUtils;
-
-import com.lehealth.util.JacksonGlobalMappers;
 import com.lehealth.util.TokenUtils;
 
 public class User {
 
-	private String userId;
-	private String loginId;
+	private String userid;
+	private String loginid;
 	private String pwdmd5;
 	
-	public String getUserId() {
-		return userId;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public String getLoginId() {
-		return loginId;
+	public String getLoginid() {
+		return loginid;
 	}
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 	public String getPwdmd5() {
+		return pwdmd5;
+	}
+	public void setPwdmd5(String pwdmd5) {
+		this.pwdmd5 = pwdmd5;
+	}
+	public String getPwd() {
 		return pwdmd5;
 	}
 	public void setPassword(String password) {
 		this.pwdmd5 = DigestUtils.md5Hex(password);
 	}
 	public String getToken(){
-		return TokenUtils.buildToken(this.loginId);
-	}
-	
-	public String toJson(){
-		return JacksonGlobalMappers.getNoNullJsonStr(this);
+		return TokenUtils.buildToken(this.loginid);
 	}
 }

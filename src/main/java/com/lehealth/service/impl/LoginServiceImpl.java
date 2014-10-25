@@ -35,14 +35,14 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public ErrorCodeType registerNewUser(String loginId,String password) {
 		//是否用户名存在
-		boolean isRepeat=this.loginDao.checkLoginId(loginId);
-		if(isRepeat){
+		String userId=this.loginDao.getUserId(loginId);
+		if(StringUtils.isNotBlank(userId)){
 			return ErrorCodeType.repeatUser;
 		}
 		User user=new User();
-		String userId=TokenUtils.buildUserId(loginId);
-		user.setUserId(userId);
-		user.setLoginId(loginId);
+		userId=TokenUtils.buildUserId(loginId);
+		user.setUserid(userId);
+		user.setLoginid(loginId);
 		user.setPassword(password);
 		boolean isSuccess=this.loginDao.insertUser(user);
 		if(isSuccess){
@@ -55,8 +55,9 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public String getUserId(String loginId, String token) {
 		if(StringUtils.isNotBlank(loginId)
-				&&StringUtils.isNotBlank(token)){
-			return this.loginDao.getUserId(loginId, token);
+				&&StringUtils.isNotBlank(token)
+				&&token.equals(TokenUtils.buildToken(loginId))){
+			return this.loginDao.getUserId(loginId);
 		}else{
 			return "";
 		}

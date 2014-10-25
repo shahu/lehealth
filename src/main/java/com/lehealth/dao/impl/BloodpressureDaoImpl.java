@@ -23,7 +23,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
 			BloodpressureInfo info=new BloodpressureInfo();
-			info.setDateStamp(rs.getDate("recordtime").getTime());
+			info.setDate(rs.getDate("recordtime").getTime());
 			info.setDbp(rs.getInt("dbp"));
 			info.setHeartrate(rs.getInt("heartrate"));
 			info.setSbp(rs.getInt("sbp"));
@@ -36,8 +36,8 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 	public boolean insertBloodpressureRecord(BloodpressureInfo info) {
 		String sql="INSERT INTO BpRecords VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,now())";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("uuid", UUID.randomUUID());
-		msps.addValue("userid", info.getUserId());
+		msps.addValue("uuid", UUID.randomUUID().toString());
+		msps.addValue("userid", info.getUserid());
 		msps.addValue("dbp", info.getDbp());
 		msps.addValue("sbp", info.getSbp());
 		msps.addValue("heartrate", info.getHeartrate());

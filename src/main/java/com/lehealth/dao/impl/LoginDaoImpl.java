@@ -15,9 +15,9 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 	public boolean insertUser(User user) {
 		String sql="INSERT INTO User VALUE(:userid,:loginid,:pwdmd5)";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userid", user.getUserId());
-		msps.addValue("loginid", user.getLoginId());
-		msps.addValue("pwdmd5", user.getPwdmd5());
+		msps.addValue("userid", user.getUserid());
+		msps.addValue("loginid", user.getLoginid());
+		msps.addValue("pwdmd5", user.getPwd());
 		int result=this.namedJdbcTemplate.update(sql, msps);
 		if(result==0){
 			return false;
@@ -26,18 +26,18 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 		}
 	}
 
-	@Override
-	public boolean checkLoginId(String loginId) {
-		String sql="SELECT loginid FROM User WHERE loginid=:loginId";
-		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("loginId", loginId);
-		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		if(rs.next()){
-			return true;
-		}else{
-			return false;
-		}
-	}
+//	@Override
+//	public boolean checkLoginId(String loginId) {
+//		String sql="SELECT loginid FROM User WHERE loginid=:loginId";
+//		MapSqlParameterSource msps=new MapSqlParameterSource();
+//		msps.addValue("loginId", loginId);
+//		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+//		if(rs.next()){
+//			return true;
+//		}else{
+//			return false;
+//		}
+//	}
 
 	@Override
 	public boolean checkUser4Login(String loginId, String pwdmd5) {
@@ -54,11 +54,10 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 	}
 
 	@Override
-	public String getUserId(String loginId, String token) {
-		String sql="SELECT userid FROM User WHERE loginid=:loginId AND token=:token";
+	public String getUserId(String loginId) {
+		String sql="SELECT userid FROM User WHERE loginid=:loginId";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("loginId", loginId);
-		msps.addValue("token", token);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		if(rs.next()){
 			return StringUtils.trimToEmpty(rs.getString("userid"));

@@ -31,8 +31,8 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 			String cname=StringUtils.trimToEmpty(rs.getString("cName"));
 			if(!map.containsKey(cid)){
 				MedicineCategroy medicineCategroy=new MedicineCategroy();
-				medicineCategroy.setCateId(cid);
-				medicineCategroy.setCateName(cname);
+				medicineCategroy.setCateid(cid);
+				medicineCategroy.setCatename(cname);
 				map.put(cid, medicineCategroy);
 			}
 			Medicine medicine=new Medicine();
@@ -54,9 +54,9 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		while(rs.next()){
 			MedicineInfo info=new MedicineInfo();
 			info.setAmount(rs.getFloat("amount"));
-			info.setDateStamp(rs.getDate("userdate").getTime());
+			info.setDate(rs.getDate("userdate").getTime());
 			info.setFrequency(rs.getFloat("frequency"));
-			info.setMedicineId(rs.getInt("medicineid"));
+			info.setMedicineid(rs.getInt("medicineid"));
 			info.setTiming(rs.getInt("timing"));
 			list.add(info);
 		}
@@ -67,9 +67,9 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	public boolean insertMedicineRecord(MedicineInfo info) {
 		String sql="INSERT INTO MedicineRecords VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,now())";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("uuid", UUID.randomUUID());
-		msps.addValue("userid", info.getUserId());
-		msps.addValue("medicineid", info.getMedicineId());
+		msps.addValue("uuid", UUID.randomUUID().toString());
+		msps.addValue("userid", info.getUserid());
+		msps.addValue("medicineid", info.getMedicineid());
 		msps.addValue("amount", info.getAmount());
 		msps.addValue("frequency", info.getFrequency());
 		msps.addValue("timing", info.getTiming());

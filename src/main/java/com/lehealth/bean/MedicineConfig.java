@@ -2,19 +2,37 @@ package com.lehealth.bean;
 
 public class MedicineConfig {
 
-	private String userId="";
-	private int medicineId=0;
+	private String userid="";
+	private int medicineid=0;
 	private float amount=0;
 	private float frequency=0;
 	private int timing=0;
-	private long datefromStamp=0;
-	private long datetoStamp=0;
+	private long datefrom=0;
+	private long dateto=0;
 	
-	public int getMedicineId() {
-		return medicineId;
+	public String getUserid() {
+		return userid;
 	}
-	public void setMedicineId(int medicineId) {
-		this.medicineId = medicineId;
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public int getMedicineid() {
+		return medicineid;
+	}
+	public void setMedicineid(int medicineid) {
+		this.medicineid = medicineid;
+	}
+	public long getDatefrom() {
+		return datefrom;
+	}
+	public void setDatefrom(long datefrom) {
+		this.datefrom = datefrom;
+	}
+	public long getDateto() {
+		return dateto;
+	}
+	public void setDateto(long dateto) {
+		this.dateto = dateto;
 	}
 	public float getAmount() {
 		return amount;
@@ -33,24 +51,6 @@ public class MedicineConfig {
 	}
 	public void setTiming(int timing) {
 		this.timing = timing;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public long getDatefromStamp() {
-		return datefromStamp;
-	}
-	public void setDatefromStamp(long datefromStamp) {
-		this.datefromStamp = datefromStamp;
-	}
-	public long getDatetoStamp() {
-		return datetoStamp;
-	}
-	public void setDatetoStamp(long datetoStamp) {
-		this.datetoStamp = datetoStamp;
 	}
 	
 }

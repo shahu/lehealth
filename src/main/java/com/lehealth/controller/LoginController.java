@@ -30,7 +30,7 @@ public class LoginController {
 	
 	//用户信息
 	@ResponseBody
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public ResponseBean login(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
@@ -40,8 +40,8 @@ public class LoginController {
 			responseBody.setType(type);
 			if(type==ErrorCodeType.normal){
 				User user=new User();
-				user.setLoginId(loginId);
-				responseBody.setResult(user.toJson());
+				user.setLoginid(loginId);
+				responseBody.setResult(user);
 			}
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);

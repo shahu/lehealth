@@ -25,9 +25,9 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	public BloodpressureResult getBloodpressureRecords(String userId) {
 		BloodpressureResult result=new BloodpressureResult();
 		result.setScore(98);
-		result.setStatus(0);
+		result.setStatus("2");
 		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId);
-		result.setInfos(list);
+		result.setRecords(list);
 		return result;
 	}
 

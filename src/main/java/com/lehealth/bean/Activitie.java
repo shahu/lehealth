@@ -4,8 +4,8 @@ public class Activitie {
 	
 	private int id=0;
 	private String name="";
-	private long startTimeStamp=0;
-	private long endtimeStamp=0;
+	private long starttime=0;
+	private long endtime=0;
 	//TODO 医院id
 	private String location="";
 	private String desc="";
@@ -36,17 +36,17 @@ public class Activitie {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public long getStartTimeStamp() {
-		return startTimeStamp;
+	public long getStarttime() {
+		return starttime;
 	}
-	public void setStartTimeStamp(long startTimeStamp) {
-		this.startTimeStamp = startTimeStamp;
+	public void setStarttime(long starttime) {
+		this.starttime = starttime;
 	}
-	public long getEndtimeStamp() {
-		return endtimeStamp;
+	public long getEndtime() {
+		return endtime;
 	}
-	public void setEndtimeStamp(long endtimeStamp) {
-		this.endtimeStamp = endtimeStamp;
+	public void setEndtime(long endtime) {
+		this.endtime = endtime;
 	}
 	public String getExternalurl() {
 		return externalurl;

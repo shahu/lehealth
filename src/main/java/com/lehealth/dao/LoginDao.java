@@ -8,12 +8,12 @@ public interface LoginDao {
 	public boolean checkUser4Login(String loginId,String pwdmd5);
 	
 	//获取用户id
-	public String getUserId(String loginId,String token);
+	public String getUserId(String loginId);
 	
 	//注册新用户
 	public boolean insertUser(User user);
 	
 	//获取用户
-	public boolean checkLoginId(String loginId);
+	//public boolean checkLoginId(String loginId);
 	
 }

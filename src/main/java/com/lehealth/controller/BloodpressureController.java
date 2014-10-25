@@ -44,7 +44,7 @@ public class BloodpressureController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId);
-			responseBody.setResult(result.toJson());
+			responseBody.setResult(result);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -64,7 +64,7 @@ public class BloodpressureController {
 			int sbp=NumberUtils.toInt(request.getParameter("sbp"));
 			int heartrate=NumberUtils.toInt(request.getParameter("heartrate"));
 			BloodpressureInfo bpInfo=new BloodpressureInfo();
-			bpInfo.setUserId(userId);
+			bpInfo.setUserid(userId);
 			bpInfo.setDbp(dbp);
 			bpInfo.setSbp(sbp);
 			bpInfo.setHeartrate(heartrate);

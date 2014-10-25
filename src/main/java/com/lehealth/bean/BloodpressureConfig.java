@@ -1,20 +1,18 @@
 package com.lehealth.bean;
 
-import com.lehealth.util.JacksonGlobalMappers;
-
 public class BloodpressureConfig {
 
-	private String userId="";
+	private String userid="";
 	private int dbp1=0;
 	private int dbp2=0;
 	private int sbp1=0;
 	private int sbp2=0;
 	
-	public String getUserId() {
-		return userId;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public int getDbp1() {
 		return dbp1;
@@ -39,9 +37,5 @@ public class BloodpressureConfig {
 	}
 	public void setSbp2(int sbp2) {
 		this.sbp2 = sbp2;
-	}
-	
-	public String toJson(){
-		return JacksonGlobalMappers.getNoNullJsonStr(this);
 	}
 }

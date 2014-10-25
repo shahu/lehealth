@@ -5,7 +5,7 @@ import com.lehealth.type.ErrorCodeType;
 public class ResponseBean {
 	
 	private ErrorCodeType type=ErrorCodeType.normal;
-	private String result="";
+	private Object result="";
 	
 	public int getErrorcode() {
 		return  type.getCode();
@@ -16,10 +16,10 @@ public class ResponseBean {
 	public String getErrormsg() {
 		return type.getMessage();
 	}
-	public String getResult() {
+	public Object getResult() {
 		return result;
 	}
-	public void setResult(String result) {
+	public void setResult(Object result) {
 		this.result = result;
 	}
 }

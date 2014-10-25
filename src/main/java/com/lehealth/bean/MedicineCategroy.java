@@ -5,25 +5,26 @@ import java.util.List;
 
 public class MedicineCategroy {
 
-	private int cateId=0;
-	private String cateName="";
+	private int cateid=0;
+	private String catename="";
 	
 	private List<Medicine> medicines=new ArrayList<Medicine>();
 
-	public int getCateId() {
-		return cateId;
+
+	public int getCateid() {
+		return cateid;
 	}
 
-	public void setCateId(int cateId) {
-		this.cateId = cateId;
+	public void setCateid(int cateid) {
+		this.cateid = cateid;
 	}
 
-	public String getCateName() {
-		return cateName;
+	public String getCatename() {
+		return catename;
 	}
 
-	public void setCateName(String cateName) {
-		this.cateName = cateName;
+	public void setCatename(String catename) {
+		this.catename = catename;
 	}
 
 	public List<Medicine> getMedicines() {

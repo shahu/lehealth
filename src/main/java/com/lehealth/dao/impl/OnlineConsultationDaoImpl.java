@@ -39,11 +39,11 @@ public class OnlineConsultationDaoImpl extends BaseJdbcDao implements OnlineCons
 			Activitie a=new Activitie();
 			a.setExternalurl(StringUtils.trimToEmpty(rs.getString("externalurl")));
 			a.setDesc(StringUtils.trimToEmpty(rs.getString("description")));
-			a.setEndtimeStamp(rs.getDate("endtime").getTime());
+			a.setEndtime(rs.getDate("endtime").getTime());
 			a.setId(rs.getInt("id"));
 			a.setLocation(StringUtils.trimToEmpty(rs.getString("location")));
 			a.setName(StringUtils.trimToEmpty(rs.getString("name")));
-			a.setStartTimeStamp(rs.getDate("starttime").getTime());
+			a.setStarttime(rs.getDate("starttime").getTime());
 			list.add(a);
 		}
 		

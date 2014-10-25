@@ -19,5 +19,4 @@ public class Medicine {
 		this.name = name;
 	}
 	
-	
 }

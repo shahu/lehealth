@@ -48,7 +48,7 @@ public class SettingsController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureConfig bpConfig=this.settingsService.getBloodpressureSetting(userId);
-			responseBody.setResult(bpConfig.toJson());
+			responseBody.setResult(bpConfig);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -69,7 +69,7 @@ public class SettingsController {
 			int sbp1=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("sbp1")));
 			int sbp2=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("sbp2")));
 			BloodpressureConfig bpConfig=new BloodpressureConfig();
-			bpConfig.setUserId(userId);
+			bpConfig.setUserid(userId);
 			bpConfig.setDbp1(dbp1);
 			bpConfig.setDbp2(dbp2);
 			bpConfig.setSbp1(sbp1);
@@ -95,7 +95,7 @@ public class SettingsController {
 		String userId=this.loginService.getUserId(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<MedicineConfig> list=this.settingsService.getMedicineSettings(userId);
-			responseBody.setResult(JacksonGlobalMappers.getNoNullJsonStr(list));
+			responseBody.setResult(list);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -119,12 +119,12 @@ public class SettingsController {
 			long toTimeStamp=NumberUtils.toLong(request.getParameter("dateto"));
 			MedicineConfig mConfig=new MedicineConfig();
 			mConfig.setAmount(amount);
-			mConfig.setDatefromStamp(fromTimeStamp);
-			mConfig.setDatetoStamp(toTimeStamp);
+			mConfig.setDatefrom(fromTimeStamp);
+			mConfig.setDatefrom(toTimeStamp);
 			mConfig.setFrequency(frequency);
-			mConfig.setMedicineId(medicineId);
+			mConfig.setMedicineid(medicineId);
 			mConfig.setTiming(timing);
-			mConfig.setUserId(userId);
+			mConfig.setUserid(userId);
 			if(this.settingsService.modifyMedicineSetting(mConfig)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

@@ -28,7 +28,7 @@ public class MedicineServiceImpl implements MedicineService{
 		result.setScore(47);
 		result.setStatus(1);
 		List<MedicineInfo> list=this.medicineDao.selectMedicineRecords(userId);
-		result.setMedicineTimes(list);
+		result.setRecords(list);
 		return result;
 	}
 

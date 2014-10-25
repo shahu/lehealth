@@ -2,30 +2,30 @@ package com.lehealth.bean;
 
 public class MedicineInfo {
 	
-	private String userId="";
-	private long dateStamp=0;
-	private int medicineId=0;
+	private String userid="";
+	private long date=0;
+	private int medicineid=0;
 	private float amount=0;
 	private float frequency=0;
 	private int timing=0;
 	
-	public String getUserId() {
-		return userId;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public long getDateStamp() {
-		return dateStamp;
+	public long getDate() {
+		return date;
 	}
-	public void setDateStamp(long dateStamp) {
-		this.dateStamp = dateStamp;
+	public void setDate(long date) {
+		this.date = date;
 	}
-	public int getMedicineId() {
-		return medicineId;
+	public int getMedicineid() {
+		return medicineid;
 	}
-	public void setMedicineId(int medicineId) {
-		this.medicineId = medicineId;
+	public void setMedicineid(int medicineid) {
+		this.medicineid = medicineid;
 	}
 	public float getAmount() {
 		return amount;

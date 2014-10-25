@@ -6,14 +6,14 @@ define(function(require, exports, module) {
 	var submitBpUrl = "/lehealth/api/bprecord.do";
 
 	exports.render = function() {
-		$(document).bind("pageshow", function() {
+		$(document).one("pageshow", function() {
 			util.hideAddressBar();
 		});
 	};
 
 	exports.bindEvent = function() {
-		$(document).bind("pageshow", function() {
-			$("#record_data").one('click', function(event) {
+		$(document).one("pageshow", function() {
+			$("#record_data").on('click', function(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),
 					sbp = $('#sbp').val(),

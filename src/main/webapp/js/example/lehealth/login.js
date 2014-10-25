@@ -8,13 +8,13 @@ define(function(require, exports, module) {
 
 
 	exports.render = function() {
-		$(document).bind("pageshow", function() {
+		$(document).one("pageshow", function() {
 			util.hideAddressBar();
 		});
 	};
 
 	exports.bindEvent = function() {
-		$(document).bind("pageshow", function() {
+		$(document).one("pageshow", function() {
 			$('#doLogin').one('click', function(event) {
 				var username = $('#login_username').val(),
 					pwd = $('#login_pwd').val();
@@ -35,6 +35,7 @@ define(function(require, exports, module) {
 							} else {
 								var jumpUrl = util.getCookieByKey("jump");
 								util.setCookie("jump", "");
+								util.showDialog("登录成功", "login");
 								util.setCookie("loginid", encodeURIComponent(rspData.result.loginid));
 								util.setCookie("tk", encodeURIComponent(rspData.result.token));
 								//两秒后跳转指定页面，否则跳转首页
@@ -59,7 +60,7 @@ define(function(require, exports, module) {
 				}
 			});
 
-			$("#doRegister").one("click", function(event) {
+			$("#doRegister").on("click", function(event) {
 				var username = $("#register_username").val(),
 					pwd = $("#register_pwd").val(),
 					repwd = $("#register_repwd").val();

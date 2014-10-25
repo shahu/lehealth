@@ -23,12 +23,12 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	public List<MedicineCategroy> selectMedicines() {
 		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
 		Map<Integer,MedicineCategroy> map=new HashMap<Integer,MedicineCategroy>();
-		String sql="SELECT t1.id AS mId,t1.name AS mName,t2.id AS cid,t2.name AS cName FROM Medicines t1 INNER JOIN MedicineCategory t2 ON t1.cateid=t2.id";
+		String sql="SELECT t1.id AS mid,t1.name AS mName,t2.id AS cid,t2.name AS cName FROM Medicines t1 INNER JOIN MedicineCategory t2 ON t1.cateid=t2.id";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
-			int mid=rs.getInt("mId");
+			int mid=rs.getInt("mid");
 			String mname=StringUtils.trimToEmpty(rs.getString("mName"));
-			int cid=rs.getInt("cId");
+			int cid=rs.getInt("cid");
 			String cname=StringUtils.trimToEmpty(rs.getString("cName"));
 			if(!map.containsKey(cid)){
 				MedicineCategroy medicineCategroy=new MedicineCategroy();
@@ -47,7 +47,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
 	public List<MedicineInfo> selectMedicineRecords(String userId) {
-		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid and userdate>=:beginTime ORDER BY userdate DESC";
+		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid and userdate>=:beginTime ORDER BY userdate DESC  limit 7";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("beginTime", new Timestamp(DateUtils.addDays(new Date(), -7).getTime()));

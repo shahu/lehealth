@@ -1,6 +1,7 @@
 package com.lehealth.bean;
 
 import org.apache.commons.codec.digest.DigestUtils;
+
 import com.lehealth.util.TokenUtils;
 
 public class User {
@@ -21,19 +22,16 @@ public class User {
 	public void setLoginid(String loginid) {
 		this.loginid = loginid;
 	}
-	public String getPwdmd5() {
+	public String getPwd() {
 		return pwdmd5;
 	}
 	public void setPwdmd5(String pwdmd5) {
 		this.pwdmd5 = pwdmd5;
 	}
-	public String getPwd() {
-		return pwdmd5;
-	}
 	public void setPassword(String password) {
 		this.pwdmd5 = DigestUtils.md5Hex(password);
 	}
 	public String getToken(){
-		return TokenUtils.buildToken(this.loginid);
+		return TokenUtils.buildToken(this.loginid, this.pwdmd5);
 	}
 }

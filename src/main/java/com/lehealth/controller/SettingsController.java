@@ -42,7 +42,7 @@ public class SettingsController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureConfig bpConfig=this.settingsService.getBloodpressureSetting(userId);
 			responseBody.setResult(bpConfig);
@@ -59,7 +59,7 @@ public class SettingsController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int dbp1=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("dbp1")));
 			int dbp2=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("dbp2")));
@@ -89,7 +89,7 @@ public class SettingsController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<MedicineConfig> list=this.settingsService.getMedicineSettings(userId);
 			responseBody.setResult(list);
@@ -106,7 +106,7 @@ public class SettingsController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int medicineId=NumberUtils.toInt(request.getParameter("Medicineid"));
 			int amount=NumberUtils.toInt(request.getParameter("amount"));

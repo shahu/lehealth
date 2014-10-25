@@ -36,11 +36,12 @@ public class LoginController {
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
 		ResponseBean responseBody=new ResponseBean();
 		if(StringUtils.isNotBlank(loginId)&&StringUtils.isNotBlank(password)){
-			ErrorCodeType type=this.loginService.getUser(loginId, password);
+			ErrorCodeType type=this.loginService.checkUser4Login(loginId, password);
 			responseBody.setType(type);
 			if(type==ErrorCodeType.normal){
 				User user=new User();
 				user.setLoginid(loginId);
+				user.setPassword(password);
 				responseBody.setResult(user);
 			}
 		}else{

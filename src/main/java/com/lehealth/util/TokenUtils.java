@@ -6,11 +6,17 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class TokenUtils {
 
-	public static String buildToken(String loginId){
+	public static void main(String[] args) {
+		System.out.println(buildToken("ryl","202cb962ac59075b964b07152d234b70"));
+	}
+	
+	public static String buildToken(String loginId,String password){
 		StringBuilder sb=new StringBuilder();
-		sb.append("lehealth")
+		sb.append(password)
+			.append("lehealth")
 			.append(DigestUtils.md5Hex(loginId))
 			.append(DigestUtils.md5Hex("lehealth"))
+			.append(DigestUtils.md5Hex("password"))
 			.append(loginId);
 		return DigestUtils.md5Hex(sb.toString());
 	}

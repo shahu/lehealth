@@ -18,7 +18,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public List<BloodpressureInfo> selectBloodpressureRecords(String userId) {
-		String sql="SELECT * FROM BpRecords WHERE userid=:userid and recordtime>=:beginTime ORDER BY recordtime DESC";
+		String sql="SELECT * FROM BpRecords WHERE userid=:userid and recordtime>=:beginTime ORDER BY recordtime DESC limit 7";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("beginTime", new Timestamp(DateUtils.addDays(new Date(), -7).getTime()));

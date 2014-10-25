@@ -1,6 +1,5 @@
 package com.lehealth.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,7 +40,7 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId);
 			responseBody.setResult(result);
@@ -58,7 +57,7 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int dbp=NumberUtils.toInt(request.getParameter("dbp"));
 			int sbp=NumberUtils.toInt(request.getParameter("sbp"));

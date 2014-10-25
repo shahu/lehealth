@@ -40,7 +40,7 @@ public class OnlineConsultationController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<Doctor> list=this.onlineConsultationService.getDoctors();
 			responseBody.setResult(list);
@@ -58,7 +58,7 @@ public class OnlineConsultationController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.getUserId(loginId, token);
+		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<Activitie> list=this.onlineConsultationService.getAtivities();
 			responseBody.setResult(list);

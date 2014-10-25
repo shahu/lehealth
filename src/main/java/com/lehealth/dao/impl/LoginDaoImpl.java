@@ -54,15 +54,19 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 	}
 
 	@Override
-	public String getUserId(String loginId) {
-		String sql="SELECT userid FROM User WHERE loginid=:loginId";
+	public User getUser(String loginId) {
+		String sql="SELECT userid,pwdmd5 FROM User WHERE loginid=:loginId";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("loginId", loginId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		User user=new User();
 		if(rs.next()){
-			return StringUtils.trimToEmpty(rs.getString("userid"));
-		}else{
-			return "";
+			String userid=StringUtils.trimToEmpty(rs.getString("userid"));
+			String pwdmd5=StringUtils.trimToEmpty(rs.getString("pwdmd5"));
+			user.setLoginid(loginId);
+			user.setPwdmd5(pwdmd5);
+			user.setUserid(userid);
 		}
+		return user;
 	}
 }

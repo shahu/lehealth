@@ -3,15 +3,13 @@ package com.lehealth.dao.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
-
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.dao.SettingsDao;
+import com.lehealth.util.TokenUtils;
 
 @Repository("settingsDao")
 public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
@@ -48,7 +46,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			sql="INSERT INTO Bpsetting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2)";
-			msps.addValue("uuid", UUID.randomUUID().toString());
+			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;
@@ -98,7 +96,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,:datefrom,:dateto)";
-			msps.addValue("uuid", UUID.randomUUID().toString());
+			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;

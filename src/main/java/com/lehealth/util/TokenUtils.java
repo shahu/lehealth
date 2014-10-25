@@ -1,5 +1,7 @@
 package com.lehealth.util;
 
+import java.util.UUID;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class TokenUtils {
@@ -22,5 +24,9 @@ public class TokenUtils {
 			.append(loginId)
 			.append(DigestUtils.md5Hex(String.valueOf(System.currentTimeMillis())));
 		return DigestUtils.md5Hex(sb.toString());
+	}
+	
+	public static String buildUUid(){
+		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 }

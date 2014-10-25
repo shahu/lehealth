@@ -1,20 +1,21 @@
 package com.lehealth.dao.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
-
 import com.lehealth.bean.Medicine;
 import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.dao.MedicineDao;
+import com.lehealth.util.TokenUtils;
 
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
@@ -46,9 +47,10 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
 	public List<MedicineInfo> selectMedicineRecords(String userId) {
-		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid";
+		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid and userdate>=:beginTime ORDER BY userdate DESC";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
+		msps.addValue("beginTime", new Timestamp(DateUtils.addDays(new Date(), -7).getTime()));
 		List<MedicineInfo> list = new ArrayList<MedicineInfo>();
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
@@ -67,7 +69,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	public boolean insertMedicineRecord(MedicineInfo info) {
 		String sql="INSERT INTO MedicineRecords VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,now())";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("uuid", UUID.randomUUID().toString());
+		msps.addValue("uuid", TokenUtils.buildUUid());
 		msps.addValue("userid", info.getUserid());
 		msps.addValue("medicineid", info.getMedicineid());
 		msps.addValue("amount", info.getAmount());

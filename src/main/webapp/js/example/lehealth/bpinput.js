@@ -6,13 +6,13 @@ define(function(require, exports, module) {
 	var submitBpUrl = "/lehealth/api/bprecord.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
 		});
 	};
 
 	exports.bindEvent = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			$("#record_data").on('click', function(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),
@@ -45,7 +45,7 @@ define(function(require, exports, module) {
 							util.showDialog("提交成功", "bpinputpage");
 							//两秒后隐藏
 							setTimeout(function() {
-								$.mobile.changePage("/lehealth/bpmonitor", "slide");
+								$.mobile.changePage("/lehealth/bpmonitor.html", "slide");
 							}, 2000);
 						}
 					},

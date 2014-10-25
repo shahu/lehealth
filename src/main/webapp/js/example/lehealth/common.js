@@ -3,6 +3,7 @@ define(function(require, exports, module) {
 	var $ = require("jquery_mobile");
 	//这个方法要在页面加载完成后调用，用来隐藏手机上的地址栏
 	exports.hideAddressBar = function() {
+		return;
 		if (document.documentElement.scrollHeight <= document.documentElement.clientHeight) {
 			bodyTag = document.getElementsByTagName('body')[0];
 			bodyTag.style.height = document.documentElement.clientWidth / screen.width * screen.height + 'px';

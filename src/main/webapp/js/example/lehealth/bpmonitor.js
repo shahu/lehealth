@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var getBpRecordUrl = "/lehealth/api/bprecords.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 
 			util.hideAddressBar();
 

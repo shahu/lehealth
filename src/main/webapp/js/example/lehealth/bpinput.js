@@ -6,14 +6,15 @@ define(function(require, exports, module) {
 	var submitBpUrl = "/lehealth/api/bprecord.do";
 
 	exports.render = function() {
-		$(document).bind("pageshow", function() {
+		$(document).one("pageshow", function() {
 			util.hideAddressBar();
 		});
 	};
 
 	exports.bindEvent = function() {
-		$(document).bind("pageshow", function() {
-			$("#record_data").on('click', function(event) {
+		// $(document).on("pageshow", function() {
+			console.info('init');
+			$("#dp_record_bpdata").one('click', function(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),
 					sbp = $('#sbp').val(),
@@ -35,7 +36,6 @@ define(function(require, exports, module) {
 						if (rspData.errorcode) {
 							if (rspData.errorcode === 1) {
 								util.setCookie("jump", encodeURIComponent("/lehealth/bpinput.html"));
-								util.showDialog("请重新登录", "bpinputpage");
 								setTimeout(function() {
 									$.mobile.changePage("/lehealth/login.html", "slide");
 								}, 2000);
@@ -43,7 +43,6 @@ define(function(require, exports, module) {
 							}
 							util.showDialog("提交数据失败，请重新提交", "bpinputpage");
 						} else {
-							util.showDialog("提交成功", "bpinputpage");
 							//两秒后隐藏
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/bpmonitor.html", "slide");
@@ -55,7 +54,7 @@ define(function(require, exports, module) {
 					}
 				});
 			});
-		});
+		// });
 	};
 
 });

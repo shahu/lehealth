@@ -6,7 +6,9 @@ define(function(require, exports, module) {
 	var getBpRecordUrl = "/lehealth/api/bprecords.do";
 
 	exports.render = function() {
-		$(document).bind("pageshow", function() {
+		// $(document).one("pageshow", function() {
+
+			console.info('init');
 
 			util.hideAddressBar();
 
@@ -201,8 +203,6 @@ define(function(require, exports, module) {
 							if (rspData.errorcode) {
 								if (rspData.errorcode == 1) { //用户校验失败
 									util.setCookie("jump", encodeURIComponent("/lehealth/bpmonitor.html"));
-									util.showDialog("请重新登录", "bpmonitor");
-									util.dismissDialog("bpmonitor");
 									setTimeout(function() {
 										$.mobile.changePage("/lehealth/login.html", "slide");
 									}, 2000);
@@ -253,7 +253,7 @@ define(function(require, exports, module) {
 					}, 2000);
 				}
 			}
-		});
+		// });
 	};
 
 });

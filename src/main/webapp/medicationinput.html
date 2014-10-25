@@ -2,45 +2,48 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 		<title>用药录入</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
 	</head>
 	<body>
-		<div data-role="page" id="frontpage">
+		<div data-role="page" id="medicationinput">
 			<div data-role="content" style="overflow:hidden">
 				<div id="bpinput">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">用药数据录入</div>
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">用药数据录入</div>
 					<div id="input_data" style="margin-top:30px;">
-						<div style="width:100%;margin:bottom:20px;">
-							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left">药名</label>
+						<div style="width:100%;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药名</label>
 							<select name="medacine_name" id="medacine_name" style="width:79%">
-								<option value="1">白加黑</option>
-								<option value="2">红牛</option>
-								<option value="3">络活喜</option>
 							</select>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin:bottom:20px;">
-							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left"> 片次</label>
-							<select name="medacine_name" id="medacine_name" style="width:79%">
+						<div style="width:100%;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left"> 片次</label>
+							<select name="medacine_count" id="medacine_count" style="width:79%">
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
 							</select>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin:bottom:20px;">
-							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left">剂量</label>
-							<select name="medacine_name" id="medacine_name" style="width:79%">
-								<option value="1">1g</option>
-								<option value="2">1kg</option>
-								<option value="3">1t</option>
+						<div style="width:100%;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">剂量</label>
+							<select name="medacine_amount" id="medacine_amount" style="width:79%">
+								<option value="1">1mg</option>
+								<option value="2">2mg</option>
+								<option value="3">3mg</option>
+								<option value="3">4mg</option>
+								<option value="3">5mg</option>
+								<option value="3">6mg</option>
 							</select>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin:bottom:20px;">
-							<label style="font-size:30px;height:44px; line-height:44px; width:20%; float:left">时间</label>
-							<select name="medacine_name" id="medacine_name" style="width:79%">
+						<div style="width:100%;margin-bottom:0px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">时间</label>
+							<select name="medacine_time" id="medacine_time" style="width:79%">
 								<option value="1">早饭前</option>
 								<option value="2">早饭后</option>
 								<option value="3">午饭前</option>
@@ -56,6 +59,17 @@
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
 					<input type="button" id="record_data" value="录入用药数据"></input>
 					<input type="button" id="gohome" value="返回主页"></input>
+				</div>
+			</div>
+			<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">
+				<div data-role="header">
+					<h1>提示</h1>
+					<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
+				</div>
+				<div data-role="content">
+					<div class="dialog_text" style="text-align:center">
+						
+					</div>
 				</div>
 			</div>
 		</div>

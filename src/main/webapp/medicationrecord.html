@@ -2,37 +2,47 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 		<title>用药记录</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
 	</head>
 	<body>
-		<div data-role="page" id="frontpage">
+		<div data-role="page" id="medicationrecord">
 			<div data-role="content" style="overflow:hidden">
 				<div id="trend">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">用药记录</div>
-					<div id="recordchart" style="height:160px;width:100%">
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">用药记录</div>
+					<div id="recordchart" style="height:140px;width:90%">
 						
 					</div>
 				</div>
 				<div id="judge">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">系统评估</div>
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">系统评估</div>
 					<div id="judgechart">
-						<div id="judgechartcontainer" style="height:200px; width:180px;float:left;">
+						<div id="judgechartcontainer" style="height:140px; width:140px;float:left;">
 						</div>
-						<div id="judge_text" style="float:left; font-size:30px; color:green; font-weight:bold; margin-left:30px;margin-top:30px">
-							不规律
+						<div id="judge_text" style="float:left; font-size:24px; color:green; font-weight:bold; margin-left:30px;margin-top:30px">
+						
 						</div>
 						<div style="clear:both"> </div>
 						<div style="font-size:14px;margin-top:10px;">
-							您今天还未录入血压数据，请点击录入
-							<br>
-							<span style="color:red">&lt或已从云端获取&gt</span>
+							您今天还未录入用药数据，请点击录入
+						</div>
+					</div>
+				</div>
+				<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">
+					<div data-role="header">
+						<h1>提示</h1>
+						<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
+					</div>
+					<div data-role="content">
+						<div class="dialog_text" style="text-align:center">
+							
 						</div>
 					</div>
 				</div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
-					<input type="button" id="record_data" value="录入用药数据"></input>
-					<input type="button" id="gohome" value="返回主页"></input>
+					<a id="record_data" data-role="button" href="/lehealth/medicationinput.html" data-transition="slide">录入用药</a>
+					<a id="gohome" data-role="button" href="http://www.lehealth.com" data-transition="slide">返回主页</a>					
 				</div>
 			</div>
 		</div>
@@ -41,7 +51,6 @@
 		<script>
 			seajs.use(seajs.prefix + 'example/lehealth/medicationrecord', function(lehealth) {
 				lehealth.render();
-				lehealth.bindEvent();
 			});
 		</script>
 	</body>

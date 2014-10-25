@@ -2,20 +2,21 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 		<title>血压录入</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css">
 	</head>
 	<body>
-		<div data-role="page" id="frontpage">
+		<div data-role="page" id="bpinputpage">
 			<div data-role="content" style="overflow:hidden">
 				<div id="bpinput">
-					<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">血压数据录入</div>
+					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">血压数据录入</div>
 					<div id="sdp" style="width:100%">
 						<div style="font-size:14px; height:40px; line-height:40px">
 							<span style="font-size:20px; font-weight:bold;">收缩压</span>/毫米汞柱
 						</div>
 						<div style="width:100%; margin: 20px 0px">
-							<input type="range" name="points" id="points" value="50" min="0" max="100" data-highlight="true">
+							<input type="range" name="points" id="sbp" value="120" min="0" max="250" data-highlight="true">
 						</div>
 					</div>
 					<div id="sdp">
@@ -23,7 +24,7 @@
 							<span style="font-size:20px; font-weight:bold;">舒张压</span>/毫米汞柱
 						</div>
 						<div style="width:100%; margin: 20px 0px">
-							<input type="range" name="points" id="points" value="50" min="0" max="100" data-highlight="true">
+							<input type="range" name="points" id="dbp" value="90" min="0" max="150" data-highlight="true">
 						</div>
 					</div>
 					<div id="dpdeta" style="width:100%">
@@ -31,13 +32,24 @@
 							<span style="font-size:20px; font-weight:bold;">脉搏压</span>/毫米汞柱
 						</div>
 						<div style="width:100%; margin: 20px 0px">
-							<input type="range" name="points" id="points" value="50" min="0" max="100" data-highlight="true">
+							<input type="range" name="points" id="heartbp" value="50" min="0" max="150" data-highlight="true">
+						</div>
+					</div>
+				</div>
+				<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">
+					<div data-role="header">
+						<h1>提示</h1>
+						<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
+					</div>
+					<div data-role="content">
+						<div class="dialog_text" style="text-align:center">
+							
 						</div>
 					</div>
 				</div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
-					<input type="button" id="record_data" value="录入用药数据"></input>
-					<input type="button" id="gohome" value="返回主页"></input>
+					<a id="record_data" data-role="button">录入数据</a>
+					<a id="gohome" data-role="button" href="http://www.lehealth.com" data-transition="slide">返回主页</a>
 				</div>
 			</div>
 		</div>

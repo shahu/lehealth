@@ -45,7 +45,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		msps.addValue("recordDate", new Date(info.getDate()));
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO BpRecords VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,:date,now())";
+			sql="INSERT INTO BpRecords VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,:recordDate,now())";
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;

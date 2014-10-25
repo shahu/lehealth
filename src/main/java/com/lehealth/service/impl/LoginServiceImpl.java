@@ -23,7 +23,7 @@ public class LoginServiceImpl implements LoginService{
 	private static Logger logger = Logger.getLogger(LoginServiceImpl.class);
 
 	@Override
-	public ErrorCodeType getUser(String loginId,String password) {
+	public ErrorCodeType checkUser4Login(String loginId,String password) {
 		boolean isVaild=this.loginDao.checkUser4Login(loginId,DigestUtils.md5Hex(password));
 		if(isVaild){
 			return ErrorCodeType.normal;
@@ -35,12 +35,11 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public ErrorCodeType registerNewUser(String loginId,String password) {
 		//是否用户名存在
-		String userId=this.loginDao.getUserId(loginId);
-		if(StringUtils.isNotBlank(userId)){
+		User user=this.loginDao.getUser(loginId);
+		if(StringUtils.isNotBlank(user.getUserid())){
 			return ErrorCodeType.repeatUser;
 		}
-		User user=new User();
-		userId=TokenUtils.buildUserId(loginId);
+		String userId=TokenUtils.buildUserId(loginId);
 		user.setUserid(userId);
 		user.setLoginid(loginId);
 		user.setPassword(password);
@@ -53,11 +52,15 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public String getUserId(String loginId, String token) {
+	public String checkUser4Token(String loginId,String token) {
 		if(StringUtils.isNotBlank(loginId)
-				&&StringUtils.isNotBlank(token)
-				&&token.equals(TokenUtils.buildToken(loginId))){
-			return this.loginDao.getUserId(loginId);
+				&&StringUtils.isNotBlank(token)){
+			User user=this.loginDao.getUser(loginId);
+			if(token.equals(user.getToken())){
+				return user.getUserid();
+			}else{
+				return "";
+			}
 		}else{
 			return "";
 		}

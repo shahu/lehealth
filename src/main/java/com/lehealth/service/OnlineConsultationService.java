@@ -9,6 +9,9 @@ public interface OnlineConsultationService {
 	//获取医生列表
 	public List<Doctor> getDoctors();
 	
+	//获取医生列表
+	public Doctor getDoctor(int doctorId);
+	
 	//获取活动列表
 	public List<Activitie> getAtivities();
 	

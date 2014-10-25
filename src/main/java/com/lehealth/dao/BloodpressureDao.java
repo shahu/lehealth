@@ -9,6 +9,6 @@ public interface BloodpressureDao {
 	public List<BloodpressureInfo> selectBloodpressureRecords(String userId);
 	
 	//更新用户血压记录
-	public boolean insertBloodpressureRecord(BloodpressureInfo info);
+	public boolean updateBloodpressureRecord(BloodpressureInfo info);
 	
 }

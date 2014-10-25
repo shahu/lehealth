@@ -41,6 +41,11 @@ public class SettingsServiceImpl implements SettingsService{
 		return this.settingsDao.updateMedicineSetting(mConfig);
 	}
 
+	@Override
+	public boolean delMedicineSetting(String userId, int medicineId) {
+		return this.settingsDao.deleteMedicineSetting(userId,medicineId);
+	}
+
 	
 	//TODO 获取个人信息
 	

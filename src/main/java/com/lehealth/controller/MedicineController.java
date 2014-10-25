@@ -70,12 +70,17 @@ public class MedicineController {
 			float amount=NumberUtils.toFloat(request.getParameter("amount"));
 			float frequency=NumberUtils.toFloat(request.getParameter("frequency"));
 			int timing=NumberUtils.toInt(request.getParameter("timing"));
+			long date=NumberUtils.toLong(request.getParameter("date"));
+			if(date==0){
+				date=System.currentTimeMillis();
+			}
 			MedicineInfo mInfo=new MedicineInfo();
 			mInfo.setUserid(userId);
 			mInfo.setMedicineid(medicineId);
 			mInfo.setFrequency(frequency);
 			mInfo.setAmount(amount);
 			mInfo.setTiming(timing);
+			mInfo.setDate(date);
 			if(this.medicineService.modifyMedicineRecord(mInfo)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
@@ -103,4 +108,5 @@ public class MedicineController {
 //		}
 		return responseBody;
 	}
+	
 }

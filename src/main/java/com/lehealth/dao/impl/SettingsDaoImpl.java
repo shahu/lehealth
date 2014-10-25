@@ -3,9 +3,11 @@ package com.lehealth.dao.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.dao.SettingsDao;
@@ -55,7 +57,6 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		return true;
 	}
 
-	//TODO 一个用户多个用药,唯一索引需要修改
 	@Override
 	public List<MedicineConfig> selectMedicineSettings(String userId) {
 		String sql="SELECT * FROM MedicineSetting WHERE userid=:userid";
@@ -105,5 +106,18 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		return true;
 	}
 
-
+	@Override
+	public boolean deleteMedicineSetting(String userId, int medicineId) {
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userId", userId);
+		msps.addValue("medicineId", medicineId);
+		String sql="DELETE FROM MedicineSetting WHERE userid=:userid AND medicineid=:medicineid";
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 }

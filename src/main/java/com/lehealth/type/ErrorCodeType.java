@@ -2,10 +2,10 @@ package com.lehealth.type;
 
 public enum ErrorCodeType {
 	normal(0,""),
-	invalidUser(1,"invalid user"),
-	invalidToken(1,"invalid Token"),
-	repeatUser(2,"repeat loginid"),
-	abnormal(3,"eroor");
+	invalidUser(1,"用户名或密码错误"),
+	invalidToken(1,"请重新登录"),
+	repeatUser(2,"用户名重复，请重新输入"),
+	abnormal(3,"数据异常，请稍后再试");
 	
 	private ErrorCodeType(int code,String message) {
 		this.code = code;

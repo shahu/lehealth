@@ -1,10 +1,11 @@
 package com.lehealth.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +18,6 @@ import com.lehealth.bean.Doctor;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.service.LoginService;
 import com.lehealth.service.OnlineConsultationService;
-import com.lehealth.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/api")
@@ -50,7 +50,24 @@ public class OnlineConsultationController {
 		return responseBody;
 	}
 	
-	
+	//获取医生列表
+	@ResponseBody
+	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
+	public ResponseBean doctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+//		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
+//		String userId=this.loginService.checkUser4Token(loginId, token);
+//		if(StringUtils.isNotBlank(userId)){
+			Doctor doctor=this.onlineConsultationService.getDoctor(doctorId);
+			responseBody.setResult(doctor);
+//		}else{
+//			responseBody.setType(ErrorCodeType.invalidToken);
+//		}
+		return responseBody;
+	}
+		
 	//获取线下活动列表
 	@ResponseBody
 	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)

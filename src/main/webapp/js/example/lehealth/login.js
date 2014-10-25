@@ -97,7 +97,7 @@ define(function(require, exports, module) {
 						}
 					},
 					error: function(xhr, errormsg) {
-						cb(1001, "网络错误");
+						util.showDialog("网络错误", "register");
 					}
 				});				
 			});		

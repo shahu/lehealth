@@ -12,7 +12,8 @@ define(function(require, exports, module) {
 	};
 
 	exports.bindEvent = function() {
-		$(document).on("pageshow", function() {
+		// $(document).on("pageshow", function() {
+			console.info('init');
 			$("#dp_record_bpdata").one('click', function(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),
@@ -53,7 +54,7 @@ define(function(require, exports, module) {
 					}
 				});
 			});
-		});
+		// });
 	};
 
 });

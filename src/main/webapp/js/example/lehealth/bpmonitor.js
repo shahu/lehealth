@@ -6,7 +6,9 @@ define(function(require, exports, module) {
 	var getBpRecordUrl = "/lehealth/api/bprecords.do";
 
 	exports.render = function() {
-		$(document).one("pageshow", function() {
+		// $(document).one("pageshow", function() {
+
+			console.info('init');
 
 			util.hideAddressBar();
 
@@ -251,7 +253,7 @@ define(function(require, exports, module) {
 					}, 2000);
 				}
 			}
-		});
+		// });
 	};
 
 });

@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 
 	exports.bindEvent = function() {
 		$(document).on("pageshow", function() {
-			$('#doLogin').one('click', function(event) {
+			$('#doLogin').one('click', function doLoginFn(event) {
 				var username = $('#login_username').val(),
 					pwd = $('#login_pwd').val();
 				if(username && pwd) {
@@ -32,6 +32,7 @@ define(function(require, exports, module) {
 							if(rspData.errorcode) {
 								console.error("login error: " + rspData.errormsg);
 								util.showDialog("登录失败, " + rspData.errormsg, "login");
+								$('#doLogin').unbind('click').on('click', doLoginFn);
 							} else {
 								var jumpUrl = util.getCookieByKey("jump");
 								util.setCookie("jump", "");
@@ -51,12 +52,15 @@ define(function(require, exports, module) {
 						error: function(xhr, errormsg) {
 							console.error("login error: " + errormsg);
 							util.showDialog("登录失败, 网络错误", "login");
+							$('#doLogin').unbind('click').on('click', doLoginFn);
 						}
 					});
 				} else if(!username){
 					util.showDialog("请填写用户名", "login");
+					$('#doLogin').unbind('click').on('click', doLoginFn);
 				} else {
 					util.showDialog("请输入密码", "login");
+					$('#doLogin').unbind('click').on('click', doLoginFn);
 				}
 			});
 

@@ -54,7 +54,9 @@ define(function(require, exports, module) {
 				for (var i = 0; i < records.length; i++) {
 					var date=new Date(records[i].date);
 					var html='<li>'
-						+'<p>'+dateFormat(date)+'服用'+records[i].medicinename+records[i].frequency+'次，剂量'+records[i].amount*records[i].frequency+'毫克</p>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 14px;">'+dateFormat(date)+'</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">应服用'+records[i].medicinename+records[i].frequency+'次，每次'+records[i].amount+'片（粒）</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">已服用'+records[i].medicinename+records[i].frequency+'次，共'+records[i].frequency*records[i].amount+'片（粒）</div>'
 						+'</li>';
 					$("#listwraper").append(html);
 				}

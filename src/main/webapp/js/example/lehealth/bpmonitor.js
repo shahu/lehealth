@@ -6,9 +6,12 @@ define(function(require, exports, module) {
 	var getBpRecordUrl = "/lehealth/api/bprecords.do";
 
 	exports.render = function() {
-		$(document).on("pageshow", function() {
 
-			console.info('init');
+		$(document).off("pageshow", "#bpmonitor");
+
+		$(document).on("pageshow", "#bpmonitor", function() {
+
+			console.info('bpmonitor init');
 
 			util.hideAddressBar();
 
@@ -189,69 +192,63 @@ define(function(require, exports, module) {
 			function doRequestBpData() {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk");
-				if (username && token) {
-					$.ajax({
-						url: getBpRecordUrl,
-						type: "GET",
-						dataType: "json",
-						async: true,
-						data: {
-							loginid: username,
-							token: token
-						},
-						success: function(rspData) {
-							if (rspData.errorcode) {
-								if (rspData.errorcode == 1) { //用户校验失败
-									util.setCookie("jump", encodeURIComponent("/lehealth/bpmonitor.html"));
-									setTimeout(function() {
-										$.mobile.changePage("/lehealth/login.html", "slide");
-									}, 2000);
-									return;
-								}
-
-								util.showDialog("获取数据失败，请刷新界面", "bpmonitor");
-							} else {
-								//更新评价分数
-								var score = rspData.result.score;
-								var point = judgechart.series[0].points[0];
-								point.update(score);
-								//更新评价文案
-								var judge = rspData.result.status;
-								switch (judge) {
-									case "1":
-										$("#judge_text").html("稳定");
-										break;
-									case "2":
-										$("#judge_text").html("波动");
-										break;
-									default:
-								}
-								//更新趋势图
-								var bpDataArr = rspData.result.records;
-								var xAxisArr = [],
-									dbpArr = [],
-									sbpArr = [];
-								for (var i = 0; i < bpDataArr.length; i++) {
-									var bpobj = bpDataArr[i];
-									xAxisArr.push((new Date(bpobj.date)).getDate() + '日');
-									dbpArr.push(bpobj.dbp);
-									sbpArr.push(bpobj.sbp);
-								}
-								trendchart.xAxis[0].setCategories(xAxisArr);
-								trendchart.series[0].setData(dbpArr);
-								trendchart.series[1].setData(sbpArr);
+				$.ajax({
+					url: getBpRecordUrl,
+					type: "GET",
+					dataType: "json",
+					async: true,
+					data: {
+						loginid: username,
+						token: token
+					},
+					success: function(rspData) {
+						if (rspData.errorcode) {
+							if (rspData.errorcode == 1) { //用户校验失败
+								util.setCookie("jump", "/lehealth/bpmonitor.html");
+								setTimeout(function() {
+									$.mobile.changePage("/lehealth/login.html", "slide");
+								}, 2000);
+								return;
 							}
-						},
-						error: function(xhr, errormsg) {
+
 							util.showDialog("获取数据失败，请刷新界面", "bpmonitor");
+						} else {
+							//更新评价分数
+							var score = rspData.result.score;
+							var point = judgechart.series[0].points[0];
+							point.update(score);
+							//更新评价文案
+							var judge = rspData.result.status;
+							switch (judge) {
+								case "1":
+									$("#judge_text").html("稳定");
+									break;
+								case "2":
+									$("#judge_text").html("波动");
+									break;
+								default:
+							}
+							//更新趋势图
+							var bpDataArr = rspData.result.records;
+							var xAxisArr = [],
+								dbpArr = [],
+								sbpArr = [];
+							for (var i = 0; i < bpDataArr.length; i++) {
+								var bpobj = bpDataArr[i];
+								xAxisArr.push((new Date(bpobj.date)).getDate() + '日');
+								dbpArr.push(bpobj.dbp);
+								sbpArr.push(bpobj.sbp);
+							}
+							trendchart.xAxis[0].setCategories(xAxisArr);
+							trendchart.series[0].setData(dbpArr);
+							trendchart.series[1].setData(sbpArr);
 						}
-					});
-				} else if (!username) {
-					util.showDialog("请重新登录", "bpmonitor");
-					setTimeout(function() {
-						$.mobile.changePage("/lehealth/login.html", "slide");
-					}, 2000);
-				}
+					},
+					error: function(xhr, errormsg) {
+						util.showDialog("获取数据失败，请刷新界面", "bpmonitor");
+					}
+				});
+
 			}
 		});
 	};

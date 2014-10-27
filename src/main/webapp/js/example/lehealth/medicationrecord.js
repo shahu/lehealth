@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var getMedicineUrl = "/lehealth/api/medicinerecords.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
 
 			var username = util.getCookieByKey("loginid");
@@ -51,14 +51,16 @@ define(function(require, exports, module) {
 			});
 
 			function showRecordList(records) {
+				var html = "";
 				for (var i = 0; i < records.length; i++) {
 					var date=new Date(records[i].date);
-					var html='<li>'
+					html +='<li>'
 						+'<p>'+dateFormat(date)+'服用'+records[i].medicinename+records[i].frequency+'次，剂量'+records[i].amount*records[i].frequency+'毫克</p>'
 						+'</li>';
-					$("#listwraper").append(html);
+					
 				}
-				$('#listwraper').listview("refresh");
+				// $("#listwraper").html(html);
+				// $('#listwraper').listview("refresh");
 			}
 			
 			function dateFormat(date){

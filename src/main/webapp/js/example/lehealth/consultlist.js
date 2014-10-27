@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 							html += 
 								'<li><a href="/lehealth/expertdetail.html" id="' 
 									+ doctor.id + 
-									'"><img src="images/person.jpg" style="width:80px; height:80px"><h2>' 
+									'" ><img src="images/person.jpg" style="width:80px; height:80px"><h2>' 
 									+ doctor.name 
 									+ '</h2><p>' + doctor.desc + '</p></a></li>';
 						}

@@ -1,5 +1,8 @@
 package com.lehealth.service.impl;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,6 +30,12 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		result.setScore(98);
 		result.setStatus("2");
 		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId);
+		Collections.sort(list, new Comparator<BloodpressureInfo>() {
+			@Override
+			public int compare(BloodpressureInfo o1, BloodpressureInfo o2) {
+				return (int) (o1.getDate()-o2.getDate());
+			}
+		});
 		result.setRecords(list);
 		return result;
 	}

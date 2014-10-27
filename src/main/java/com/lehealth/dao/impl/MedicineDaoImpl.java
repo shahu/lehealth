@@ -53,7 +53,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		while(rs.next()){
 			MedicineInfo info=new MedicineInfo();
 			info.setAmount(rs.getFloat("amount"));
-			info.setDate(rs.getDate("userdate").getTime());
+			info.setDate(rs.getDate("recordDate").getTime());
 			info.setFrequency(rs.getFloat("frequency"));
 			info.setMedicineid(rs.getInt("medicineid"));
 			info.setTiming(rs.getInt("timing"));

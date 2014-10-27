@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -47,7 +49,7 @@ public class SettingsController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureConfig bpConfig=this.settingsService.getBloodpressureSetting(userId);
-			responseBody.setResult(bpConfig);
+			responseBody.setResult(bpConfig.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -63,10 +65,10 @@ public class SettingsController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			int dbp1=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("dbp1")));
-			int dbp2=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("dbp2")));
-			int sbp1=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("sbp1")));
-			int sbp2=NumberUtils.toInt(StringUtils.trimToEmpty(request.getParameter("sbp2")));
+			int dbp1=NumberUtils.toInt(request.getParameter("dbp1"));
+			int dbp2=NumberUtils.toInt(request.getParameter("dbp2"));
+			int sbp1=NumberUtils.toInt(request.getParameter("sbp1"));
+			int sbp2=NumberUtils.toInt(request.getParameter("sbp2"));
 			BloodpressureConfig bpConfig=new BloodpressureConfig();
 			bpConfig.setUserid(userId);
 			bpConfig.setDbp1(dbp1);
@@ -94,7 +96,11 @@ public class SettingsController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<MedicineConfig> list=this.settingsService.getMedicineSettings(userId);
-			responseBody.setResult(list);
+			JSONArray arr=new JSONArray();
+			for(MedicineConfig mc:list){
+				arr.add(mc.toJsonObj());
+			}
+			responseBody.setResult(arr);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

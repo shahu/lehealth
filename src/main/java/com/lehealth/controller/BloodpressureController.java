@@ -3,6 +3,7 @@ package com.lehealth.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.BloodpressureResult;
 import com.lehealth.bean.ResponseBean;
@@ -43,7 +45,7 @@ public class BloodpressureController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId);
-			responseBody.setResult(result);
+			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

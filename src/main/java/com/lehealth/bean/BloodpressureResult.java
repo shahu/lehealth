@@ -3,7 +3,8 @@ package com.lehealth.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lehealth.util.JacksonGlobalMappers;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class BloodpressureResult {
 	
@@ -11,22 +12,24 @@ public class BloodpressureResult {
 	private int score=0;
 	private List<BloodpressureInfo> records=new ArrayList<BloodpressureInfo>();
 	
-	public String getStatus() {
-		return status;
-	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public int getScore() {
-		return score;
 	}
 	public void setScore(int score) {
 		this.score = score;
 	}
-	public List<BloodpressureInfo> getRecords() {
-		return records;
-	}
 	public void setRecords(List<BloodpressureInfo> records) {
 		this.records = records;
+	}
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("status", status);
+		obj.accumulate("score", score);
+		JSONArray arr=new JSONArray();
+		for(BloodpressureInfo record:records){
+			arr.add(record.toJsonObj());
+		}
+		obj.accumulate("records", arr);
+		return obj;
 	}
 }

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -49,7 +51,7 @@ public class MedicineController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			MedicineResult result=this.medicineService.getMedicineRecords(userId);
-			responseBody.setResult(result);
+			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -96,16 +98,13 @@ public class MedicineController {
 	@ResponseBody
 	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
 	public ResponseBean medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-//		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-//		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-//		String userId=this.loginService.checkUser4Token(loginId, token);
-//		if(StringUtils.isNotBlank(userId)){
-			List<MedicineCategroy> list=this.medicineService.getMedicines();
-			responseBody.setResult(list);
-//		}else{
-//			responseBody.setType(ErrorCodeType.invalidToken);
-//		}
+		List<MedicineCategroy> list=this.medicineService.getMedicines();
+		JSONArray arr=new JSONArray();
+		for(MedicineCategroy mc:list){
+			arr.add(mc.toJsonObj());
+		}
+		responseBody.setResult(arr);
 		return responseBody;
 	}
 	

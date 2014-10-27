@@ -1,25 +1,37 @@
 package com.lehealth.bean;
 
 import com.lehealth.type.ErrorCodeType;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class ResponseBean {
 	
 	private ErrorCodeType type=ErrorCodeType.normal;
-	private Object result="";
+	private JSONObject resultObj=null;
+	private JSONArray resultArr=null;
 	
-	public int getErrorcode() {
-		return  type.getCode();
-	}
 	public void setType(ErrorCodeType type) {
-		this.type=type;
+		this.type = type;
 	}
-	public String getErrormsg() {
+	public int getErrorcode(){
+		return type.getCode();
+	}
+	public String getErrormsg(){
 		return type.getMessage();
 	}
 	public Object getResult() {
-		return result;
+		if(resultObj!=null){
+			return resultObj;
+		}else if(resultArr!=null){
+			return resultArr;
+		}else{
+			return "";
+		}
 	}
-	public void setResult(Object result) {
-		this.result = result;
+	public void setResult(JSONObject result) {
+		this.resultObj = result;
+	}
+	public void setResult(JSONArray result) {
+		this.resultArr = result;
 	}
 }

@@ -1,9 +1,12 @@
 package com.lehealth.bean;
 
+import net.sf.json.JSONObject;
+
 public class MedicineConfig {
 
 	private String userid="";
 	private int medicineid=0;
+	private String medicinename="";
 	private float amount=0;
 	private float frequency=0;
 	private int timing=0;
@@ -52,5 +55,21 @@ public class MedicineConfig {
 	public void setTiming(int timing) {
 		this.timing = timing;
 	}
-	
+	public String getMedicinename() {
+		return medicinename;
+	}
+	public void setMedicinename(String medicinename) {
+		this.medicinename = medicinename;
+	}
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("medicineid", medicineid);
+		obj.accumulate("medicinename", medicinename);
+		obj.accumulate("amount", amount);
+		obj.accumulate("frequency", frequency);
+		obj.accumulate("timing", timing);
+		obj.accumulate("datefrom", datefrom);
+		obj.accumulate("dateto", dateto);
+		return obj;
+	}
 }

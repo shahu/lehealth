@@ -42,7 +42,7 @@ public class LoginController {
 				User user=new User();
 				user.setLoginid(loginId);
 				user.setPassword(password);
-				responseBody.setResult(user);
+				responseBody.setResult(user.toJsonObj());
 			}
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);

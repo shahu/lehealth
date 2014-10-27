@@ -3,10 +3,12 @@ package com.lehealth.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 public class MedicineResult {
 	
 	private int status=1;
-	private int score=0;
 	private List<MedicineInfo> records=new ArrayList<MedicineInfo>();
 	
 	public int getStatus() {
@@ -21,10 +23,14 @@ public class MedicineResult {
 	public void setRecords(List<MedicineInfo> records) {
 		this.records = records;
 	}
-	public int getScore() {
-		return score;
-	}
-	public void setScore(int score) {
-		this.score = score;
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("status", status);
+		JSONArray arr=new JSONArray();
+		for(MedicineInfo record:records){
+			arr.add(record.toJsonObj());
+		}
+		obj.accumulate("records", arr);
+		return obj;
 	}
 }

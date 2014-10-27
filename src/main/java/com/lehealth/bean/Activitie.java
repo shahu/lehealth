@@ -1,5 +1,7 @@
 package com.lehealth.bean;
 
+import net.sf.json.JSONObject;
+
 public class Activitie {
 	
 	private int id=0;
@@ -9,7 +11,6 @@ public class Activitie {
 	//TODO 医院id
 	private String location="";
 	private String desc="";
-	//TODO 报名状态
 	private String externalurl="";
 	
 	public int getId() {
@@ -53,5 +54,17 @@ public class Activitie {
 	}
 	public void setExternalurl(String externalurl) {
 		this.externalurl = externalurl;
+	}
+	
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("id", id);
+		obj.accumulate("name", name);
+		obj.accumulate("starttime", starttime);
+		obj.accumulate("endtime", endtime);
+		obj.accumulate("location", location);
+		obj.accumulate("desc", desc);
+		obj.accumulate("externalurl", externalurl);
+		return obj;
 	}
 }

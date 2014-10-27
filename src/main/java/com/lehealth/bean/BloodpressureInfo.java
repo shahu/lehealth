@@ -1,9 +1,10 @@
 package com.lehealth.bean;
 
+import net.sf.json.JSONObject;
+
 public class BloodpressureInfo {
 	
 	private String userid="";
-	//TODO date不止到天
 	private long date=0;
 	private int dbp=0;
 	private int sbp=0;
@@ -40,4 +41,12 @@ public class BloodpressureInfo {
 		this.heartrate = heartrate;
 	}
 	
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("date", date);
+		obj.accumulate("dbp", dbp);
+		obj.accumulate("sbp", sbp);
+		obj.accumulate("heartrate", heartrate);
+		return obj;
+	}
 }

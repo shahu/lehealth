@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -59,25 +60,22 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	@Override
 	public List<MedicineConfig> selectMedicineSettings(String userId) {
-		String sql="SELECT * FROM MedicineSetting WHERE userid=:userid";
+		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineSetting t1 "
+				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
+				+"WHERE userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userId", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		List<MedicineConfig> list=new ArrayList<MedicineConfig>();
 		while(rs.next()){
-			int medicineid=rs.getInt("medicineid");
-			float amount=rs.getFloat("amount");
-			float frequency=rs.getFloat("frequency");
-			int timing=rs.getInt("timing");
-			long datefrom=rs.getDate("datefrom").getTime();
-			long dateto=rs.getDate("dateto").getTime();
 			MedicineConfig mConfig=new MedicineConfig();
-			mConfig.setMedicineid(medicineid);
-			mConfig.setAmount(amount);
-			mConfig.setFrequency(frequency);
-			mConfig.setTiming(timing);
-			mConfig.setDatefrom(datefrom);
-			mConfig.setDateto(dateto);
+			mConfig.setMedicineid(rs.getInt("medicineid"));
+			mConfig.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));;
+			mConfig.setAmount(rs.getFloat("amount"));
+			mConfig.setFrequency(rs.getFloat("frequency"));
+			mConfig.setTiming(rs.getInt("timing"));
+			mConfig.setDatefrom(rs.getDate("datefrom").getTime());
+			mConfig.setDateto(rs.getDate("dateto").getTime());
 			list.add(mConfig);
 		}
 		return list;

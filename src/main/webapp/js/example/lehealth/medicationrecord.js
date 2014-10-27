@@ -7,15 +7,10 @@ define(function(require, exports, module) {
 
 	exports.render = function() {
 		$(document).bind("pageinit", function() {
-
 			util.hideAddressBar();
 
-			var recordchart,
-				judgechart,
-				chartcount = 2;
-
-			var username = util.getCookieByKey("loginid"),
-				token = util.getCookieByKey("tk");
+			var username = util.getCookieByKey("loginid");
+			var	token = util.getCookieByKey("tk");
 			
 			$.ajax({
 				url: getMedicineUrl,
@@ -35,7 +30,6 @@ define(function(require, exports, module) {
 							}, 2000);
 							return;
 						}
-
 						util.showDialog("获取数据失败，请刷新界面", "medicationrecord");
 					} else {
 						var judge = rspData.result.status;
@@ -56,26 +50,31 @@ define(function(require, exports, module) {
 				}
 			});
 
-			function showRecordChart(records) {
-				var seriesData = [],
-					tmpMap = {};
+			function showRecordList(records) {
 				for (var i = 0; i < records.length; i++) {
-					if (!tmpMap[records[i].medicinename]) {
-						tmpMap[records[i].medicinename] = [];
-					}
-					var dataArr = tmpMap[records[i].medicinename];
-					dataArr.push([
-						new Date(records[i].date).getDate(),
-						records[i].amount * records.frequency
-					]);
+					var date=new Date(records[i].date);
+					var html='<li>'
+						+'<p>'+dateFormat(date)+'服用'+records[i].medicinename+records[i].frequency+'次，剂量'+records[i].amount*records[i].frequency+'毫克</p>'
+						+'</li>';
+					$("#listwraper").append(html);
 				}
-
-				for (var i in tmpMap) {
-					seriesData.push({
-						name: i,
-						color: 'rgba(223, 83, 83, .5)',
-						data: tmpMap[i]
-					});
+				$('#listwraper').listview("refresh");
+			}
+			
+			function dateFormat(date){
+				if(date){
+					var year=date.getFullYear();
+					var month=date.getMonth()+1;
+					if(month<=9){
+						month="0"+month;
+					}
+					var day=date.getDate();
+					if(day<=9){
+						day="0"+day;
+					}
+					return year+"年"+month+"月"+day+"日";
+				}else{
+					return "";
 				}
 			}
 		});

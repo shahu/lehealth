@@ -1,5 +1,7 @@
 package com.lehealth.bean;
 
+import net.sf.json.JSONObject;
+
 public class BloodpressureConfig {
 
 	private String userid="";
@@ -37,5 +39,14 @@ public class BloodpressureConfig {
 	}
 	public void setSbp2(int sbp2) {
 		this.sbp2 = sbp2;
+	}
+	
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("dbp1", dbp1);
+		obj.accumulate("dbp2", dbp2);
+		obj.accumulate("sbp1", sbp1);
+		obj.accumulate("sbp2", sbp2);
+		return obj;
 	}
 }

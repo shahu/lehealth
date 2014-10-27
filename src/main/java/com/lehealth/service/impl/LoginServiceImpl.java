@@ -56,7 +56,7 @@ public class LoginServiceImpl implements LoginService{
 		if(StringUtils.isNotBlank(loginId)
 				&&StringUtils.isNotBlank(token)){
 			User user=this.loginDao.getUser(loginId);
-			if(token.equals(user.getToken())){
+			if(user.validToken(token)){
 				return user.getUserid();
 			}else{
 				return "";

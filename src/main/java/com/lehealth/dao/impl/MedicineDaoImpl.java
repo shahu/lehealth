@@ -45,7 +45,10 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
 	public List<MedicineInfo> selectMedicineRecords(String userId) {
-		String sql="SELECT * FROM MedicineRecords WHERE userid=:userid ORDER BY recordDate DESC limit 7";
+		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineRecords t1 "
+				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
+				+"WHERE userid=:userid "
+				+"ORDER BY recordDate DESC LIMIT 7";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		List<MedicineInfo> list = new ArrayList<MedicineInfo>();
@@ -56,6 +59,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 			info.setDate(rs.getDate("recordDate").getTime());
 			info.setFrequency(rs.getFloat("frequency"));
 			info.setMedicineid(rs.getInt("medicineid"));
+			info.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
 			info.setTiming(rs.getInt("timing"));
 			list.add(info);
 		}

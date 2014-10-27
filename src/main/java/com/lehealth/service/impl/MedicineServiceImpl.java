@@ -25,7 +25,6 @@ public class MedicineServiceImpl implements MedicineService{
 	@Override
 	public MedicineResult getMedicineRecords(String userId) {
 		MedicineResult result=new MedicineResult();
-		result.setScore(47);
 		result.setStatus(1);
 		List<MedicineInfo> list=this.medicineDao.selectMedicineRecords(userId);
 		result.setRecords(list);

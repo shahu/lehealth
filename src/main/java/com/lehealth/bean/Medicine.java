@@ -1,5 +1,7 @@
 package com.lehealth.bean;
 
+import net.sf.json.JSONObject;
+
 public class Medicine {
 	
 	//TODO 药物增加厂商用于区别
@@ -19,4 +21,10 @@ public class Medicine {
 		this.name = name;
 	}
 	
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("id", id);
+		obj.accumulate("name", name);
+		return obj;
+	}
 }

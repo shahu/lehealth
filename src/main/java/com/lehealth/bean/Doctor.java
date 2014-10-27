@@ -1,5 +1,7 @@
 package com.lehealth.bean;
 
+import net.sf.json.JSONObject;
+
 public class Doctor {
 	
 	private int id=0;
@@ -61,4 +63,16 @@ public class Doctor {
 		this.image = image;
 	}
 	
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("id", id);
+		obj.accumulate("name", name);
+		obj.accumulate("gender", gender);
+		obj.accumulate("title", title);
+		obj.accumulate("hospital", hospital);
+		obj.accumulate("desc", desc);
+		obj.accumulate("thumbnail", thumbnail);
+		obj.accumulate("image", image);
+		return obj;
+	}
 }

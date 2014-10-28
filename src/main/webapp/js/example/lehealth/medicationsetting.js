@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 				async: true,
 				success: function(rspData) {
 					if (rspData.errorcode) {
-						util.showDialog("获取数据失败，请刷新界面", "medicationinput");
+						util.showDialog("获取数据失败，请刷新界面", "medicationsetting");
 					} else {
 						var results = rspData.result;
 						var html = "";
@@ -30,9 +30,9 @@ define(function(require, exports, module) {
 							}
 							html += '</optgroup>';
 						}
-						$('#medacine_name').empty();
-						$('#medacine_name').html(html);
-						$('#medacine_name').selectmenu("refresh");
+						$('#medacine').empty();
+						$('#medacine').html(html);
+						$('#medacine').selectmenu("refresh");
 					}
 				},
 				error: function(xhr, errormsg) {

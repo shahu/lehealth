@@ -13,10 +13,22 @@ define(function(require, exports, module) {
 
 	exports.bindEvent = function() {
 
+		$.mobile.loading( 'show', {
+				text: '页面加载中...',
+				textVisible: true,
+				theme: 'c',
+				html: ''
+		});		
+
 		$(document).off("pageshow", "#bpinputpage");
 
 		$(document).on("pageshow", "#bpinputpage", function() {
 			console.info('bp input init');
+
+			$("body").css("display", "inline");
+
+			$.mobile.loading('hide');			
+
 			$("#dp_record_bpdata").off('click');
 			$("#dp_record_bpdata").on('click', function do_record_bpdateFn(event) {
 				var username = util.getCookieByKey("loginid"),
@@ -45,8 +57,7 @@ define(function(require, exports, module) {
 								}, 2000);
 								return;
 							}
-							util.showDialog("提交数据失败，请重新提交", "bpinputpage");
-							// $("#dp_record_bpdata").unbind('click').one('click', do_record_bpdateFn);
+							util.toast("提交数据失败，请重新提交");
 						} else {
 							//两秒后隐藏
 							setTimeout(function() {
@@ -55,8 +66,7 @@ define(function(require, exports, module) {
 						}
 					},
 					error: function(xhr, errormsg) {
-						util.showDialog("提交数据失败，请重新提交", "bpinputpage");
-						// $("#dp_record_bpdata").unbind('click').one('click', do_record_bpdateFn);
+						util.toast("提交数据失败，请重新提交");
 					}
 				});
 			});

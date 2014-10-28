@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>新增用药计划</title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" />
+	</head>
+	<body>
+		<div data-role="page" data-theme="f" id="medicationrecord">
+			<div data-role="content" style="overflow:hidden">
+				<div id="bpinput">
+					<div id="input_data" style="margin-top:30px;">
+						<div style="width:100%;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药品名称</label>
+							<select name="medacine" id="medacine" style="width:79%"></select>
+							<div style="clear:both"></div>
+						</div>
+						<div style="width:100%;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">每日服用次数</label>
+							<select name="frequency" id="frequency" style="width:79%">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+							<div style="clear:both"></div>
+						</div>
+						<div style="width:100%;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">每次服用片数</label>
+							<select name="amount" id="amount" style="width:79%">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+							<div style="clear:both"></div>
+						</div>
+						<div style="width:100%;margin-bottom:0px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">服用时间</label>
+							<select name="timing" id="timing" style="width:79%">
+								<option value="1">早饭前</option>
+								<option value="2">早饭后</option>
+								<option value="3">午饭前</option>
+								<option value="4">午饭后</option>
+								<option value="5">晚饭前</option>
+								<option value="6">晚饭后</option>
+							</select>
+							<div style="clear:both"></div>
+						</div>
+						<div style="width:100%;margin-bottom:0px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">疗程开始时间</label>
+							<input type="text" data-role="datebox" id="datefrom" name="datefrom" readonly="readonly"/>
+							<div style="clear:both"></div>
+						</div>
+						<div style="width:100%;margin-bottom:0px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">疗程结束时间</label>
+							<input type="text" data-role="datebox" id="dateto" name="dateto" readonly="readonly"/>
+							<div style="clear:both"></div>
+						</div>
+					</div>
+				</div>
+				<div class="occupying" style="height: 115px;width: 100%;"></div>
+				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
+					<a id="config_submit" data-role="button">添加用药计划</a>
+					<a id="gohome" data-role="button" href="http://lehealth.net.cn/" data-transition="slide">返回主页</a>
+				</div>
+			</div>
+		</div>
+		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+		<script src="js/seajs-config.js"></script>
+		<script>
+			seajs.use(seajs.prefix + 'example/lehealth/medicationconfigsetting', function(lehealth) {
+				lehealth.render();
+			});
+		</script>
+	</body>
+</html>

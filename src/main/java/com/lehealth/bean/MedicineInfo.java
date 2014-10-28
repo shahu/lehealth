@@ -8,6 +8,11 @@ public class MedicineInfo {
 	private long date=0;
 	private int medicineid=0;
 	private String medicinename="";
+	//用药设置信息
+	private float schedulamount=0;
+	private float schedulfrequency=0;
+	private int schedultiming=0;
+	//实际用药信息
 	private float amount=0;
 	private float frequency=0;
 	private int timing=0;
@@ -53,6 +58,25 @@ public class MedicineInfo {
 	}
 	public void setMedicinename(String medicinename) {
 		this.medicinename = medicinename;
+	}
+	public float getSchedulamount() {
+		return schedulamount;
+	}
+	public void setSchedulamount(float schedulamount) {
+		this.schedulamount = schedulamount;
+	}
+	public float getSchedulfrequency() {
+		return schedulfrequency;
+	}
+	
+	public void setSchedulfrequency(float schedulfrequency) {
+		this.schedulfrequency = schedulfrequency;
+	}
+	public int getSchedultiming() {
+		return schedultiming;
+	}
+	public void setSchedultiming(int schedultiming) {
+		this.schedultiming = schedultiming;
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();

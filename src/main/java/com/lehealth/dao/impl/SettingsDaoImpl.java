@@ -62,9 +62,9 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	public List<MedicineConfig> selectMedicineSettings(String userId) {
 		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineSetting t1 "
 				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
-				+"WHERE userid=:userid ";
+				+"WHERE t1.userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", userId);
+		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		List<MedicineConfig> list=new ArrayList<MedicineConfig>();
 		while(rs.next()){

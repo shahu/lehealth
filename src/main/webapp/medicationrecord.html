@@ -10,23 +10,8 @@
 		<div data-role="page" data-theme="f" id="medicationrecord">
 			<div data-role="content" style="overflow:hidden">
 				<div id="trend">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">用药记录</div>
-					<div id="recordchart" style="height:140px;width:90%">
-						
-					</div>
-				</div>
-				<div id="judge">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">系统评估</div>
-					<div id="judgechart">
-						<div id="judgechartcontainer" style="height:140px; width:140px;float:left;">
-						</div>
-						<div id="judge_text" style="float:left; font-size:24px; color:green; font-weight:bold; margin-left:30px;margin-top:30px">
-						
-						</div>
-						<div style="clear:both"> </div>
-						<div style="font-size:14px;margin-top:10px;">
-							您今天还未录入用药数据，请点击录入
-						</div>
+					<div id="recordslist">
+						<ul data-role="listview" data-inset="true" id="listwraper"></ul>
 					</div>
 				</div>
 				<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">
@@ -40,8 +25,9 @@
 						</div>
 					</div>
 				</div>
+				<div class="occupying" style="height: 115px;width: 100%;"></div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
-					<a id="record_data" data-role="button" href="/lehealth/medicationinput.html" data-transition="slide">录入用药</a>
+					<a id="record_add" data-role="button" href="/lehealth/medicationinput.html" data-transition="slide">录入用药</a>
 					<a id="gohome" data-role="button" href="http://lehealth.net.cn/" data-transition="slide">返回主页</a>					
 				</div>
 			</div>

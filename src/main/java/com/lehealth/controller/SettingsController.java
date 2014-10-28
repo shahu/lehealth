@@ -116,7 +116,7 @@ public class SettingsController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			int medicineId=NumberUtils.toInt(request.getParameter("Medicineid"));
+			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			int amount=NumberUtils.toInt(request.getParameter("amount"));
 			int frequency=NumberUtils.toInt(request.getParameter("frequency"));
 			int timing=NumberUtils.toInt(request.getParameter("timing"));

@@ -10,79 +10,9 @@
 		<div data-role="page" id="medicationconfig"  data-theme="f">
 			<div data-role="content" style="overflow:hidden">
 				<div id="bpinput">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">用药计划设置</div>
-					<div id="plans" style="margin-top: 30px;">
-						<div class="bref" style="width:100%;margin-bottom: 10px;border-bottom:1px solid #c0c0c0">
-							<div style="height:40px; line-height: 40px;font-weight:bold; font-size: 20px; color: #1E90FF">
-								拜新同
-							</div>
-							<div style="height:48px; line-height: 40px; font-weight:bold; font-size: 20px; color: #555">
-								一日三次，一次三片，早餐前服用
-								<img src="images/del.jpg" style="float:right">
-							</div>
-							<div style="font-size:14px; color:#555; margin:5px 0px">
-								<span class="starttime">
-								2014年10月20日
-								</span>
-								&nbsp;~&nbsp;
-								<span class="endtime">
-								2014年10月30日
-								</span>
-							</div>
-						</div>
-						<div class="bref" style="width:100%;margin-bottom: 10px;border-bottom:1px solid #c0c0c0">
-							<div style="height:40px; line-height: 40px;font-weight:bold; font-size: 20px; color: #1E90FF">
-								拜新同
-							</div>
-							<div style="height:40px; line-height: 40px; font-weight:bold; font-size: 20px; color: #555">
-								一日三次，一次三片，早餐前服用
-								<img src="images/del.jpg" style="float:right">
-							</div>
-							<div style="font-size:14px; color:#555; margin:5px 0px">
-								<span class="starttime">
-								2014年10月20日
-								</span>
-								&nbsp;~&nbsp;
-								<span class="endtime">
-								2014年10月30日
-								</span>
-							</div>
-						</div>
-						<div class="bref" style="width:100%;margin-bottom: 10px;border-bottom:1px solid #c0c0c0">
-							<div style="height:40px; line-height: 40px;font-weight:bold; font-size: 20px; color: #1E90FF">
-								拜新同
-							</div>
-							<div style="height:40px; line-height: 40px; font-weight:bold; font-size: 20px; color: #555">
-								一日三次，一次三片，早餐前服用
-								<img src="images/del.jpg" style="float:right">
-							</div>
-							<div style="font-size:14px; color:#555; margin:5px 0px">
-								<span class="starttime">
-								2014年10月20日
-								</span>
-								&nbsp;~&nbsp;
-								<span class="endtime">
-								2014年10月30日
-								</span>
-							</div>
-						</div>
-						<div class="bref" style="width:100%;margin-bottom: 10px;border-bottom:1px solid #c0c0c0">
-							<div style="height:40px; line-height: 40px;font-weight:bold; font-size: 20px; color: #1E90FF">
-								拜新同
-							</div>
-							<div style="height:40px; line-height: 40px; font-weight:bold; font-size: 20px; color: #555">
-								一日三次，一次三片，早餐前服用
-								<img src="images/del.jpg" style="float:right">
-							</div>
-							<div style="font-size:14px; color:#555; margin:5px 0px">
-								<span class="starttime">
-								2014年10月20日
-								</span>
-								&nbsp;~&nbsp;
-								<span class="endtime">
-								2014年10月30日
-								</span>
-							</div>
+					<div id="plans">
+						<div id="settinglist" style="">
+							<ul data-role="listview" data-inset="true" id="listwraper"></ul>
 						</div>
 					</div>
 				</div>
@@ -92,13 +22,12 @@
 						<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-mini="true" data-iconpos="notext" class="ui-btn-right">Close</a>
 					</div>
 					<div data-role="content">
-						<div class="dialog_text" style="text-align:center">
-							
-						</div>
+						<div class="dialog_text" style="text-align:center"></div>
 					</div>
 				</div>
+				<div class="occupying" style="height: 115px;width: 100%;"></div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
-					<a id="config_submit" data-role="button">添加新药</a>
+					<a id="config_add" data-role="button" href="/lehealth/medicationsetting.html">添加新药</a>
 					<a id="gohome" data-role="button" href="http://lehealth.net.cn/" data-transition="slide">返回主页</a>
 				</div>
 			</div>
@@ -108,7 +37,6 @@
 		<script>
 			seajs.use(seajs.prefix + 'example/lehealth/medicationconfig', function(lehealth) {
 				lehealth.render();
-				lehealth.bindEvent();
 			});
 		</script>
 	</body>

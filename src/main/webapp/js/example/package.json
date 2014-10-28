@@ -19,18 +19,19 @@
   "licenses": "MIT",
   "spm": {
     "output": [
-    	"lehealth/activitylist.js",
+      "lehealth/activitylist.js",
       "lehealth/bpinput.js",
       "lehealth/bpmonitor.js",
       "lehealth/consultlist.js",
       "lehealth/expertdetail.js",
-      "lehealth/medicationinput.js",
-      "lehealth/medicationrecord.js",
       "lehealth/config.js",
       "lehealth/bpconfig.js",
-      "lehealth/medicationconfig.js",
       "leheanth/login.js",
-      "lehealth/common.js"
+      "lehealth/common.js",
+      "lehealth/medicationinput.js",
+      "lehealth/medicationrecord.js",
+      "lehealth/medicationconfig.js",
+      "lehealth/medicationsetting.js"
     ],
     "alias": {
       "jquery": "jquery/jquery/1.7.2/jquery",

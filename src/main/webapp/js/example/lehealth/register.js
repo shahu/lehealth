@@ -15,27 +15,35 @@ define(function(require, exports, module) {
 
 	exports.bindEvent = function() {
 
+		$.mobile.loading( 'show', {
+				text: '页面加载中...',
+				textVisible: true,
+				theme: 'c',
+				html: ''
+		});		
+
 		$(document).off("pageshow", "#register");
 		$(document).on("pageshow", "#register", function() {
+
+			$("body").css("display", "inline");
+
+			$.mobile.loading('hide');			
 
 			$("#doRegister").off("click");
 			$("#doRegister").on("click", function doRegisterFn(event) {
 				var username = $("#register_username").val(),
 					pwd = $("#register_pwd").val(),
 					repwd = $("#register_repwd").val();
-				if(!username) {
-					util.showDialog("注册名不能为空", "register");
-					// $("#doRegister").unbind('click').one('click', doRegisterFn);
+				if(!/\d{11}/.test(username)) {
+					util.toast("手机号不正确");
 					return;
 				}
 				if(!pwd || pwd.length <= 6) {
-					util.showDialog("密码不能低于六位", "register");
-					// $("#doRegister").unbind('click').one('click', doRegisterFn);
+					util.toast("密码不能低于六位");
 					return;
 				}
 				if(pwd !== repwd) {
-					util.showDialog("两次输入密码不一致", "register");
-					// $("#doRegister").unbind('click').one('click', doRegisterFn);
+					util.toast("两次输入密码不一致");
 					return;
 				}
 				$.ajax({
@@ -50,18 +58,17 @@ define(function(require, exports, module) {
 					},
 					success: function(rspData) {
 						if(rspData.errorcode) {
-							util.showDialog("注册失败，" + rspData.errormsg, "register");
-							// $("#doRegister").unbind('click').one('click', doRegisterFn);
+							util.toast("注册失败，" + rspData.errormsg);
 						} else {
-							console.info("b");
-							util.showDialog("注册成功, 请登录", "register");
+							util.toast("注册成功, 请登录");
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/login.html", {transition: "slide",reverse:"true",changeHash: true});
 							}, 2000);
 						}
 					},
 					error: function(xhr, errormsg) {
-						util.showDialog("网络错误", "register");
+						// util.showDialog("网络错误", "register");
+						util.toast("网络错误");
 						// $("#doRegister").unbind('click').one('click', doRegisterFn);
 					}
 				});				

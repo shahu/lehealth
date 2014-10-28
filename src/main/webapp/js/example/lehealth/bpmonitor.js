@@ -7,11 +7,23 @@ define(function(require, exports, module) {
 
 	exports.render = function() {
 
+		$.mobile.loading( 'show', {
+				text: '页面加载中...',
+				textVisible: true,
+				theme: 'c',
+				html: ''
+		});		
+
 		$(document).off("pageshow", "#bpmonitor");
 
 		$(document).on("pageshow", "#bpmonitor", function() {
 
+
 			console.info('bpmonitor init');
+
+			$("body").css("display", "inline");
+
+			$.mobile.loading('hide');
 
 			util.hideAddressBar();
 
@@ -64,6 +76,9 @@ define(function(require, exports, module) {
 				}, {
 					name: '收缩压',
 					data: [120, 120, 120, 120, 120, 120, 120]
+				}, {
+					name: '心率',
+					data: [80, 80, 80, 80, 80, 80, 80]
 				}],
 				credits: {
 					enabled: false
@@ -211,7 +226,7 @@ define(function(require, exports, module) {
 								return;
 							}
 
-							util.showDialog("获取数据失败，请刷新界面", "bpmonitor");
+							util.toast("获取数据失败，请刷新界面");
 						} else {
 							//更新评价分数
 							var score = rspData.result.score;
@@ -232,20 +247,23 @@ define(function(require, exports, module) {
 							var bpDataArr = rspData.result.records;
 							var xAxisArr = [],
 								dbpArr = [],
-								sbpArr = [];
+								sbpArr = [],
+								rateArr = [];
 							for (var i = 0; i < bpDataArr.length; i++) {
 								var bpobj = bpDataArr[i];
 								xAxisArr.push((new Date(bpobj.date)).getDate() + '日');
 								dbpArr.push(bpobj.dbp);
 								sbpArr.push(bpobj.sbp);
+								rateArr.push(bpobj.heartrate);
 							}
 							trendchart.xAxis[0].setCategories(xAxisArr);
 							trendchart.series[0].setData(dbpArr);
 							trendchart.series[1].setData(sbpArr);
+							trendchart.series[2].setData(rateArr);
 						}
 					},
 					error: function(xhr, errormsg) {
-						util.showDialog("获取数据失败，请刷新界面", "bpmonitor");
+						util.toast("获取数据失败，请刷新界面");
 					}
 				});
 

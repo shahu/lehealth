@@ -11,26 +11,18 @@
 	<body>
 		<div data-role="page" id="bpmonitor" data-theme="f">
 			<div data-role="content" style="overflow:hidden">
-				<div id="trend">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">血压趋势</div>
-					<div id="trendchart" style="height:140px;width:90%">
+				<div id="trend" style="margin-top:20px;">
+					<div id="trendchart" style="height:240px;width:90%">
 						
 					</div>
 				</div>
 				<div id="judge">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">系统评估</div>
-					<div id="judgechart">
-						<div id="judgechartcontainer" style="height:140px; width:140px;float:left;">
-						</div>
-						<div id="judge_text" style="float:left; font-size:30px; color:green; font-weight:bold; margin-left:30px;margin-top:30px">
-							
-						</div>
-						<div style="clear:both"> </div>
-						<div style="font-size:14px;margin-top:10px;">
-							您今天还未录入血压数据，请点击录入
-							<br>
-							<span style="color:red">&lt或已从云端获取&gt</span>
-						</div>
+					<div data-role="collapsible" data-collapsed="true">
+						<h3>评估和建议</h3>
+						<ol data-role="listview">
+					      <li><a href="#">你的血压状况为<span id="judge_text"></span></a></li>
+					      <li><a href="#">您今天还未录入血压数据，请点击录入</a></li>
+					    </ol>
 					</div>
 				</div>
 				<div data-role="popup" class="dialog" data-transition="popup" style="width:250px;height: 150px">

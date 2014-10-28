@@ -5,21 +5,22 @@
 		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 		<title>新增用药计划</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" />
+		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+		<script src="js/seajs-config.js"></script>
 	</head>
 	<body>
-		<div data-role="page" data-theme="f" id="medicationrecord">
+		<div data-role="page" data-theme="f" id="medicationsetting">
 			<div data-role="content" style="overflow:hidden">
 				<div id="bpinput">
 					<div id="input_data" style="margin-top:30px;">
 						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药品名称</label>
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药品</label>
 							<select name="medacine" id="medacine" style="width:79%">
-								<option value="1">氢氯噻嗪</option>
 							</select>
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">每日服用次数</label>
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">频率</label>
 							<select name="frequency" id="frequency" style="width:79%">
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -30,7 +31,7 @@
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">每次服用片数</label>
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">片次</label>
 							<select name="amount" id="amount" style="width:79%">
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -41,40 +42,22 @@
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">服用时间</label>
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">时段</label>
 							<select name="timing" id="timing" style="width:79%">
-								<optgroup label="每日三次">
-									<option value="1">饭前</option>
-									<option value="2">饭间</option>
-									<option value="3">饭后</option>
-								</optgroup>
-								<optgroup label="每日两次">
-									<option value="4">早晚</option>
-								</optgroup>
-								<optgroup label="每日一次">
-									<option value="5">早饭前</option>
-									<option value="6">早饭间</option>
-									<option value="7">早饭后</option>
-									<option value="8">午饭前</option>
-									<option value="9">午饭间</option>
-									<option value="10">午饭后</option>
-									<option value="11">晚饭前</option>
-									<option value="12">晚饭间</option>
-									<option value="13">晚饭后</option>
-									<option value="14">早</option>
-									<option value="45">晚</option>
-								</optgroup>
+								<option value="1">饭前</option>
+								<option value="2">饭间</option>
+								<option value="3">饭后</option>
 							</select>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">疗程开始时间</label>
-							<input type="text" data-role="datebox" id="datefrom" name="datefrom" readonly="readonly" style="width:79%"/>
+						<div data-role="fieldcontain" style="width:100%;margin-top:0;margin-bottom:40px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;">开始</label>
+							<input type="text" data-role="datebox" id="datefrom" name="datefrom" style="height:42px;"/>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:0px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">疗程结束时间</label>
-							<input type="text" data-role="datebox" id="dateto" name="dateto" readonly="readonly" style="width:79%"/>
+						<div data-role="fieldcontain" style="width:100%;margin-top:0;margin-bottom:0px;">
+							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;">结束</label>
+							<input type="text" data-role="datebox" id="dateto" name="dateto" style="height:42px;"/>
 							<div style="clear:both"></div>
 						</div>
 					</div>
@@ -85,13 +68,11 @@
 					<a id="gohome" data-role="button" href="http://lehealth.net.cn/" data-transition="slide">返回主页</a>
 				</div>
 			</div>
+			<script>
+				seajs.use(seajs.prefix + 'example/lehealth/medicationsetting', function(lehealth) {
+					lehealth.render();
+				});
+			</script>
 		</div>
-		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
-		<script src="js/seajs-config.js"></script>
-		<script>
-			seajs.use(seajs.prefix + 'example/lehealth/medicationsetting', function(lehealth) {
-				lehealth.render();
-			});
-		</script>
 	</body>
 </html>

@@ -84,7 +84,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean updateMedicineSetting(MedicineConfig mConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", mConfig.getUserid());
+		msps.addValue("userid", mConfig.getUserid());
 		msps.addValue("amount", mConfig.getAmount());
 		msps.addValue("frequency", mConfig.getFrequency());
 		msps.addValue("medicineid", mConfig.getMedicineid());

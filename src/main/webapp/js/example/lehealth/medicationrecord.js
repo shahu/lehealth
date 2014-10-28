@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var getMedicineUrl = "/lehealth/api/medicinerecords.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
 
 			var username = util.getCookieByKey("loginid");
@@ -51,12 +51,12 @@ define(function(require, exports, module) {
 			});
 
 			function showRecordList(records) {
+				$("#listwraper").append('');
 				for (var i = 0; i < records.length; i++) {
 					var date=new Date(records[i].date);
 					var html='<li>'
-
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 14px;">'+dateFormat(date)+'</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">应服用'+records[i].medicinename+records[i].frequency+'次，每次'+records[i].amount+'片（粒）</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">应服用'+records[i].medicinename+records[i].frequency+'次，每次'+records[i].amount+'片（粒）<img class="eat" id="eat_'+records[i].medicineid+'" src="images/medication.png" style="float:right"></div>'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">已服用'+records[i].medicinename+records[i].frequency+'次，共'+records[i].frequency*records[i].amount+'片（粒）</div>'
 						+'</li>';
 					$("#listwraper").append(html);

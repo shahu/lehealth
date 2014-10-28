@@ -7,12 +7,10 @@ define(function(require, exports, module) {
 	var submitMedicineRecordUrl = "/lehealth/api/medicinerecord.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
-
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
-
-			var username = util.getCookieByKey("loginid"),
-				token = util.getCookieByKey("tk");
+			var username = util.getCookieByKey("loginid");
+			var	token = util.getCookieByKey("tk");
 			$.ajax({
 				url: getMedicineListUrl,
 				type: "GET",
@@ -46,7 +44,7 @@ define(function(require, exports, module) {
 	};
 
 	exports.bindEvent = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			$("#record_data").on('click', function(event) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk"),

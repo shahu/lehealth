@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 				async: true,
 				success: function(rspData) {
 					if (rspData.errorcode) {
-						util.showDialog("获取数据失败，请刷新界面", "medicationinput");
+						util.toast("获取数据失败，请刷新界面");
 					} else {
 						var results = rspData.result;
 						var html = "";
@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 					}
 				},
 				error: function(xhr, errormsg) {
-					util.showDialog("获取数据失败，请刷新界面", "medicationinput");
+					util.toast("获取数据失败，请刷新界面");
 				}
 			});
 
@@ -68,15 +68,15 @@ define(function(require, exports, module) {
 					success: function(rspData) {
 						if (rspData.errorcode) {
 							if (rspData.errorcode === 1) {
-								util.showDialog("请重新登录", "medicationinput");
+								util.toast("请重新登录");
 								setTimeout(function() {
 									$.mobile.changePage("/lehealth/login.html", "slide");
 								}, 2000);
 								return;
 							}
-							util.showDialog("提交数据失败，请重新提交", "medicationinput");
+							util.toast("提交数据失败，请重新提交");
 						} else {
-							util.showDialog("提交成功", "medicationinput");
+							util.toast("提交成功");
 							//两秒后隐藏
 							setTimeout(function() {
 								util.dismissDialog("medicationinput");
@@ -84,7 +84,7 @@ define(function(require, exports, module) {
 						}
 					},
 					error: function(xhr, errormsg) {
-						util.showDialog("提交数据失败，请重新提交", "medicationinput");
+						util.toast("提交数据失败，请重新提交");
 					}
 				});
 			});

@@ -107,8 +107,8 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean deleteMedicineSetting(String userId, int medicineId) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", userId);
-		msps.addValue("medicineId", medicineId);
+		msps.addValue("userid", userId);
+		msps.addValue("medicineid", medicineId);
 		String sql="DELETE FROM MedicineSetting WHERE userid=:userid AND medicineid=:medicineid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){

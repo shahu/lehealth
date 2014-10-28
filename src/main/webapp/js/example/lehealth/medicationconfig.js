@@ -25,19 +25,19 @@ define(function(require, exports, module) {
 				success: function(rspData) {
 					if (rspData.errorcode) {
 						if (rspData.errorcode == 1) { //用户校验失败
-							util.showDialog("请重新登录", "medicationconfig");
+							util.toast("请重新登录");
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/login.html", "slide");
 							}, 2000);
 							return;
 						}
-						util.showDialog("获取数据失败，请刷新界面", "medicationconfig");
+						util.toast("获取数据失败，请刷新界面");
 					} else {
 						showSettingList(rspData.result);
 					}
 				},
 				error: function(xhr, errormsg) {
-					util.showDialog("获取数据失败，请刷新界面", "medicationconfig");
+					util.toast("获取数据失败，请刷新界面");
 				}
 			});
 
@@ -52,7 +52,7 @@ define(function(require, exports, module) {
 					}else if(settings[i].timing==3){
 						timing='饭后';
 					}
-					var html='<li>'
+					var html='<li id="li_'+settings[i].medicineid+'">'
 						+'<div style="line-height: 48px;vertical-align: middle;font-size: 16px;">'+settings[i].medicinename+'</div>'
 						+'<div style="line-height: 48px;vertical-align: middle;font-size: 14px;">每日'+settings[i].frequency+'次，每次'+settings[i].amount+'片（粒），'+timing+'服用<img class="del" id="del_'+settings[i].medicineid+'" src="images/del.jpg" style="float:right"></div>'
 						+'<div style="line-height: 48px;vertical-align: middle;font-size: 12px;color:#333333;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
@@ -60,6 +60,45 @@ define(function(require, exports, module) {
 					$("#listwraper").append(html);
 				}
 				$('#listwraper').listview("refresh");
+				$(".del").off('click');
+				$(".del").on('click', function(event) {
+					var username = util.getCookieByKey("loginid");
+					var	token = util.getCookieByKey("tk");
+					var	medicineid = $(this).attr("id").split("_")[1];
+					$.ajax({
+						url: delMedicineConfigUrl,
+						type: "POST",
+						dataType: "json",
+						async: true,
+						data: {
+							loginid: username,
+							token: token,
+							medicineid: medicineid,
+						},
+						success: function(rspData) {
+							if (rspData.errorcode) {
+								if (rspData.errorcode === 1) {
+									util.toast("请重新登录");
+									setTimeout(function() {
+										$.mobile.changePage("/lehealth/login.html", "slide");
+									}, 1000);
+									return;
+								}
+								util.toast("提交数据失败，请重新提交");
+							} else {
+								util.toast("删除成功");
+								//两秒后隐藏
+								setTimeout(function() {
+									$.mobile.changePage("/lehealth/medicationconfig.html", "slide");
+								}, 1000);
+								$("#li_"+medicineid).remove();
+							}
+						},
+						error: function(xhr, errormsg) {
+							util.toast("提交数据失败，请重新提交");
+						}
+					});
+				});
 			}
 			
 			function dateFormat(date){
@@ -79,45 +118,6 @@ define(function(require, exports, module) {
 				}
 			}
 			
-			//TODO 删除用药
-			$(".del").off('click');
-			$(".del").on('click', function(event) {
-				var username = util.getCookieByKey("loginid");
-				var	token = util.getCookieByKey("tk");
-				var	medicineid = $(this).attr("id").split("_")[1];
-				$.ajax({
-					url: delMedicineConfigUrl,
-					type: "GET",
-					dataType: "json",
-					async: true,
-					data: {
-						loginid: username,
-						token: token,
-						medicineid: medicineid,
-					},
-					success: function(rspData) {
-						if (rspData.errorcode) {
-							if (rspData.errorcode === 1) {
-								util.showDialog("请重新登录", "medicationsetting");
-								setTimeout(function() {
-									$.mobile.changePage("/lehealth/login.html", "slide");
-								}, 1000);
-								return;
-							}
-							util.showDialog("提交数据失败，请重新提交", "medicationsetting");
-						} else {
-							util.showDialog("提交成功", "medicationsetting");
-							//两秒后隐藏
-							setTimeout(function() {
-								$.mobile.changePage("/lehealth/medicationconfig.html", "slide");
-							}, 1000);
-						}
-					},
-					error: function(xhr, errormsg) {
-						util.showDialog("提交数据失败，请重新提交", "medicationsetting");
-					}
-				});
-			});
 		});
 	};
 });

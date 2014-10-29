@@ -20,9 +20,10 @@ define(function(require, exports, module) {
 			var datefrom=util.getParams("datefrom");
 			var dateto=util.getParams("dateto");
 			$("#medicinename").text(medicinename);
-			$("#amount").text(amount);
-			$("#timing").text(timing);
-			$("#frequency").text(frequency);
+			var plan1='每日'+frequency+'次，每次'+amount+'片';
+			var plan2=timing+'服用';
+			$("#plan1").text(plan1);
+			$("#plan2").text(plan2);
 			$("#datefrom").text(datefrom);
 			$("#dateto").text(dateto);
 			

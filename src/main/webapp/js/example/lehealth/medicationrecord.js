@@ -58,8 +58,9 @@ define(function(require, exports, module) {
 						+'&frequency='+records[i].frequency
 						+'&medicineamount='+records[i].medicineamount;
 					var html='<li>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">应服用'+records[i].medicinename+records[i].frequency+'次，每次'+timing+'服药'+records[i].amount+'片（粒）<a href="'+addurl+'"><img src="images/medication.png" style="float:right"></a></div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">已服用'+records[i].medicinename+records[i].medicineamount+'次</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">计划服用'+records[i].medicinename+records[i].frequency+'次</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">每次'+timing+'服药'+records[i].amount+'片（粒）<a href="'+addurl+'"><img src="images/medication.png" style="float:right"></a></div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">今日已服用'+records[i].medicineamount+'次</div>'
 						+'</li>';
 					$("#listwraper").append(html);
 				}

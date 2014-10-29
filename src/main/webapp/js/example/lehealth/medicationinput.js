@@ -19,8 +19,10 @@ define(function(require, exports, module) {
 			var medicineamount = util.getParams("medicineamount");
 			
 			$("#medicinename").text(medicinename);
-			var plan='每日'+frequency+'次，每次'+amount+'片（粒），'+timing+'服用';
-			$("#plan").text(plan);
+			var plan1='每日'+frequency+'次，每次'+amount+'片';
+			var plan2=timing+'服用';
+			$("#plan1").text(plan1);
+			$("#plan2").text(plan2);
 			if(!medicineamount){
 				medicineamount=0;
 			}

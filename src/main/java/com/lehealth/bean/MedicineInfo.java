@@ -65,6 +65,7 @@ public class MedicineInfo {
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
+		obj.accumulate("medicineid", medicineid);
 		obj.accumulate("medicinename", medicinename);
 		obj.accumulate("amount", amount);
 		obj.accumulate("frequency", frequency);

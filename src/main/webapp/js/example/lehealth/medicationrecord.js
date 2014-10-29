@@ -6,7 +6,8 @@ define(function(require, exports, module) {
 	var getMedicineUrl = "/lehealth/api/medicinehistory.do";
 
 	exports.render = function() {
-		$(document).bind("pageshow", function() {
+		$(document).off("pageshow", "#medicationrecord");
+		$(document).on("pageshow", "#medicationrecord", function() {
 			util.hideAddressBar();
 
 			var username = util.getCookieByKey("loginid");
@@ -41,7 +42,7 @@ define(function(require, exports, module) {
 			});
 
 			function showRecordList(records) {
-				$("#listwraper").append('');
+				$("#listwraper").html('');
 				for (var i = 0; i < records.length; i++) {
 					var timing='饭前';
 					if(records[i].timing==2){

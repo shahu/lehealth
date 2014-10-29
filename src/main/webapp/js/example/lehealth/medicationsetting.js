@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 
 	exports.render = function() {
 		$(document).off("pageshow","#medicationsetting");
-		$(document).bind("pageshow","#medicationsetting", function() {
+		$(document).on("pageshow","#medicationsetting", function() {
 			console.info("setting pageshow init");
 			util.hideAddressBar();
 			var username = util.getCookieByKey("loginid");
@@ -51,52 +51,58 @@ define(function(require, exports, module) {
 			
 			$("#config_update").off('click');
 			$("#config_update").on('click', function(event) {
-				console.info("config_update init");
-				var username = util.getCookieByKey("loginid");
-				var	token = util.getCookieByKey("tk");
-				var	medicineid = $('#medacine').val();
-				var	frequency = $("#frequency").val();
-				var	amount = $('#amount').val();
-				var	timing = $("#timing").val();
-				var	datefrom = $('#datefrom').val();
-				var	dateto = $("#dateto").val();
-				$.ajax({
-					url: submitMedicineConfigUrl,
-					type: "POST",
-					dataType: "json",
-					async: true,
-					data: {
-						loginid: username,
-						token: token,
-						medicineid: medicineid,
-						amount: amount,
-						frequency: frequency,
-						timing: timing,
-						datefrom:datefrom,
-						dateto:dateto
-					},
-					success: function(rspData) {
-						if (rspData.errorcode) {
-							if (rspData.errorcode === 1) {
-								util.toast("请重新登录");
+				var status_update=$("#status_update").val();
+				if(status_update==1){
+					$("#status_update").val(0);
+					console.info("config_update init");
+					var username = util.getCookieByKey("loginid");
+					var	token = util.getCookieByKey("tk");
+					var	medicineid = $('#medacine').val();
+					var	frequency = $("#frequency").val();
+					var	amount = $('#amount').val();
+					var	timing = $("#timing").val();
+					var	datefrom = $('#datefrom').val();
+					var	dateto = $("#dateto").val();
+					$.ajax({
+						url: submitMedicineConfigUrl,
+						type: "POST",
+						dataType: "json",
+						async: true,
+						data: {
+							loginid: username,
+							token: token,
+							medicineid: medicineid,
+							amount: amount,
+							frequency: frequency,
+							timing: timing,
+							datefrom:datefrom,
+							dateto:dateto
+						},
+						success: function(rspData) {
+							if (rspData.errorcode) {
+								if (rspData.errorcode === 1) {
+									util.toast("请重新登录");
+									setTimeout(function() {
+										$.mobile.changePage("/lehealth/login.html", "slide");
+									}, 1000);
+									return;
+								}
+								util.toast("提交数据失败，请重新提交");
+								$("#status_update").val(1);
+							} else {
+								util.toast("提交成功");
+								//两秒后隐藏
 								setTimeout(function() {
-									$.mobile.changePage("/lehealth/login.html", "slide");
+									$.mobile.changePage("/lehealth/medicationconfig.html", "slide");
 								}, 1000);
-								return;
 							}
+						},
+						error: function(xhr, errormsg) {
 							util.toast("提交数据失败，请重新提交");
-						} else {
-							util.toast("提交成功");
-							//两秒后隐藏
-							setTimeout(function() {
-								$.mobile.changePage("/lehealth/medicationconfig.html", "slide");
-							}, 1000);
+							$("#status_update").val(1);
 						}
-					},
-					error: function(xhr, errormsg) {
-						util.toast("提交数据失败，请重新提交");
-					}
-				});
+					});
+				}
 			});
 		});
 	};

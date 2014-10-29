@@ -6,146 +6,31 @@
 		<title>专家视角</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" />
 	</head>
-	<body>
+	<body style="display:none">
 		<div data-role="page" id="activitylist"  data-theme="f">
-			<div data-role="content" style="overflow:hidden">
-				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">专家视角</div>
-				<div style="height:30px;line-height:30px;color:#555; font-size:16px; background-color:#f1f1f1; margin:20px 0px 0px 0px;">线下活动推荐</div>
+			<div data-role="content">
+				<div style="height:30px;line-height:30px; font-size:16px; color:gray">线下活动推荐</div>
 				<div id="activitys">
-					<div class="activity" style="width:100%;border-bottom:1px solid #c0c0c0;">
-						<div style="width:200px;font-weight:bold; margin: 5px 0px;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							时间：下周二下午两点
-							</span>
-							<span style="float:left;margin-left:30px;">
-							地点：南汇人民医院报告厅
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="activity" style="width:100%;border-bottom:1px solid #c0c0c0;">
-						<div style="width:200px;font-weight:bold; margin: 5px 0px;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							时间：下周二下午两点
-							</span>
-							<span style="float:left;margin-left:30px;">
-							地点：南汇人民医院报告厅
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
+					<ul data-role="listview" data-inset="true" id="listwraper">
+						
+						<!-- <li>
+							<a id="acturl" href="/lehealth/bpconfig.html" data-transition="slide" style="padding:5px 10px;">
+								<h2 id="actname">糖尿病讲座</h2>
+								<p id="actdesc" style="margin: 10px 0px; font-size: 14px;width:100%;word-wrap:break-word;">糖尿病是一组以高血糖为特征的代谢性疾病。高血糖则是由于胰岛素分泌缺陷或其生物作用受损，或两者兼有引起。糖尿病时长期存在的高血糖，导致各种组织，特别是眼、肾、心脏、血管、神经的慢性损害、功能障碍。</p>
+								<div style="font-size:12px;">
+									时间：<span id="acttime">1月5日 - 2月5日</span>&nbsp;&nbsp;
+									地点：<span id="actloc">浦东区碧波路</span>
+								</div>
+							</a>
+							<div style="border-bottom:#888 1px solid"></div>
+						</li> -->
+					</ul>
 				</div>
-				<div style="height:30px;line-height:30px;color:#555; font-size:16px; background-color:#f1f1f1; margin:10px 0px 0px 0px;">推荐内容</div>
-				<div id="articles">
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; width: 200px; font-weight:bold;">
-							糖尿病行为医学的研究糖尿病行为医学的研究糖尿病
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-				</div>
+			</div>
+			<div style="height:70px"></div>
+			
+			<div style="position:fixed; padding:5px 16px;bottom:0px;left:0px;right:0px; z-index:1000;background-color:#f9f9f9">
+				<a id="gohome" data-role="button" href="http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com" data-transition="slide">返回主页</a>
 			</div>
 		</div>
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
@@ -153,7 +38,6 @@
 		<script>
 			seajs.use(seajs.prefix + 'example/lehealth/activitylist', function(lehealth) {
 				lehealth.render();
-				lehealth.bindEvent();
 			});
 		</script>
 	</body>

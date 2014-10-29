@@ -8,61 +8,84 @@
 	</head>
 	<body style="display:none">
 		<div data-role="page" id="bpconfigpage"  data-theme="f">
-			<div data-role="content" style="overflow:hidden">
-				<div id="bpinput">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">建议血压设置</div>
-					<div id="sdp" style="width:100%">
-						<div style="font-size:14px; height:40px; line-height:40px">
-							<span style="font-size:20px; font-weight:bold;">收缩压</span>/毫米汞柱
-						</div>
-						<div style="width:40%; margin: 20px 0px; float:left">
-							<input type="range" name="points" id="sbpl" value="120" min="0" max="250" data-highlight="true">
-						</div>
-						<div style="font-weight:bold; font-size: 26px; text-align: center; height: 30px; line-height: 30px;float:left; width: 20%; margin: 20px 0px;">
-							~
-						</div>
-						<div style="width:40%; margin: 20px 0px; float:left">
-							<input type="range" name="points" id="sbph" value="120" min="0" max="250" data-highlight="true">
-						</div>
-						<div style="clear:both"></div>					
-					</div>
-					<div id="sdp">
-						<div style="font-size:14px; height:40px; line-height:40px">
-							<span style="font-size:20px; font-weight:bold;">舒张压</span>/毫米汞柱
-						</div>
-						<div style="width:40%; margin: 20px 0px; float:left">
-							<input type="range" name="points" id="dbpl" value="90" min="0" max="200" data-highlight="true">
-						</div>
-						<div style="font-weight:bold; font-size: 26px; text-align: center; height: 30px; line-height: 30px;float:left; width: 20%; margin: 20px 0px;">
-							~
-						</div>
-						<div style="width:40%; margin: 20px 0px; float:left">
-							<input type="range" name="points" id="dbph" value="90" min="0" max="200" data-highlight="true">
-						</div>
-						<div style="clear:both"></div>	
-					</div>
-					<div id="dpdeta" style="width:100%">
-						<div style="font-size:14px; height:40px; line-height:40px">
-							<span style="font-size:20px; font-weight:bold;">脉搏压</span>/毫米汞柱
-						</div>
-						<div style="width:40%; margin: 20px 0px; float:left">
-							<input type="range" name="points" id="heartbpl" value="80" min="0" max="200" data-highlight="true">
-						</div>
-						<div style="font-weight:bold; font-size: 26px; text-align: center; height: 30px; line-height: 30px;float:left; width: 20%; margin: 20px 0px;">
-							~
-						</div>
-						<div style="width:40%; margin: 20px 0px; float:left">
-							<input type="range" name="points" id="heartbph" value="80" min="0" max="200" data-highlight="true">
-						</div>
-						<div style="clear:both"></div>	
-					</div>
+			<div data-role="content">
+				<div data-role="collapsible" data-collapsed="false" >
+					<h2>收缩压设置<span style="font-size:14px;color:white">/毫米汞柱</span></h2>
+					<ul data-role="listview"data-theme="f">
+						<li>
+							<div style="font-size:14px; height:46px; line-height:46px; float:left;width:20%">
+								<span style="font-size:20px;">下限</span>
+							</div>
+							<div style="width:80%;float:left;" >
+								<input type="range" name="points" id="sbpl" value="120" min="0" max="250" data-highlight="true" >
+							</div>
+							<div style="clear:both"></div>
+						</li>
+						<li>
+							<div style="font-size:14px; height:46px; line-height:46px; float:left;width:20%">
+								<span style="font-size:20px;">上限</span>
+							</div>
+							<div style="width:80%;float:left;" >
+								<input type="range" name="points" id="sbph" value="120" min="0" max="250" data-highlight="true" >
+							</div>
+							<div style="clear:both"></div>
+						</li>
+					</ul>
+				</div>
+				<div style="height:10px"></div>
+				<div data-role="collapsible" data-collapsed="false" >
+					<h2>舒张压设置<span style="font-size:14px;color:white">/毫米汞柱</span></h2>
+					<ul data-role="listview"data-theme="f">
+						<li>
+							<div style="font-size:14px; height:46px; line-height:46px; float:left;width:20%">
+								<span style="font-size:20px;">下限</span>
+							</div>
+							<div style="width:80%;float:left;" >
+								<input type="range" name="points" id="dbpl" value="120" min="0" max="250" data-highlight="true" >
+							</div>
+							<div style="clear:both"></div>
+						</li>
+						<li>
+							<div style="font-size:14px; height:46px; line-height:46px; float:left;width:20%">
+								<span style="font-size:20px;">上限</span>
+							</div>
+							<div style="width:80%;float:left;" >
+								<input type="range" name="points" id="dbph" value="120" min="0" max="250" data-highlight="true" >
+							</div>
+							<div style="clear:both"></div>
+						</li>
+					</ul>
+				</div>
+				<div style="height:10px"></div>
+				<div data-role="collapsible" data-collapsed="false" >
+					<h2>脉搏压设置<span style="font-size:14px;color:white">/毫米汞柱</span></h2>
+					<ul data-role="listview"data-theme="f">
+						<li>
+							<div style="font-size:14px; height:46px; line-height:46px; float:left;width:20%">
+								<span style="font-size:20px;">下限</span>
+							</div>
+							<div style="width:80%;float:left;" >
+								<input type="range" name="points" id="heartbpl" value="120" min="0" max="250" data-highlight="true" >
+							</div>
+							<div style="clear:both"></div>
+						</li>
+						<li>
+							<div style="font-size:14px; height:46px; line-height:46px; float:left;width:20%">
+								<span style="font-size:20px;">上限</span>
+							</div>
+							<div style="width:80%;float:left;" >
+								<input type="range" name="points" id="heartbph" value="120" min="0" max="250" data-highlight="true" >
+							</div>
+							<div style="clear:both"></div>
+						</li>
+					</ul>
 				</div>
 				
-				<div style="height:120px"></div>				
+				<div style="height:120px"></div>
 				<div style="position:fixed; padding:5px 16px;bottom:0px;left:0px;right:0px; z-index:1000;background-color:#f9f9f9">
 					<a id="config_submit" data-role="button">提交数据</a>
 					<a id="gohome" data-role="button" href="http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com" data-transition="slide">返回主页</a>
-				</div>				
+				</div>
 			</div>
 		</div>
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>

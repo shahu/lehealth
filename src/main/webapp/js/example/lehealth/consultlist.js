@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 							var seperator = (i == (results.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
 							var thumbnail = doctor.thumbnail? doctor.thumbnail : "images/person.jpg";
 							html += 
-								'<li><a href="/lehealth/expertdetail.html" id="' 
+								'<li><a href="/lehealth/expertdetail.html?id=' + doctor.id + '" id="' 
 									+ doctor.id + 
 									'" ><img src="' + thumbnail + '" style="height:80px"><h2>' 
 									+ doctor.name 

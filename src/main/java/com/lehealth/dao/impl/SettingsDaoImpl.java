@@ -29,10 +29,15 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 			int dbp2=rs.getInt("dbp2");
 			int sbp1=rs.getInt("sbp1");
 			int sbp2=rs.getInt("sbp2");
+			int heartrate1=rs.getInt("heartrate1");
+			int heartrate2=rs.getInt("heartrate2");
+			
 			bpConfig.setDbp1(dbp1);
 			bpConfig.setDbp2(dbp2);
 			bpConfig.setSbp1(sbp1);
 			bpConfig.setSbp2(sbp2);
+			bpConfig.setHeartrate1(heartrate1);
+			bpConfig.setHeartrate2(heartrate2);
 		}
 		return bpConfig;
 	}
@@ -45,10 +50,12 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		msps.addValue("dbp2", bpConfig.getDbp2());
 		msps.addValue("sbp1", bpConfig.getSbp1());
 		msps.addValue("sbp2", bpConfig.getSbp2());
-		String sql="UPDATE Bpsetting SET dbp1=:dbp1,dbp2 =:dbp2,sbp1 =:sbp1,sbp2 =:sbp2 WHERE userid=:userid;";
+		msps.addValue("heartrate1", bpConfig.getHeartrate1());
+		msps.addValue("heartrate2", bpConfig.getHeartrate2());
+		String sql="UPDATE Bpsetting SET dbp1=:dbp1,dbp2 =:dbp2,sbp1 =:sbp1,sbp2 =:sbp2,heartrate1 =:heartrate1,heartrate2 =:heartrate2 WHERE userid=:userid;";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO Bpsetting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2)";
+			sql="INSERT INTO Bpsetting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2:,:heartrate1,:heartrate2)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){

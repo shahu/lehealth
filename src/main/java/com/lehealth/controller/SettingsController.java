@@ -69,12 +69,16 @@ public class SettingsController {
 			int dbp2=NumberUtils.toInt(request.getParameter("dbp2"));
 			int sbp1=NumberUtils.toInt(request.getParameter("sbp1"));
 			int sbp2=NumberUtils.toInt(request.getParameter("sbp2"));
+			int heartrate1=NumberUtils.toInt(request.getParameter("heartrate1"));
+			int heartrate2=NumberUtils.toInt(request.getParameter("heartrate2"));
 			BloodpressureConfig bpConfig=new BloodpressureConfig();
 			bpConfig.setUserid(userId);
 			bpConfig.setDbp1(dbp1);
 			bpConfig.setDbp2(dbp2);
 			bpConfig.setSbp1(sbp1);
 			bpConfig.setSbp2(sbp2);
+			bpConfig.setHeartrate1(heartrate1);
+			bpConfig.setHeartrate2(heartrate2);
 			if(this.settingsService.modifyBloodpressureSetting(bpConfig)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

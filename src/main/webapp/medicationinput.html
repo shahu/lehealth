@@ -13,19 +13,24 @@
 			<div data-role="content" style="overflow:hidden">
 				<ul data-role="listview" data-inset="true">
 					<li style="margin-top:30px;">
-						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药品</label>
-							<span id="medicinename" style="width:79%;height:44px; line-height:44px;"></span>
+						<div style="width:100%;margin-bottom:20px;">
+							<label style="font-size:20px;height:28px; line-height:28px; width:20%; float:left">药品</label>
+							<span id="medicinename" style="width:79%;height:28px; line-height:28px;"></span>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">计划</label>
-							<span id="plan" style="width:79%;height:44px; line-height:44px;"></span>
+						<div style="width:100%;margin-bottom:20px;">
+							<label style="font-size:20px;height:28px; line-height:28px; width:20%; float:left">计划</label>
+							<span id="plan1" style="width:79%;height:28px; line-height:28px;"></span>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:40px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">已服</label>
-							<span id="amount" style="width:79%;height:44px; line-height:44px;"></span>
+						<div style="width:100%;margin-bottom:20px;">
+							<label style="font-size:20px;height:28px; line-height:28px; width:20%; float:left">时间</label>
+							<span id="plan2" style="width:79%;height:28px; line-height:28px;"></span>
+							<div style="clear:both"></div>
+						</div>
+						<div style="width:100%;margin-bottom:0;">
+							<label style="font-size:20px;height:28px; line-height:28px; width:20%; float:left">已服</label>
+							<span id="amount" style="width:79%;height:28px; line-height:28px;"></span>
 							<div style="clear:both"></div>
 						</div>
 					</li>
@@ -33,6 +38,7 @@
 				<div class="occupying" style="height: 115px;width: 100%;"></div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
 					<a id="record_update" data-role="button">确认服药</a>
+					<input id="status_update" type="hidden" value="1">
 					<a id="gohome" data-role="button" href="http://lehealth.net.cn/" data-transition="slide">返回主页</a>					
 				</div>
 			</div>

@@ -11,65 +11,48 @@
 	<body>
 		<div data-role="page" data-theme="f" id="medicationsetting">
 			<div data-role="content" style="overflow:hidden">
-				<div id="bpinput">
-					<div id="input_data" style="margin-top:30px;">
+				<ul data-role="listview" data-inset="true">
+					<li style="margin-top:30px;">
 						<div style="width:100%;margin-bottom:40px;">
 							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药品</label>
-							<select name="medacine" id="medacine" style="width:79%">
-							</select>
+							<span id="medicinename" style="width:79%height:44px; line-height:44px;"></span>
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:40px;">
 							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">频率</label>
-							<select name="frequency" id="frequency" style="width:79%">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
+							<span id="frequency" style="width:79%height:44px; line-height:44px;"></span>
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:40px;">
 							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">片次</label>
-							<select name="amount" id="amount" style="width:79%">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
+							<span id="amount" style="width:79%height:44px; line-height:44px;"></span>
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:40px;">
 							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">时段</label>
-							<select name="timing" id="timing" style="width:79%">
-								<option value="1">饭前</option>
-								<option value="2">饭间</option>
-								<option value="3">饭后</option>
-							</select>
+							<span id="timing" style="width:79%height:44px; line-height:44px;"></span>
 							<div style="clear:both"></div>
 						</div>
 						<div data-role="fieldcontain" style="width:100%;margin-top:0;margin-bottom:40px;">
 							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;">开始</label>
-							<input type="text" data-role="datebox" id="datefrom" name="datefrom" style="height:42px;"/>
+							<span id="datefrom" style="width:79%height:44px; line-height:44px;"></span>
 							<div style="clear:both"></div>
 						</div>
 						<div data-role="fieldcontain" style="width:100%;margin-top:0;margin-bottom:0px;">
 							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;">结束</label>
-							<input type="text" data-role="datebox" id="dateto" name="dateto" style="height:42px;"/>
+							<span id="dateto" style="width:79%height:44px; line-height:44px;"></span>
 							<div style="clear:both"></div>
 						</div>
-					</div>
-				</div>
+					</li>
+				</ul>
 				<div class="occupying" style="height: 115px;width: 100%;"></div>
 				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000">
-					<a id="config_update" data-role="button">添加用药计划</a>
+					<a id="config_delete" data-role="button">确认删除用药计划</a>
 					<a id="gohome" data-role="button" href="http://lehealth.net.cn/" data-transition="slide">返回主页</a>
 				</div>
 			</div>
 			<script>
-				seajs.use(seajs.prefix + 'example/lehealth/medicationsetting', function(lehealth) {
+				seajs.use(seajs.prefix + 'example/lehealth/medicationdelsetting', function(lehealth) {
 					lehealth.render();
 				});
 			</script>

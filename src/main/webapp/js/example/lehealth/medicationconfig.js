@@ -52,9 +52,17 @@ define(function(require, exports, module) {
 					}else if(settings[i].timing==3){
 						timing='饭后';
 					}
+					var delurl='/lehealth/medicationdelsetting.html?a=1'
+						+'&medicineid='+settings[i].medicineid
+						+'&medicinename='+settings[i].medicinename
+						+'&amount='+settings[i].amount
+						+'&timing='+timing
+						+'&frequency='+settings[i].frequency
+						+'&datefrom='+dateFormat(datefrom)
+						+'&dateto='+dateFormat(dateto);
 					var html='<li id="li_'+settings[i].medicineid+'">'
 						+'<div style="line-height: 48px;vertical-align: middle;font-size: 16px;">'+settings[i].medicinename+'</div>'
-						+'<div style="line-height: 48px;vertical-align: middle;font-size: 14px;">每日'+settings[i].frequency+'次，每次'+settings[i].amount+'片（粒），'+timing+'服用<img class="del" id="del_'+settings[i].medicineid+'" src="images/del.jpg" style="float:right"></div>'
+						+'<div style="line-height: 48px;vertical-align: middle;font-size: 14px;">每日'+settings[i].frequency+'次，每次'+settings[i].amount+'片（粒），'+timing+'服用<a href="'+delurl+'"><img src="images/del.jpg" style="float:right"></a></div>'
 						+'<div style="line-height: 48px;vertical-align: middle;font-size: 12px;color:#333333;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
 						+'</li>';
 					$("#listwraper").append(html);

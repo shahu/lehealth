@@ -66,6 +66,31 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		return list;
 	}
 
+	
+	@Override
+	public boolean updateMedicineHistory(MedicineInfo info){
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", info.getUserid());
+		msps.addValue("medicineid", info.getMedicineid());
+		msps.addValue("amount", info.getAmount());
+		String sql="UPDATE MedicineHistory SET amount=:amount+amount,updateTime=NOW() WHERE recordDate=:recordDate AND medicineid=:medicineid AND userid=:userid";;
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			msps.addValue("uuid", TokenUtils.buildUUid());
+			sql="INSERT INTO MedicineHistory VALUE(:uuid,:userid,:medicineid,:amount,:recordDate,now())";
+			i=this.namedJdbcTemplate.update(sql, msps);
+			if(i==0){
+				return false;
+			}else{
+				return true;
+			}
+		}else{
+			return true;
+		}
+	}
+	
+	
+	
 	@Override
 	public boolean updateMedicineRecord(MedicineInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();

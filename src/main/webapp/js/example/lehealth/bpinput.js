@@ -27,7 +27,8 @@ define(function(require, exports, module) {
 
 			$("body").css("display", "inline");
 
-			$.mobile.loading('hide');			
+			$.mobile.loading('hide');
+
 
 			$("#dp_record_bpdata").off('click');
 			$("#dp_record_bpdata").on('click', function do_record_bpdateFn(event) {

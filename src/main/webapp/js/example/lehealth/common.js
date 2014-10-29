@@ -42,6 +42,7 @@ define(function(require, exports, module) {
 	exports.getParams = function(key) {
 		var url = window.location.href;
 		var params = parseUrl(url)["search"];
+		console.info("params:" + params);
 		var paramsMap = {};
 		if (params) {
 			var array = params.split("&");

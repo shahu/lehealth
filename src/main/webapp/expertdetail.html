@@ -6,130 +6,32 @@
 		<title>专家详情</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" />
 	</head>
-	<body>
-		<div data-role="page" id="expertdetail"  data-theme="f">
+	<body style="display:none">
+		<div data-role="page" id="doctordetail"  data-theme="f">
 			<div data-role="content" style="overflow:hidden">
-				<div style="height:40px;font-weight:bold;font-size:30px;line-height:40px">在线咨询</div>
 				<div id="info" style="margin-top:20px;">
-					<img src="images/xjp.jpg" style="width:100px; height:130px; float:left">
-					<div style="padding: 10px 0px 0px 20px; float:left; color:#555; font-size:12px; width:150px">
-						<span style="font-size:18px;font-weight:bold; color:black">张医生</span>
-						华山大学教授
+					<img src="images/person.jpg" id="thumbnail" style="height:130px; float:left">
+					<div style="padding: 10px 0px 0px 20px; float:left; font-size:14px; width:150px;">
+						<span id="doctorname" style="font-size:20px;font-weight:bold; color:black"></span>&nbsp;&nbsp;
+						<span id="gender"></span>
 						<br><br>
-						常年从事临床活动,具有丰富的临床经验
+						<span id="doctortitle"></span>
 						<br><br>
-						获得三八红旗手荣誉称号
+						来自于<span id="hospital"></span>
 					</div>
 					<div style="clear:both"></div>
 				</div>
-				<div style="height:30px;line-height:30px;color:#555; font-size:16px; background-color:#f1f1f1; margin:20px 0px 0px 0px;">推荐内容</div>
-				<div id="articles">
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
-					<div class="bref" style="width:100%;border-bottom:1px solid #c0c0c0">
-						<div style="height:45px; font-weight:bold;">
-							糖尿病行为医学的研究
-						</div>
-						<div style="font-size:14px; color:#c0c0c0; margin:5px 0px">
-							<span style="float:left;">
-							学术期刊网
-							</span>
-							<span style="float:right;">
-							20分钟前
-							</span>
-							<span style="float:right; padding-right:40px">
-							评论：1000
-							</span>
-							<div style="clear:both"></div>
-						</div>
-					</div>
+				<div style="height:30px;line-height:30px; font-size:16px; background-color:#f1f1f1; margin:20px 0px 10px 0px;">医生简介</div>
+				<div id="description">
+					
 				</div>
-				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000; background-color:#f9f9f9">
-					<input type="button" id="doconsult" value="在线咨询"></input>
-				</div>
+
+				<div style="height:120px"></div>
+				
+				<div style="position:fixed; padding:5px 16px;bottom:0px;left:0px;right:0px; z-index:1000;background-color:#f9f9f9">
+					<a id="record_bpdata" data-role="button" data-transition="slide">在线咨询</a>
+					<a id="gohome" data-role="button" href="http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com" data-transition="slide">返回主页</a>
+				</div>				
 			</div>
 		</div>
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
@@ -137,7 +39,6 @@
 		<script>
 			seajs.use(seajs.prefix + 'example/lehealth/expertdetail', function(lehealth) {
 				lehealth.render();
-				lehealth.bindEvent();
 			});
 		</script>
 	</body>

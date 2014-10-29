@@ -6,7 +6,11 @@ define(function(require, exports, module) {
 	var getDoctorListUrl = "/lehealth/api/doctors.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+
+		$(document).off("pageshow", "#doctorlist");
+		$(document).on("pageshow", "#doctorlist", function() {
+
+			$("body").css("display", "inline");
 			util.hideAddressBar();
 
 			var username = util.getCookieByKey("loginid"),
@@ -18,18 +22,20 @@ define(function(require, exports, module) {
 				async: true,
 				success: function(rspData) {
 					if (rspData.errorcode) {
-						util.showDialog("获取数据失败，请刷新界面", "doctorlist");
+						util.toast("获取数据失败，请刷新界面");
 					} else {
 						var results = rspData.result;
 						var html = "";
 						for (var i = 0; i < results.length; i++) {
 							var doctor = results[i];
+							var seperator = (i == (results.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
+							var thumbnail = doctor.thumbnail? doctor.thumbnail : "images/person.jpg";
 							html += 
-								'<li><a href="/lehealth/expertdetail.html" id="' 
+								'<li><a href="/lehealth/expertdetail.html?id=' + doctor.id + '" id="' 
 									+ doctor.id + 
-									'" ><img src="images/person.jpg" style="width:80px; height:80px"><h2>' 
+									'" ><img src="' + thumbnail + '" style="height:80px"><h2>' 
 									+ doctor.name 
-									+ '</h2><p>' + doctor.desc + '</p></a></li>';
+									+ '</h2><p>' + doctor.desc + '</p></a>' + seperator + '</li>';
 						}
 						$('#listwraper').empty();
 						$('#listwraper').html(html);
@@ -37,7 +43,7 @@ define(function(require, exports, module) {
 					}
 				},
 				error: function(xhr, errormsg) {
-					util.showDialog("获取数据失败，请刷新界面", "doctorlist");
+					util.toast("获取数据失败，请刷新界面");
 				}
 			});
 

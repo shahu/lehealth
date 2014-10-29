@@ -61,8 +61,10 @@ define(function(require, exports, module) {
 					var	frequency = $("#frequency").val();
 					var	amount = $('#amount').val();
 					var	timing = $("#timing").val();
-					var	datefrom = $('#datefrom').val();
-					var	dateto = $("#dateto").val();
+					var	datefromStr = $('#datefrom').val().replace(/-/g,'/');
+					var datefrom = new Date(datefromStr);
+					var	datetoStr = $('#dateto').val().replace(/-/g,'/');
+					var dateto = new Date(datetoStr);
 					$.ajax({
 						url: submitMedicineConfigUrl,
 						type: "POST",
@@ -75,8 +77,8 @@ define(function(require, exports, module) {
 							amount: amount,
 							frequency: frequency,
 							timing: timing,
-							datefrom:datefrom,
-							dateto:dateto
+							datefrom:datefrom.getTime(),
+							dateto:dateto.getTime()
 						},
 						success: function(rspData) {
 							if (rspData.errorcode) {

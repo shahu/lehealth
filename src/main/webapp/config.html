@@ -6,29 +6,30 @@
 		<title>设置</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" />
 	</head>
-	<body>
+	<body style="display:none">
 		<div data-role="page" id="confighome"  data-theme="f">
 			<div data-role="content" style="overflow:hidden">
-				<div id="bpinput">
-					<div style="height:36px;font-weight:bold;font-size:26px;line-height:36px">设置</div>
-					<div id="wraper" style="margin-top:30px; font-size: 24px; font-weight:bold; text-align:center">
-						<div id="bpconfig" style="width:48%; height: 250px;margin-right:3.5%;float:left; border: 1px solid #555; line-height:250px">血压控制设置</div>
-						<div style="width:48%; height:250px; float:left">
-							<div id="medicationconfig" style="height:119px; border: 1px solid #555; width:100%; margin-bottom: 10px; line-height:119px">
-								用药计划设置
-							</div>
-							<div id="userconfig" style="height:119px; border: 1px solid #555; width:100%; line-height:119px">
-								个人设置
-							</div>							
-						</div>
-						<div style="clear:both"></div>
-						<div id="machineconfig" style="width:100%; height:100px; line-height:100px; border: 1px solid #555; margin-top: 20px;">
-							血压计设置
-						</div>
+				<div id="config_data" style="margin-top:10px;">
+						<span style="font-size:18px;display:block; color: #555">个性设置</span>
+						<ul data-role="listview" data-inset="true" id="listwraper" data-theme="f">
+							<li>
+								<a href="/lehealth/bpconfig.html" data-transition="slide">
+									<h2>血压设置</h2>
+								</a>
+								<div style="border-bottom:#888 1px solid"></div>
+							</li>
+							<li>
+								<a href="/lehealth/medicationsetting.html" data-transition="slide">
+									<h2>用药设置</h2>
+								</a>
+							</li>
+						</ul>
 					</div>
-					<div></div>
-				</div>
 			</div>
+			<div style="height:70px"></div>
+			<div style="position:fixed; padding:5px 16px;bottom:0px;left:0px;right:0px; z-index:1000;background-color:#f9f9f9">
+				<a id="gohome" data-role="button" href="http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com" data-transition="slide">返回主页</a>
+			</div>			
 		</div>
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
 		<script src="js/seajs-config.js"></script>

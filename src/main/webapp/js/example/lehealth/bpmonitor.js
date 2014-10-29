@@ -12,11 +12,17 @@ define(function(require, exports, module) {
 				textVisible: true,
 				theme: 'c',
 				html: ''
-		});		
+		});
 
 		$(document).off("pageshow", "#bpmonitor");
 
 		$(document).on("pageshow", "#bpmonitor", function() {
+
+			// $('.dp_tips').off('click');
+			// $('.dp_tips').on('click', 'a', function() {
+			// 	var bodyTag = document.getElementsByTagName('body')[0];
+			// 	body.scrollTop = body.scrollHeight;
+			// });				
 
 
 			console.info('bpmonitor init');
@@ -220,9 +226,7 @@ define(function(require, exports, module) {
 						if (rspData.errorcode) {
 							if (rspData.errorcode == 1) { //用户校验失败
 								util.setCookie("jump", "/lehealth/bpmonitor.html");
-								setTimeout(function() {
-									$.mobile.changePage("/lehealth/login.html", "slide");
-								}, 2000);
+								$.mobile.changePage("/lehealth/login.html", "slide");
 								return;
 							}
 

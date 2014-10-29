@@ -3,10 +3,10 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var getMedicineUrl = "/lehealth/api/medicinerecords.do";
+	var getMedicineUrl = "/lehealth/api/medicinehistory.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
 
 			var username = util.getCookieByKey("loginid");
@@ -24,62 +24,47 @@ define(function(require, exports, module) {
 				success: function(rspData) {
 					if (rspData.errorcode) {
 						if (rspData.errorcode == 1) { //用户校验失败
-							util.showDialog("请重新登录", "medicationrecord");
+							util.toast("请重新登录");
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/login.html", "slide");
 							}, 2000);
 							return;
 						}
-						util.showDialog("获取数据失败，请刷新界面", "medicationrecord");
+						util.toast("获取数据失败，请刷新界面");
 					} else {
-						var judge = rspData.result.status;
-						switch (judge) {
-							case "1":
-								$("#judge_text").html("规律");
-								break;
-							case "2":
-								$("#judge_text").html("不规律");
-								break;
-							default:
-						}
-						showRecordList(rspData.result.records);
+						showRecordList(rspData.result);
 					}
 				},
 				error: function(xhr, errormsg) {
-					util.showDialog("获取数据失败，请刷新界面", "medicationrecord");
+					util.toast("获取数据失败，请刷新界面");
 				}
 			});
 
 			function showRecordList(records) {
+				$("#listwraper").append('');
 				for (var i = 0; i < records.length; i++) {
-					var date=new Date(records[i].date);
+					var timing='饭前';
+					if(records[i].timing==2){
+						timing='饭间';
+					}else if(records[i].timing==3){
+						timing='饭后';
+					}
+					var addurl='/lehealth/medicationinput.html?a=1'
+						+'&medicineid='+records[i].medicineid
+						+'&medicinename='+records[i].medicinename
+						+'&amount='+records[i].amount
+						+'&timing='+timing
+						+'&frequency='+records[i].frequency
+						+'&medicineamount='+records[i].medicineamount;
 					var html='<li>'
-
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 14px;">'+dateFormat(date)+'</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">应服用'+records[i].medicinename+records[i].frequency+'次，每次'+records[i].amount+'片（粒）</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">已服用'+records[i].medicinename+records[i].frequency+'次，共'+records[i].frequency*records[i].amount+'片（粒）</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">应服用'+records[i].medicinename+records[i].frequency+'次，每次'+timing+'服药'+records[i].amount+'片（粒）<a href="'+addurl+'"><img src="images/medication.png" style="float:right"></a></div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">已服用'+records[i].medicinename+records[i].medicineamount+'次</div>'
 						+'</li>';
 					$("#listwraper").append(html);
 				}
 				$('#listwraper').listview("refresh");
 			}
 			
-			function dateFormat(date){
-				if(date){
-					var year=date.getFullYear();
-					var month=date.getMonth()+1;
-					if(month<=9){
-						month="0"+month;
-					}
-					var day=date.getDate();
-					if(day<=9){
-						day="0"+day;
-					}
-					return year+"年"+month+"月"+day+"日";
-				}else{
-					return "";
-				}
-			}
 		});
 	};
 });

@@ -3,57 +3,30 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var getMedicineListUrl = "/lehealth/api/medicines.do";
-	var submitMedicineRecordUrl = "/lehealth/api/medicinerecord.do";
+	var submitMedicineRecordUrl = "/lehealth/api/medicinehistory.do";
 
 	exports.render = function() {
-		$(document).bind("pageinit", function() {
-
+		$(document).bind("pageshow", function() {
 			util.hideAddressBar();
-
-			var username = util.getCookieByKey("loginid"),
-				token = util.getCookieByKey("tk");
-			$.ajax({
-				url: getMedicineListUrl,
-				type: "GET",
-				dataType: "json",
-				async: true,
-				success: function(rspData) {
-					if (rspData.errorcode) {
-						util.showDialog("获取数据失败，请刷新界面", "medicationinput");
-					} else {
-						var results = rspData.result;
-						var html = "";
-						for (var i = 0; i < results.length; i++) {
-							html += '<optgroup label="' + results[i].catename + '">';
-							var medicinesInCate = results[i].medicines;
-							for (var j = 0; j < medicinesInCate.length; j++) {
-								html += '<option value="' + medicinesInCate[j].id + '">' + medicinesInCate[j].name + '</option>';
-							}
-							html += '</optgroup>';
-						}
-						$('#medacine_name').empty();
-						$('#medacine_name').html(html);
-						$('#medacine_name').selectmenu("refresh");
-					}
-				},
-				error: function(xhr, errormsg) {
-					util.showDialog("获取数据失败，请刷新界面", "medicationinput");
-				}
-			});
-
-		});
-	};
-
-	exports.bindEvent = function() {
-		$(document).bind("pageinit", function() {
-			$("#record_data").on('click', function(event) {
-				var username = util.getCookieByKey("loginid"),
-					token = util.getCookieByKey("tk"),
-					medicineid = $('#medacine_name').val(),
-					amount = $('#medacine_amount').val(),
-					timing = $("#medacine_time").val(),
-					frequency = $("#medacine_count").val();
+			var username = util.getCookieByKey("loginid");
+			var	token = util.getCookieByKey("tk");
+			var	medicineid = util.getParams("medicineid");
+			var	medicinename = util.getParams("medicinename");
+			var amount = util.getParams("amount");
+			var timing = util.getParams("timing");
+			var frequency = util.getParams("frequency");
+			var medicineamount = util.getParams("medicineamount");
+			
+			$("#medicinename").text(medicinename);
+			var plan='每日'+frequency+'次，每次'+amount+'片（粒），'+timing+'服用';
+			$("#plan").text(plan);
+			if(!medicineamount){
+				medicineamount=0;
+			}
+			$("#amount").text(medicineamount+"次");
+			
+			$("#record_update").off('click');
+			$("#record_update").on('click', function(event) {
 				$.ajax({
 					url: submitMedicineRecordUrl,
 					type: "POST",
@@ -63,34 +36,31 @@ define(function(require, exports, module) {
 						loginid: username,
 						token: token,
 						medicineid: medicineid,
-						amount: amount,
-						frequency: frequency,
-						timing: timing
 					},
 					success: function(rspData) {
 						if (rspData.errorcode) {
 							if (rspData.errorcode === 1) {
-								util.showDialog("请重新登录", "medicationinput");
+								util.toast("请重新登录");
 								setTimeout(function() {
 									$.mobile.changePage("/lehealth/login.html", "slide");
 								}, 2000);
 								return;
 							}
-							util.showDialog("提交数据失败，请重新提交", "medicationinput");
+							util.toast("提交数据失败，请重新提交");
 						} else {
-							util.showDialog("提交成功", "medicationinput");
+							util.toast("提交成功");
 							//两秒后隐藏
 							setTimeout(function() {
-								util.dismissDialog("medicationinput");
+								$.mobile.changePage("/lehealth/medicationrecord.html", "slide");
 							}, 2000);
 						}
 					},
 					error: function(xhr, errormsg) {
-						util.showDialog("提交数据失败，请重新提交", "medicationinput");
+						util.toast("提交数据失败，请重新提交");
 					}
 				});
 			});
 		});
-	}
+	};
 
 });

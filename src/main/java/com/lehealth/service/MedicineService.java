@@ -10,10 +10,12 @@ public interface MedicineService {
 	
 	//获取用药记录
 	public MedicineResult getMedicineRecords(String userId);
-	
 	//更新用药记录
 	public boolean modifyMedicineRecord(MedicineInfo mInfo);
-	
+	//获取用药记录-新
+	public List<MedicineInfo> getMedicineHistory(String userId);
+	//更新用药记录-新
+	public boolean updateMedicineHistory(MedicineInfo info);
 	//获取药物列表
 	public List<MedicineCategroy> getMedicines();
 	

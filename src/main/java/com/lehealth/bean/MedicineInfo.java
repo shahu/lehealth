@@ -9,13 +9,11 @@ public class MedicineInfo {
 	private int medicineid=0;
 	private String medicinename="";
 	//用药设置信息
-	private float schedulamount=0;
-	private float schedulfrequency=0;
-	private int schedultiming=0;
-	//实际用药信息
 	private float amount=0;
 	private float frequency=0;
 	private int timing=0;
+	//实际用药信息
+	private float medicineamount=0;
 	
 	public String getUserid() {
 		return userid;
@@ -59,31 +57,19 @@ public class MedicineInfo {
 	public void setMedicinename(String medicinename) {
 		this.medicinename = medicinename;
 	}
-	public float getSchedulamount() {
-		return schedulamount;
+	public float getMedicineamount() {
+		return medicineamount;
 	}
-	public void setSchedulamount(float schedulamount) {
-		this.schedulamount = schedulamount;
-	}
-	public float getSchedulfrequency() {
-		return schedulfrequency;
-	}
-	
-	public void setSchedulfrequency(float schedulfrequency) {
-		this.schedulfrequency = schedulfrequency;
-	}
-	public int getSchedultiming() {
-		return schedultiming;
-	}
-	public void setSchedultiming(int schedultiming) {
-		this.schedultiming = schedultiming;
+	public void setMedicineamount(float medicineamount) {
+		this.medicineamount = medicineamount;
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("date", date);
 		obj.accumulate("medicinename", medicinename);
 		obj.accumulate("amount", amount);
 		obj.accumulate("frequency", frequency);
+		obj.accumulate("medicineamount", medicineamount);
+		obj.accumulate("timing", timing);
 		return obj;
 	}
 }

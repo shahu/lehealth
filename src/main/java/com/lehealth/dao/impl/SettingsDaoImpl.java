@@ -21,7 +21,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	public BloodpressureConfig selectBloodpressureSetting(String userId) {
 		String sql="SELECT * FROM Bpsetting WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", userId);
+		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		BloodpressureConfig bpConfig=new BloodpressureConfig();
 		if(rs.next()){
@@ -40,7 +40,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean updateBloodpressureSetting(BloodpressureConfig bpConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", bpConfig.getUserid());
+		msps.addValue("userid", bpConfig.getUserid());
 		msps.addValue("dbp1", bpConfig.getDbp1());
 		msps.addValue("dbp2", bpConfig.getDbp2());
 		msps.addValue("sbp1", bpConfig.getSbp1());
@@ -84,7 +84,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean updateMedicineSetting(MedicineConfig mConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", mConfig.getUserid());
+		msps.addValue("userid", mConfig.getUserid());
 		msps.addValue("amount", mConfig.getAmount());
 		msps.addValue("frequency", mConfig.getFrequency());
 		msps.addValue("medicineid", mConfig.getMedicineid());
@@ -107,8 +107,8 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	@Override
 	public boolean deleteMedicineSetting(String userId, int medicineId) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userId", userId);
-		msps.addValue("medicineId", medicineId);
+		msps.addValue("userid", userId);
+		msps.addValue("medicineid", medicineId);
 		String sql="DELETE FROM MedicineSetting WHERE userid=:userid AND medicineid=:medicineid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){

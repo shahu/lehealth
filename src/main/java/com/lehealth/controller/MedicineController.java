@@ -55,7 +55,6 @@ public class MedicineController {
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
 		return responseBody;
-		
 	}
 	
 	//更新用药记录
@@ -93,10 +92,31 @@ public class MedicineController {
 		return responseBody;
 	}
 	
-	//更新用药记录
+	//获取用药信息-新
 	@ResponseBody
-	@RequestMapping(value = "/addmedicinerecord.do", method = RequestMethod.POST)
-	public ResponseBean addmedicinerecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.GET)
+	public ResponseBean getmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			List<MedicineInfo> list=this.medicineService.getMedicineHistory(userId);
+			JSONArray arr=new JSONArray();
+			for(MedicineInfo info:list){
+				arr.add(info.toJsonObj());
+			}
+			responseBody.setResult(arr);
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+	
+	//更新用药记录-新
+	@ResponseBody
+	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.POST)
+	public ResponseBean addmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();

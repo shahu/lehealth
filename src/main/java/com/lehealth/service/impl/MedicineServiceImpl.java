@@ -32,15 +32,19 @@ public class MedicineServiceImpl implements MedicineService{
 	}
 
 	@Override
-	public boolean updateMedicineHistory(MedicineInfo info){
-		return this.medicineDao.updateMedicineHistory(info);
-	}
-	
-	@Override
 	public boolean modifyMedicineRecord(MedicineInfo mInfo) {
 		return this.medicineDao.updateMedicineRecord(mInfo);
 	}
 
+	@Override
+	public List<MedicineInfo> getMedicineHistory(String userId){
+		return this.medicineDao.selectMedicineHistory(userId);
+	}
+	
+	@Override
+	public boolean updateMedicineHistory(MedicineInfo info){
+		return this.medicineDao.updateMedicineHistory(info);
+	}
 	@Override
 	public List<MedicineCategroy> getMedicines() {
 		return this.medicineDao.selectMedicines();

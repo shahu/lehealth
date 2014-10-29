@@ -9,12 +9,12 @@ public interface MedicineDao {
 	
 	//获取用药记录
 	public List<MedicineInfo> selectMedicineRecords(String userId);
-	
-	//更新用药记录-新
-	public boolean updateMedicineHistory(MedicineInfo info);
 	//更新用药记录
 	public boolean updateMedicineRecord(MedicineInfo info);
-	
+	//获取用药记录
+	public List<MedicineInfo> selectMedicineHistory(String userId);
+	//更新用药记录-新
+	public boolean updateMedicineHistory(MedicineInfo info);
 	//获取药物列表
 	public List<MedicineCategroy> selectMedicines();
 	

@@ -68,45 +68,6 @@ define(function(require, exports, module) {
 					$("#listwraper").append(html);
 				}
 				$('#listwraper').listview("refresh");
-				$(".del").off('click');
-				$(".del").on('click', function(event) {
-					var username = util.getCookieByKey("loginid");
-					var	token = util.getCookieByKey("tk");
-					var	medicineid = $(this).attr("id").split("_")[1];
-					$.ajax({
-						url: delMedicineConfigUrl,
-						type: "POST",
-						dataType: "json",
-						async: true,
-						data: {
-							loginid: username,
-							token: token,
-							medicineid: medicineid,
-						},
-						success: function(rspData) {
-							if (rspData.errorcode) {
-								if (rspData.errorcode === 1) {
-									util.toast("请重新登录");
-									setTimeout(function() {
-										$.mobile.changePage("/lehealth/login.html", "slide");
-									}, 1000);
-									return;
-								}
-								util.toast("提交数据失败，请重新提交");
-							} else {
-								util.toast("删除成功");
-								//两秒后隐藏
-								setTimeout(function() {
-									$.mobile.changePage("/lehealth/medicationconfig.html", "slide");
-								}, 1000);
-								$("#li_"+medicineid).remove();
-							}
-						},
-						error: function(xhr, errormsg) {
-							util.toast("提交数据失败，请重新提交");
-						}
-					});
-				});
 			}
 			
 			function dateFormat(date){

@@ -39,6 +39,7 @@ define(function(require, exports, module) {
 						util.toast("获取数据失败，请刷新界面");
 					} else {
 						console.info("medicationconfig get medicinesettings success");
+						console.info("test1:"+rspData.result);
 						showSettingList(rspData.result);
 					}
 				},
@@ -51,7 +52,10 @@ define(function(require, exports, module) {
 			function showSettingList(settings) {
 				console.info("medicationconfig set listwraper null");
 				$("#listwraper").html('');
+				console.info("test2:"+settings);
 				for (var i = 0; i < settings.length; i++) {
+					console.info("test3:"+settings[i]);
+					console.info("test4:"+$("#listwraper").html());
 					var datefrom=new Date(settings[i].datefrom);
 					var dateto=new Date(settings[i].dateto);
 					var timing='饭前';
@@ -74,9 +78,11 @@ define(function(require, exports, module) {
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
 						+'</li>';
 					$("#listwraper").append(html);
+					console.info("test5:"+$("#listwraper").html());
 				}
 				console.info("medicationconfig listwraper refresh");
 				$('#listwraper').listview("refresh");
+				console.info("test6:"+$("#listwraper").html());
 			}
 			
 			function dateFormat(date){

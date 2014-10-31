@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
 			console.info("medicationconfig get medicinesettings ,from "+getMedicineConfigsUrl);
-			console.info("test0:"+$("#listwraper").html());
+			console.info("test0:"+$("#medicationconfiglistwraper").html());
 			$.ajax({
 				url: getMedicineConfigsUrl,
 				type: "GET",
@@ -49,15 +49,15 @@ define(function(require, exports, module) {
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
-			console.info("test7:"+$("#listwraper").html());
+			console.info("test7:"+$("#medicationconfiglistwraper").html());
 
 			function showSettingList(settings) {
-				console.info("medicationconfig set listwraper null");
-				$("#listwraper").html('');
+				console.info("medicationconfig set medicationconfiglistwraper null");
+				$("#medicationconfiglistwraper").html('');
 				console.info("test2:"+settings);
 				for (var i = 0; i < settings.length; i++) {
 					console.info("test3:"+settings[i]);
-					console.info("test4:"+$("#listwraper").html());
+					console.info("test4:"+$("#medicationconfiglistwraper").html());
 					var datefrom=new Date(settings[i].datefrom);
 					var dateto=new Date(settings[i].dateto);
 					var timing='饭前';
@@ -79,12 +79,12 @@ define(function(require, exports, module) {
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">每日'+settings[i].frequency+'次，每次'+settings[i].amount+'片，'+timing+'服用<a href="'+delurl+'"><img src="images/del.png" style="float:right"></a></div>'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
 						+'</li>';
-					$("#listwraper").append(html);
-					console.info("test5:"+$("#listwraper").html());
+					$("#medicationconfiglistwraper").append(html);
+					console.info("test5:"+$("#medicationconfiglistwraper").html());
 				}
-				console.info("medicationconfig listwraper refresh");
-				$('#listwraper').listview("refresh");
-				console.info("test6:"+$("#listwraper").html());
+				console.info("medicationconfig medicationconfiglistwraper refresh");
+				$('#medicationconfiglistwraper').listview("refresh");
+				console.info("test6:"+$("#medicationconfiglistwraper").html());
 			}
 			
 			function dateFormat(date){

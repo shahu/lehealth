@@ -20,7 +20,7 @@ define(function(require, exports, module) {
 				url: getMedicineUrl,
 				type: "GET",
 				dataType: "json",
-				async: true,
+				async: false,
 				data: {
 					loginid: username,
 					token: token

@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 				url: getMedicineConfigsUrl,
 				type: "GET",
 				dataType: "json",
-				async: true,
+				async: false,
 				data: {
 					loginid: username,
 					token: token

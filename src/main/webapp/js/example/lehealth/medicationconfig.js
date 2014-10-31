@@ -16,6 +16,7 @@ define(function(require, exports, module) {
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
 			console.info("medicationconfig get medicinesettings ,from "+getMedicineConfigsUrl);
+			console.info("test0:"+$("#listwraper").html());
 			$.ajax({
 				url: getMedicineConfigsUrl,
 				type: "GET",
@@ -48,6 +49,7 @@ define(function(require, exports, module) {
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
+			console.info("test7:"+$("#listwraper").html());
 
 			function showSettingList(settings) {
 				console.info("medicationconfig set listwraper null");
@@ -101,7 +103,6 @@ define(function(require, exports, module) {
 					return "";
 				}
 			}
-			
 		});
 	};
 });

@@ -4,15 +4,18 @@ define(function(require, exports, module) {
 	var util = require('./common');
 
 	var getMedicineConfigsUrl = "/lehealth/api/medicinesetting.do";
-	var delMedicineConfigUrl = "/lehealth/api/medicinesettingdel.do";
 	
 	exports.render = function() {
 		$(document).off("pageshow", "#medicationconfig");
 		$(document).on("pageshow", "#medicationconfig", function() {
-			console.info("config pageshow init");
+			console.info("medicationconfig pageshow init");
+			$(".navigation").show();
+			console.info("medicationconfig navigation show");
 			util.hideAddressBar();
+			console.info("medicationconfig hide show");
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
+			console.info("medicationconfig get medicinesettings ,from "+getMedicineConfigsUrl);
 			$.ajax({
 				url: getMedicineConfigsUrl,
 				type: "GET",
@@ -25,23 +28,28 @@ define(function(require, exports, module) {
 				success: function(rspData) {
 					if (rspData.errorcode) {
 						if (rspData.errorcode == 1) { //用户校验失败
+							console.info("medicationconfig get medicinesettings no login");
 							util.toast("请重新登录");
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/login.html", "slide");
 							}, 2000);
 							return;
 						}
+						console.info("medicationconfig get medicinesettings error,status="+rspData.errorcode);
 						util.toast("获取数据失败，请刷新界面");
 					} else {
+						console.info("medicationconfig get medicinesettings success");
 						showSettingList(rspData.result);
 					}
 				},
 				error: function(xhr, errormsg) {
+					console.info("medicationconfig get medicinesettings exception");
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
 
 			function showSettingList(settings) {
+				console.info("medicationconfig set listwraper null");
 				$("#listwraper").html('');
 				for (var i = 0; i < settings.length; i++) {
 					var datefrom=new Date(settings[i].datefrom);
@@ -67,6 +75,7 @@ define(function(require, exports, module) {
 						+'</li>';
 					$("#listwraper").append(html);
 				}
+				console.info("medicationconfig listwraper refresh");
 				$('#listwraper').listview("refresh");
 			}
 			

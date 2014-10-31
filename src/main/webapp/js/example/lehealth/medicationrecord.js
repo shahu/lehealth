@@ -8,11 +8,14 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow", "#medicationrecord");
 		$(document).on("pageshow", "#medicationrecord", function() {
+			console.info("medicationrecord pageshow init");
+			$(".navigation").show();
+			console.info("medicationrecord navigation show");
 			util.hideAddressBar();
-
+			console.info("medicationrecord hide show");
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
-			
+			console.info("medicationrecord get medicinerecordss ,from "+getMedicineUrl);
 			$.ajax({
 				url: getMedicineUrl,
 				type: "GET",
@@ -25,23 +28,28 @@ define(function(require, exports, module) {
 				success: function(rspData) {
 					if (rspData.errorcode) {
 						if (rspData.errorcode == 1) { //用户校验失败
+							console.info("medicationrecord get medicinesettings no login");
 							util.toast("请重新登录");
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/login.html", "slide");
 							}, 2000);
 							return;
 						}
+						console.info("medicationrecord get medicinesettings error,status="+rspData.errorcode);
 						util.toast("获取数据失败，请刷新界面");
 					} else {
+						console.info("medicationrecord get medicinesettings success");
 						showRecordList(rspData.result);
 					}
 				},
 				error: function(xhr, errormsg) {
+					console.info("medicationrecord get medicinesettings exception");
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
 
 			function showRecordList(records) {
+				console.info("medicationrecord set listwraper null");
 				$("#listwraper").html('');
 				for (var i = 0; i < records.length; i++) {
 					var timing='饭前';
@@ -64,6 +72,7 @@ define(function(require, exports, module) {
 						+'</li>';
 					$("#listwraper").append(html);
 				}
+				console.info("medicationconfig listwraper refresh");
 				$('#listwraper').listview("refresh");
 			}
 			

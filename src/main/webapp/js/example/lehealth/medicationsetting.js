@@ -9,7 +9,6 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow","#medicationsetting");
 		$(document).on("pageshow","#medicationsetting", function() {
-			console.info("setting pageshow init");
 			util.hideAddressBar();
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
@@ -92,7 +91,6 @@ define(function(require, exports, module) {
 						$("#status_update").val(1);
 						return;
 					}
-					console.info("config_update init");
 					var username = util.getCookieByKey("loginid");
 					var	token = util.getCookieByKey("tk");
 					var	medicineid = $('#medacine').val();
@@ -100,15 +98,9 @@ define(function(require, exports, module) {
 					var	amount = $('#amount').val();
 					var	timing = $("#timing").val();
 					var	datefromStr = $('#datefrom_year').val()+'/'+$('#datefrom_month').val()+'/'+$('#datefrom_day').val();
-					console.info(datefromStr);
 					var datefrom = new Date(datefromStr);
-					console.info(datefrom);
-					console.info(datefrom.getTime());
 					var	datetoStr = $('#dateto_year').val()+'/'+$('#dateto_month').val()+'/'+$('#dateto_day').val();
-					console.info(datetoStr);
 					var dateto = new Date(datetoStr);
-					console.info(dateto);
-					console.info(dateto.getTime());
 					$.ajax({
 						url: submitMedicineConfigUrl,
 						type: "POST",

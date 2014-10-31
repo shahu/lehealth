@@ -8,7 +8,6 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow","#medicationdelsetting");
 		$(document).on("pageshow","#medicationdelsetting", function() {
-			console.info("delsetting pageshow init");
 			util.hideAddressBar();
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
@@ -32,9 +31,7 @@ define(function(require, exports, module) {
 				var status_update=$("#status_update").val();
 				if(status_update==1){
 					$("#status_update").val(0);
-					console.info(window.location.href);
 					var medicineid=util.getParams("medicineid");
-					console.info("config_delete init,id="+medicineid);
 					$.ajax({
 						url: delMedicineConfigUrl,
 						type: "POST",

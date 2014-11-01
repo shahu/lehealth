@@ -23,6 +23,7 @@ public class MedicineServiceImpl implements MedicineService{
 	private static Logger logger = Logger.getLogger(MedicineServiceImpl.class);
 
 	@Override
+	@Deprecated
 	public MedicineResult getMedicineRecords(String userId) {
 		MedicineResult result=new MedicineResult();
 		result.setStatus(1);
@@ -32,6 +33,7 @@ public class MedicineServiceImpl implements MedicineService{
 	}
 
 	@Override
+	@Deprecated
 	public boolean modifyMedicineRecord(MedicineInfo mInfo) {
 		return this.medicineDao.updateMedicineRecord(mInfo);
 	}

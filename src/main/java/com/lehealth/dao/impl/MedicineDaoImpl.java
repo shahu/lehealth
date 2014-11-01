@@ -20,6 +20,7 @@ import com.lehealth.util.TokenUtils;
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
+	@Deprecated
 	@Override
 	public List<MedicineCategroy> selectMedicines() {
 		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
@@ -46,6 +47,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		return list;
 	}
 
+	@Deprecated
 	@Override
 	public List<MedicineInfo> selectMedicineRecords(String userId) {
 		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineRecords t1 "

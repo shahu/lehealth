@@ -8,8 +8,10 @@ import com.lehealth.bean.MedicineInfo;
 public interface MedicineDao {
 	
 	//获取用药记录
+	@Deprecated
 	public List<MedicineInfo> selectMedicineRecords(String userId);
 	//更新用药记录
+	@Deprecated
 	public boolean updateMedicineRecord(MedicineInfo info);
 	//获取用药记录
 	public List<MedicineInfo> selectMedicineHistory(String userId);

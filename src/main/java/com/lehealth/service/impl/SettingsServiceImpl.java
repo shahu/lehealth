@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
+import com.lehealth.bean.UserInfo;
 import com.lehealth.dao.SettingsDao;
 import com.lehealth.service.SettingsService;
 
@@ -46,9 +47,15 @@ public class SettingsServiceImpl implements SettingsService{
 		return this.settingsDao.deleteMedicineSetting(userId,medicineId);
 	}
 
-	
-	//TODO 获取个人信息
-	
-	//TODO 更新个人信息
-	
+	//获取个人信息
+	@Override
+	public UserInfo getUserInfo(String userId) {
+		return this.settingsDao.selectUserInfo(userId);
+	}
+
+	//更新个人信息
+	@Override
+	public boolean modifyUserInfo(UserInfo info) {
+		return this.settingsDao.updateUserInfo(info);
+	}
 }

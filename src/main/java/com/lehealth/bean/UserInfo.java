@@ -1,45 +1,52 @@
 package com.lehealth.bean;
 
-import java.util.Date;
-
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import com.lehealth.util.Constant;
+import java.util.Calendar;
+import net.sf.json.JSONObject;
 
 public class UserInfo {
 	
 	private String userId="";
-	private String gender="";
-	private Date birthday=new Date();
+	private String userName="";
+	private int gender=0;
+	private long birthday=0;
 	private float height=0;
 	private float weight=0;
+	private float userInfocol=0;
 	
+	public float getUserInfocol() {
+		return userInfocol;
+	}
+	public void setUserInfocol(float userInfocol) {
+		this.userInfocol = userInfocol;
+	}
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getGender() {
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public int getGender() {
 		return gender;
 	}
-	public void setGender(String gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 	public int getAge() {
-		if(birthday==null){
-			return 0;
-		}
-		int age=NumberUtils.toInt(DateFormatUtils.format(new Date(), Constant.dateFormat_yyyy));
-		age=age-NumberUtils.toInt(DateFormatUtils.format(birthday, Constant.dateFormat_yyyy));
-		if(age<0){
+		Calendar c=Calendar.getInstance();
+		int nowYear=c.get(Calendar.YEAR);
+		c.setTimeInMillis(birthday);
+		int birthYear=c.get(Calendar.YEAR);
+		int age=nowYear-birthYear;
+		if(age<=0){
 			return 0;
 		}
 		return age;
-	}
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
 	}
 	public float getHeight() {
 		return height;
@@ -52,6 +59,22 @@ public class UserInfo {
 	}
 	public void setWeight(float weight) {
 		this.weight = weight;
+	}
+	public long getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(long birthday) {
+		this.birthday = birthday;
+	}
+	
+	public JSONObject toJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("username", userName);
+		obj.accumulate("gender", gender);
+		obj.accumulate("weight", weight);
+		obj.accumulate("height", height);
+		obj.accumulate("age", getAge());
+		return obj;
 	}
 	
 }

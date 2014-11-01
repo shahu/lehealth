@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.bean.UserInfo;
 import com.lehealth.service.LoginService;
 import com.lehealth.service.SettingsService;
 import com.lehealth.type.ErrorCodeType;
@@ -172,8 +173,57 @@ public class SettingsController {
 		return responseBody;
 	}
 			
-	//TODO 获取个人信息
-	
-	//TODO 更新个人信息
-	
+	//获取个人信息
+	@ResponseBody
+	@RequestMapping(value = "/userinfo.do", method = RequestMethod.GET)
+	public ResponseBean getuserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			UserInfo info=this.settingsService.getUserInfo(userId);
+			if(StringUtils.isNotBlank(info.getUserId())){
+				responseBody.setResult(info.toJsonObj());
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+	//更新个人信息
+	@ResponseBody
+	@RequestMapping(value = "/userinfo.do", method = RequestMethod.POST)
+	public ResponseBean modifyUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			String userName=StringUtils.trimToEmpty(request.getParameter("username"));
+			int gender=NumberUtils.toInt(request.getParameter("gender"));
+			long birthday=NumberUtils.toInt(request.getParameter("birthday"));;
+			float height=NumberUtils.toInt(request.getParameter("height"));;
+			float weight=NumberUtils.toInt(request.getParameter("weight"));
+			float userInfocol=NumberUtils.toInt(request.getParameter("userinfocol"));
+			UserInfo info=new UserInfo();
+			info.setBirthday(birthday);
+			info.setGender(gender);
+			info.setHeight(height);
+			info.setUserId(userId);
+			info.setUserName(userName);
+			info.setWeight(weight);
+			info.setUserInfocol(userInfocol);
+			if(this.settingsService.modifyUserInfo(info)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
 }

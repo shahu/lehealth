@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
+import com.lehealth.bean.UserInfo;
 import com.lehealth.dao.SettingsDao;
 import com.lehealth.util.TokenUtils;
 
@@ -124,6 +125,55 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		}else{
 			return true;
 		}
+	}
+
+	@Override
+	public UserInfo selectUserInfo(String userid) {
+		String sql="SELECT * FROM UserInfo WHERE userid=:userid";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userid);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		UserInfo info=new UserInfo();
+		if(rs.next()){
+			String id=StringUtils.trimToEmpty(rs.getString("userid"));
+			String userName=StringUtils.trimToEmpty(rs.getString("username"));
+			int gender=rs.getInt("gender");
+			long birthday=rs.getDate("birthday").getTime();
+			float height=rs.getFloat("height");
+			float weight=rs.getFloat("weight");
+			float userInfocol=rs.getFloat("UserInfocol");
+			info.setUserId(id);
+			info.setUserName(userName);
+			info.setGender(gender);
+			info.setBirthday(birthday);
+			info.setHeight(height);
+			info.setWeight(weight);
+			info.setUserInfocol(userInfocol);
+		}
+		return info;
+	}
+
+	@Override
+	public boolean updateUserInfo(UserInfo info) {
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", info.getUserId());
+		msps.addValue("gender", info.getGender());
+		msps.addValue("birthday", new Timestamp(info.getBirthday()));
+		msps.addValue("height", info.getHeight());
+		msps.addValue("UserInfocol", info.getUserInfocol());
+		msps.addValue("weight", info.getWeight());
+		msps.addValue("username", info.getUserName());
+		String sql="UPDATE UserInfo SET gender=:gender,birthday=:birthday,height=:height,UserInfocol=:UserInfocol,weight=:weight,username=:username WHERE userid=:userid";
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			sql="INSERT INTO UserInfo VALUE(:uuid,:userid,:gender,:birthday,:height,:UserInfocol,:weight,:username)";
+			msps.addValue("uuid", TokenUtils.buildUUid());
+			i=this.namedJdbcTemplate.update(sql, msps);
+			if(i==0){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 }

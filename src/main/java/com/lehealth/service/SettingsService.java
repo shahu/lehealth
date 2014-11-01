@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
+import com.lehealth.bean.UserInfo;
 
 public interface SettingsService {
 
@@ -22,8 +23,9 @@ public interface SettingsService {
 	//删除用药设置
 	public boolean delMedicineSetting(String userId,int medicineId);
 	
-	//TODO 获取个人信息
+	//获取个人信息
+	public UserInfo getUserInfo(String userId);
 	
-	//TODO 更新个人信息
-	
+	//更新个人信息
+	public boolean modifyUserInfo(UserInfo info);
 }

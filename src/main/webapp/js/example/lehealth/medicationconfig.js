@@ -4,20 +4,24 @@ define(function(require, exports, module) {
 	var util = require('./common');
 
 	var getMedicineConfigsUrl = "/lehealth/api/medicinesetting.do";
-	var delMedicineConfigUrl = "/lehealth/api/medicinesettingdel.do";
 	
 	exports.render = function() {
 		$(document).off("pageshow", "#medicationconfig");
 		$(document).on("pageshow", "#medicationconfig", function() {
-			console.info("config pageshow init");
+			console.info("medicationconfig pageshow init");
+			$(".navigation").show();
+			console.info("medicationconfig navigation show");
 			util.hideAddressBar();
+			console.info("medicationconfig hide show");
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
+			console.info("medicationconfig get medicinesettings ,from "+getMedicineConfigsUrl);
+			console.info("test0:"+$("#medicationconfiglistwraper").html());
 			$.ajax({
 				url: getMedicineConfigsUrl,
 				type: "GET",
 				dataType: "json",
-				async: true,
+				async: false,
 				data: {
 					loginid: username,
 					token: token
@@ -25,25 +29,35 @@ define(function(require, exports, module) {
 				success: function(rspData) {
 					if (rspData.errorcode) {
 						if (rspData.errorcode == 1) { //用户校验失败
+							console.info("medicationconfig get medicinesettings no login");
 							util.toast("请重新登录");
 							setTimeout(function() {
 								$.mobile.changePage("/lehealth/login.html", "slide");
 							}, 2000);
 							return;
 						}
+						console.info("medicationconfig get medicinesettings error,status="+rspData.errorcode);
 						util.toast("获取数据失败，请刷新界面");
 					} else {
+						console.info("medicationconfig get medicinesettings success");
+						console.info("test1:"+rspData.result);
 						showSettingList(rspData.result);
 					}
 				},
 				error: function(xhr, errormsg) {
+					console.info("medicationconfig get medicinesettings exception");
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
+			console.info("test7:"+$("#medicationconfiglistwraper").html());
 
 			function showSettingList(settings) {
-				$("#listwraper").html('');
+				console.info("medicationconfig set medicationconfiglistwraper null");
+				$("#medicationconfiglistwraper").html('');
+				console.info("test2:"+settings);
 				for (var i = 0; i < settings.length; i++) {
+					console.info("test3:"+settings[i]);
+					console.info("test4:"+$("#medicationconfiglistwraper").html());
 					var datefrom=new Date(settings[i].datefrom);
 					var dateto=new Date(settings[i].dateto);
 					var timing='饭前';
@@ -65,48 +79,12 @@ define(function(require, exports, module) {
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">每日'+settings[i].frequency+'次，每次'+settings[i].amount+'片，'+timing+'服用<a href="'+delurl+'"><img src="images/del.png" style="float:right"></a></div>'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
 						+'</li>';
-					$("#listwraper").append(html);
+					$("#medicationconfiglistwraper").append(html);
+					console.info("test5:"+$("#medicationconfiglistwraper").html());
 				}
-				$('#listwraper').listview("refresh");
-				$(".del").off('click');
-				$(".del").on('click', function(event) {
-					var username = util.getCookieByKey("loginid");
-					var	token = util.getCookieByKey("tk");
-					var	medicineid = $(this).attr("id").split("_")[1];
-					$.ajax({
-						url: delMedicineConfigUrl,
-						type: "POST",
-						dataType: "json",
-						async: true,
-						data: {
-							loginid: username,
-							token: token,
-							medicineid: medicineid,
-						},
-						success: function(rspData) {
-							if (rspData.errorcode) {
-								if (rspData.errorcode === 1) {
-									util.toast("请重新登录");
-									setTimeout(function() {
-										$.mobile.changePage("/lehealth/login.html", "slide");
-									}, 1000);
-									return;
-								}
-								util.toast("提交数据失败，请重新提交");
-							} else {
-								util.toast("删除成功");
-								//两秒后隐藏
-								setTimeout(function() {
-									$.mobile.changePage("/lehealth/medicationconfig.html", "slide");
-								}, 1000);
-								$("#li_"+medicineid).remove();
-							}
-						},
-						error: function(xhr, errormsg) {
-							util.toast("提交数据失败，请重新提交");
-						}
-					});
-				});
+				console.info("medicationconfig medicationconfiglistwraper refresh");
+				$('#medicationconfiglistwraper').listview("refresh");
+				console.info("test6:"+$("#medicationconfiglistwraper").html());
 			}
 			
 			function dateFormat(date){
@@ -125,7 +103,6 @@ define(function(require, exports, module) {
 					return "";
 				}
 			}
-			
 		});
 	};
 });

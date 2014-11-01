@@ -9,7 +9,6 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow","#medicationsetting");
 		$(document).on("pageshow","#medicationsetting", function() {
-			console.info("setting pageshow init");
 			util.hideAddressBar();
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
@@ -48,22 +47,59 @@ define(function(require, exports, module) {
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
+			var html_year = '<option value="0">请选择年份</option>';
+			var html_month = '<option value="0">请选择月份</option>';
+			var html_day = '<option value="0">请选择日期</option>';
+			for (var i = 1; i <= 31; i++) {
+				html_year += '<option value="' + (i+2013) + '">' + (i+2013) + '</option>';
+				if(i<=12){
+					html_month += '<option value="' + i + '">' + i + '</option>';
+				}
+				html_day += '<option value="' + i + '">' + i + '</option>';
+			}
+			$('#datefrom_year').empty();
+			$('#datefrom_year').html(html_year);
+			$('#datefrom_year').selectmenu("refresh");
+			$('#datefrom_month').empty();
+			$('#datefrom_month').html(html_month);
+			$('#datefrom_month').selectmenu("refresh");
+			$('#datefrom_day').empty();
+			$('#datefrom_day').html(html_day);
+			$('#datefrom_day').selectmenu("refresh");
+			$('#dateto_year').empty();
+			$('#dateto_year').html(html_year);
+			$('#dateto_year').selectmenu("refresh");
+			$('#dateto_month').empty();
+			$('#dateto_month').html(html_month);
+			$('#dateto_month').selectmenu("refresh");
+			$('#dateto_day').empty();
+			$('#dateto_day').html(html_day);
+			$('#dateto_day').selectmenu("refresh");
 			
 			$("#config_update").off('click');
 			$("#config_update").on('click', function(event) {
 				var status_update=$("#status_update").val();
 				if(status_update==1){
 					$("#status_update").val(0);
-					console.info("config_update init");
+					if(!($('#datefrom_year').val()!=0
+							&&$('#datefrom_month').val()!=0
+							&&$('#datefrom_day').val()!=0
+							&&$('#dateto_year').val()!=0
+							&&$('#dateto_month').val()!=0
+							&&$('#dateto_day').val()!=0)){
+						alert('请选择日期');
+						$("#status_update").val(1);
+						return;
+					}
 					var username = util.getCookieByKey("loginid");
 					var	token = util.getCookieByKey("tk");
 					var	medicineid = $('#medacine').val();
 					var	frequency = $("#frequency").val();
 					var	amount = $('#amount').val();
 					var	timing = $("#timing").val();
-					var	datefromStr = $('#datefrom').val().replace(/-/g,'/');
+					var	datefromStr = $('#datefrom_year').val()+'/'+$('#datefrom_month').val()+'/'+$('#datefrom_day').val();
 					var datefrom = new Date(datefromStr);
-					var	datetoStr = $('#dateto').val().replace(/-/g,'/');
+					var	datetoStr = $('#dateto_year').val()+'/'+$('#dateto_month').val()+'/'+$('#dateto_day').val();
 					var dateto = new Date(datetoStr);
 					$.ajax({
 						url: submitMedicineConfigUrl,

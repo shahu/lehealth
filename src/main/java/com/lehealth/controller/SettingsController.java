@@ -129,7 +129,7 @@ public class SettingsController {
 			MedicineConfig mConfig=new MedicineConfig();
 			mConfig.setAmount(amount);
 			mConfig.setDatefrom(fromTimeStamp);
-			mConfig.setDatefrom(toTimeStamp);
+			mConfig.setDateto(toTimeStamp);
 			mConfig.setFrequency(frequency);
 			mConfig.setMedicineid(medicineId);
 			mConfig.setTiming(timing);

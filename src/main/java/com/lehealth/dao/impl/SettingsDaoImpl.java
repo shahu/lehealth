@@ -25,13 +25,14 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		BloodpressureConfig bpConfig=new BloodpressureConfig();
 		if(rs.next()){
+			String userid=StringUtils.trimToEmpty(rs.getString("userid"));
 			int dbp1=rs.getInt("dbp1");
 			int dbp2=rs.getInt("dbp2");
 			int sbp1=rs.getInt("sbp1");
 			int sbp2=rs.getInt("sbp2");
 			int heartrate1=rs.getInt("heartrate1");
 			int heartrate2=rs.getInt("heartrate2");
-			
+			bpConfig.setUserid(userid);
 			bpConfig.setDbp1(dbp1);
 			bpConfig.setDbp2(dbp2);
 			bpConfig.setSbp1(sbp1);

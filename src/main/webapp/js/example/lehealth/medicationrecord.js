@@ -49,8 +49,8 @@ define(function(require, exports, module) {
 			});
 
 			function showRecordList(records) {
-				console.info("medicationrecord set listwraper null");
-				$("#listwraper").html('');
+				console.info("medicationrecord set medicationrecordlistwraper null");
+				$("#medicationrecordlistwraper").html('');
 				for (var i = 0; i < records.length; i++) {
 					var timing='饭前';
 					if(records[i].timing==2){
@@ -70,10 +70,10 @@ define(function(require, exports, module) {
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">每次'+timing+'服药'+records[i].amount+'片（粒）<a href="'+addurl+'"><img src="images/medication.png" style="float:right"></a></div>'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">今日已服用'+records[i].medicineamount+'次</div>'
 						+'</li>';
-					$("#listwraper").append(html);
+					$("#medicationrecordlistwraper").append(html);
 				}
-				console.info("medicationconfig listwraper refresh");
-				$('#listwraper').listview("refresh");
+				console.info("medicationconfig medicationrecordlistwraper refresh");
+				$('#medicationrecordlistwraper').listview("refresh");
 			}
 			
 		});

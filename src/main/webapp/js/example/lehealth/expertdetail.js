@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 				type: "GET",
 				dataType: "json",
 				data:{
-					id: util.getParams('id')
+					doctorid: util.getParams('id')
 				},
 				async: true,
 				success: function(rspData) {

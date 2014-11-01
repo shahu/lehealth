@@ -41,6 +41,7 @@ public class MedicineController {
 	private static Logger logger = Logger.getLogger(MedicineController.class);
 	
 	//获取用药信息
+	@Deprecated
 	@ResponseBody
 	@RequestMapping(value = "/medicinerecords.do", method = RequestMethod.GET)
 	public ResponseBean medicinerecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -58,6 +59,7 @@ public class MedicineController {
 	}
 	
 	//更新用药记录
+	@Deprecated
 	@ResponseBody
 	@RequestMapping(value = "/medicinerecord.do", method = RequestMethod.POST)
 	public ResponseBean medicinerecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

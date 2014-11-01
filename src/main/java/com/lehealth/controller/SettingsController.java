@@ -49,7 +49,12 @@ public class SettingsController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			BloodpressureConfig bpConfig=this.settingsService.getBloodpressureSetting(userId);
-			responseBody.setResult(bpConfig.toJsonObj());
+			if(StringUtils.isBlank(bpConfig.getUserid())){
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+			else{
+				responseBody.setResult(bpConfig.toJsonObj());
+			}
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

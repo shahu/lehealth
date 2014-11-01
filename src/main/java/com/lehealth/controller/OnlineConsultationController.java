@@ -23,6 +23,7 @@ import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.service.LoginService;
 import com.lehealth.service.OnlineConsultationService;
+import com.lehealth.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/api")
@@ -59,7 +60,11 @@ public class OnlineConsultationController {
 		ResponseBean responseBody=new ResponseBean();
 		int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
 		Doctor doctor=this.onlineConsultationService.getDoctor(doctorId);
-		responseBody.setResult(doctor.toJsonObj());
+		if(doctor.getId()!=0){
+			responseBody.setResult(doctor.toJsonObj());
+		}else{
+			responseBody.setType(ErrorCodeType.abnormal);
+		}
 		return responseBody;
 	}
 		

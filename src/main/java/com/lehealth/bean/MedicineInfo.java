@@ -7,17 +7,41 @@ import java.util.Map.Entry;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-public class MedicineInfo {
+public class MedicineInfo{
 	
 	private String userid="";
 	private int medicineid=0;
 	private String medicinename="";
 	private long date=0;
-	//计划
 	private Map<String,Float> configs=new HashMap<String, Float>();
 	//实际
 	private Map<String,Float> situations=new HashMap<String, Float>();
+	private String time="";
+	private float dosage=0;
 	
+	public Map<String, Float> getSituations() {
+		return situations;
+	}
+	public void setSituations(Map<String, Float> situations) {
+		this.situations = situations;
+	}
+	public void addSituation(String time,Float dosage) {
+		this.situations.put(time,dosage);
+		this.time=time;
+		this.dosage=dosage;
+	}
+	public String getTime() {
+		return time;
+	}
+	public float getDosage() {
+		return dosage;
+	}
+	public long getDate() {
+		return date;
+	}
+	public void setDate(long date) {
+		this.date = date;
+	}
 	public String getUserid() {
 		return userid;
 	}
@@ -42,23 +66,8 @@ public class MedicineInfo {
 	public void setConfigs(Map<String, Float> configs) {
 		this.configs = configs;
 	}
-	public void addConfig(String time,Float dosage) {
-		this.configs.put(time,dosage);
-	}
-	public Map<String, Float> getSituations() {
-		return situations;
-	}
-	public void setSituations(Map<String, Float> situations) {
-		this.situations = situations;
-	}
-	public void addSituation(String time,Float dosage) {
-		this.configs.put(time,dosage);
-	}
-	public long getDate() {
-		return date;
-	}
-	public void setDate(long date) {
-		this.date = date;
+	public void addConfig(String time,float dosage) {
+		this.configs.put(time, dosage);
 	}
 	//实际用药信息
 	public JSONObject toJsonObj(){

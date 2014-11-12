@@ -11,27 +11,33 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureInfo;
-import com.lehealth.bean.BloodpressureResult;
+import com.lehealth.bean.HomeResult;
+import com.lehealth.bean.MedicineInfo;
 import com.lehealth.dao.BloodpressureDao;
-import com.lehealth.dao.SettingsDao;
-import com.lehealth.service.BloodpressureService;
+import com.lehealth.service.HomeService;
+import com.lehealth.service.MedicineService;
+import com.lehealth.service.SettingsService;
 
-@Service("bloodpressureService")
-public class BloodpressureServiceImpl implements BloodpressureService{
+@Service("homeService")
+public class HomeServiceImpl implements HomeService{
 	
 	@Autowired
 	@Qualifier("bloodpressureDao")
 	private BloodpressureDao bloodpressureDao;
 	
 	@Autowired
-	@Qualifier("settingsDao")
-	private SettingsDao settingsDao;
+	@Qualifier("settingsService")
+	private SettingsService settingsService;
 	
-	private static Logger logger = Logger.getLogger(BloodpressureServiceImpl.class);
+	@Autowired
+	@Qualifier("medicineService")
+	private MedicineService medicineService;
+	
+	private static Logger logger = Logger.getLogger(HomeServiceImpl.class);
 
 	@Override
-	public BloodpressureResult getBloodpressureRecords(String userId) {
-		BloodpressureResult result=new BloodpressureResult();
+	public HomeResult getHomeData(String userId) {
+		HomeResult result=new HomeResult();
 		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId);
 		Collections.sort(list, new Comparator<BloodpressureInfo>() {
 			@Override
@@ -40,14 +46,11 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.settingsDao.selectBloodpressureSetting(userId);
+		BloodpressureConfig config=this.settingsService.getBloodpressureSetting(userId);
 		result.setConfig(config);
+		List<MedicineInfo> medicineecords=this.medicineService.getMedicineHistory(userId);
+		result.setMedicineecords(medicineecords);
 		return result;
-	}
-
-	@Override
-	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo) {
-		return this.bloodpressureDao.updateBloodpressureRecord(bpInfo);
 	}
 
 }

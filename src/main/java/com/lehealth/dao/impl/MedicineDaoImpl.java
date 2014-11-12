@@ -47,12 +47,13 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	}
 
 	@Override
-	public List<MedicineInfo> selectMedicineHistory(String userId){
-		String sql="SELECT t1.medicineid,t2.name as medicinename,t1.amount,t1.frequency,t1.timing,t3.amount as medicineamount "
+	public Map<Integer,MedicineInfo> selectMedicineHistory(String userId){
+		String sql="SELECT t1.medicineid,t2.name as medicinename,t1.time as configtime,t1.dosage as configdosage,"
+				+"t2.time as historytime,t3.dosage as historydosage,t3.medicinedate "
 				+"FROM MedicineSetting t1 "
 				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
 				+"LEFT JOIN MedicineHistory t3 "
-				+"ON (t1.userid=t3.userid AND t1.medicineid=t3.medicineid AND t3.recordDate=:date) "
+				+"ON (t1.userid=t3.userid AND t1.medicineid=t3.medicineid AND t1.time=t3.time AND t3.recordDate=:date) "
 				+"WHERE t1.userid=:userid "
 				+"AND t1.datefrom<=:date "
 				+"AND t1.dateto>=:date ";
@@ -60,37 +61,38 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		msps.addValue("userid", userId);
 		msps.addValue("date", new Date(System.currentTimeMillis()));
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql,msps);
-		List<MedicineInfo> list=new ArrayList<MedicineInfo>();
+		Map<Integer,MedicineInfo> map=new HashMap<Integer, MedicineInfo>();
 		while(rs.next()){
-			MedicineInfo info=new MedicineInfo();
-			info.setMedicineid(rs.getInt("medicineid"));
-			info.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
-			info.setAmount(rs.getFloat("amount"));
-			info.setFrequency(rs.getFloat("frequency"));
-			info.setTiming(rs.getInt("timing"));
-			info.setMedicineamount(rs.getFloat("medicineamount"));
-			list.add(info);
+			int medicineId=rs.getInt("medicineid");
+			if(!map.containsKey(medicineId)){
+				MedicineInfo info=new MedicineInfo();
+				info.setMedicineid(medicineId);
+				info.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
+				info.setDate(rs.getDate("medicinedate").getTime());
+				map.put(medicineId, info);
+			}
+			MedicineInfo info=map.get(medicineId);
+			info.addConfig(StringUtils.trimToEmpty(rs.getString("configtime")), rs.getFloat("configdosage"));
+			if(StringUtils.isNotBlank(rs.getString("historytime"))){
+				info.addSituation(StringUtils.trimToEmpty(rs.getString("historytime")), rs.getFloat("historydosage"));
+			}
 		}
-		return list;
+		return map;
 	}
 	
 	@Override
-	public boolean updateMedicineHistory(MedicineInfo info){
+	public boolean updateMedicineHistory(final MedicineInfo info){
 		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("uuid", TokenUtils.buildUUid());
 		msps.addValue("userid", info.getUserid());
 		msps.addValue("medicineid", info.getMedicineid());
-		msps.addValue("recordDate", new Date(info.getDate()));
-		String sql="UPDATE MedicineHistory SET amount=amount+1,updateTime=NOW() WHERE recordDate=:recordDate AND medicineid=:medicineid AND userid=:userid";;
+		msps.addValue("medicinedate", new Date(info.getDate()));
+		msps.addValue("time", info.getTime());
+		msps.addValue("dosage", info.getDosage());
+		String sql="INSERT INTO MedicineHistory VALUE(:uuid,:userid,:medicineid,:time,:dosage,:medicinedate,now())";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			msps.addValue("uuid", TokenUtils.buildUUid());
-			sql="INSERT INTO MedicineHistory VALUE(:uuid,:userid,:medicineid,1,:recordDate,now())";
-			i=this.namedJdbcTemplate.update(sql, msps);
-			if(i==0){
-				return false;
-			}else{
-				return true;
-			}
+			return false;
 		}else{
 			return true;
 		}

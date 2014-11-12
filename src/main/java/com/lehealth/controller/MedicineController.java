@@ -75,7 +75,7 @@ public class MedicineController {
 			MedicineInfo mInfo=new MedicineInfo();
 			mInfo.setUserid(userId);
 			mInfo.setMedicineid(medicineId);
-			mInfo.addConfig(time, dosage);
+			mInfo.addSituation(time, dosage);
 			if(this.medicineService.updateMedicineHistory(mInfo)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

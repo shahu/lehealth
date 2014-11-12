@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lehealth.bean.HomeResult;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.service.BloodpressureService;
+import com.lehealth.service.HomeService;
 import com.lehealth.service.LoginService;
 import com.lehealth.type.ErrorCodeType;
 
@@ -27,8 +29,8 @@ public class HomeController {
 	private LoginService loginService;
 	
 	@Autowired
-	@Qualifier("bloodpressureService")
-	private BloodpressureService bloodpressureService;
+	@Qualifier("homeService")
+	private HomeService homeService;
 	
 	private static Logger logger = Logger.getLogger(HomeController.class);
 	
@@ -41,7 +43,8 @@ public class HomeController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			
+			HomeResult result=this.homeService.getHomeData(userId);
+			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

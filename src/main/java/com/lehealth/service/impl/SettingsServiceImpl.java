@@ -1,6 +1,8 @@
 package com.lehealth.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
+import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
 import com.lehealth.dao.SettingsDao;
 import com.lehealth.service.SettingsService;
@@ -34,12 +37,16 @@ public class SettingsServiceImpl implements SettingsService{
 
 	@Override
 	public List<MedicineConfig> getMedicineSettings(String userId) {
-		return this.settingsDao.selectMedicineSettings(userId);
+		Map<Integer,MedicineConfig> map=this.settingsDao.selectMedicineSettings(userId);
+		List<MedicineConfig> list=new ArrayList<MedicineConfig>(map.values());
+		return list;
 	}
-
 	@Override
 	public boolean modifyMedicineSetting(MedicineConfig mConfig) {
-		return this.settingsDao.updateMedicineSetting(mConfig);
+		//先删除
+		this.settingsDao.deleteMedicineSetting(mConfig.getUserid(),mConfig.getMedicineid());
+		//再插入
+		return this.settingsDao.insertMedicineSetting(mConfig);
 	}
 
 	@Override
@@ -57,5 +64,15 @@ public class SettingsServiceImpl implements SettingsService{
 	@Override
 	public boolean modifyUserInfo(UserInfo info) {
 		return this.settingsDao.updateUserInfo(info);
+	}
+
+	@Override
+	public UserGuardianInfo getUserGuardianInfo(String userId) {
+		return this.settingsDao.selectUserGuardianInfo(userId);
+	}
+
+	@Override
+	public boolean modifyUserGuardianInfo(UserGuardianInfo info) {
+		return this.settingsDao.updateUserGuardianInfo(info);
 	}
 }

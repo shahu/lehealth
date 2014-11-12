@@ -20,7 +20,6 @@ import com.lehealth.util.TokenUtils;
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
-	@Deprecated
 	@Override
 	public List<MedicineCategroy> selectMedicines() {
 		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
@@ -45,55 +44,6 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		}
 		list.addAll(map.values());
 		return list;
-	}
-
-	@Deprecated
-	@Override
-	public List<MedicineInfo> selectMedicineRecords(String userId) {
-		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineRecords t1 "
-				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
-				+"WHERE userid=:userid "
-				+"ORDER BY recordDate DESC LIMIT 7";
-		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userid", userId);
-		List<MedicineInfo> list = new ArrayList<MedicineInfo>();
-		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		while(rs.next()){
-			MedicineInfo info=new MedicineInfo();
-			info.setAmount(rs.getFloat("amount"));
-			info.setDate(rs.getDate("recordDate").getTime());
-			info.setFrequency(rs.getFloat("frequency"));
-			info.setMedicineid(rs.getInt("medicineid"));
-			info.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
-			info.setTiming(rs.getInt("timing"));
-			list.add(info);
-		}
-		return list;
-	}
-	
-	@Override
-	public boolean updateMedicineRecord(MedicineInfo info) {
-		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("uuid", TokenUtils.buildUUid());
-		msps.addValue("userid", info.getUserid());
-		msps.addValue("medicineid", info.getMedicineid());
-		msps.addValue("amount", info.getAmount());
-		msps.addValue("frequency", info.getFrequency());
-		msps.addValue("timing", info.getTiming());
-		msps.addValue("recordDate", new Date(info.getDate()));
-		String sql="UPDATE MedicineRecords SET amount=:amount,frequency=:frequency,timing=:timing,updateTime=NOW() WHERE recordDate=:recordDate AND medicineid=:medicineid AND userid=:userid";;
-		int i=this.namedJdbcTemplate.update(sql, msps);
-		if(i==0){
-			sql="INSERT INTO MedicineRecords VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,:recordDate,now())";
-			i=this.namedJdbcTemplate.update(sql, msps);
-			if(i==0){
-				return false;
-			}else{
-				return true;
-			}
-		}else{
-			return true;
-		}
 	}
 
 	@Override

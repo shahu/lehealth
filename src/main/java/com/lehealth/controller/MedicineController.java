@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
-import com.lehealth.bean.MedicineResult;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.service.LoginService;
 import com.lehealth.service.MedicineService;
@@ -41,60 +40,6 @@ public class MedicineController {
 	private static Logger logger = Logger.getLogger(MedicineController.class);
 	
 	//获取用药信息
-	@Deprecated
-	@ResponseBody
-	@RequestMapping(value = "/medicinerecords.do", method = RequestMethod.GET)
-	public ResponseBean medicinerecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			MedicineResult result=this.medicineService.getMedicineRecords(userId);
-			responseBody.setResult(result.toJsonObj());
-		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
-		}
-		return responseBody;
-	}
-	
-	//更新用药记录
-	@Deprecated
-	@ResponseBody
-	@RequestMapping(value = "/medicinerecord.do", method = RequestMethod.POST)
-	public ResponseBean medicinerecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
-			float amount=NumberUtils.toFloat(request.getParameter("amount"));
-			float frequency=NumberUtils.toFloat(request.getParameter("frequency"));
-			int timing=NumberUtils.toInt(request.getParameter("timing"));
-			long date=NumberUtils.toLong(request.getParameter("date"));
-			if(date==0){
-				date=System.currentTimeMillis();
-			}
-			MedicineInfo mInfo=new MedicineInfo();
-			mInfo.setUserid(userId);
-			mInfo.setMedicineid(medicineId);
-			mInfo.setFrequency(frequency);
-			mInfo.setAmount(amount);
-			mInfo.setTiming(timing);
-			mInfo.setDate(date);
-			if(this.medicineService.modifyMedicineRecord(mInfo)){
-				responseBody.setType(ErrorCodeType.normal);
-			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
-			}
-		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
-		}
-		return responseBody;
-	}
-	
-	//获取用药信息-新
 	@ResponseBody
 	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.GET)
 	public ResponseBean getmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -115,7 +60,7 @@ public class MedicineController {
 		return responseBody;
 	}
 	
-	//更新用药记录-新
+	//更新用药记录
 	@ResponseBody
 	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.POST)
 	public ResponseBean addmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -125,14 +70,12 @@ public class MedicineController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
-			long date=NumberUtils.toLong(request.getParameter("date"));
-			if(date==0){
-				date=System.currentTimeMillis();
-			}
+			String time=StringUtils.trimToEmpty(request.getParameter("time"));
+			float dosage=NumberUtils.toFloat(request.getParameter("dosage"));
 			MedicineInfo mInfo=new MedicineInfo();
 			mInfo.setUserid(userId);
 			mInfo.setMedicineid(medicineId);
-			mInfo.setDate(date);
+			mInfo.addConfig(time, dosage);
 			if(this.medicineService.updateMedicineHistory(mInfo)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

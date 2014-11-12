@@ -8,28 +8,38 @@ import net.sf.json.JSONObject;
 
 public class BloodpressureResult {
 	
-	private String status="1";
-	private int score=0;
 	private List<BloodpressureInfo> records=new ArrayList<BloodpressureInfo>();
+	private BloodpressureConfig config=new BloodpressureConfig();
 	
-	public void setStatus(String status) {
-		this.status = status;
+	public int getStatus() {
+		for(BloodpressureInfo record:records){
+			if(!(record.getDbp()>=config.getDbp1()
+					&&record.getDbp()<=config.getDbp2()
+					&&record.getSbp()>=config.getSbp1()
+					&&record.getSbp()<=config.getSbp2()
+					&&record.getHeartrate()>=config.getHeartrate1()
+					&&record.getHeartrate()<=config.getHeartrate2())){
+				return 1;
+			}
+		}
+		return 0;
 	}
-	public void setScore(int score) {
-		this.score = score;
+	public void setConfig(BloodpressureConfig config) {
+		this.config = config;
 	}
 	public void setRecords(List<BloodpressureInfo> records) {
 		this.records = records;
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("status", status);
-		obj.accumulate("score", score);
-		JSONArray arr=new JSONArray();
-		for(BloodpressureInfo record:records){
-			arr.add(record.toJsonObj());
+		if(records!=null&&!records.isEmpty()){
+			obj.accumulate("status", getStatus());
+			JSONArray arr=new JSONArray();
+			for(BloodpressureInfo record:records){
+				arr.add(record.toJsonObj());
+			}
+			obj.accumulate("records", arr);
 		}
-		obj.accumulate("records", arr);
 		return obj;
 	}
 }

@@ -53,7 +53,7 @@ public class OnlineConsultationController {
 		return responseBody;
 	}
 	
-	//获取医生列表
+	//获取医生信息
 	@ResponseBody
 	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
 	public ResponseBean doctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

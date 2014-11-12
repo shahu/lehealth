@@ -23,22 +23,6 @@ public class MedicineServiceImpl implements MedicineService{
 	private static Logger logger = Logger.getLogger(MedicineServiceImpl.class);
 
 	@Override
-	@Deprecated
-	public MedicineResult getMedicineRecords(String userId) {
-		MedicineResult result=new MedicineResult();
-		result.setStatus(1);
-		List<MedicineInfo> list=this.medicineDao.selectMedicineRecords(userId);
-		result.setRecords(list);
-		return result;
-	}
-
-	@Override
-	@Deprecated
-	public boolean modifyMedicineRecord(MedicineInfo mInfo) {
-		return this.medicineDao.updateMedicineRecord(mInfo);
-	}
-
-	@Override
 	public List<MedicineInfo> getMedicineHistory(String userId){
 		return this.medicineDao.selectMedicineHistory(userId);
 	}

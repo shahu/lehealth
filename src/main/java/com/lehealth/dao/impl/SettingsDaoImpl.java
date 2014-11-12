@@ -1,8 +1,9 @@
 package com.lehealth.dao.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
+import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
 import com.lehealth.dao.SettingsDao;
 import com.lehealth.util.TokenUtils;
@@ -68,47 +70,49 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 	}
 
 	@Override
-	public List<MedicineConfig> selectMedicineSettings(String userId) {
+	public Map<Integer,MedicineConfig> selectMedicineSettings(String userId) {
 		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineSetting t1 "
 				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
 				+"WHERE t1.userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		List<MedicineConfig> list=new ArrayList<MedicineConfig>();
+		Map<Integer,MedicineConfig> map=new HashMap<Integer, MedicineConfig>();
 		while(rs.next()){
-			MedicineConfig mConfig=new MedicineConfig();
-			mConfig.setMedicineid(rs.getInt("medicineid"));
-			mConfig.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));;
-			mConfig.setAmount(rs.getFloat("amount"));
-			mConfig.setFrequency(rs.getFloat("frequency"));
-			mConfig.setTiming(rs.getInt("timing"));
-			mConfig.setDatefrom(rs.getDate("datefrom").getTime());
-			mConfig.setDateto(rs.getDate("dateto").getTime());
-			list.add(mConfig);
+			int medicineId=rs.getInt("medicineid");
+			if(!map.containsKey(medicineId)){
+				MedicineConfig mConfig=new MedicineConfig();
+				mConfig.setMedicineid(medicineId);
+				mConfig.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
+				mConfig.setDatefrom(rs.getDate("datefrom").getTime());
+				mConfig.setDateto(rs.getDate("dateto").getTime());
+				map.put(medicineId, mConfig);
+			}
+			MedicineConfig mConfig=map.get(medicineId);
+			mConfig.addConfig(rs.getString("time"), rs.getFloat("dosage"));
 		}
-		return list;
+		return map;
 	}
 
 	@Override
-	public boolean updateMedicineSetting(MedicineConfig mConfig) {
+	public boolean insertMedicineSetting(MedicineConfig mConfig) {
+		int index=0;
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", mConfig.getUserid());
-		msps.addValue("amount", mConfig.getAmount());
-		msps.addValue("frequency", mConfig.getFrequency());
 		msps.addValue("medicineid", mConfig.getMedicineid());
-		msps.addValue("timing", mConfig.getTiming());
 		msps.addValue("datefrom", new Timestamp(mConfig.getDatefrom()));
 		msps.addValue("dateto", new Timestamp(mConfig.getDateto()));
-		String sql="UPDATE MedicineSetting SET amount=:amount,frequency=:frequency,timing=:timing,datefrom=:datefrom,dateto=:dateto WHERE userid=:userid AND medicineid=:medicineid";
-		int i=this.namedJdbcTemplate.update(sql, msps);
-		if(i==0){
-			sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:amount,:frequency,:timing,:datefrom,:dateto)";
-			msps.addValue("uuid", TokenUtils.buildUUid());
-			i=this.namedJdbcTemplate.update(sql, msps);
-			if(i==0){
-				return false;
+		if(mConfig.getConfigs()!=null&&!mConfig.getConfigs().isEmpty()){
+			for(Entry<String,Float> e : mConfig.getConfigs().entrySet()){
+				msps.addValue("time", e.getKey());
+				msps.addValue("dosage", e.getValue());
+				msps.addValue("uuid", TokenUtils.buildUUid());
+				String sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:time,:dosage,:datefrom,:dateto)";
+				index+=this.namedJdbcTemplate.update(sql, msps);
 			}
+		}
+		if(index==0){
+			return false;
 		}
 		return true;
 	}
@@ -167,6 +171,46 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			sql="INSERT INTO UserInfo VALUE(:uuid,:userid,:gender,:birthday,:height,:UserInfocol,:weight,:username)";
+			msps.addValue("uuid", TokenUtils.buildUUid());
+			i=this.namedJdbcTemplate.update(sql, msps);
+			if(i==0){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public UserGuardianInfo selectUserGuardianInfo(String userId) {
+		String sql="SELECT * FROM UserGuardian WHERE userid=:userid";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		UserGuardianInfo info=new UserGuardianInfo();
+		if(rs.next()){
+			String id=StringUtils.trimToEmpty(rs.getString("userid"));
+			String guardianName=StringUtils.trimToEmpty(rs.getString("guardianname"));
+			String guardianNumber=StringUtils.trimToEmpty(rs.getString("guardiannumber"));
+			int needNotice=rs.getInt("neednotice");
+			info.setUserId(id);
+			info.setGuardianName(guardianName);
+			info.setGuardianNumber(guardianNumber);
+			info.setNeedNotice(needNotice);
+		}
+		return info;
+	}
+
+	@Override
+	public boolean updateUserGuardianInfo(UserGuardianInfo info) {
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", info.getUserId());
+		msps.addValue("guardianname", info.getGuardianName());
+		msps.addValue("guardiannumber", info.getGuardianNumber());
+		msps.addValue("neednotice", info.getNeedNotice());
+		String sql="UPDATE UserGuardian SET guardianname=:guardianname,guardiannumber=:guardiannumber,neednotice=:neednotice WHERE userid=:userid";
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			sql="INSERT INTO UserInfo VALUE(:uuid,:userid,:guardianname,:guardianname,:guardiannumber,:neednotice)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){

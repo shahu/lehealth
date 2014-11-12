@@ -26,8 +26,6 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	@Override
 	public BloodpressureResult getBloodpressureRecords(String userId) {
 		BloodpressureResult result=new BloodpressureResult();
-		result.setScore(98);
-		result.setStatus("2");
 		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId);
 		Collections.sort(list, new Comparator<BloodpressureInfo>() {
 			@Override

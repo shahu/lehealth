@@ -4,16 +4,9 @@ import java.util.List;
 
 import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
-import com.lehealth.bean.MedicineResult;
 
 public interface MedicineService {
 	
-	//获取用药记录
-	@Deprecated
-	public MedicineResult getMedicineRecords(String userId);
-	//更新用药记录
-	@Deprecated
-	public boolean modifyMedicineRecord(MedicineInfo mInfo);
 	//获取用药记录-新
 	public List<MedicineInfo> getMedicineHistory(String userId);
 	//更新用药记录-新

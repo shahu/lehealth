@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.MedicineConfig;
+import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
 
 public interface SettingsService {
@@ -28,4 +29,10 @@ public interface SettingsService {
 	
 	//更新个人信息
 	public boolean modifyUserInfo(UserInfo info);
+	
+	//获取个人信息
+	public UserGuardianInfo getUserGuardianInfo(String userId);
+	
+	//更新个人信息
+	public boolean modifyUserGuardianInfo(UserGuardianInfo info);
 }

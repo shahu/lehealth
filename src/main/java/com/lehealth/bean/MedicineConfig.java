@@ -1,5 +1,10 @@
 package com.lehealth.bean;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class MedicineConfig {
@@ -7,9 +12,7 @@ public class MedicineConfig {
 	private String userid="";
 	private int medicineid=0;
 	private String medicinename="";
-	private float amount=0;
-	private float frequency=0;
-	private int timing=0;
+	private Map<String,Float> configs=new HashMap<String, Float>();
 	private long datefrom=0;
 	private long dateto=0;
 	
@@ -37,39 +40,37 @@ public class MedicineConfig {
 	public void setDateto(long dateto) {
 		this.dateto = dateto;
 	}
-	public float getAmount() {
-		return amount;
-	}
-	public void setAmount(float amount) {
-		this.amount = amount;
-	}
-	public float getFrequency() {
-		return frequency;
-	}
-	public void setFrequency(float frequency) {
-		this.frequency = frequency;
-	}
-	public int getTiming() {
-		return timing;
-	}
-	public void setTiming(int timing) {
-		this.timing = timing;
-	}
 	public String getMedicinename() {
 		return medicinename;
 	}
 	public void setMedicinename(String medicinename) {
 		this.medicinename = medicinename;
 	}
+	public Map<String, Float> getConfigs() {
+		return configs;
+	}
+	public void setConfigs(Map<String, Float> configs) {
+		this.configs = configs;
+	}
+	public void addConfig(String time,float dosage) {
+		this.configs.put(time, dosage);
+	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("medicineid", medicineid);
-		obj.accumulate("medicinename", medicinename);
-		obj.accumulate("amount", amount);
-		obj.accumulate("frequency", frequency);
-		obj.accumulate("timing", timing);
-		obj.accumulate("datefrom", datefrom);
-		obj.accumulate("dateto", dateto);
+		if(configs!=null&&!configs.isEmpty()){
+			obj.accumulate("medicineid", medicineid);
+			obj.accumulate("medicinename", medicinename);
+			obj.accumulate("datefrom", datefrom);
+			obj.accumulate("dateto", dateto);
+			JSONArray arr=new JSONArray();
+			for(Entry<String, Float> e : configs.entrySet()){
+				JSONObject config=new JSONObject();
+				config.accumulate("time", e.getKey());
+				config.accumulate("dosage", e.getValue());
+				arr.add(config);
+			}
+			obj.accumulate("configs", arr);
+		}
 		return obj;
 	}
 }

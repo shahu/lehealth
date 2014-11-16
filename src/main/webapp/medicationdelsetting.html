@@ -10,6 +10,7 @@
 	</head>
 	<body>
 		<div data-role="page" data-theme="f" id="medicationdelsetting">
+			<div id="medicationdelsettingcover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000"></div>
 			<div data-role="content" style="overflow:hidden">
 				<ul data-role="listview" data-inset="true">
 					<li style="margin-top:30px;">
@@ -40,13 +41,30 @@
 						</div>
 					</li>
 				</ul>
-				<div class="occupying" style="height: 115px;width: 100%;"></div>
-				<div style="position:fixed; padding:1em;bottom:0px;left:0px;right:0px; z-index:1000;background-color:#f9f9f9;">
-					<a id="config_delete" data-role="button">确认删除用药计划</a>
+				<div style="height:100px"></div>
+				<div style="position:fixed; bottom:40px; left:0px;right:0px;padding: 0px 16px 0px 16px;background-color:#f9f9f9">
+					<a id="config_delete" data-role="button" data-transition="slide">确认删除用药计划</a>
 					<input id="status_update" type="hidden" value="1">
-					<a id="gohome" data-role="button" href="http://312560.m.weimob.com/weisite/home?_tj_twtype=16&_tj_pid=312560&_tt=1&_tj_graphicid=60625&_tj_title=%E6%98%93%E5%81%A5%E5%BA%B7-%E7%A7%BB%E5%8A%A8%E6%85%A2%E7%97%85%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6&_tj_keywords=%E6%98%93%E5%81%A5%E5%BA%B7&pid=312560&bid=492252&wechatid=o1baHsytJOuW-OTMfa_Lkj4iZixA&from=1&wxref=mp.weixin.qq.com" data-transition="slide">返回主页</a>
-				</div>
+				</div>	
 			</div>
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar" data-theme="c">
+					<ul>
+						<li>
+							<a href="/lehealth/home.html">首页</a>
+						</li>
+						<li>
+							<a href="/lehealth/bpmonitor.html">血压</a>
+						</li>
+						<li>
+							<a href="/lehealth/medicationrecord.html"  class="ui-btn-active ui-state-persist">用药</a>
+						</li>
+						<li>
+							<a href="/lehealth/config.html">我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>				
 			<script>
 				seajs.use(seajs.prefix + 'example/lehealth/medicationdelsetting', function(lehealth) {
 					lehealth.render();

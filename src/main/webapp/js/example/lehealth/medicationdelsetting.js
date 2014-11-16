@@ -8,7 +8,9 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow","#medicationdelsetting");
 		$(document).on("pageshow","#medicationdelsetting", function() {
-			util.hideAddressBar();
+			
+			$('#medicationdelsettingcover').css("display", "none");
+
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
 			

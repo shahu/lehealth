@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 						$('#listwraper').html(html);
 						$('#listwraper').listview("refresh");						
 
-						$("body").css("display", "inline");
+						$("#activitycover").css("display", "none");
 					}
 				},
 				error: function(xhr, errormsg) {

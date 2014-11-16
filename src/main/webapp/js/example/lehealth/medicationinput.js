@@ -8,7 +8,8 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow","#medicationinput");
 		$(document).on("pageshow","#medicationinput", function() {
-			util.hideAddressBar();
+			$("#medicationinputcover").css("display", "none");
+
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
 			var	medicineid = util.getParams("medicineid");

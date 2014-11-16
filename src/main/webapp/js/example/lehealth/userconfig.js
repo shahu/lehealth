@@ -11,10 +11,10 @@ define(function(require, exports, module) {
 
 	exports.bindEvent = function() {
 
-		$(document).off("pageshow", "#confighome");
+		$(document).off("pageshow", "#userconfigpage");
 
-		$(document).on("pageshow", "#confighome", function() {
-			$("#configcover").css("display", "none");
+		$(document).on("pageshow", "#userconfigpage", function() {
+			$("#userconfigcover").css("display", "none");
 
 		});
 	};

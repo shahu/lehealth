@@ -69,14 +69,23 @@ define(function(require, exports, module) {
 					var delurl='/lehealth/medicationdelsetting.html?a=1'
 						+'&medicineid='+settings[i].medicineid
 						+'&medicinename='+settings[i].medicinename
-						+'&amount='+settings[i].amount
-						+'&timing='+timing
-						+'&frequency='+settings[i].frequency
+						+'&configs='+encodeURIComponent(JSON.stringify(settings[i].configs))
 						+'&datefrom='+dateFormat(datefrom)
 						+'&dateto='+dateFormat(dateto);
 					var html='<li id="li_'+settings[i].medicineid+'">'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'+settings[i].medicinename+'</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">每日'+settings[i].frequency+'次，每次'+settings[i].amount+'片，'+timing+'服用<a href="'+delurl+'"><img src="images/del.png" style="float:right"></a></div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
+						+settings[i].medicinename
+						+'<a href="'+delurl+'">'
+						+'<img src="images/del.png" style="float:right">'
+						+'</a>'
+						+'</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
+						+'<ul>';
+					for(var j=0;j<settings[i].configs.length;j++){
+						html+='<li>每日于'+settings[i].configs[j].time+'服用'+settings[i].configs[j].dosage+'毫克</li>';
+					}
+					html+='</ul>'
+						+'</div>'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
 						+'</li>';
 					$("#medicationconfiglistwraper").append(html);

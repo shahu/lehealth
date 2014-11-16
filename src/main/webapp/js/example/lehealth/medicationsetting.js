@@ -47,9 +47,9 @@ define(function(require, exports, module) {
 					util.toast("获取数据失败，请刷新界面");
 				}
 			});
-			var html_year = '<option value="0">请选择年份</option>';
-			var html_month = '<option value="0">请选择月份</option>';
-			var html_day = '<option value="0">请选择日期</option>';
+			var html_year = '';
+			var html_month = '';
+			var html_day = '';
 			for (var i = 1; i <= 31; i++) {
 				html_year += '<option value="' + (i+2013) + '">' + (i+2013) + '</option>';
 				if(i<=12){

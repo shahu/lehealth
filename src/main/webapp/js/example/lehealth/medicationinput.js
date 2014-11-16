@@ -14,20 +14,12 @@ define(function(require, exports, module) {
 			var	token = util.getCookieByKey("tk");
 			var	medicineid = util.getParams("medicineid");
 			var	medicinename = util.getParams("medicinename");
-			var amount = util.getParams("amount");
-			var timing = util.getParams("timing");
-			var frequency = util.getParams("frequency");
-			var medicineamount = util.getParams("medicineamount");
+			var time = util.getParams("time");
+			var dosage = util.getParams("dosage");
 			
 			$("#medicinename").text(medicinename);
-			var plan1='每日'+frequency+'次，每次'+amount+'片';
-			var plan2=timing+'服用';
-			$("#plan1").text(plan1);
-			$("#plan2").text(plan2);
-			if(!medicineamount){
-				medicineamount=0;
-			}
-			$("#amount").text(medicineamount+"次");
+			$("#time").text(time);
+			$("#dosage").text(dosage);
 			
 			$("#record_update").off('click');
 			$("#record_update").on('click', function(event) {
@@ -43,6 +35,9 @@ define(function(require, exports, module) {
 							loginid: username,
 							token: token,
 							medicineid: medicineid,
+							time: time,
+							dosage: dosage,
+							
 						},
 						success: function(rspData) {
 							if (rspData.errorcode) {

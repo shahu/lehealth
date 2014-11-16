@@ -73,6 +73,7 @@ public class UserInfo {
 		obj.accumulate("gender", gender);
 		obj.accumulate("weight", weight);
 		obj.accumulate("height", height);
+		obj.accumulate("birthday", birthday);
 		obj.accumulate("age", getAge());
 		return obj;
 	}

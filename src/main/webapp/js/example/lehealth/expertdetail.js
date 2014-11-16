@@ -43,7 +43,7 @@ define(function(require, exports, module) {
 						$('#doctortitle').html(doctormsg.title);
 						$('#hospital').html(doctormsg.hospital);
 						$('#description').html(doctormsg.desc);
-						$("body").css("display", "inline");
+						$("#doctordetailcover").css("display", "none");
 					}
 				},
 				error: function(xhr, errormsg) {

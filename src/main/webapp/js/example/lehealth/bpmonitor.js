@@ -27,11 +27,9 @@ define(function(require, exports, module) {
 
 			console.info('bpmonitor init');
 
-			$("body").css("display", "inline");
+			$("#bpmonitorcover").css("display", "none");
 
 			$.mobile.loading('hide');
-
-			util.hideAddressBar();
 
 			var trendchart,
 				// judgechart,

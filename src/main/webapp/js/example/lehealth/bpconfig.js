@@ -10,9 +10,7 @@ define(function(require, exports, module) {
 		$(document).off("pageshow", "#bpconfigpage");
 		$(document).on("pageshow", "#bpconfigpage", function() {
 
-			$("body").css("display", "inline");
-
-			util.hideAddressBar();
+			$("#bpconfigcover").css("display", "none");
 
 			function getAndSetBpConfigData() {
 				var username = util.getCookieByKey("loginid"),

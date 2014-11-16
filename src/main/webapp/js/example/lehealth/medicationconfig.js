@@ -8,6 +8,8 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow", "#medicationconfig");
 		$(document).on("pageshow", "#medicationconfig", function() {
+			$('#medicationconfigcover').css("display", "none");
+
 			console.info("medicationconfig pageshow init");
 			$(".navigation").show();
 			console.info("medicationconfig navigation show");

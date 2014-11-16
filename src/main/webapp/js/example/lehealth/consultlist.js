@@ -10,11 +10,10 @@ define(function(require, exports, module) {
 		$(document).off("pageshow", "#doctorlist");
 		$(document).on("pageshow", "#doctorlist", function() {
 
-			$("body").css("display", "inline");
-			util.hideAddressBar();
-
 			var username = util.getCookieByKey("loginid"),
 				token = util.getCookieByKey("tk");
+
+			$("#doctorlistcover").css("display", "none");
 			$.ajax({
 				url: getDoctorListUrl,
 				type: "GET",
@@ -40,6 +39,7 @@ define(function(require, exports, module) {
 						$('#listwraper').empty();
 						$('#listwraper').html(html);
 						$('#listwraper').listview("refresh");
+
 					}
 				},
 				error: function(xhr, errormsg) {

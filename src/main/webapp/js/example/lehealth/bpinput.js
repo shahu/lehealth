@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 		$(document).on("pageshow", "#bpinputpage", function() {
 			console.info('bp input init');
 
-			$("body").css("display", "inline");
+			$("#bpinputcover").css("display", "none");
 
 			$.mobile.loading('hide');
 

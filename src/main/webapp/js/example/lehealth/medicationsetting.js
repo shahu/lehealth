@@ -9,7 +9,9 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow","#medicationsetting");
 		$(document).on("pageshow","#medicationsetting", function() {
-			util.hideAddressBar();
+
+			$("#medicationsettingcover").css("display", "none");
+
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
 			$.ajax({

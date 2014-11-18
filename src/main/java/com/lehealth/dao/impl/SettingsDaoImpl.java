@@ -107,7 +107,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 				msps.addValue("time", e.getKey());
 				msps.addValue("dosage", e.getValue());
 				msps.addValue("uuid", TokenUtils.buildUUid());
-				String sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:time,:dosage,:datefrom,:dateto)";
+				String sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:dosage,:time,:datefrom,:dateto)";
 				index+=this.namedJdbcTemplate.update(sql, msps);
 			}
 		}

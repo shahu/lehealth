@@ -14,6 +14,21 @@ define(function(require, exports, module) {
 
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
+			var houroption='';
+			for (var i = 0; i < 24; i++) {
+				if(i<10){
+					i='0'+i;
+				}
+				houroption += '<option value="' + i + '">' + i + '</option>';
+			}
+			var minuteoption='';
+			for (var i = 0; i < 60; i++) {
+				if(i<10){
+					i='0'+i;
+				}
+				minuteoption += '<option value="' + i + '">' + i + '</option>';
+			}
+			
 			$.ajax({
 				url: getMedicineListUrl,
 				type: "GET",
@@ -43,6 +58,13 @@ define(function(require, exports, module) {
 						$('#medacine').empty();
 						$('#medacine').html(html);
 						$('#medacine').selectmenu("refresh");
+						
+						$('select.time_hour').empty();
+						$('select.time_hour').html(houroption);
+						$('select.time_hour').selectmenu("refresh");
+						$('select.time_minute').empty();
+						$('select.time_minute').html(minuteoption);
+						$('select.time_minute').selectmenu("refresh");
 					}
 				},
 				error: function(xhr, errormsg) {
@@ -50,17 +72,33 @@ define(function(require, exports, module) {
 				}
 			});
 			
+			$(".add_icon").off('click');
+			$(".add_icon").on('click', function() {
+				var newItem = $("#templete").clone();
+				newItem.css("display","block");
+				newItem.attr("class","config");
+				newItem.removeAttr("id");
+				$("#configs").append(newItem);
+//				$(newItem).find('select.time_hour').empty();
+//				$(newItem).find('select.time_hour').html(houroption);
+//				$(newItem).find('select.time_hour').selectmenu("refresh");
+//				$(newItem).find('select.time_minute').empty();
+//				$(newItem).find('select.time_minute').html(minuteoption);
+//				$(newItem).find('select.time_minute').selectmenu("refresh");
+			});
+			
+			$(".del_icon").off('click');
+			$(".del_icon").live('click', function() {
+				$(this).parent().parent().remove();
+			});
+			
 			$("#config_update").off('click');
 			$("#config_update").on('click', function(event) {
 				var status_update=$("#status_update").val();
 				if(status_update==1){
 					$("#status_update").val(0);
-					if(!($('#datefrom_year').val()!=0
-							&&$('#datefrom_month').val()!=0
-							&&$('#datefrom_day').val()!=0
-							&&$('#dateto_year').val()!=0
-							&&$('#dateto_month').val()!=0
-							&&$('#dateto_day').val()!=0)){
+					if(!($("#datefrom").val()!=0
+							&&$("#dateto").val()!=0)){
 						alert('请选择日期');
 						$("#status_update").val(1);
 						return;
@@ -68,17 +106,33 @@ define(function(require, exports, module) {
 					var username = util.getCookieByKey("loginid");
 					var	token = util.getCookieByKey("tk");
 					var	medicineid = $('#medacine').val();
-					var	datefromStr = $('#datefrom_year').val()+'/'+$('#datefrom_month').val()+'/'+$('#datefrom_day').val();
+					var	datefromStr = $('#datefrom').val().replace(/-/g,"/");
 					var datefrom = new Date(datefromStr);
-					var	datetoStr = $('#dateto_year').val()+'/'+$('#dateto_month').val()+'/'+$('#dateto_day').val();
+					var	datetoStr =  $('#dateto').val().replace(/-/g,"/");
 					var dateto = new Date(datetoStr);
+					console.info(datefromStr);
+					console.info(datetoStr);
 					var configs=[];
+					var flag=1;
 					$.each($((".config")),function(){
-						var config={};
-						config.time=$(this).find();
-						config.dosage=$(this).find();
-						configs.push(config);
+						if($(this).find("input.dosage").val()>0&&$(this).find("span.time_hour").text()!=''&&$(this).find("span.time_minute").text()!=''){
+							var config={};
+							config.time=$(this).find("select.time_hour").val()+":"+$(this).find("select.time_minute").val();
+							config.dosage=$(this).find("input.dosage").val();
+							configs.push(config);
+						}else{
+							console.info($(this).find("input.dosage").val());
+							console.info($(this).find("span.time_hour").text());
+							console.info($(this).find("span.time_minute").text());
+							flag=0;
+						}
 					});
+					if(flag==0){
+						alert('请填写正确的用药计划');
+						$("#status_update").val(1);
+						return;
+					}
+					console.info(configs);
 					$.ajax({
 						url: submitMedicineConfigUrl,
 						type: "POST",
@@ -104,6 +158,10 @@ define(function(require, exports, module) {
 								util.toast("提交数据失败，请重新提交");
 								$("#status_update").val(1);
 							} else {
+								$("#status_update").val(1);
+								$('#datefrom').val('');
+								$('#dateto').val('');
+								$('.dosage').val('');
 								util.toast("提交成功");
 								//两秒后隐藏
 								setTimeout(function() {

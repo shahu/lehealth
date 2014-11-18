@@ -22,36 +22,38 @@
 							<select name="medacine" id="medacine" style="width:79%"></select>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;height:44px;">
+						<div style="width:100%;">
 							<label style="font-size:20px;height:44px; line-height:44px;float:left">用药计划</label>
 							<div style="clear:both"></div>
 						</div>
 						<div style="width:100%;margin-bottom:10px;">
-							<div style="width:100%;">
+							<div id="configs" style="width:100%;">
 								<div class="config" style="display: block;">
-									<select name="time_hour" data-inline="true" class="hourselect"></select>
+									<select name="time_hour" class="time_hour" data-inline="true" data-mini="true"></select>
 									:
-									<select name="time_minute" data-inline="true" class="minuteselect"></select>
-									<div style="width:45%;float:right;margin:.5em 0;height:44px;line-height:44px;vertical-align: middle;">
+									<select name="time_minute" class="time_minute" data-inline="true" data-mini="true"></select>
+									<div style="width:45%;margin-bottom:.5em;height:36px;line-height:36px;float:right;vertical-align: middle;">
 										<div style="width:45%;display: inline-block;">
-											<input type="number" name="dosage" data-mini="true">
+											<input type="number" class="dosage" name="dosage" data-mini="true">
 										</div>
 										毫克
-										<img src="images/plus.png" style="float:right;margin-top: 12px;" class="plus">
+										<img src="images/plus.png" style="float:right;margin-top: 12px;" class="add_icon">
 									</div>
+									<div style="clear:both"></div>
 								</div>
-								<div class="templete" style="display: none;">
-									<select name="time_hour" data-inline="true" class="hourselect"></select>
-									:
-									<select name="time_minute" data-inline="true" class="minuteselect"></select>
-									<div style="width:45%;float:right;margin:.5em 0;height:44px; line-height:44px;vertical-align: middle;">
-										<div style="width:45%;display: inline-block;">
-											<input type="number" name="dosage" data-mini="true">
-										</div>
-										毫克
-										<img src="images/minus.png" style="float:right;margin-top: 12px;" class="minus">
+							</div>
+							<div id="templete" style="display: none;">
+								<select name="time_hour" class="time_hour" data-inline="true" data-mini="true"></select>
+								:
+								<select name="time_minute" class="time_minute" data-inline="true" data-mini="true"></select>
+								<div style="width:45%;margin:.5em 0;height:36px;line-height:36px;float:right;vertical-align: middle;">
+									<div style="width:45%;display: inline-block;">
+										<input type="number" name="dosage" class="dosage" data-mini="true">
 									</div>
+									毫克
+									<img src="images/minus.png" style="float:right;margin-top: 12px;" class="del_icon">
 								</div>
+								<div style="clear:both"></div>
 							</div>
 							<div style="clear:both"></div>
 						</div>
@@ -74,6 +76,7 @@
 					</div>
 					<div style="padding: 0px 16px 0px 16px;background-color:#f9f9f9">
 						<a id="config_update" data-role="button">添加用药计划</a>
+						<input id="status_update" type="hidden" value="1">
 					</div>
 				</div>
 			</div>

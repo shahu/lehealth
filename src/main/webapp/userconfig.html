@@ -23,6 +23,18 @@
 				</div>
 				<div>
 					<div style="width:20%; float:left; font-size:20px; line-height:55px">
+						性别
+					</div>
+					<div style="width:80%; float:left">
+						<div style="padding: 17px 0px;">
+							<input type="radio" name="gender" id="male" value="0" data-role="none" checked="checked">男性 &nbsp;&nbsp;
+							<input type="radio" name="gender" id="female" value="1" data-role="none">女性							
+						</div>
+					</div>
+					<div style="clear:both"></div>
+				</div>				
+				<div>
+					<div style="width:20%; float:left; font-size:20px; line-height:55px">
 						生日
 					</div>
 					<div style="width:80%; float:left">
@@ -38,7 +50,16 @@
 						<input type="range" id="uheight" value="170" min="140" max="200" data-highlight="true">
 					</div>
 					<div style="clear:both"></div>
-				</div>							
+				</div>
+				<div>
+					<div style="width:20%; float:left; font-size:20px; line-height:55px">
+						体重
+					</div>
+					<div style="width:80%; float:left">
+						<input type="range" id="uweight" value="60" min="40" max="100" data-highlight="true">
+					</div>
+					<div style="clear:both"></div>
+				</div>										
 
 
 				<div style="height:100px"></div>
@@ -67,7 +88,6 @@
 			</div>
 			<script>
 				seajs.use(seajs.prefix + 'example/lehealth/userconfig', function(lehealth) {
-					lehealth.render();
 					lehealth.bindEvent();
 				});
 			</script>

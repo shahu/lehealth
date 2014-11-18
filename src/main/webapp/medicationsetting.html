@@ -12,88 +12,70 @@
 		<div data-role="page" data-theme="f" id="medicationsetting">
 			<div id="medicationsettingcover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000"></div>
 			<div data-role="content" style="overflow:hidden">
-				<div id="bpinput">
-					<div id="input_data" style="margin-top:30px;">
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">药品</label>
-							<select name="medacine" id="medacine" style="width:79%">
-							</select>
+				<div id="medicationinput">
+					<div id="input_data" style="margin:10px 0;">
+						<div style="width:100%;height:44px;">
+							<label style="font-size:20px;height:44px; line-height:44px;float:left">药品名称</label>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">频率</label>
-							<select name="frequency" id="frequency" style="width:79%">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
+						<div style="width:100%;margin-bottom:10px;">
+							<select name="medacine" id="medacine" style="width:79%"></select>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">片次</label>
-							<select name="amount" id="amount" style="width:79%">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
+						<div style="width:100%;height:44px;">
+							<label style="font-size:20px;height:44px; line-height:44px;float:left">用药计划</label>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left">时段</label>
-							<select name="timing" id="timing" style="width:79%">
-								<option value="1">饭前</option>
-								<option value="2">饭间</option>
-								<option value="3">饭后</option>
-							</select>
+						<div style="width:100%;margin-bottom:10px;">
+							<div style="width:100%;">
+								<div class="config" style="display: block;">
+									<select name="time_hour" data-inline="true" class="hourselect"></select>
+									:
+									<select name="time_minute" data-inline="true" class="minuteselect"></select>
+									<div style="width:45%;float:right;margin:.5em 0;height:44px;line-height:44px;vertical-align: middle;">
+										<div style="width:45%;display: inline-block;">
+											<input type="number" name="dosage" data-mini="true">
+										</div>
+										毫克
+										<img src="images/plus.png" style="float:right;margin-top: 12px;" class="plus">
+									</div>
+								</div>
+								<div class="templete" style="display: none;">
+									<select name="time_hour" data-inline="true" class="hourselect"></select>
+									:
+									<select name="time_minute" data-inline="true" class="minuteselect"></select>
+									<div style="width:45%;float:right;margin:.5em 0;height:44px; line-height:44px;vertical-align: middle;">
+										<div style="width:45%;display: inline-block;">
+											<input type="number" name="dosage" data-mini="true">
+										</div>
+										毫克
+										<img src="images/minus.png" style="float:right;margin-top: 12px;" class="minus">
+									</div>
+								</div>
+							</div>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;">开始</label>
-							<select id="datefrom_year" style="width:79%;display:inline-block;float:right;">
-							</select>
+						<div style="width:100%;height:44px;">
+							<label style="font-size:20px;height:44px; line-height:44px; float:left;">用药开始日期</label>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;"></label>
-							<select id="datefrom_month" style="width:79%;display:inline-block;float:right;">
-							</select>
+						<div style="width:100%;margin-bottom:10px;">
+							<input type="date" id="datefrom">
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;"></label>
-							<select id="datefrom_day" style="width:79%;display:inline-block;float:right;">
-							</select>
+						<div style="width:100%;height:44px;">
+							<label style="font-size:20px;height:44px; line-height:44px; float:left;">用药结束日期</label>
 							<div style="clear:both"></div>
 						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;">结束</label>
-							<select id="dateto_year" style="width:79%;display:inline-block;float:right;">
-							</select>
-							<div style="clear:both"></div>
-						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;"></label>
-							<select id="dateto_month" style="width:79%;display:inline-block;float:right;">
-							</select>
-							<div style="clear:both"></div>
-						</div>
-						<div style="width:100%;margin-bottom:20px;">
-							<label style="font-size:20px;height:44px; line-height:44px; width:20%; float:left;margin:0;"></label>
-							<select id="dateto_day" style="width:79%;display:inline-block;float:right;">
-							</select>
+						<div style="width:100%;margin-bottom:10px;">
+							<input type="date" id="dateto">
 							<div style="clear:both"></div>
 						</div>
 					</div>
+					<div style="padding: 0px 16px 0px 16px;background-color:#f9f9f9">
+						<a id="config_update" data-role="button">添加用药计划</a>
+					</div>
 				</div>
-				<div style="height:100px"></div>
-				<div style="position:fixed; bottom:40px; left:0px;right:0px;padding: 0px 16px 0px 16px;background-color:#f9f9f9">
-					<a id="config_update" data-role="button">添加用药计划</a>
-					<input id="status_update" type="hidden" value="1">
-				</div>					
 			</div>
 			<div data-role="footer" data-position="fixed">
 				<div data-role="navbar" data-theme="c">
@@ -105,7 +87,7 @@
 							<a href="/lehealth/bpmonitor.html">血压</a>
 						</li>
 						<li>
-							<a href="/lehealth/medicationrecord.html"  class="ui-btn-active ui-state-persist">用药</a>
+							<a href="/lehealth/medicationrecord.html" class="ui-btn-active ui-state-persist">用药</a>
 						</li>
 						<li>
 							<a href="/lehealth/config.html">我的</a>

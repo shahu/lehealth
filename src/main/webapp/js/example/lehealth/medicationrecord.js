@@ -8,9 +8,7 @@ define(function(require, exports, module) {
 	exports.render = function() {
 		$(document).off("pageshow", "#medicationrecord");
 		$(document).on("pageshow", "#medicationrecord", function() {
-
 			$("#medicationrecordcover").css("display", "none");
-
 			console.info("medicationrecord pageshow init");
 			$(".navigation").show();
 			console.info("medicationrecord navigation show");
@@ -55,30 +53,33 @@ define(function(require, exports, module) {
 				console.info("medicationrecord set medicationrecordlistwraper null");
 				$("#medicationrecordlistwraper").html('');
 				for (var i = 0; i < records.length; i++) {
-					var timing='饭前';
-					if(records[i].timing==2){
-						timing='饭间';
-					}else if(records[i].timing==3){
-						timing='饭后';
-					}
-					var addurl='/lehealth/medicationinput.html?a=1'
-						+'&medicineid='+records[i].medicineid
-						+'&medicinename='+records[i].medicinename
-						+'&amount='+records[i].amount
-						+'&timing='+timing
-						+'&frequency='+records[i].frequency
-						+'&medicineamount='+records[i].medicineamount;
 					var html='<li>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">计划服用'+records[i].medicinename+records[i].frequency+'次</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">每次'+timing+'服药'+records[i].amount+'片（粒）<a href="'+addurl+'"><img src="images/medication.png" style="float:right"></a></div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">今日已服用'+records[i].medicineamount+'次</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
+						+records[i].medicinename
+						+'</div>'
+						+'<ul>';;
+					for(var j=0;j<records[i].results.length;j++){
+						var addurl='/lehealth/medicationinput.html?a=1'
+							+'&medicineid='+records[i].medicineid
+							+'&medicinename='+records[i].medicinename
+							+'&time='+records[i].results[j].time
+							+'&dosage='+records[i].results[j].dosage;
+						html+='<li style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'+records[i].results[j].time+'服用'+records[i].results[j].dosage+'毫克';
+						if(records[i].results[j].status=='0'){
+							html+='<a href="'+addurl+'"><img src="images/plus.png" style="float:right;margin-top:2px;"></a>';
+						}else{
+							html+='<span style="float:right">已服用</span>';
+						}
+						html+='</li>';
+					}
+					html+='</ul>'
 						+'</li>';
+					console.info(html);
 					$("#medicationrecordlistwraper").append(html);
 				}
 				console.info("medicationconfig medicationrecordlistwraper refresh");
 				$('#medicationrecordlistwraper').listview("refresh");
 			}
-			
 		});
 	};
 });

@@ -49,11 +49,11 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	@Override
 	public Map<Integer,MedicineInfo> selectMedicineHistory(String userId){
 		String sql="SELECT t1.medicineid,t2.name as medicinename,t1.time as configtime,t1.dosage as configdosage,"
-				+"t2.time as historytime,t3.dosage as historydosage,t3.medicinedate "
+				+"t3.time as historytime,t3.dosage as historydosage,t3.updatetime,t3.medicineid as checkid "
 				+"FROM MedicineSetting t1 "
 				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
 				+"LEFT JOIN MedicineHistory t3 "
-				+"ON (t1.userid=t3.userid AND t1.medicineid=t3.medicineid AND t1.time=t3.time AND t3.recordDate=:date) "
+				+"ON (t1.userid=t3.userid AND t1.medicineid=t3.medicineid AND t1.time=t3.time AND Date(t3.updatetime)=:date) "
 				+"WHERE t1.userid=:userid "
 				+"AND t1.datefrom<=:date "
 				+"AND t1.dateto>=:date ";
@@ -64,16 +64,19 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		Map<Integer,MedicineInfo> map=new HashMap<Integer, MedicineInfo>();
 		while(rs.next()){
 			int medicineId=rs.getInt("medicineid");
+			String checkId=rs.getString("checkid");
 			if(!map.containsKey(medicineId)){
 				MedicineInfo info=new MedicineInfo();
 				info.setMedicineid(medicineId);
 				info.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
-				info.setDate(rs.getDate("medicinedate").getTime());
+				if(StringUtils.isNotBlank(checkId)){
+					info.setDate(rs.getDate("updatetime").getTime());
+				}
 				map.put(medicineId, info);
 			}
 			MedicineInfo info=map.get(medicineId);
 			info.addConfig(StringUtils.trimToEmpty(rs.getString("configtime")), rs.getFloat("configdosage"));
-			if(StringUtils.isNotBlank(rs.getString("historytime"))){
+			if(StringUtils.isNotBlank(checkId)){
 				info.addSituation(StringUtils.trimToEmpty(rs.getString("historytime")), rs.getFloat("historydosage"));
 			}
 		}
@@ -83,16 +86,21 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	@Override
 	public boolean updateMedicineHistory(final MedicineInfo info){
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("uuid", TokenUtils.buildUUid());
 		msps.addValue("userid", info.getUserid());
 		msps.addValue("medicineid", info.getMedicineid());
-		msps.addValue("medicinedate", new Date(info.getDate()));
 		msps.addValue("time", info.getTime());
 		msps.addValue("dosage", info.getDosage());
-		String sql="INSERT INTO MedicineHistory VALUE(:uuid,:userid,:medicineid,:time,:dosage,:medicinedate,now())";
+		String sql="UPDATE MedicineHistory SET dosage=:dosage,updatetime=NOW() WHERE userid=:userid AND medicineid=:medicineid AND time=:time";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			return false;
+			msps.addValue("uuid", TokenUtils.buildUUid());
+			sql="INSERT INTO MedicineHistory VALUE(:uuid,:userid,:medicineid,:time,:dosage,now())";
+			i=this.namedJdbcTemplate.update(sql, msps);
+			if(i==0){
+				return false;
+			}else{
+				return true;
+			}
 		}else{
 			return true;
 		}

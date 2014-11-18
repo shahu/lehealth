@@ -15,16 +15,22 @@ define(function(require, exports, module) {
 			var	token = util.getCookieByKey("tk");
 			
 			var medicinename=util.getParams("medicinename");
-			var amount=util.getParams("amount");
-			var timing=util.getParams("timing");
-			var frequency=util.getParams("frequency");
+			$("#medicinename").text(medicinename);
+			
+			var configs=JSON.parse(decodeURIComponent(util.getParams("configs")));
+			var plan='<ul>';
+			for(var i=0;i<configs.length;i++){
+				plan+='<li>'
+					+'每天于'+configs[i].time
+					+'服用'+configs[i].dosage
+					+'毫克'
+					+'</li>';
+			}
+			plan+="</ul>";
+			$("#plan").append(plan);
+			
 			var datefrom=util.getParams("datefrom");
 			var dateto=util.getParams("dateto");
-			$("#medicinename").text(medicinename);
-			var plan1='每日'+frequency+'次，每次'+amount+'片';
-			var plan2=timing+'服用';
-			$("#plan1").text(plan1);
-			$("#plan2").text(plan2);
 			$("#datefrom").text(datefrom);
 			$("#dateto").text(dateto);
 			

@@ -212,7 +212,6 @@ public class SettingsController {
 			long birthday=NumberUtils.toInt(request.getParameter("birthday"));;
 			float height=NumberUtils.toInt(request.getParameter("height"));;
 			float weight=NumberUtils.toInt(request.getParameter("weight"));
-			float userInfocol=NumberUtils.toInt(request.getParameter("userinfocol"));
 			UserInfo info=new UserInfo();
 			info.setBirthday(birthday);
 			info.setGender(gender);
@@ -220,7 +219,6 @@ public class SettingsController {
 			info.setUserId(userId);
 			info.setUserName(userName);
 			info.setWeight(weight);
-			info.setUserInfocol(userInfocol);
 			if(this.settingsService.modifyUserInfo(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
@@ -264,12 +262,10 @@ public class SettingsController {
 		if(StringUtils.isNotBlank(userId)){
 			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-			int needNotice=NumberUtils.toInt(request.getParameter("neednotice"));
 			UserGuardianInfo info=new UserGuardianInfo();
 			info.setUserId(userId);
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
-			info.setNeedNotice(needNotice);
 			if(this.settingsService.modifyUserGuardianInfo(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

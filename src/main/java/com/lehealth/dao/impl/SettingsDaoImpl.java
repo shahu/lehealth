@@ -22,7 +22,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	@Override
 	public BloodpressureConfig selectBloodpressureSetting(String userId) {
-		String sql="SELECT * FROM Bpsetting WHERE userid=:userid";
+		String sql="SELECT * FROM bp_setting WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -56,10 +56,10 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		msps.addValue("sbp2", bpConfig.getSbp2());
 		msps.addValue("heartrate1", bpConfig.getHeartrate1());
 		msps.addValue("heartrate2", bpConfig.getHeartrate2());
-		String sql="UPDATE Bpsetting SET dbp1=:dbp1,dbp2 =:dbp2,sbp1 =:sbp1,sbp2 =:sbp2,heartrate1 =:heartrate1,heartrate2 =:heartrate2 WHERE userid=:userid;";
+		String sql="UPDATE bp_setting SET dbp1=:dbp1,dbp2 =:dbp2,sbp1 =:sbp1,sbp2 =:sbp2,heartrate1 =:heartrate1,heartrate2 =:heartrate2 WHERE userid=:userid;";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO Bpsetting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2:,:heartrate1,:heartrate2)";
+			sql="INSERT INTO bp_setting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2:,:heartrate1,:heartrate2)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
@@ -71,8 +71,8 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	@Override
 	public Map<Integer,MedicineConfig> selectMedicineSettings(String userId) {
-		String sql="SELECT t1.*,t2.name AS medicinename FROM MedicineSetting t1 "
-				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
+		String sql="SELECT t1.*,t2.name AS medicinename FROM medicine_setting t1 "
+				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
 				+"WHERE t1.userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
@@ -107,7 +107,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 				msps.addValue("time", e.getKey());
 				msps.addValue("dosage", e.getValue());
 				msps.addValue("uuid", TokenUtils.buildUUid());
-				String sql="INSERT INTO MedicineSetting VALUE(:uuid,:userid,:medicineid,:dosage,:time,:datefrom,:dateto)";
+				String sql="INSERT INTO medicine_setting VALUE(:uuid,:userid,:medicineid,:dosage,:time,:datefrom,:dateto)";
 				index+=this.namedJdbcTemplate.update(sql, msps);
 			}
 		}
@@ -122,7 +122,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("medicineid", medicineId);
-		String sql="DELETE FROM MedicineSetting WHERE userid=:userid AND medicineid=:medicineid";
+		String sql="DELETE FROM medicine_setting WHERE userid=:userid AND medicineid=:medicineid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			return false;
@@ -133,7 +133,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	@Override
 	public UserInfo selectUserInfo(String userid) {
-		String sql="SELECT * FROM UserInfo WHERE userid=:userid";
+		String sql="SELECT * FROM user_info WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -145,14 +145,12 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 			long birthday=rs.getDate("birthday").getTime();
 			float height=rs.getFloat("height");
 			float weight=rs.getFloat("weight");
-			float userInfocol=rs.getFloat("UserInfocol");
 			info.setUserId(id);
 			info.setUserName(userName);
 			info.setGender(gender);
 			info.setBirthday(birthday);
 			info.setHeight(height);
 			info.setWeight(weight);
-			info.setUserInfocol(userInfocol);
 		}
 		return info;
 	}
@@ -164,13 +162,12 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		msps.addValue("gender", info.getGender());
 		msps.addValue("birthday", new Timestamp(info.getBirthday()));
 		msps.addValue("height", info.getHeight());
-		msps.addValue("UserInfocol", info.getUserInfocol());
 		msps.addValue("weight", info.getWeight());
 		msps.addValue("username", info.getUserName());
-		String sql="UPDATE UserInfo SET gender=:gender,birthday=:birthday,height=:height,UserInfocol=:UserInfocol,weight=:weight,username=:username WHERE userid=:userid";
+		String sql="UPDATE user_info SET gender=:gender,birthday=:birthday,height=:height,weight=:weight,username=:username WHERE userid=:userid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO UserInfo VALUE(:uuid,:userid,:gender,:birthday,:height,:UserInfocol,:weight,:username)";
+			sql="INSERT INTO user_info VALUE(:uuid,:userid,:gender,:birthday,:height,:weight,:username)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
@@ -182,7 +179,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	@Override
 	public UserGuardianInfo selectUserGuardianInfo(String userId) {
-		String sql="SELECT * FROM UserGuardian WHERE userid=:userid";
+		String sql="SELECT * FROM user_guardian WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -191,11 +188,9 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String guardianName=StringUtils.trimToEmpty(rs.getString("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(rs.getString("guardiannumber"));
-			int needNotice=rs.getInt("neednotice");
 			info.setUserId(id);
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
-			info.setNeedNotice(needNotice);
 		}
 		return info;
 	}
@@ -206,11 +201,10 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("guardianname", info.getGuardianName());
 		msps.addValue("guardiannumber", info.getGuardianNumber());
-		msps.addValue("neednotice", info.getNeedNotice());
-		String sql="UPDATE UserGuardian SET guardianname=:guardianname,guardiannumber=:guardiannumber,neednotice=:neednotice WHERE userid=:userid";
+		String sql="UPDATE user_guardian SET guardianname=:guardianname,guardiannumber=:guardiannumber WHERE userid=:userid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO UserInfo VALUE(:uuid,:userid,:guardianname,:guardianname,:guardiannumber,:neednotice)";
+			sql="INSERT INTO user_guardian VALUE(:uuid,:userid,:guardianname,:guardianname,:guardiannumber)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){

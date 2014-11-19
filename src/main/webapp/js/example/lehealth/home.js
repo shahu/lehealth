@@ -100,7 +100,7 @@ define(function(require, exports, module) {
 				trendchart = chart;
 				chartcount--;
 				if (chartcount == 0) {
-					//doRequestBpData();
+					doRequestBpData();
 				}
 			});
 			

@@ -24,7 +24,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	public List<MedicineCategroy> selectMedicines() {
 		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
 		Map<Integer,MedicineCategroy> map=new HashMap<Integer,MedicineCategroy>();
-		String sql="SELECT t1.id AS mid,t1.name AS mName,t2.id AS cid,t2.name AS cName FROM Medicines t1 INNER JOIN MedicineCategory t2 ON t1.cateid=t2.id";
+		String sql="SELECT t1.id AS mid,t1.name AS mName,t2.id AS cid,t2.name AS cName FROM medicine t1 INNER JOIN medicine_category t2 ON t1.cateid=t2.id";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
 			int mid=rs.getInt("mid");
@@ -50,9 +50,9 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	public Map<Integer,MedicineInfo> selectMedicineHistory(String userId){
 		String sql="SELECT t1.medicineid,t2.name as medicinename,t1.time as configtime,t1.dosage as configdosage,"
 				+"t3.time as historytime,t3.dosage as historydosage,t3.updatetime,t3.medicineid as checkid "
-				+"FROM MedicineSetting t1 "
-				+"INNER JOIN Medicines t2 ON t1.medicineid=t2.id "
-				+"LEFT JOIN MedicineHistory t3 "
+				+"FROM medicine_setting t1 "
+				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
+				+"LEFT JOIN medicine_record t3 "
 				+"ON (t1.userid=t3.userid AND t1.medicineid=t3.medicineid AND t1.time=t3.time AND Date(t3.updatetime)=:date) "
 				+"WHERE t1.userid=:userid "
 				+"AND t1.datefrom<=:date "
@@ -90,11 +90,11 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		msps.addValue("medicineid", info.getMedicineid());
 		msps.addValue("time", info.getTime());
 		msps.addValue("dosage", info.getDosage());
-		String sql="UPDATE MedicineHistory SET dosage=:dosage,updatetime=NOW() WHERE userid=:userid AND medicineid=:medicineid AND time=:time";
+		String sql="UPDATE medicine_record SET dosage=:dosage,updatetime=NOW() WHERE userid=:userid AND medicineid=:medicineid AND time=:time";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			msps.addValue("uuid", TokenUtils.buildUUid());
-			sql="INSERT INTO MedicineHistory VALUE(:uuid,:userid,:medicineid,:time,:dosage,now())";
+			sql="INSERT INTO medicine_record VALUE(:uuid,:userid,:medicineid,:time,:dosage,now())";
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
 				return false;

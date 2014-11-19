@@ -13,7 +13,7 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 
 	@Override
 	public boolean insertUser(User user) {
-		String sql="INSERT INTO User VALUE(:userid,:loginid,:pwdmd5)";
+		String sql="INSERT INTO user VALUE(:userid,:loginid,:pwdmd5)";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", user.getUserid());
 		msps.addValue("loginid", user.getLoginid());
@@ -28,7 +28,7 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 
 	@Override
 	public boolean checkUser4Login(String loginId, String pwdmd5) {
-		String sql="SELECT loginid FROM User WHERE loginid=:loginId AND pwdmd5=:pwdmd5";
+		String sql="SELECT loginid FROM user WHERE loginid=:loginId AND pwdmd5=:pwdmd5";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("loginId", loginId);
 		msps.addValue("pwdmd5", pwdmd5);
@@ -42,7 +42,7 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 
 	@Override
 	public User getUser(String loginId) {
-		String sql="SELECT userid,pwdmd5 FROM User WHERE loginid=:loginId";
+		String sql="SELECT userid,pwdmd5 FROM user WHERE loginid=:loginId";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("loginId", loginId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);

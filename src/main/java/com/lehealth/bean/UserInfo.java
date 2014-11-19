@@ -11,14 +11,7 @@ public class UserInfo {
 	private long birthday=0;
 	private float height=0;
 	private float weight=0;
-	private float userInfocol=0;
 	
-	public float getUserInfocol() {
-		return userInfocol;
-	}
-	public void setUserInfocol(float userInfocol) {
-		this.userInfocol = userInfocol;
-	}
 	public String getUserId() {
 		return userId;
 	}

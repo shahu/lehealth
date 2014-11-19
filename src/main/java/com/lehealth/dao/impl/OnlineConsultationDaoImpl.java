@@ -18,7 +18,7 @@ public class OnlineConsultationDaoImpl extends BaseJdbcDao implements OnlineCons
 	@Override
 	public List<Doctor> selectDoctors() {
 		List<Doctor> list=new ArrayList<Doctor>();
-		String sql="SELECT * FROM Doctors";
+		String sql="SELECT * FROM doctors";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
 			Doctor d=new Doctor();
@@ -37,7 +37,7 @@ public class OnlineConsultationDaoImpl extends BaseJdbcDao implements OnlineCons
 	@Override
 	public List<Activitie> selectAtivities() {
 		List<Activitie> list=new ArrayList<Activitie>();
-		String sql="SELECT * FROM Activities";
+		String sql="SELECT * FROM activitie";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
 			Activitie a=new Activitie();
@@ -57,7 +57,7 @@ public class OnlineConsultationDaoImpl extends BaseJdbcDao implements OnlineCons
 	@Override
 	public Doctor selectDoctorById(int doctorId) {
 		Doctor d=new Doctor();
-		String sql="SELECT * FROM Doctors WHERE id=:doctorId";
+		String sql="SELECT * FROM doctors WHERE id=:doctorId";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("doctorId", doctorId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql,msps);

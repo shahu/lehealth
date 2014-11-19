@@ -7,7 +7,6 @@ public class UserGuardianInfo {
 	private String userId="";
 	private String guardianName="";
 	private String guardianNumber="";
-	private int needNotice=0;
 	
 	public String getUserId() {
 		return userId;
@@ -27,18 +26,11 @@ public class UserGuardianInfo {
 	public void setGuardianNumber(String guardianNumber) {
 		this.guardianNumber = guardianNumber;
 	}
-	public int getNeedNotice() {
-		return needNotice;
-	}
-	public void setNeedNotice(int needNotice) {
-		this.needNotice = needNotice;
-	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("userid", userId);
 		obj.accumulate("guardiannumber", guardianNumber);
 		obj.accumulate("guardianname", guardianName);
-		obj.accumulate("neednotice", needNotice);
 		return obj;
 	}
 	

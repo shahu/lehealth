@@ -66,11 +66,13 @@ public class SettingsServiceImpl implements SettingsService{
 		return this.settingsDao.updateUserInfo(info);
 	}
 
+	//获取监护人信息
 	@Override
 	public UserGuardianInfo getUserGuardianInfo(String userId) {
 		return this.settingsDao.selectUserGuardianInfo(userId);
 	}
 
+	//更新监护人信息
 	@Override
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info) {
 		return this.settingsDao.updateUserGuardianInfo(info);

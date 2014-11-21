@@ -66,7 +66,7 @@ define(function(require, exports, module) {
 							+'&dosage='+records[i].results[j].dosage;
 						html+='<li style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'+records[i].results[j].time+'服用'+records[i].results[j].dosage+'毫克';
 						if(records[i].results[j].status=='0'){
-							html+='<a href="'+addurl+'"><img src="images/plus.png" style="float:right;margin-top:2px;"></a>';
+							html+='<a href="'+addurl+'"><span style="float:right">记录服用</span></a>';
 						}else{
 							html+='<span style="float:right">已服用</span>';
 						}

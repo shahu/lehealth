@@ -44,7 +44,8 @@ public class BloodpressureController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId);
+			int days=NumberUtils.toInt(request.getParameter("days"));
+			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId,days);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);

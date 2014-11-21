@@ -13,16 +13,17 @@ public class BloodpressureResult {
 	
 	public int getStatus() {
 		for(BloodpressureInfo record:records){
-			if(!(record.getDbp()>=config.getDbp1()
-					&&record.getDbp()<=config.getDbp2()
-					&&record.getSbp()>=config.getSbp1()
-					&&record.getSbp()<=config.getSbp2()
-					&&record.getHeartrate()>=config.getHeartrate1()
-					&&record.getHeartrate()<=config.getHeartrate2())){
+			if(record.getDbp()>=config.getDbp2()
+				||record.getSbp()>=config.getSbp2()
+				||record.getHeartrate()>=config.getHeartrate2()){
+				return 3;
+			}else if(record.getDbp()<=config.getDbp1()
+				||record.getSbp()<=config.getSbp1()
+				||record.getHeartrate()<=config.getHeartrate1()){
 				return 1;
 			}
 		}
-		return 0;
+		return 2;
 	}
 	public void setConfig(BloodpressureConfig config) {
 		this.config = config;

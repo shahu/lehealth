@@ -87,18 +87,4 @@ public class MedicineController {
 		return responseBody;
 	}
 		
-	//药物列表
-	@ResponseBody
-	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
-	public ResponseBean medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
-		List<MedicineCategroy> list=this.medicineService.getMedicines();
-		JSONArray arr=new JSONArray();
-		for(MedicineCategroy mc:list){
-			arr.add(mc.toJsonObj());
-		}
-		responseBody.setResult(arr);
-		return responseBody;
-	}
-	
 }

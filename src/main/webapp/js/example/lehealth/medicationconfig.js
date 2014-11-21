@@ -62,12 +62,6 @@ define(function(require, exports, module) {
 					console.info("test4:"+$("#medicationconfiglistwraper").html());
 					var datefrom=new Date(settings[i].datefrom);
 					var dateto=new Date(settings[i].dateto);
-					var timing='饭前';
-					if(settings[i].timing==2){
-						timing='饭间';
-					}else if(settings[i].timing==3){
-						timing='饭后';
-					}
 					var delurl='/lehealth/medicationdelsetting.html?a=1'
 						+'&medicineid='+settings[i].medicineid
 						+'&medicinename='+settings[i].medicinename
@@ -78,7 +72,7 @@ define(function(require, exports, module) {
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
 						+settings[i].medicinename
 						+'<a href="'+delurl+'">'
-						+'<img src="images/del.png" style="float:right">'
+						+'<span style="float:right">删除</span>'
 						+'</a>'
 						+'</div>'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'

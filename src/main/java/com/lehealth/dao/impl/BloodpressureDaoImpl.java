@@ -16,8 +16,8 @@ import com.lehealth.util.TokenUtils;
 public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDao {
 
 	@Override
-	public List<BloodpressureInfo> selectBloodpressureRecords(String userId) {
-		String sql="SELECT * FROM bp_record WHERE userid=:userid ORDER BY recordDate DESC limit 7";
+	public List<BloodpressureInfo> selectBloodpressureRecords(String userId,int days) {
+		String sql="SELECT * FROM bp_record WHERE userid=:userid ORDER BY recordDate DESC limit "+days;
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		List<BloodpressureInfo> list = new ArrayList<BloodpressureInfo>();

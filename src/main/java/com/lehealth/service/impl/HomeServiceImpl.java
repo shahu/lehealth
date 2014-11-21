@@ -38,7 +38,7 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public HomeResult getHomeData(String userId) {
 		HomeResult result=new HomeResult();
-		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId);
+		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId,7);
 		Collections.sort(list, new Comparator<BloodpressureInfo>() {
 			@Override
 			public int compare(BloodpressureInfo o1, BloodpressureInfo o2) {

@@ -12,7 +12,5 @@ public interface MedicineDao {
 	public Map<Integer,MedicineInfo> selectMedicineHistory(String userId);
 	//更新用药记录
 	public boolean updateMedicineHistory(MedicineInfo info);
-	//获取药物列表
-	public List<MedicineCategroy> selectMedicines();
 	
 }

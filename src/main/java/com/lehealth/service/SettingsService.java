@@ -35,4 +35,10 @@ public interface SettingsService {
 	
 	//更新个人信息
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info);
+	
+	//获取病例
+	public UserGuardianInfo getUserGuardianInfo(String userId);
+	
+	//更新病例
+	public boolean modifyUserGuardianInfo(UserGuardianInfo info);
 }

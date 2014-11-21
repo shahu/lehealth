@@ -1,9 +1,7 @@
 package com.lehealth.dao.impl;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,40 +9,12 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import com.lehealth.bean.Medicine;
-import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.dao.MedicineDao;
 import com.lehealth.util.TokenUtils;
 
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
-
-	@Override
-	public List<MedicineCategroy> selectMedicines() {
-		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
-		Map<Integer,MedicineCategroy> map=new HashMap<Integer,MedicineCategroy>();
-		String sql="SELECT t1.id AS mid,t1.name AS mName,t2.id AS cid,t2.name AS cName FROM medicine t1 INNER JOIN medicine_category t2 ON t1.cateid=t2.id";
-		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
-		while(rs.next()){
-			int mid=rs.getInt("mid");
-			String mname=StringUtils.trimToEmpty(rs.getString("mName"));
-			int cid=rs.getInt("cid");
-			String cname=StringUtils.trimToEmpty(rs.getString("cName"));
-			if(!map.containsKey(cid)){
-				MedicineCategroy medicineCategroy=new MedicineCategroy();
-				medicineCategroy.setCateid(cid);
-				medicineCategroy.setCatename(cname);
-				map.put(cid, medicineCategroy);
-			}
-			Medicine medicine=new Medicine();
-			medicine.setId(mid);
-			medicine.setName(mname);
-			map.get(cid).addMedicine(medicine);
-		}
-		list.addAll(map.values());
-		return list;
-	}
 
 	@Override
 	public Map<Integer,MedicineInfo> selectMedicineHistory(String userId){

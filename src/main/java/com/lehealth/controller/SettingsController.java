@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.bean.BloodpressureConfig;
+import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.bean.UserGuardianInfo;
@@ -232,7 +233,7 @@ public class SettingsController {
 	
 	//获取监护人设置和短信通知
 	@ResponseBody
-	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/diseases.do", method = RequestMethod.GET)
 	public ResponseBean getGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -277,4 +278,64 @@ public class SettingsController {
 		return responseBody;
 	}
 	
+	//获取关注医生列表
+	@ResponseBody
+	@RequestMapping(value = "/attentiondoctors.do", method = RequestMethod.GET)
+	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		ResponseBean responseBody=new ResponseBean();
+		List<Doctor> list=this.onlineConsultationService.getDoctors();
+		JSONArray arr=new JSONArray();
+		for(Doctor d:list){
+			arr.add(d.toJsonObj());
+		}
+		responseBody.setResult(arr);
+		return responseBody;
+	}
+		
+	//获取病例
+	@ResponseBody
+	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.GET)
+	public ResponseBean getGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			UserGuardianInfo info=this.settingsService.getUserGuardianInfo(userId);
+			if(StringUtils.isNotBlank(info.getUserId())){
+				responseBody.setResult(info.toJsonObj());
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+	
+	//添加新病例
+	@ResponseBody
+	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.POST)
+	public ResponseBean modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
+			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
+			UserGuardianInfo info=new UserGuardianInfo();
+			info.setUserId(userId);
+			info.setGuardianName(guardianName);
+			info.setGuardianNumber(guardianNumber);
+			if(this.settingsService.modifyUserGuardianInfo(info)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
 }

@@ -18,33 +18,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.bean.Activitie;
+import com.lehealth.bean.DiseaseCategroy;
 import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.service.CommonService;
 import com.lehealth.service.LoginService;
-import com.lehealth.service.OnlineConsultationService;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/api")
-public class OnlineConsultationController {
+public class CommonController {
 
 	@Autowired
 	@Qualifier("loginService")
 	private LoginService loginService;
 	
 	@Autowired
-	@Qualifier("onlineConsultationService")
-	private OnlineConsultationService onlineConsultationService;
+	@Qualifier("commonService")
+	private CommonService commonService;
 	
-	private static Logger logger = Logger.getLogger(OnlineConsultationController.class);
+	private static Logger logger = Logger.getLogger(CommonController.class);
 	
 	//获取医生列表
 	@ResponseBody
 	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
 	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
-		List<Doctor> list=this.onlineConsultationService.getDoctors();
+		List<Doctor> list=this.commonService.getDoctors();
 		JSONArray arr=new JSONArray();
 		for(Doctor d:list){
 			arr.add(d.toJsonObj());
@@ -59,7 +60,7 @@ public class OnlineConsultationController {
 	public ResponseBean doctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
-		Doctor doctor=this.onlineConsultationService.getDoctor(doctorId);
+		Doctor doctor=this.commonService.getDoctor(doctorId);
 		if(doctor.getId()!=0){
 			responseBody.setResult(doctor.toJsonObj());
 		}else{
@@ -73,7 +74,7 @@ public class OnlineConsultationController {
 	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)
 	public ResponseBean activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
-		List<Activitie> list=this.onlineConsultationService.getAtivities();
+		List<Activitie> list=this.commonService.getAtivities();
 		JSONArray arr=new JSONArray();
 		for(Activitie a:list){
 			arr.add(a.toJsonObj());
@@ -82,4 +83,31 @@ public class OnlineConsultationController {
 		return responseBody;
 	}
 	
+	//药物列表
+	@ResponseBody
+	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
+	public ResponseBean medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		ResponseBean responseBody=new ResponseBean();
+		List<MedicineCategroy> list=this.commonService.getMedicines();
+		JSONArray arr=new JSONArray();
+		for(MedicineCategroy mc:list){
+			arr.add(mc.toJsonObj());
+		}
+		responseBody.setResult(arr);
+		return responseBody;
+	}
+		
+	//疾病列表
+	@ResponseBody
+	@RequestMapping(value = "/diseases.do", method = RequestMethod.GET)
+	public ResponseBean diseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		ResponseBean responseBody=new ResponseBean();
+		List<DiseaseCategroy> list=this.commonService.getDiseases();
+		JSONArray arr=new JSONArray();
+		for(DiseaseCategroy mc:list){
+			arr.add(mc.toJsonObj());
+		}
+		responseBody.setResult(arr);
+		return responseBody;
+	}
 }

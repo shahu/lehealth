@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.dao.MedicineDao;
 import com.lehealth.service.MedicineService;
@@ -34,10 +33,5 @@ public class MedicineServiceImpl implements MedicineService{
 	public boolean updateMedicineHistory(MedicineInfo info){
 		return this.medicineDao.updateMedicineHistory(info);
 	}
-	@Override
-	public List<MedicineCategroy> getMedicines() {
-		return this.medicineDao.selectMedicines();
-	}
-
 	
 }

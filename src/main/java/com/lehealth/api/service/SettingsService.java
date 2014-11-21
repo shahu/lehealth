@@ -46,4 +46,7 @@ public interface SettingsService {
 	
 	//获取关注医生
 	public List<Doctor> getAttentionDoctor(String userId);
+	
+	//关注或取消关注医生
+	public boolean attentionDoctor(String userId,int doctorId,int status);
 }

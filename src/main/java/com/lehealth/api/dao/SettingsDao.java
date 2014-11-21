@@ -47,4 +47,10 @@ public interface SettingsDao {
 	
 	//获取关注医生
 	public List<Doctor> selectAttentionDoctor(String userId);
+	
+	//关注医生
+	public boolean cancelAttentionDoctor(String userId,int doctorId);
+	
+	//取消关注医生
+	public boolean attentionDoctor(String userId,int doctorId);
 }

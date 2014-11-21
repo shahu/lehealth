@@ -234,7 +234,7 @@ public class SettingsController {
 	
 	//获取监护人设置和短信通知
 	@ResponseBody
-	@RequestMapping(value = "/diseases.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.GET)
 	public ResponseBean getGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -309,13 +309,9 @@ public class SettingsController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
-			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-			UserGuardianInfo info=new UserGuardianInfo();
-			info.setUserId(userId);
-			info.setGuardianName(guardianName);
-			info.setGuardianNumber(guardianNumber);
-			if(this.settingsService.modifyUserGuardianInfo(info)){
+			int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
+			int status=NumberUtils.toInt(request.getParameter("status"));
+			if(this.settingsService.attentionDoctor(userId,doctorId,status)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

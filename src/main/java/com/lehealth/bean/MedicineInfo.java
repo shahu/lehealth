@@ -3,7 +3,6 @@ package com.lehealth.bean;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -75,6 +74,7 @@ public class MedicineInfo{
 		if(configs!=null&&!configs.isEmpty()){
 			obj.accumulate("medicineid", medicineid);
 			obj.accumulate("medicinename", medicinename);
+			obj.accumulate("date", date);
 			JSONArray arr=new JSONArray();
 			for(Entry<String,Float> e:configs.entrySet()){
 				JSONObject configObj=new JSONObject();

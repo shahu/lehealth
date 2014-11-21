@@ -281,5 +281,34 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 		}
 		return list;
 	}
+
+	@Override
+	public boolean cancelAttentionDoctor(String userId, int doctorId) {
+		String sql="DELETE FROM attention_user_doctor WHERE userid=:userid AND doctorid=:doctorid";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		msps.addValue("doctorid", doctorId);
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	@Override
+	public boolean attentionDoctor(String userId, int doctorId) {
+		String sql="INSERT INTO attention_user_doctor VALUE(:uuid,:userid,:doctorid)";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("uuid", TokenUtils.buildUUid());
+		msps.addValue("userid", userId);
+		msps.addValue("doctorid", doctorId);
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
 	
 }

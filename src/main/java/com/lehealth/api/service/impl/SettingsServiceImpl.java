@@ -94,4 +94,15 @@ public class SettingsServiceImpl implements SettingsService{
 	public List<Doctor> getAttentionDoctor(String userId) {
 		return this.settingsDao.selectAttentionDoctor(userId);
 	}
+	
+	@Override
+	public boolean attentionDoctor(String userId,int doctorId,int status){
+		//取消关注
+		if(status==0){
+			return this.settingsDao.cancelAttentionDoctor(userId,doctorId);
+		//关注
+		}else{
+			return this.settingsDao.attentionDoctor(userId,doctorId);
+		}
+	}
 }

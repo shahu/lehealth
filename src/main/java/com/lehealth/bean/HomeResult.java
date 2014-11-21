@@ -24,7 +24,7 @@ public class HomeResult extends BloodpressureResult{
 			for(MedicineInfo record:medicineecords){
 				arr.add(record.toJsonObj());
 			}
-			obj.accumulate("records", arr);
+			obj.accumulate("history", arr);
 		}
 		return obj;
 	}

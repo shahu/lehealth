@@ -1,6 +1,8 @@
 package com.lehealth.api.dao.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -62,21 +64,23 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 	}
 
 	@Override
-	public UserGuardianInfo selectUserGuardianInfo(String userId) {
+	public List<UserGuardianInfo> selectUserGuardianInfos(String userId) {
 		String sql="SELECT userid,guardianname,guardiannumber FROM user_guardian WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		UserGuardianInfo info=new UserGuardianInfo();
-		if(rs.next()){
+		List<UserGuardianInfo> list=new ArrayList<UserGuardianInfo>();
+		while(rs.next()){
+			UserGuardianInfo info=new UserGuardianInfo();
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String guardianName=StringUtils.trimToEmpty(rs.getString("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(rs.getString("guardiannumber"));
 			info.setUserId(id);
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
+			list.add(info);
 		}
-		return info;
+		return list;
 	}
 
 	@Override
@@ -96,10 +100,11 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 	}
 
 	@Override
-	public boolean deleteUserGuardianInfo(String userId) {
+	public boolean deleteUserGuardianInfo(String userId,String guardianNumber) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
-		String sql="DELETE FROM user_guardian WHERE userid=:userid";
+		msps.addValue("guardiannumber", guardianNumber);
+		String sql="DELETE FROM user_guardian WHERE userid=:userid and guardiannumber=:guardiannumber";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			return false;

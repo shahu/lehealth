@@ -1,8 +1,13 @@
 package com.lehealth.api.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -12,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.UserService;
+import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
@@ -88,19 +95,19 @@ public class UserController {
 	
 	//获取监护人信息
 	@ResponseBody
-	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.GET)
-	public ResponseBean getGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/guardianinfos.do", method = RequestMethod.GET)
+	public ResponseBean getGuardianInfos(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			UserGuardianInfo info=this.userService.getUserGuardianInfo(userId);
-			if(StringUtils.isNotBlank(info.getUserId())){
-				responseBody.setResult(info.toJsonObj());
-			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+			List<UserGuardianInfo> list=this.userService.getUserGuardianInfos(userId);
+			JSONArray arr=new JSONArray();
+			for(UserGuardianInfo info:list){
+				arr.add(info.toJsonObj());
 			}
+			responseBody.setResult(arr);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -141,8 +148,9 @@ public class UserController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
+		String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
 		if(StringUtils.isNotBlank(userId)){
-			if(this.userService.delUserGuardianInfo(userId)){
+			if(this.userService.delUserGuardianInfo(userId,guardianNumber)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

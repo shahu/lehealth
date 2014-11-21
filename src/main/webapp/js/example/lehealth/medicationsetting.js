@@ -11,7 +11,16 @@ define(function(require, exports, module) {
 		$(document).on("pageshow","#medicationsetting", function() {
 
 			$("#medicationsettingcover").css("display", "none");
-
+			$("#status_update").val(1);
+			$('#datefrom').val('');
+			$('#dateto').val('');
+			$('.dosage').val('');
+			$(".config").css("display","none");
+			$(".config").removeClass("show_config");
+			$("#config_1").css("display","block");
+			$("#config_1").addClass("show_config");
+			$("#config_count").val("1");
+			
 			var username = util.getCookieByKey("loginid");
 			var	token = util.getCookieByKey("tk");
 			var houroption='';
@@ -60,12 +69,13 @@ define(function(require, exports, module) {
 						$('#medacine').html(html);
 						$('#medacine').selectmenu("refresh");
 						
-						$('.config').find('select.time_hour').empty();
-						$('.config').find('select.time_hour').html(houroption);
-						$('.config').find('select.time_hour').selectmenu("refresh");
-						$('.config').find('select.time_minute').empty();
-						$('.config').find('select.time_minute').html(minuteoption);
-						$('.config').find('select.time_minute').selectmenu("refresh");
+						$('select.time_hour').empty();
+						$('select.time_hour').html(houroption);
+						$('select.time_hour').selectmenu("refresh");
+						$('select.time_minute').empty();
+						$('select.time_minute').html(minuteoption);
+						$('select.time_minute').selectmenu("refresh");
+						
 					}
 				},
 				error: function(xhr, errormsg) {
@@ -75,25 +85,26 @@ define(function(require, exports, module) {
 			
 			$(".add_icon").off('click');
 			$(".add_icon").on('click', function() {
-				var newItem = $("#templete").clone();
-				newItem.css("display","block");
-				newItem.attr("class","config");
-				newItem.removeAttr("id");
-				$("#configs").append(newItem);
-				$(newItem).find('select.time_hour').empty();
-				$(newItem).find('select.time_hour').html(houroption);
-				$(newItem).find('select.time_hour').trigger('create').selectmenu("refresh");
-//				$(newItem).find('select.time_hour').empty();
-//				$(newItem).find('select.time_hour').html(houroption);
-//				$(newItem).find('select.time_hour').selectmenu("refresh");
-//				$(newItem).find('select.time_minute').empty();
-//				$(newItem).find('select.time_minute').html(minuteoption);
-//				$(newItem).find('select.time_minute').selectmenu("refresh");
+				var count=$("#config_count").val();
+				if(count>10){
+					alert('暂不支持更多时间');
+					return;
+				}
+				count++;
+				for(var i=2;i<=count;i++){
+					$("#config_"+i).css("display","block");
+					$("#config_"+i).addClass("show_config");
+				}
+				$("#config_count").val(count);
 			});
 			
 			$(".del_icon").off('click');
-			$(".del_icon").live('click', function() {
-				$(this).parent().parent().remove();
+			$(".del_icon").on('click', function() {
+				var count=$("#config_count").val();
+				count--;
+				$("#config_count").val(count);
+				$(this).parent().parent().css("display","none");
+				$(this).parent().parent().removeClass("show_config");
 			});
 			
 			$("#config_update").off('click');
@@ -114,16 +125,24 @@ define(function(require, exports, module) {
 					var datefrom = new Date(datefromStr);
 					var	datetoStr =  $('#dateto').val().replace(/-/g,"/");
 					var dateto = new Date(datetoStr);
-					console.info(datefromStr);
-					console.info(datetoStr);
 					var configs=[];
 					var flag=1;
-					$.each($((".config")),function(){
+					$.each($((".show_config")),function(){
 						if($(this).find("input.dosage").val()>0&&$(this).find("span.time_hour").text()!=''&&$(this).find("span.time_minute").text()!=''){
 							var config={};
 							config.time=$(this).find("select.time_hour").val()+":"+$(this).find("select.time_minute").val();
 							config.dosage=$(this).find("input.dosage").val();
-							configs.push(config);
+							var isExist=0;
+							for(var i=0;i<configs.length;i++){
+								if(configs[i].time==config.time){
+									isExist=1;
+								}
+							}
+							if(isExist==0){
+								configs.push(config);
+							}else{
+								flag=2;
+							}
 						}else{
 							console.info($(this).find("input.dosage").val());
 							console.info($(this).find("span.time_hour").text());
@@ -135,8 +154,12 @@ define(function(require, exports, module) {
 						alert('请填写正确的用药计划');
 						$("#status_update").val(1);
 						return;
+					}else if(flag==2){
+						alert('请勿填写重复时间的用药计划');
+						$("#status_update").val(1);
+						return;
 					}
-					console.info(configs);
+					
 					$.ajax({
 						url: submitMedicineConfigUrl,
 						type: "POST",
@@ -166,6 +189,11 @@ define(function(require, exports, module) {
 								$('#datefrom').val('');
 								$('#dateto').val('');
 								$('.dosage').val('');
+								$(".config").css("display","none");
+								$(".config").removeClass("show_config");
+								$("#config_1").css("display","block");
+								$("#config_1").addClass("show_config");
+								$("#config_count").val("1");
 								util.toast("提交成功");
 								//两秒后隐藏
 								setTimeout(function() {

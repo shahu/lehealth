@@ -1,5 +1,7 @@
 package com.lehealth.api.dao;
 
+import java.util.List;
+
 import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
 
@@ -12,11 +14,11 @@ public interface UserDao {
 	public boolean updateUserInfo(UserInfo info);
 	
 	//获取监护人信息
-	public UserGuardianInfo selectUserGuardianInfo(String userId);
+	public List<UserGuardianInfo> selectUserGuardianInfos(String userId);
 	
 	//新增监护人信息
 	public boolean insertUserGuardianInfo(UserGuardianInfo info);
 	
 	//删除监护人信息
-	public boolean deleteUserGuardianInfo(String userId);
+	public boolean deleteUserGuardianInfo(String userId,String guardianNumber);
 }

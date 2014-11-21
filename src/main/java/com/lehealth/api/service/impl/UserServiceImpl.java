@@ -1,5 +1,7 @@
 package com.lehealth.api.service.impl;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,22 +35,23 @@ public class UserServiceImpl implements UserService{
 
 	//获取监护人信息
 	@Override
-	public UserGuardianInfo getUserGuardianInfo(String userId) {
-		return this.userDao.selectUserGuardianInfo(userId);
+	public List<UserGuardianInfo> getUserGuardianInfos(String userId) {
+		return this.userDao.selectUserGuardianInfos(userId);
 	}
 
-	//更新监护人信息
+	//添加监护人信息
 	@Override
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info) {
 		//先删除
-		this.userDao.deleteUserGuardianInfo(info.getUserId());
+		this.userDao.deleteUserGuardianInfo(info.getUserId(),info.getGuardianNumber());
 		//再插入
 		return this.userDao.insertUserGuardianInfo(info);
 	}
 
+	//删除监护人
 	@Override
-	public boolean delUserGuardianInfo(String userId) {
-		return this.userDao.deleteUserGuardianInfo(userId);
+	public boolean delUserGuardianInfo(String userId,String guardianNumber) {
+		return this.userDao.deleteUserGuardianInfo(userId,guardianNumber);
 	}
 
 }

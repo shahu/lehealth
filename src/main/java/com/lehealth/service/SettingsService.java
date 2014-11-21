@@ -3,6 +3,8 @@ package com.lehealth.service;
 import java.util.List;
 
 import com.lehealth.bean.BloodpressureConfig;
+import com.lehealth.bean.DiseaseHistory;
+import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
@@ -37,8 +39,11 @@ public interface SettingsService {
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info);
 	
 	//获取病例
-	public UserGuardianInfo getUserGuardianInfo(String userId);
+	public List<DiseaseHistory> getDiseaseHistorys(String userId);
 	
 	//更新病例
-	public boolean modifyUserGuardianInfo(UserGuardianInfo info);
+	public boolean modifyDiseaseHistory(DiseaseHistory diseaseHistory);
+	
+	//获取关注医生
+	public List<Doctor> getAttentionDoctor(String userId);
 }

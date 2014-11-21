@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.bean.BloodpressureConfig;
+import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.ResponseBean;
@@ -281,32 +282,39 @@ public class SettingsController {
 	//获取关注医生列表
 	@ResponseBody
 	@RequestMapping(value = "/attentiondoctors.do", method = RequestMethod.GET)
-	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
-		List<Doctor> list=this.onlineConsultationService.getDoctors();
-		JSONArray arr=new JSONArray();
-		for(Doctor d:list){
-			arr.add(d.toJsonObj());
-		}
-		responseBody.setResult(arr);
-		return responseBody;
-	}
-		
-	//获取病例
-	@ResponseBody
-	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.GET)
-	public ResponseBean getGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ResponseBean attentionDoctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			UserGuardianInfo info=this.settingsService.getUserGuardianInfo(userId);
-			if(StringUtils.isNotBlank(info.getUserId())){
-				responseBody.setResult(info.toJsonObj());
-			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+			List<Doctor> list=this.settingsService.getAttentionDoctor(userId);
+			JSONArray arr=new JSONArray();
+			for(Doctor d:list){
+				arr.add(d.toJsonObj());
 			}
+			responseBody.setResult(arr);
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+		
+	//获取病例
+	@ResponseBody
+	@RequestMapping(value = "/diseasehistorys.do", method = RequestMethod.GET)
+	public ResponseBean getDiseaseHistorys(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			List<DiseaseHistory> list=this.settingsService.getDiseaseHistorys(userId);
+			JSONArray arr=new JSONArray();
+			for(DiseaseHistory d:list){
+				arr.add(d.toJsonObj());
+			}
+			responseBody.setResult(arr);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
@@ -315,20 +323,22 @@ public class SettingsController {
 	
 	//添加新病例
 	@ResponseBody
-	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.POST)
-	public ResponseBean modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.POST)
+	public ResponseBean modifyDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
-			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-			UserGuardianInfo info=new UserGuardianInfo();
+			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
+			String diseaseDescription=StringUtils.trimToEmpty(request.getParameter("ddesc"));
+			String medicinedescription=StringUtils.trimToEmpty(request.getParameter("mdesc"));
+			DiseaseHistory info=new DiseaseHistory();
 			info.setUserId(userId);
-			info.setGuardianName(guardianName);
-			info.setGuardianNumber(guardianNumber);
-			if(this.settingsService.modifyUserGuardianInfo(info)){
+			info.setDiseaseId(diseaseId);
+			info.setDiseaseDescription(diseaseDescription);
+			info.setMedicinedescription(medicinedescription);
+			if(this.settingsService.modifyDiseaseHistory(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

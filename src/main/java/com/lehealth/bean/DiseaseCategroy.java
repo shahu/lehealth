@@ -45,8 +45,8 @@ public class DiseaseCategroy {
 		JSONObject obj=new JSONObject();
 		obj.accumulate("catename", catename);
 		JSONArray arr=new JSONArray();
-		for(Disease m:diseases){
-			arr.add(m.toJsonObj());
+		for(Disease d:diseases){
+			arr.add(d.toJsonObj());
 		}
 		obj.accumulate("diseases", arr);
 		return obj;

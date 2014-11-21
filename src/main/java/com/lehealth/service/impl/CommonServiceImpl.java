@@ -12,7 +12,6 @@ import com.lehealth.bean.DiseaseCategroy;
 import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.dao.CommonDao;
-import com.lehealth.dao.MedicineDao;
 import com.lehealth.service.CommonService;
 
 @Service("commonService")

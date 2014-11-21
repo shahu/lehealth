@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.bean.BloodpressureConfig;
+import com.lehealth.bean.DiseaseHistory;
+import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
@@ -76,5 +78,20 @@ public class SettingsServiceImpl implements SettingsService{
 	@Override
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info) {
 		return this.settingsDao.updateUserGuardianInfo(info);
+	}
+
+	@Override
+	public List<DiseaseHistory> getDiseaseHistorys(String userId) {
+		return this.settingsDao.selectDiseaseHistorys(userId);
+	}
+
+	@Override
+	public boolean modifyDiseaseHistory(DiseaseHistory diseaseHistory) {
+		return this.settingsDao.updateDiseaseHistory(diseaseHistory);
+	}
+
+	@Override
+	public List<Doctor> getAttentionDoctor(String userId) {
+		return this.settingsDao.selectAttentionDoctor(userId);
 	}
 }

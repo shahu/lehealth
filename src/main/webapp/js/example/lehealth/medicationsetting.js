@@ -22,11 +22,12 @@ define(function(require, exports, module) {
 				houroption += '<option value="' + i + '">' + i + '</option>';
 			}
 			var minuteoption='';
-			for (var i = 0; i < 60; i++) {
-				if(i<10){
-					i='0'+i;
+			for (var i = 0; i < 4; i++) {
+				var j=i*15;
+				if(j<10){
+					j='0'+j;
 				}
-				minuteoption += '<option value="' + i + '">' + i + '</option>';
+				minuteoption += '<option value="' + j + '">' + j + '</option>';
 			}
 			
 			$.ajax({

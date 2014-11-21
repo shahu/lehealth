@@ -2,6 +2,7 @@ package com.lehealth.dao.impl;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,6 +12,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.bean.BloodpressureConfig;
+import com.lehealth.bean.DiseaseHistory;
+import com.lehealth.bean.Doctor;
 import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
@@ -212,6 +215,24 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<DiseaseHistory> selectDiseaseHistorys(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateDiseaseHistory(DiseaseHistory diseaseHistory) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Doctor> selectAttentionDoctor(String userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -58,7 +58,7 @@ public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {
 	@Override
 	public DiseaseHistory selectDiseaseHistory(String userId, int diseaseId) {
 		DiseaseHistory h=new DiseaseHistory();
-		String sql="SELECT t1.diseasedescription,t1.diseaseid,t1.medicinedescription,t2.name AS diseasename FROM disease_history t1 "
+		String sql="SELECT t1.userid,t1.diseasedescription,t1.diseaseid,t1.medicinedescription,t2.name AS diseasename FROM disease_history t1 "
 				+"INNER JOIN disease t2 ON t1.diseaseid=t2.id "
 				+"WHERE t1.userid=:userid and t1.diseaseid=:diseaseid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
@@ -66,6 +66,7 @@ public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {
 		msps.addValue("diseaseid", diseaseId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		if(rs.next()){
+			h.setUserId(StringUtils.trimToEmpty(rs.getString("userid")));
 			h.setDiseaseDescription(StringUtils.trimToEmpty(rs.getString("diseasedescription")));
 			h.setDiseaseId(rs.getInt("diseaseid"));
 			h.setDiseaseName(StringUtils.trimToEmpty(rs.getString("diseasename")));

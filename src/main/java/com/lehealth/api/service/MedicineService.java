@@ -1,8 +1,6 @@
 package com.lehealth.api.service;
 
 import java.util.List;
-
-import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
 
 public interface MedicineService {

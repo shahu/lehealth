@@ -26,7 +26,7 @@ public class SettingsDaoImpl extends BaseJdbcDao implements SettingsDao {
 
 	@Override
 	public BloodpressureConfig selectBloodpressureSetting(String userId) {
-		String sql="SELECT dbp1,dbp2,sbp1,sbp2,heartrate1,heartrate2 FROM bp_setting WHERE userid=:userid";
+		String sql="SELECT userid,dbp1,dbp2,sbp1,sbp2,heartrate1,heartrate2 FROM bp_setting WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);

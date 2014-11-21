@@ -1,9 +1,6 @@
 package com.lehealth.api.dao;
 
-import java.util.List;
 import java.util.Map;
-
-import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.MedicineInfo;
 
 public interface MedicineDao {

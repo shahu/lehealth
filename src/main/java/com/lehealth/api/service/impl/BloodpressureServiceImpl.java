@@ -25,8 +25,8 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	private BloodpressureDao bloodpressureDao;
 	
 	@Autowired
-	@Qualifier("settingsDao")
-	private UserDao settingsDao;
+	@Qualifier("userDao")
+	private UserDao userDao;
 	
 	private static Logger logger = Logger.getLogger(BloodpressureServiceImpl.class);
 
@@ -57,7 +57,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			||bpInfo.getSbp()<=config.getSbp1()
 			||bpInfo.getHeartrate()<=config.getHeartrate1()){
 			//获取监护人手机
-			UserGuardianInfo guardian=this.settingsDao.selectUserGuardianInfo(bpInfo.getUserid());
+			UserGuardianInfo guardian=this.userDao.selectUserGuardianInfo(bpInfo.getUserid());
 			//调用短信通知监护人
 			//TODO
 			//sendMessage(guardian.getGuardianNumber());

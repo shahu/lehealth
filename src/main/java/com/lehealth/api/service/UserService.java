@@ -11,10 +11,12 @@ public interface UserService {
 	//更新个人信息
 	public boolean modifyUserInfo(UserInfo info);
 	
-	//获取个人信息
+	//获取监护人信息
 	public UserGuardianInfo getUserGuardianInfo(String userId);
 	
-	//更新个人信息
+	//新增监护人信息
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info);
 	
+	//删除监护人信息
+	public boolean delUserGuardianInfo(String userId);
 }

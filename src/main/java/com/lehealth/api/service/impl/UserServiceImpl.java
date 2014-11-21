@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import com.lehealth.api.dao.UserDao;
 import com.lehealth.api.service.UserService;
 import com.lehealth.bean.UserGuardianInfo;
@@ -39,7 +40,15 @@ public class UserServiceImpl implements UserService{
 	//更新监护人信息
 	@Override
 	public boolean modifyUserGuardianInfo(UserGuardianInfo info) {
-		return this.userDao.updateUserGuardianInfo(info);
+		//先删除
+		this.userDao.deleteUserGuardianInfo(info.getUserId());
+		//再插入
+		return this.userDao.insertUserGuardianInfo(info);
+	}
+
+	@Override
+	public boolean delUserGuardianInfo(String userId) {
+		return this.userDao.deleteUserGuardianInfo(userId);
 	}
 
 }

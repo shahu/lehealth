@@ -1,10 +1,12 @@
 package com.lehealth.api.dao.impl;
 
 import java.sql.Timestamp;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+
 import com.lehealth.api.dao.UserDao;
 import com.lehealth.bean.UserGuardianInfo;
 import com.lehealth.bean.UserInfo;
@@ -78,22 +80,32 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 	}
 
 	@Override
-	public boolean updateUserGuardianInfo(UserGuardianInfo info) {
+	public boolean insertUserGuardianInfo(UserGuardianInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("guardianname", info.getGuardianName());
 		msps.addValue("guardiannumber", info.getGuardianNumber());
-		String sql="UPDATE user_guardian SET guardianname=:guardianname,guardiannumber=:guardiannumber WHERE userid=:userid";
+		msps.addValue("uuid", TokenUtils.buildUUid());
+		String sql="INSERT INTO user_guardian VALUE(:uuid,:userid,:guardianname,:guardiannumber)";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO user_guardian VALUE(:uuid,:userid,:guardianname,:guardianname,:guardiannumber)";
-			msps.addValue("uuid", TokenUtils.buildUUid());
-			i=this.namedJdbcTemplate.update(sql, msps);
-			if(i==0){
-				return false;
-			}
+			return false;
+		}else{
+			return true;
 		}
-		return true;
+	}
+
+	@Override
+	public boolean deleteUserGuardianInfo(String userId) {
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		String sql="DELETE FROM user_guardian WHERE userid=:userid";
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 }

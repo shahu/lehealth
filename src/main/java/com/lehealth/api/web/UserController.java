@@ -86,7 +86,7 @@ public class UserController {
 		return responseBody;
 	}
 	
-	//获取监护人设置和短信通知
+	//获取监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.GET)
 	public ResponseBean getGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -107,7 +107,7 @@ public class UserController {
 		return responseBody;
 	}
 	
-	//更新监护人设置
+	//新增监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.POST)
 	public ResponseBean modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -133,4 +133,23 @@ public class UserController {
 		return responseBody;
 	}
 	
+	//删除监护人信息
+	@ResponseBody
+	@RequestMapping(value = "/guardianinfodel.do", method = RequestMethod.POST)
+	public ResponseBean delGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			if(this.userService.delUserGuardianInfo(userId)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
 }

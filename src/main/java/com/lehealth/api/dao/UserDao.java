@@ -14,7 +14,9 @@ public interface UserDao {
 	//获取监护人信息
 	public UserGuardianInfo selectUserGuardianInfo(String userId);
 	
-	//更新监护人信息
-	public boolean updateUserGuardianInfo(UserGuardianInfo info);
+	//新增监护人信息
+	public boolean insertUserGuardianInfo(UserGuardianInfo info);
 	
+	//删除监护人信息
+	public boolean deleteUserGuardianInfo(String userId);
 }

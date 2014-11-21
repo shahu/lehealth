@@ -59,6 +59,28 @@ public class DiseaseController {
 		return responseBody;
 	}
 	
+	//获取疾病内容
+	@ResponseBody
+	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.GET)
+	public ResponseBean getDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
+			DiseaseHistory history=this.diseaseService.getDiseaseHistory(userId,diseaseId);
+			if(StringUtils.isNotBlank(history.getUserId())){
+				responseBody.setResult(history.toJsonObj());
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+	
 	//添加新病例
 	@ResponseBody
 	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.POST)

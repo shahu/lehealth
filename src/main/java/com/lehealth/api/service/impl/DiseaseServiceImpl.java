@@ -7,15 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.lehealth.api.dao.CommonDao;
 import com.lehealth.api.dao.DiseaseDao;
-import com.lehealth.api.service.CommonService;
 import com.lehealth.api.service.DiseaseService;
-import com.lehealth.bean.Activitie;
-import com.lehealth.bean.DiseaseCategroy;
 import com.lehealth.bean.DiseaseHistory;
-import com.lehealth.bean.Doctor;
-import com.lehealth.bean.MedicineCategroy;
 
 @Service("diseaseService")
 public class DiseaseServiceImpl implements DiseaseService{
@@ -34,5 +28,10 @@ public class DiseaseServiceImpl implements DiseaseService{
 	@Override
 	public boolean modifyDiseaseHistory(DiseaseHistory diseaseHistory) {
 		return this.diseaseDao.updateDiseaseHistory(diseaseHistory);
+	}
+
+	@Override
+	public DiseaseHistory getDiseaseHistory(String userId, int diseaseId) {
+		return this.diseaseDao.selectDiseaseHistory(userId,diseaseId);
 	}
 }

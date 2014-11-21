@@ -79,6 +79,7 @@ public class Doctor {
 		obj.accumulate("desc", desc);
 		obj.accumulate("thumbnail", thumbnail);
 		obj.accumulate("image", image);
+		obj.accumulate("attention", attention);
 		return obj;
 	}
 }

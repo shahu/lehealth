@@ -20,14 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.api.service.UserService;
-import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.Doctor;
-import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.UserGuardianInfo;
-import com.lehealth.bean.UserInfo;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -48,20 +42,16 @@ public class DoctorController {
 	@ResponseBody
 	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
 	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			List<Doctor> list=this.doctorService.getDoctors(userId);
-			JSONArray arr=new JSONArray();
-			for(Doctor d:list){
-				arr.add(d.toJsonObj());
-			}
-			responseBody.setResult(arr);
-		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+		List<Doctor> list=this.doctorService.getDoctors(userId);
+		JSONArray arr=new JSONArray();
+		for(Doctor d:list){
+			arr.add(d.toJsonObj());
 		}
+		responseBody.setResult(arr);
 		return responseBody;
 	}
 	

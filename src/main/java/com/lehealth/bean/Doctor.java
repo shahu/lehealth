@@ -8,11 +8,11 @@ public class Doctor {
 	private String name="";
 	private int gender=0;
 	private String title="";
-	//TODO 医院id
 	private String hospital="";
 	private String desc="";
 	private String thumbnail="";
 	private String image="";
+	private int attention=0;
 	
 	public int getId() {
 		return id;
@@ -61,6 +61,12 @@ public class Doctor {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public int getAttention() {
+		return attention;
+	}
+	public void setAttention(int attention) {
+		this.attention = attention;
 	}
 	
 	public JSONObject toJsonObj(){

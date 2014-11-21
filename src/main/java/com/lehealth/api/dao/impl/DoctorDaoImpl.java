@@ -15,10 +15,9 @@ public class DoctorDaoImpl extends BaseJdbcDao implements DoctorDao {
 
 	@Override
 	public List<Doctor> selectDoctors(String userId) {
-		String sql="SELECT t1.description,t1.gender,t1.hospital,t1.id,t1.name,t1.title,t1.thumbnail FROM doctor t1 "
-				+"INNER JOIN attention_user_doctor t2 "
-				+"ON t1.id=t2.doctorid "
-				+"WHERE t2.userid=:userid";
+		String sql="SELECT t1.description,t1.gender,t1.hospital,t1.id,t1.name,t1.title,t1.thumbnail,t2.doctorid as checkid FROM doctor t1 "
+				+"LEFT JOIN attention_user_doctor t2 "
+				+"ON (t1.id=t2.doctorid AND t2.userid=:userid) ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -32,11 +31,45 @@ public class DoctorDaoImpl extends BaseJdbcDao implements DoctorDao {
 			d.setName(StringUtils.trimToEmpty(rs.getString("name")));
 			d.setTitle(StringUtils.trimToEmpty(rs.getString("title")));
 			d.setThumbnail(StringUtils.trimToEmpty(rs.getString("thumbnail")));
+			int checkId=rs.getInt("checkid");
+			if(checkId!=0){
+				checkId=1;
+			}
+			d.setAttention(checkId);
 			list.add(d);
 		}
 		return list;
 	}
 
+	@Override
+	public Doctor selectDoctor(String userId,int doctorId) {
+		Doctor d=new Doctor();
+		String sql="SELECT t1.description,t1.gender,t1.hospital,t1.id,t1.name,t1.title,t1.thumbnail,t1.image,t2.doctorid as checkid FROM doctor t1 "
+				+"LEFT JOIN attention_user_doctor t2 "
+				+"ON (t1.id=t2.doctorid AND t2.userid=:userid) "
+				+"WHERE t1.id=:doctorid ";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("doctorid", doctorId);
+		msps.addValue("userid", userId);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql,msps);
+		if(rs.next()){
+			d.setDesc(StringUtils.trim(rs.getString("description")));
+			d.setGender(rs.getInt("gender"));
+			d.setHospital(StringUtils.trimToEmpty(rs.getString("hospital")));
+			d.setId(rs.getInt("id"));
+			d.setName(StringUtils.trimToEmpty(rs.getString("name")));
+			d.setTitle(StringUtils.trimToEmpty(rs.getString("title")));
+			d.setThumbnail(StringUtils.trimToEmpty(rs.getString("thumbnail")));
+			d.setImage(StringUtils.trimToEmpty(rs.getString("image")));
+			int checkId=rs.getInt("checkid");
+			if(checkId!=0){
+				checkId=1;
+			}
+			d.setAttention(checkId);
+		}
+		return d;
+	}
+	
 	@Override
 	public boolean cancelAttentionDoctor(String userId, int doctorId) {
 		String sql="DELETE FROM attention_user_doctor WHERE userid=:userid AND doctorid=:doctorid";
@@ -66,23 +99,4 @@ public class DoctorDaoImpl extends BaseJdbcDao implements DoctorDao {
 		}
 	}
 	
-	@Override
-	public Doctor selectDoctor(String userId,int doctorId) {
-		Doctor d=new Doctor();
-		String sql="SELECT description,gender,hospital,id,name,title,thumbnail,image FROM doctor WHERE id=:doctorId";
-		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("doctorId", doctorId);
-		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql,msps);
-		if(rs.next()){
-			d.setDesc(StringUtils.trim(rs.getString("description")));
-			d.setGender(rs.getInt("gender"));
-			d.setHospital(StringUtils.trimToEmpty(rs.getString("hospital")));
-			d.setId(rs.getInt("id"));
-			d.setName(StringUtils.trimToEmpty(rs.getString("name")));
-			d.setTitle(StringUtils.trimToEmpty(rs.getString("title")));
-			d.setThumbnail(StringUtils.trimToEmpty(rs.getString("thumbnail")));
-			d.setImage(StringUtils.trimToEmpty(rs.getString("image")));
-		}
-		return d;
-	}
 }

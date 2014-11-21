@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.BloodpressureDao;
-import com.lehealth.api.dao.SettingsDao;
+import com.lehealth.api.dao.UserDao;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureInfo;
@@ -26,7 +26,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	
 	@Autowired
 	@Qualifier("settingsDao")
-	private SettingsDao settingsDao;
+	private UserDao settingsDao;
 	
 	private static Logger logger = Logger.getLogger(BloodpressureServiceImpl.class);
 
@@ -41,7 +41,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.settingsDao.selectBloodpressureSetting(userId);
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(userId);
 		result.setConfig(config);
 		return result;
 	}
@@ -49,7 +49,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	@Override
 	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo) {
 		boolean flag=this.bloodpressureDao.updateBloodpressureRecord(bpInfo);
-		BloodpressureConfig config=this.settingsDao.selectBloodpressureSetting(bpInfo.getUserid());
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(bpInfo.getUserid());
 		if(bpInfo.getDbp()>=config.getDbp2()
 			||bpInfo.getSbp()>=config.getSbp2()
 			||bpInfo.getHeartrate()>=config.getHeartrate2()
@@ -62,8 +62,16 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			//TODO
 			//sendMessage(guardian.getGuardianNumber());
 		}
-		
 		return flag;
 	}
 
+	@Override
+	public BloodpressureConfig getBloodpressureSetting(String userId) {
+		return this.bloodpressureDao.selectBloodpressureSetting(userId);
+	}
+
+	@Override
+	public boolean modifyBloodpressureSetting(BloodpressureConfig bpConfig) {
+		return this.bloodpressureDao.updateBloodpressureSetting(bpConfig);
+	}
 }

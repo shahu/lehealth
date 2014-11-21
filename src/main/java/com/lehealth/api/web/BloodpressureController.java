@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.api.service.LoginService;
+import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.BloodpressureResult;
 import com.lehealth.bean.ResponseBean;
@@ -85,4 +86,61 @@ public class BloodpressureController {
 		}
 		return responseBody;
 	}
+	
+	//获取血压控制设置
+		@ResponseBody
+		@RequestMapping(value = "/bpsetting.do", method = RequestMethod.GET)
+		public ResponseBean getBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+			String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+			String token=StringUtils.trimToEmpty(request.getParameter("token"));
+			ResponseBean responseBody=new ResponseBean();
+			String userId=this.loginService.checkUser4Token(loginId, token);
+			if(StringUtils.isNotBlank(userId)){
+				BloodpressureConfig bpConfig=this.bloodpressureService.getBloodpressureSetting(userId);
+				if(StringUtils.isBlank(bpConfig.getUserid())){
+					responseBody.setType(ErrorCodeType.abnormal);
+				}
+				else{
+					responseBody.setResult(bpConfig.toJsonObj());
+				}
+			}else{
+				responseBody.setType(ErrorCodeType.invalidToken);
+			}
+			return responseBody;
+		}
+		
+		//更新血压控制设置
+		@ResponseBody
+		@RequestMapping(value = "/bpsetting.do", method = RequestMethod.POST)
+		public ResponseBean modifyBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+			String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+			String token=StringUtils.trimToEmpty(request.getParameter("token"));
+			ResponseBean responseBody=new ResponseBean();
+			String userId=this.loginService.checkUser4Token(loginId, token);
+			if(StringUtils.isNotBlank(userId)){
+				int dbp1=NumberUtils.toInt(request.getParameter("dbp1"));
+				int dbp2=NumberUtils.toInt(request.getParameter("dbp2"));
+				int sbp1=NumberUtils.toInt(request.getParameter("sbp1"));
+				int sbp2=NumberUtils.toInt(request.getParameter("sbp2"));
+				int heartrate1=NumberUtils.toInt(request.getParameter("heartrate1"));
+				int heartrate2=NumberUtils.toInt(request.getParameter("heartrate2"));
+				BloodpressureConfig bpConfig=new BloodpressureConfig();
+				bpConfig.setUserid(userId);
+				bpConfig.setDbp1(dbp1);
+				bpConfig.setDbp2(dbp2);
+				bpConfig.setSbp1(sbp1);
+				bpConfig.setSbp2(sbp2);
+				bpConfig.setHeartrate1(heartrate1);
+				bpConfig.setHeartrate2(heartrate2);
+				if(this.bloodpressureService.modifyBloodpressureSetting(bpConfig)){
+					responseBody.setType(ErrorCodeType.normal);
+				}else{
+					responseBody.setType(ErrorCodeType.abnormal);
+				}
+			}else{
+				responseBody.setType(ErrorCodeType.invalidToken);
+			}
+			return responseBody;
+		}
+		
 }

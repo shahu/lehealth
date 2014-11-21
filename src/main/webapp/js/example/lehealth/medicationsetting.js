@@ -60,12 +60,12 @@ define(function(require, exports, module) {
 						$('#medacine').html(html);
 						$('#medacine').selectmenu("refresh");
 						
-						$('select.time_hour').empty();
-						$('select.time_hour').html(houroption);
-						$('select.time_hour').selectmenu("refresh");
-						$('select.time_minute').empty();
-						$('select.time_minute').html(minuteoption);
-						$('select.time_minute').selectmenu("refresh");
+						$('.config').find('select.time_hour').empty();
+						$('.config').find('select.time_hour').html(houroption);
+						$('.config').find('select.time_hour').selectmenu("refresh");
+						$('.config').find('select.time_minute').empty();
+						$('.config').find('select.time_minute').html(minuteoption);
+						$('.config').find('select.time_minute').selectmenu("refresh");
 					}
 				},
 				error: function(xhr, errormsg) {
@@ -80,6 +80,9 @@ define(function(require, exports, module) {
 				newItem.attr("class","config");
 				newItem.removeAttr("id");
 				$("#configs").append(newItem);
+				$(newItem).find('select.time_hour').empty();
+				$(newItem).find('select.time_hour').html(houroption);
+				$(newItem).find('select.time_hour').trigger('create').selectmenu("refresh");
 //				$(newItem).find('select.time_hour').empty();
 //				$(newItem).find('select.time_hour').html(houroption);
 //				$(newItem).find('select.time_hour').selectmenu("refresh");

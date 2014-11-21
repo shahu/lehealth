@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.service.HomeService;
 import com.lehealth.api.service.MedicineService;
-import com.lehealth.api.service.SettingsService;
+import com.lehealth.api.service.UserService;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.HomeResult;
@@ -27,7 +27,7 @@ public class HomeServiceImpl implements HomeService{
 	
 	@Autowired
 	@Qualifier("settingsService")
-	private SettingsService settingsService;
+	private UserService settingsService;
 	
 	@Autowired
 	@Qualifier("medicineService")
@@ -46,7 +46,7 @@ public class HomeServiceImpl implements HomeService{
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.settingsService.getBloodpressureSetting(userId);
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(userId);
 		result.setConfig(config);
 		List<MedicineInfo> medicineecords=this.medicineService.getMedicineHistory(userId);
 		result.setMedicineecords(medicineecords);

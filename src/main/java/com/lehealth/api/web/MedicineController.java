@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.MedicineService;
 import com.lehealth.bean.MedicineCategroy;
+import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.type.ErrorCodeType;
@@ -77,6 +79,85 @@ public class MedicineController {
 			mInfo.setMedicineid(medicineId);
 			mInfo.addSituation(time, dosage);
 			if(this.medicineService.updateMedicineHistory(mInfo)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+		
+	//获取用药设置
+	@ResponseBody
+	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.GET)
+	public ResponseBean getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			List<MedicineConfig> list=this.medicineService.getMedicineSettings(userId);
+			JSONArray arr=new JSONArray();
+			for(MedicineConfig mc:list){
+				arr.add(mc.toJsonObj());
+			}
+			responseBody.setResult(arr);
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+	
+	//更新用药设置
+	@ResponseBody
+	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.POST)
+	public ResponseBean modifyMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
+			long fromTimeStamp=NumberUtils.toLong(request.getParameter("datefrom"));
+			long toTimeStamp=NumberUtils.toLong(request.getParameter("dateto"));
+			String configStr=StringUtils.trimToEmpty(request.getParameter("configs"));
+			JSONArray jsonArr=JSONArray.fromObject(configStr);
+			MedicineConfig mConfig=new MedicineConfig();
+			mConfig.setDatefrom(fromTimeStamp);
+			mConfig.setDateto(toTimeStamp);
+			mConfig.setMedicineid(medicineId);
+			mConfig.setUserid(userId);
+			for(int i=0;i<jsonArr.size();i++){
+				JSONObject jsonObj=jsonArr.getJSONObject(i);
+				String time=StringUtils.trimToEmpty(jsonObj.getString("time"));
+				float dosage=NumberUtils.toFloat(jsonObj.getString("dosage"));
+				mConfig.addConfig(time, dosage);
+			}
+			if(this.medicineService.modifyMedicineSetting(mConfig)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		
+		return responseBody;
+	}
+	
+	//删除用药设置
+	@ResponseBody
+	@RequestMapping(value = "/medicinesettingdel.do", method = RequestMethod.POST)
+	public ResponseBean deleteMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
+			if(this.medicineService.delMedicineSetting(userId,medicineId)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

@@ -24,18 +24,8 @@ public class CommonServiceImpl implements CommonService{
 	private static Logger logger = Logger.getLogger(CommonServiceImpl.class);
 
 	@Override
-	public List<Doctor> getDoctors() {
-		return this.commonDao.selectDoctors();
-	}
-
-	@Override
 	public List<Activitie> getAtivities() {
 		return this.commonDao.selectAtivities();
-	}
-
-	@Override
-	public Doctor getDoctor(int doctorId) {
-		return this.commonDao.selectDoctorById(doctorId);
 	}
 	
 	@Override

@@ -1,8 +1,10 @@
 package com.lehealth.api.dao.impl;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,6 +12,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.MedicineDao;
+import com.lehealth.bean.MedicineConfig;
 import com.lehealth.bean.MedicineInfo;
 import com.lehealth.util.TokenUtils;
 
@@ -75,4 +78,67 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 			return true;
 		}
 	}
+	
+	@Override
+	public Map<Integer,MedicineConfig> selectMedicineSettings(String userId) {
+		String sql="SELECT t1.medicineid,t1.datefrom,t1.dateto,t1.time,t1.dosage,t2.name AS medicinename FROM medicine_setting t1 "
+				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
+				+"WHERE t1.userid=:userid ";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		Map<Integer,MedicineConfig> map=new HashMap<Integer, MedicineConfig>();
+		while(rs.next()){
+			int medicineId=rs.getInt("medicineid");
+			if(!map.containsKey(medicineId)){
+				MedicineConfig mConfig=new MedicineConfig();
+				mConfig.setMedicineid(medicineId);
+				mConfig.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
+				mConfig.setDatefrom(rs.getDate("datefrom").getTime());
+				mConfig.setDateto(rs.getDate("dateto").getTime());
+				map.put(medicineId, mConfig);
+			}
+			MedicineConfig mConfig=map.get(medicineId);
+			mConfig.addConfig(rs.getString("time"), rs.getFloat("dosage"));
+		}
+		return map;
+	}
+
+	@Override
+	public boolean insertMedicineSetting(MedicineConfig mConfig) {
+		int index=0;
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", mConfig.getUserid());
+		msps.addValue("medicineid", mConfig.getMedicineid());
+		msps.addValue("datefrom", new Timestamp(mConfig.getDatefrom()));
+		msps.addValue("dateto", new Timestamp(mConfig.getDateto()));
+		if(mConfig.getConfigs()!=null&&!mConfig.getConfigs().isEmpty()){
+			for(Entry<String,Float> e : mConfig.getConfigs().entrySet()){
+				msps.addValue("time", e.getKey());
+				msps.addValue("dosage", e.getValue());
+				msps.addValue("uuid", TokenUtils.buildUUid());
+				String sql="INSERT INTO medicine_setting VALUE(:uuid,:userid,:medicineid,:dosage,:time,:datefrom,:dateto)";
+				index+=this.namedJdbcTemplate.update(sql, msps);
+			}
+		}
+		if(index==0){
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean deleteMedicineSetting(String userId, int medicineId) {
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		msps.addValue("medicineid", medicineId);
+		String sql="DELETE FROM medicine_setting WHERE userid=:userid AND medicineid=:medicineid";
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 }

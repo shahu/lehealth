@@ -36,12 +36,12 @@ public class LoginServiceImpl implements LoginService{
 	public ErrorCodeType registerNewUser(String loginId,String password) {
 		//是否用户名存在
 		User user=this.loginDao.getUser(loginId);
-		if(StringUtils.isNotBlank(user.getUserid())){
+		if(StringUtils.isNotBlank(user.getUserId())){
 			return ErrorCodeType.repeatUser;
 		}
 		String userId=TokenUtils.buildUserId(loginId);
-		user.setUserid(userId);
-		user.setLoginid(loginId);
+		user.setUserId(userId);
+		user.setLoginId(loginId);
 		user.setPassword(password);
 		boolean isSuccess=this.loginDao.insertUser(user);
 		if(isSuccess){
@@ -57,7 +57,7 @@ public class LoginServiceImpl implements LoginService{
 				&&StringUtils.isNotBlank(token)){
 			User user=this.loginDao.getUser(loginId);
 			if(user.validToken(token)){
-				return user.getUserid();
+				return user.getUserId();
 			}else{
 				return "";
 			}

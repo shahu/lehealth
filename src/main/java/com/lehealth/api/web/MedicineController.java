@@ -75,8 +75,8 @@ public class MedicineController {
 			String time=StringUtils.trimToEmpty(request.getParameter("time"));
 			float dosage=NumberUtils.toFloat(request.getParameter("dosage"));
 			MedicineInfo mInfo=new MedicineInfo();
-			mInfo.setUserid(userId);
-			mInfo.setMedicineid(medicineId);
+			mInfo.setUserId(userId);
+			mInfo.setMedicineId(medicineId);
 			mInfo.addSituation(time, dosage);
 			if(this.medicineService.updateMedicineHistory(mInfo)){
 				responseBody.setType(ErrorCodeType.normal);
@@ -125,10 +125,10 @@ public class MedicineController {
 			String configStr=StringUtils.trimToEmpty(request.getParameter("configs"));
 			JSONArray jsonArr=JSONArray.fromObject(configStr);
 			MedicineConfig mConfig=new MedicineConfig();
-			mConfig.setDatefrom(fromTimeStamp);
-			mConfig.setDateto(toTimeStamp);
-			mConfig.setMedicineid(medicineId);
-			mConfig.setUserid(userId);
+			mConfig.setDateFrom(fromTimeStamp);
+			mConfig.setDateTo(toTimeStamp);
+			mConfig.setMedicineId(medicineId);
+			mConfig.setUserId(userId);
 			for(int i=0;i<jsonArr.size();i++){
 				JSONObject jsonObj=jsonArr.getJSONObject(i);
 				String time=StringUtils.trimToEmpty(jsonObj.getString("time"));

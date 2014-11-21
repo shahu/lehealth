@@ -40,8 +40,8 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 			String checkId=rs.getString("checkid");
 			if(!map.containsKey(medicineId)){
 				MedicineInfo info=new MedicineInfo();
-				info.setMedicineid(medicineId);
-				info.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
+				info.setMedicineId(medicineId);
+				info.setMedicineName(StringUtils.trimToEmpty(rs.getString("medicinename")));
 				if(StringUtils.isNotBlank(checkId)){
 					info.setDate(rs.getDate("updatetime").getTime());
 				}
@@ -59,8 +59,8 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	@Override
 	public boolean updateMedicineHistory(final MedicineInfo info){
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userid", info.getUserid());
-		msps.addValue("medicineid", info.getMedicineid());
+		msps.addValue("userid", info.getUserId());
+		msps.addValue("medicineid", info.getMedicineId());
 		msps.addValue("time", info.getTime());
 		msps.addValue("dosage", info.getDosage());
 		String sql="UPDATE medicine_record SET dosage=:dosage,updatetime=NOW() WHERE userid=:userid AND medicineid=:medicineid AND time=:time";
@@ -92,10 +92,10 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 			int medicineId=rs.getInt("medicineid");
 			if(!map.containsKey(medicineId)){
 				MedicineConfig mConfig=new MedicineConfig();
-				mConfig.setMedicineid(medicineId);
-				mConfig.setMedicinename(StringUtils.trimToEmpty(rs.getString("medicinename")));
-				mConfig.setDatefrom(rs.getDate("datefrom").getTime());
-				mConfig.setDateto(rs.getDate("dateto").getTime());
+				mConfig.setMedicineId(medicineId);
+				mConfig.setMedicineName(StringUtils.trimToEmpty(rs.getString("medicinename")));
+				mConfig.setDateFrom(rs.getDate("datefrom").getTime());
+				mConfig.setDateTo(rs.getDate("dateto").getTime());
 				map.put(medicineId, mConfig);
 			}
 			MedicineConfig mConfig=map.get(medicineId);
@@ -108,10 +108,10 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	public boolean insertMedicineSetting(MedicineConfig mConfig) {
 		int index=0;
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userid", mConfig.getUserid());
-		msps.addValue("medicineid", mConfig.getMedicineid());
-		msps.addValue("datefrom", new Timestamp(mConfig.getDatefrom()));
-		msps.addValue("dateto", new Timestamp(mConfig.getDateto()));
+		msps.addValue("userid", mConfig.getUserId());
+		msps.addValue("medicineid", mConfig.getMedicineId());
+		msps.addValue("datefrom", new Timestamp(mConfig.getDateFrom()));
+		msps.addValue("dateto", new Timestamp(mConfig.getDateTo()));
 		if(mConfig.getConfigs()!=null&&!mConfig.getConfigs().isEmpty()){
 			for(Entry<String,Float> e : mConfig.getConfigs().entrySet()){
 				msps.addValue("time", e.getKey());

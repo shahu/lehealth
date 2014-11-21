@@ -29,7 +29,7 @@ public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {
 			h.setDiseaseDescription(StringUtils.trimToEmpty(rs.getString("diseasedescription")));
 			h.setDiseaseId(rs.getInt("diseaseid"));
 			h.setDiseaseName(StringUtils.trimToEmpty(rs.getString("diseasename")));
-			h.setMedicinedescription(StringUtils.trimToEmpty(rs.getString("medicinedescription")));
+			h.setMedicineDescription(StringUtils.trimToEmpty(rs.getString("medicinedescription")));
 			list.add(h);
 		}
 		return list;
@@ -40,7 +40,7 @@ public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", history.getUserId());
 		msps.addValue("diseasedescription", history.getDiseaseDescription());
-		msps.addValue("medicinedescription", history.getMedicinedescription());
+		msps.addValue("medicinedescription", history.getMedicineDescription());
 		msps.addValue("diseaseid", history.getDiseaseId());
 		String sql="UPDATE disease_history SET diseasedescription=:diseasedescription,medicinedescription=:medicinedescription,diseaseid=:diseaseid WHERE userid=:userid";
 		int i=this.namedJdbcTemplate.update(sql, msps);

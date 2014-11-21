@@ -4,7 +4,7 @@ import net.sf.json.JSONObject;
 
 public class BloodpressureConfig {
 
-	private String userid="";
+	private String userId="";
 	private int dbp1=0;
 	private int dbp2=0;
 	private int sbp1=0;
@@ -12,11 +12,11 @@ public class BloodpressureConfig {
 	private int heartrate1=0;
 	private int heartrate2=0;
 	
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public int getDbp1() {
 		return dbp1;

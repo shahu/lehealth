@@ -49,7 +49,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	@Override
 	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo) {
 		boolean flag=this.bloodpressureDao.updateBloodpressureRecord(bpInfo);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(bpInfo.getUserid());
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(bpInfo.getUserId());
 		if(bpInfo.getDbp()>=config.getDbp2()
 			||bpInfo.getSbp()>=config.getSbp2()
 			||bpInfo.getHeartrate()>=config.getHeartrate2()
@@ -57,7 +57,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			||bpInfo.getSbp()<=config.getSbp1()
 			||bpInfo.getHeartrate()<=config.getHeartrate1()){
 			//获取监护人手机
-			UserGuardianInfo guardian=this.userDao.selectUserGuardianInfo(bpInfo.getUserid());
+			UserGuardianInfo guardian=this.userDao.selectUserGuardianInfo(bpInfo.getUserId());
 			//调用短信通知监护人
 			//TODO
 			//sendMessage(guardian.getGuardianNumber());

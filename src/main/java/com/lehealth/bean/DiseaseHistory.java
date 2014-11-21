@@ -8,7 +8,7 @@ public class DiseaseHistory {
 	private int diseaseId=0;
 	private String diseaseName="";
 	private String diseaseDescription="";
-	private String medicinedescription="";
+	private String medicineDescription="";
 	
 	public String getUserId() {
 		return userId;
@@ -28,11 +28,11 @@ public class DiseaseHistory {
 	public void setDiseaseDescription(String diseaseDescription) {
 		this.diseaseDescription = diseaseDescription;
 	}
-	public String getMedicinedescription() {
-		return medicinedescription;
+	public String getMedicineDescription() {
+		return medicineDescription;
 	}
-	public void setMedicinedescription(String medicinedescription) {
-		this.medicinedescription = medicinedescription;
+	public void setMedicineDescription(String medicineDescription) {
+		this.medicineDescription = medicineDescription;
 	}
 	public String getDiseaseName() {
 		return diseaseName;
@@ -45,7 +45,7 @@ public class DiseaseHistory {
 		obj.accumulate("diseaseId", this.diseaseId);
 		obj.accumulate("diseaseName", this.diseaseName);
 		obj.accumulate("diseaseDescription", diseaseDescription);
-		obj.accumulate("medicinedescription", medicinedescription);
+		obj.accumulate("medicinedescription", medicineDescription);
 		return obj;
 	}
 	

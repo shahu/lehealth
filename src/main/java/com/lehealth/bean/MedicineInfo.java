@@ -8,9 +8,9 @@ import net.sf.json.JSONObject;
 
 public class MedicineInfo{
 	
-	private String userid="";
-	private int medicineid=0;
-	private String medicinename="";
+	private String userId="";
+	private int medicineId=0;
+	private String medicineName="";
 	private long date=0;
 	private Map<String,Float> configs=new HashMap<String, Float>();
 	//实际
@@ -41,23 +41,29 @@ public class MedicineInfo{
 	public void setDate(long date) {
 		this.date = date;
 	}
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public int getMedicineid() {
-		return medicineid;
+	public int getMedicineId() {
+		return medicineId;
 	}
-	public void setMedicineid(int medicineid) {
-		this.medicineid = medicineid;
+	public void setMedicineId(int medicineId) {
+		this.medicineId = medicineId;
 	}
-	public String getMedicinename() {
-		return medicinename;
+	public String getMedicineName() {
+		return medicineName;
 	}
-	public void setMedicinename(String medicinename) {
-		this.medicinename = medicinename;
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public void setDosage(float dosage) {
+		this.dosage = dosage;
 	}
 	public Map<String, Float> getConfigs() {
 		return configs;
@@ -72,8 +78,8 @@ public class MedicineInfo{
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		if(configs!=null&&!configs.isEmpty()){
-			obj.accumulate("medicineid", medicineid);
-			obj.accumulate("medicinename", medicinename);
+			obj.accumulate("medicineid", medicineId);
+			obj.accumulate("medicinename", medicineName);
 			obj.accumulate("date", date);
 			JSONArray arr=new JSONArray();
 			for(Entry<String,Float> e:configs.entrySet()){

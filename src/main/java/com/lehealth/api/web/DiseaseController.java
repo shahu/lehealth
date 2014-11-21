@@ -75,7 +75,7 @@ public class DiseaseController {
 			info.setUserId(userId);
 			info.setDiseaseId(diseaseId);
 			info.setDiseaseDescription(diseaseDescription);
-			info.setMedicinedescription(medicinedescription);
+			info.setMedicineDescription(medicinedescription);
 			if(this.diseaseService.modifyDiseaseHistory(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

@@ -45,7 +45,7 @@ public class MedicineServiceImpl implements MedicineService{
 	@Override
 	public boolean modifyMedicineSetting(MedicineConfig mConfig) {
 		//先删除
-		this.medicineDao.deleteMedicineSetting(mConfig.getUserid(),mConfig.getMedicineid());
+		this.medicineDao.deleteMedicineSetting(mConfig.getUserId(),mConfig.getMedicineId());
 		//再插入
 		return this.medicineDao.insertMedicineSetting(mConfig);
 	}

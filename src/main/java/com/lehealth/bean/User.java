@@ -8,21 +8,24 @@ import com.lehealth.util.TokenUtils;
 
 public class User {
 
-	private String userid;
-	private String loginid;
+	private String userId;
+	private String loginId;
 	private String pwdmd5;
 	
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getLoginid() {
-		return loginid;
+	public String getLoginId() {
+		return loginId;
 	}
-	public void setLoginid(String loginid) {
-		this.loginid = loginid;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+	public String getPwdmd5() {
+		return pwdmd5;
 	}
 	public String getPwd() {
 		return pwdmd5;
@@ -34,12 +37,12 @@ public class User {
 		this.pwdmd5 = DigestUtils.md5Hex(password);
 	}
 	public boolean validToken(String token){
-		return token.equals(TokenUtils.buildToken(this.loginid, this.pwdmd5));
+		return token.equals(TokenUtils.buildToken(this.loginId, this.pwdmd5));
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("loginid", loginid);
-		obj.accumulate("token", TokenUtils.buildToken(this.loginid, this.pwdmd5));
+		obj.accumulate("loginid", loginId);
+		obj.accumulate("token", TokenUtils.buildToken(this.loginId, this.pwdmd5));
 		return obj;
 	}
 }

@@ -40,7 +40,7 @@ public class LoginController {
 			responseBody.setType(type);
 			if(type==ErrorCodeType.normal){
 				User user=new User();
-				user.setLoginid(loginId);
+				user.setLoginId(loginId);
 				user.setPassword(password);
 				responseBody.setResult(user.toJsonObj());
 			}

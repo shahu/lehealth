@@ -40,7 +40,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		String sql="UPDATE bp_record SET dbp=:dbp,sbp=:sbp,heartrate=:heartrate,updateTime=NOW() WHERE recordDate=:recordDate AND userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("uuid", TokenUtils.buildUUid());
-		msps.addValue("userid", info.getUserid());
+		msps.addValue("userid", info.getUserId());
 		msps.addValue("dbp", info.getDbp());
 		msps.addValue("sbp", info.getSbp());
 		msps.addValue("heartrate", info.getHeartrate());
@@ -74,7 +74,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 			int sbp2=rs.getInt("sbp2");
 			int heartrate1=rs.getInt("heartrate1");
 			int heartrate2=rs.getInt("heartrate2");
-			bpConfig.setUserid(userid);
+			bpConfig.setUserId(userid);
 			bpConfig.setDbp1(dbp1);
 			bpConfig.setDbp2(dbp2);
 			bpConfig.setSbp1(sbp1);
@@ -88,7 +88,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 	@Override
 	public boolean updateBloodpressureSetting(BloodpressureConfig bpConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userid", bpConfig.getUserid());
+		msps.addValue("userid", bpConfig.getUserId());
 		msps.addValue("dbp1", bpConfig.getDbp1());
 		msps.addValue("dbp2", bpConfig.getDbp2());
 		msps.addValue("sbp1", bpConfig.getSbp1());

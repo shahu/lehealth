@@ -26,13 +26,13 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
 			Activitie a=new Activitie();
-			a.setExternalurl(StringUtils.trimToEmpty(rs.getString("externalurl")));
+			a.setExternalUrl(StringUtils.trimToEmpty(rs.getString("externalurl")));
 			a.setDesc(StringUtils.trimToEmpty(rs.getString("description")));
-			a.setEndtime(rs.getDate("endtime").getTime());
+			a.setEndTime(rs.getDate("endtime").getTime());
 			a.setId(rs.getInt("id"));
 			a.setLocation(StringUtils.trimToEmpty(rs.getString("location")));
 			a.setName(StringUtils.trimToEmpty(rs.getString("name")));
-			a.setStarttime(rs.getDate("starttime").getTime());
+			a.setStartTime(rs.getDate("starttime").getTime());
 			list.add(a);
 		}
 		
@@ -54,8 +54,8 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 			String cname=StringUtils.trimToEmpty(rs.getString("cname"));
 			if(!map.containsKey(cid)){
 				MedicineCategroy medicineCategroy=new MedicineCategroy();
-				medicineCategroy.setCateid(cid);
-				medicineCategroy.setCatename(cname);
+				medicineCategroy.setCateId(cid);
+				medicineCategroy.setCateName(cname);
 				map.put(cid, medicineCategroy);
 			}
 			Medicine medicine=new Medicine();
@@ -80,8 +80,8 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 			String cname=StringUtils.trimToEmpty(rs.getString("cname"));
 			if(!map.containsKey(did)){
 				DiseaseCategroy diseaseCategroy=new DiseaseCategroy();
-				diseaseCategroy.setCateid(cid);
-				diseaseCategroy.setCatename(cname);
+				diseaseCategroy.setCateId(cid);
+				diseaseCategroy.setCateName(cname);
 				map.put(cid, diseaseCategroy);
 			}
 			Disease disease=new Disease();

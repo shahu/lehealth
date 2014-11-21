@@ -71,7 +71,7 @@ public class BloodpressureController {
 				date=System.currentTimeMillis();
 			}
 			BloodpressureInfo bpInfo=new BloodpressureInfo();
-			bpInfo.setUserid(userId);
+			bpInfo.setUserId(userId);
 			bpInfo.setDbp(dbp);
 			bpInfo.setSbp(sbp);
 			bpInfo.setHeartrate(heartrate);
@@ -97,7 +97,7 @@ public class BloodpressureController {
 			String userId=this.loginService.checkUser4Token(loginId, token);
 			if(StringUtils.isNotBlank(userId)){
 				BloodpressureConfig bpConfig=this.bloodpressureService.getBloodpressureSetting(userId);
-				if(StringUtils.isBlank(bpConfig.getUserid())){
+				if(StringUtils.isBlank(bpConfig.getUserId())){
 					responseBody.setType(ErrorCodeType.abnormal);
 				}
 				else{
@@ -125,7 +125,7 @@ public class BloodpressureController {
 				int heartrate1=NumberUtils.toInt(request.getParameter("heartrate1"));
 				int heartrate2=NumberUtils.toInt(request.getParameter("heartrate2"));
 				BloodpressureConfig bpConfig=new BloodpressureConfig();
-				bpConfig.setUserid(userId);
+				bpConfig.setUserId(userId);
 				bpConfig.setDbp1(dbp1);
 				bpConfig.setDbp2(dbp2);
 				bpConfig.setSbp1(sbp1);

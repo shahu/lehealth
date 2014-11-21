@@ -6,12 +6,11 @@ public class Activitie {
 	
 	private int id=0;
 	private String name="";
-	private long starttime=0;
-	private long endtime=0;
-	//TODO 医院id
+	private long startTime=0;
+	private long endTime=0;
 	private String location="";
 	private String desc="";
-	private String externalurl="";
+	private String externalUrl="";
 	
 	public int getId() {
 		return id;
@@ -37,34 +36,34 @@ public class Activitie {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public long getStarttime() {
-		return starttime;
+	public long getStartTime() {
+		return startTime;
 	}
-	public void setStarttime(long starttime) {
-		this.starttime = starttime;
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
 	}
-	public long getEndtime() {
-		return endtime;
+	public long getEndTime() {
+		return endTime;
 	}
-	public void setEndtime(long endtime) {
-		this.endtime = endtime;
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
 	}
-	public String getExternalurl() {
-		return externalurl;
+	public String getExternalUrl() {
+		return externalUrl;
 	}
-	public void setExternalurl(String externalurl) {
-		this.externalurl = externalurl;
+	public void setExternalUrl(String externalUrl) {
+		this.externalUrl = externalUrl;
 	}
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("id", id);
 		obj.accumulate("name", name);
-		obj.accumulate("starttime", starttime);
-		obj.accumulate("endtime", endtime);
+		obj.accumulate("starttime", startTime);
+		obj.accumulate("endtime", endTime);
 		obj.accumulate("location", location);
 		obj.accumulate("desc", desc);
-		obj.accumulate("externalurl", externalurl);
+		obj.accumulate("externalurl", externalUrl);
 		return obj;
 	}
 }

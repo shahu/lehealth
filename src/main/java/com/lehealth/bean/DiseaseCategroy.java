@@ -8,42 +8,36 @@ import net.sf.json.JSONObject;
 
 public class DiseaseCategroy {
 
-	private int cateid=0;
-	private String catename="";
+	private int cateId=0;
+	private String cateName="";
 	
 	private List<Disease> diseases=new ArrayList<Disease>();
 
-	public int getCateid() {
-		return cateid;
-	}
 
-	public void setCateid(int cateid) {
-		this.cateid = cateid;
+	public int getCateId() {
+		return cateId;
 	}
-
-	public String getCatename() {
-		return catename;
+	public void setCateId(int cateId) {
+		this.cateId = cateId;
 	}
-
-	public void setCatename(String catename) {
-		this.catename = catename;
+	public String getCateName() {
+		return cateName;
 	}
-
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
+	}
 	public List<Disease> getDiseases() {
 		return diseases;
 	}
-
 	public void setDiseases(List<Disease> diseases) {
 		this.diseases = diseases;
 	}
-
 	public void addDisease(Disease diseases) {
 		this.diseases.add(diseases);
 	}
-	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("catename", catename);
+		obj.accumulate("catename", cateName);
 		JSONArray arr=new JSONArray();
 		for(Disease d:diseases){
 			arr.add(d.toJsonObj());

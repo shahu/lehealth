@@ -9,42 +9,42 @@ import net.sf.json.JSONObject;
 
 public class MedicineConfig {
 
-	private String userid="";
-	private int medicineid=0;
-	private String medicinename="";
+	private String userId="";
+	private int medicineId=0;
+	private String medicineName="";
 	private Map<String,Float> configs=new HashMap<String, Float>();
-	private long datefrom=0;
-	private long dateto=0;
+	private long dateFrom=0;
+	private long dateTo=0;
 	
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public int getMedicineid() {
-		return medicineid;
+	public int getMedicineId() {
+		return medicineId;
 	}
-	public void setMedicineid(int medicineid) {
-		this.medicineid = medicineid;
+	public void setMedicineId(int medicineId) {
+		this.medicineId = medicineId;
 	}
-	public long getDatefrom() {
-		return datefrom;
+	public String getMedicineName() {
+		return medicineName;
 	}
-	public void setDatefrom(long datefrom) {
-		this.datefrom = datefrom;
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
 	}
-	public long getDateto() {
-		return dateto;
+	public long getDateFrom() {
+		return dateFrom;
 	}
-	public void setDateto(long dateto) {
-		this.dateto = dateto;
+	public void setDateFrom(long dateFrom) {
+		this.dateFrom = dateFrom;
 	}
-	public String getMedicinename() {
-		return medicinename;
+	public long getDateTo() {
+		return dateTo;
 	}
-	public void setMedicinename(String medicinename) {
-		this.medicinename = medicinename;
+	public void setDateTo(long dateTo) {
+		this.dateTo = dateTo;
 	}
 	public Map<String, Float> getConfigs() {
 		return configs;
@@ -58,10 +58,10 @@ public class MedicineConfig {
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		if(configs!=null&&!configs.isEmpty()){
-			obj.accumulate("medicineid", medicineid);
-			obj.accumulate("medicinename", medicinename);
-			obj.accumulate("datefrom", datefrom);
-			obj.accumulate("dateto", dateto);
+			obj.accumulate("medicineid", medicineId);
+			obj.accumulate("medicinename", medicineName);
+			obj.accumulate("datefrom", dateFrom);
+			obj.accumulate("dateto", dateTo);
 			JSONArray arr=new JSONArray();
 			for(Entry<String, Float> e : configs.entrySet()){
 				JSONObject config=new JSONObject();

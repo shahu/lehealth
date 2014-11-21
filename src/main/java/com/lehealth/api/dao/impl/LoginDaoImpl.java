@@ -15,8 +15,8 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 	public boolean insertUser(User user) {
 		String sql="INSERT INTO user VALUE(:userid,:loginid,:pwdmd5)";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("userid", user.getUserid());
-		msps.addValue("loginid", user.getLoginid());
+		msps.addValue("userid", user.getUserId());
+		msps.addValue("loginid", user.getLoginId());
 		msps.addValue("pwdmd5", user.getPwd());
 		int result=this.namedJdbcTemplate.update(sql, msps);
 		if(result==0){
@@ -50,9 +50,9 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 		if(rs.next()){
 			String userid=StringUtils.trimToEmpty(rs.getString("userid"));
 			String pwdmd5=StringUtils.trimToEmpty(rs.getString("pwdmd5"));
-			user.setLoginid(loginId);
+			user.setLoginId(loginId);
 			user.setPwdmd5(pwdmd5);
-			user.setUserid(userid);
+			user.setUserId(userid);
 		}
 		return user;
 	}

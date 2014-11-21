@@ -4,17 +4,17 @@ import net.sf.json.JSONObject;
 
 public class BloodpressureInfo {
 	
-	private String userid="";
+	private String userId="";
 	private long date=0;
 	private int dbp=0;
 	private int sbp=0;
 	private int heartrate=0;
 	
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public long getDate() {
 		return date;

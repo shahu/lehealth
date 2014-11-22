@@ -98,7 +98,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		String sql="UPDATE bp_setting SET dbp1=:dbp1,dbp2 =:dbp2,sbp1 =:sbp1,sbp2 =:sbp2,heartrate1 =:heartrate1,heartrate2 =:heartrate2 WHERE userid=:userid;";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO bp_setting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2:,:heartrate1,:heartrate2)";
+			sql="INSERT INTO bp_setting VALUE(:uuid,:userid,:dbp1,:dbp2,:sbp1,:sbp2,:heartrate1,:heartrate2)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){

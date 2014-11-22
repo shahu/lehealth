@@ -91,8 +91,8 @@ public class DiseaseController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
-			String diseaseDescription=StringUtils.trimToEmpty(request.getParameter("ddesc"));
-			String medicinedescription=StringUtils.trimToEmpty(request.getParameter("mdesc"));
+			String diseaseDescription=StringUtils.trimToEmpty(request.getParameter("diseasedescription"));
+			String medicinedescription=StringUtils.trimToEmpty(request.getParameter("medicinedescription"));
 			DiseaseHistory info=new DiseaseHistory();
 			info.setUserId(userId);
 			info.setDiseaseId(diseaseId);

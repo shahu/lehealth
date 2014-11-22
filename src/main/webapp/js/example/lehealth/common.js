@@ -103,4 +103,28 @@ define(function(require, exports, module) {
 			});
 	};
 
+	exports.arrayEqual = function(arr1, arr2) {
+		if(arr1 && arr2) {
+			if(arr1.length == arr2.length) {
+				for(var i = 0; i < arr1.length; i++) {
+					var found = false;
+					for(var j = 0; j < arr2.length; j++) {
+						if(arr1[i] == arr2[j]) {
+							found = true;
+						}
+					}
+					if(!found) {
+						return false;
+					}
+				}
+				return true;
+			}
+		} else if(!arr1 && !arr2) {
+			return true;
+		} else {
+			return false;
+		}
+		return false;
+	};
+
 });

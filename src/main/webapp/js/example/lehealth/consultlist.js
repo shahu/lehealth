@@ -25,6 +25,10 @@ define(function(require, exports, module) {
 				url: getDoctorListUrl,
 				type: "GET",
 				dataType: "json",
+				data: {
+					loginid: username,
+					token: token,				
+				},
 				async: true,
 				success: function(rspData) {
 					if (rspData.errorcode) {

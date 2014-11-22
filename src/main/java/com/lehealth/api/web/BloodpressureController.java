@@ -96,7 +96,7 @@ public class BloodpressureController {
 			ResponseBean responseBody=new ResponseBean();
 			String userId=this.loginService.checkUser4Token(loginId, token);
 			if(StringUtils.isNotBlank(userId)){
-				BloodpressureConfig bpConfig=this.bloodpressureService.getBloodpressureSetting(userId);
+				BloodpressureConfig bpConfig=this.bloodpressureService.getBloodpressureConfig(userId);
 				if(StringUtils.isBlank(bpConfig.getUserId())){
 					responseBody.setType(ErrorCodeType.abnormal);
 				}
@@ -132,7 +132,7 @@ public class BloodpressureController {
 				bpConfig.setSbp2(sbp2);
 				bpConfig.setHeartrate1(heartrate1);
 				bpConfig.setHeartrate2(heartrate2);
-				if(this.bloodpressureService.modifyBloodpressureSetting(bpConfig)){
+				if(this.bloodpressureService.modifyBloodpressureConfig(bpConfig)){
 					responseBody.setType(ErrorCodeType.normal);
 				}else{
 					responseBody.setType(ErrorCodeType.abnormal);

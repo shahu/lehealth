@@ -14,8 +14,8 @@ public interface BloodpressureDao {
 	public boolean updateBloodpressureRecord(BloodpressureInfo info);
 	
 	//获取血压控制设置
-	public BloodpressureConfig selectBloodpressureSetting(String userId);
+	public BloodpressureConfig selectBloodpressureConfig(String userId);
 	
 	//更新血压控制设置
-	public boolean updateBloodpressureSetting(BloodpressureConfig bpConfig);
+	public boolean updateBloodpressureConfig(BloodpressureConfig bpConfig);
 }

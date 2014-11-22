@@ -41,7 +41,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(userId);
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureConfig(userId);
 		result.setConfig(config);
 		return result;
 	}
@@ -49,7 +49,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	@Override
 	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo) {
 		boolean flag=this.bloodpressureDao.updateBloodpressureRecord(bpInfo);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(bpInfo.getUserId());
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureConfig(bpInfo.getUserId());
 		if(bpInfo.getDbp()>=config.getDbp2()
 			||bpInfo.getSbp()>=config.getSbp2()
 			||bpInfo.getHeartrate()>=config.getHeartrate2()
@@ -66,12 +66,12 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	}
 
 	@Override
-	public BloodpressureConfig getBloodpressureSetting(String userId) {
-		return this.bloodpressureDao.selectBloodpressureSetting(userId);
+	public BloodpressureConfig getBloodpressureConfig(String userId) {
+		return this.bloodpressureDao.selectBloodpressureConfig(userId);
 	}
 
 	@Override
-	public boolean modifyBloodpressureSetting(BloodpressureConfig bpConfig) {
-		return this.bloodpressureDao.updateBloodpressureSetting(bpConfig);
+	public boolean modifyBloodpressureConfig(BloodpressureConfig bpConfig) {
+		return this.bloodpressureDao.updateBloodpressureConfig(bpConfig);
 	}
 }

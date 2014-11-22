@@ -7,18 +7,18 @@ import com.lehealth.bean.MedicineInfo;
 
 public interface MedicineService {
 	
-	//获取用药记录
-	public List<MedicineInfo> getMedicineHistory(String userId);
+	//获取今日用药记录
+	public List<MedicineInfo> getMedicineTodayRecords(String userId);
 	
 	//更新用药记录
-	public boolean updateMedicineHistory(MedicineInfo info);
+	public boolean updateMedicineRecord(MedicineInfo info);
 	
 	//获取用药设置
-	public List<MedicineConfig> getMedicineSettings(String userId);
+	public List<MedicineConfig> getMedicineConfigs(String userId);
 	
 	//更新用药设置
-	public boolean modifyMedicineSetting(MedicineConfig mConfig);
+	public boolean modifyMedicineConfig(MedicineConfig mConfig);
 	
 	//删除用药设置
-	public boolean delMedicineSetting(String userId,int medicineId);
+	public boolean delMedicineConfig(String userId,int medicineId);
 }

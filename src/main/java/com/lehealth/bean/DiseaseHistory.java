@@ -42,9 +42,9 @@ public class DiseaseHistory {
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("diseaseId", this.diseaseId);
-		obj.accumulate("diseaseName", this.diseaseName);
-		obj.accumulate("diseaseDescription", diseaseDescription);
+		obj.accumulate("diseaseid", this.diseaseId);
+		obj.accumulate("diseasename", this.diseaseName);
+		obj.accumulate("diseasedescription", diseaseDescription);
 		obj.accumulate("medicinedescription", medicineDescription);
 		return obj;
 	}

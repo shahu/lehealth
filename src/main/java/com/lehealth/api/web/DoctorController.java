@@ -83,8 +83,8 @@ public class DoctorController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
-			int status=NumberUtils.toInt(request.getParameter("status"));
-			if(this.doctorService.modifyAttentionStatus(userId,doctorId,status)){
+			int attention=NumberUtils.toInt(request.getParameter("attention"));
+			if(this.doctorService.modifyAttentionStatus(userId,doctorId,attention)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

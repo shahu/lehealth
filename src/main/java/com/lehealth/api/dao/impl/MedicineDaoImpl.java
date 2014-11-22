@@ -2,11 +2,14 @@ package com.lehealth.api.dao.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -20,7 +23,7 @@ import com.lehealth.util.TokenUtils;
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 
 	@Override
-	public Map<Integer,MedicineInfo> selectMedicineHistory(String userId){
+	public Map<Integer,MedicineInfo> selectMedicineTodayRecords(String userId){
 		String sql="SELECT t1.medicineid,t2.name as medicinename,t1.time as configtime,t1.dosage as configdosage,"
 				+"t3.time as historytime,t3.dosage as historydosage,t3.updatetime,t3.medicineid as checkid "
 				+"FROM medicine_setting t1 "
@@ -57,7 +60,27 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	}
 	
 	@Override
-	public boolean updateMedicineHistory(final MedicineInfo info){
+	public List<MedicineInfo> selectMedicineRecords(String userId, int days) {
+		String sql="SELECT t1.userid,t1.medicineid,t2.name AS medicinename,t1.updatetime FROM medicine_record t1 "
+				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
+				+"WHERE t1.userid=:userid AND Date(t1.updatetime)>=:date";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		msps.addValue("date", new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), -days).getTime()));
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql,msps);
+		List<MedicineInfo> list=new ArrayList<MedicineInfo>();
+		while(rs.next()){
+			MedicineInfo record=new MedicineInfo();
+			record.setMedicineId(rs.getInt("medicineid"));
+			record.setMedicineName(StringUtils.trimToEmpty("medicinename"));
+			record.setDate(rs.getDate("updatetime").getTime());
+			list.add(record);
+		}
+		return list;
+	}
+	
+	@Override
+	public boolean updateMedicineRecord(final MedicineInfo info){
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("medicineid", info.getMedicineId());
@@ -80,7 +103,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	}
 	
 	@Override
-	public Map<Integer,MedicineConfig> selectMedicineSettings(String userId) {
+	public Map<Integer,MedicineConfig> selectMedicineConfigs(String userId) {
 		String sql="SELECT t1.medicineid,t1.datefrom,t1.dateto,t1.time,t1.dosage,t2.name AS medicinename FROM medicine_setting t1 "
 				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
 				+"WHERE t1.userid=:userid ";
@@ -105,7 +128,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	}
 
 	@Override
-	public boolean insertMedicineSetting(MedicineConfig mConfig) {
+	public boolean insertMedicineConfig(MedicineConfig mConfig) {
 		int index=0;
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", mConfig.getUserId());
@@ -128,7 +151,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	}
 
 	@Override
-	public boolean deleteMedicineSetting(String userId, int medicineId) {
+	public boolean deleteMedicineConfig(String userId, int medicineId) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("medicineid", medicineId);
@@ -140,5 +163,5 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 			return true;
 		}
 	}
-	
+
 }

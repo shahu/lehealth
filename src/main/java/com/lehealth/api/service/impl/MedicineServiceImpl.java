@@ -24,34 +24,34 @@ public class MedicineServiceImpl implements MedicineService{
 	private static Logger logger = Logger.getLogger(MedicineServiceImpl.class);
 
 	@Override
-	public List<MedicineInfo> getMedicineHistory(String userId){
-		Map<Integer,MedicineInfo> map=this.medicineDao.selectMedicineHistory(userId);
+	public List<MedicineInfo> getMedicineTodayRecords(String userId){
+		Map<Integer,MedicineInfo> map=this.medicineDao.selectMedicineTodayRecords(userId);
 		List<MedicineInfo> list=new ArrayList<MedicineInfo>(map.values());
 		return list;
 	}
 	
 	@Override
-	public boolean updateMedicineHistory(MedicineInfo info){
-		return this.medicineDao.updateMedicineHistory(info);
+	public boolean updateMedicineRecord(MedicineInfo info){
+		return this.medicineDao.updateMedicineRecord(info);
 	}
 	
 	@Override
-	public List<MedicineConfig> getMedicineSettings(String userId) {
-		Map<Integer,MedicineConfig> map=this.medicineDao.selectMedicineSettings(userId);
+	public List<MedicineConfig> getMedicineConfigs(String userId) {
+		Map<Integer,MedicineConfig> map=this.medicineDao.selectMedicineConfigs(userId);
 		List<MedicineConfig> list=new ArrayList<MedicineConfig>(map.values());
 		return list;
 	}
 	
 	@Override
-	public boolean modifyMedicineSetting(MedicineConfig mConfig) {
+	public boolean modifyMedicineConfig(MedicineConfig mConfig) {
 		//先删除
-		this.medicineDao.deleteMedicineSetting(mConfig.getUserId(),mConfig.getMedicineId());
+		this.medicineDao.deleteMedicineConfig(mConfig.getUserId(),mConfig.getMedicineId());
 		//再插入
-		return this.medicineDao.insertMedicineSetting(mConfig);
+		return this.medicineDao.insertMedicineConfig(mConfig);
 	}
 
 	@Override
-	public boolean delMedicineSetting(String userId, int medicineId) {
-		return this.medicineDao.deleteMedicineSetting(userId,medicineId);
+	public boolean delMedicineConfig(String userId, int medicineId) {
+		return this.medicineDao.deleteMedicineConfig(userId,medicineId);
 	}
 }

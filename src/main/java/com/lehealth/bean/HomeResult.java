@@ -22,7 +22,7 @@ public class HomeResult extends BloodpressureResult{
 		if(medicineecords!=null&&!medicineecords.isEmpty()){
 			JSONArray arr=new JSONArray();
 			for(MedicineInfo record:medicineecords){
-				arr.add(record.toJsonObj());
+				arr.add(record.toHomeJsonObj());
 			}
 			obj.accumulate("history", arr);
 		}

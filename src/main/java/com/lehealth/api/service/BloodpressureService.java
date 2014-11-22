@@ -13,8 +13,8 @@ public interface BloodpressureService {
 	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo);
 	
 	//获取血压控制设置
-	public BloodpressureConfig getBloodpressureSetting(String userId);
+	public BloodpressureConfig getBloodpressureConfig(String userId);
 	
 	//更新血压控制设置
-	public boolean modifyBloodpressureSetting(BloodpressureConfig bpConfig);
+	public boolean modifyBloodpressureConfig(BloodpressureConfig bpConfig);
 }

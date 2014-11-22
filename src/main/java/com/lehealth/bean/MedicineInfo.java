@@ -74,6 +74,7 @@ public class MedicineInfo{
 	public void addConfig(String time,float dosage) {
 		this.configs.put(time, dosage);
 	}
+	
 	//实际用药信息
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
@@ -95,6 +96,13 @@ public class MedicineInfo{
 			}
 			obj.accumulate("results", arr);
 		}
+		return obj;
+	}
+	
+	public JSONObject toHomeJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("medicinename", medicineName);
+		obj.accumulate("date", date);
 		return obj;
 	}
 }

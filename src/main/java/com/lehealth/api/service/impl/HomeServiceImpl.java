@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.BloodpressureDao;
+import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.service.HomeService;
-import com.lehealth.api.service.MedicineService;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureInfo;
 import com.lehealth.bean.HomeResult;
@@ -25,8 +25,8 @@ public class HomeServiceImpl implements HomeService{
 	private BloodpressureDao bloodpressureDao;
 	
 	@Autowired
-	@Qualifier("medicineService")
-	private MedicineService medicineService;
+	@Qualifier("medicineDao")
+	private MedicineDao medicineDao;
 	
 	private static Logger logger = Logger.getLogger(HomeServiceImpl.class);
 
@@ -41,9 +41,9 @@ public class HomeServiceImpl implements HomeService{
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureSetting(userId);
+		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureConfig(userId);
 		result.setConfig(config);
-		List<MedicineInfo> medicineecords=this.medicineService.getMedicineHistory(userId);
+		List<MedicineInfo> medicineecords=this.medicineDao.selectMedicineRecords(userId, 7);
 		result.setMedicineecords(medicineecords);
 		return result;
 	}

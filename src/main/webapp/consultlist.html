@@ -14,15 +14,28 @@
 			<div data-role="content"  style="margin-bottom:20px">
 				<div id="bpinput">
 					<div id="input_data" style="margin-top:10px;">
+						<span style="font-size:16px;display:block; color: gray; margin-bottom: 10px;">我的医生</span>
+						<ul data-role="listview" data-inset="true" id="mylistwraper">
+							
+							<!-- <li>
+											<a href="#">
+															<img src="images/person.jpg" style="width:80px; height:80px">
+															<h2>张医生</h2>
+															<p>华山大学心血管主任, 国内著名的心血管病专家</p>
+											</a>
+							</li> -->
+						</ul>
+					</div>
+					<div id="input_data" style="margin-top:10px;">
 						<span style="font-size:16px;display:block; color: gray">名医推荐</span>
 						<ul data-role="listview" data-inset="true" id="listwraper">
 							
 							<!-- <li>
-										<a href="#">
-													<img src="images/person.jpg" style="width:80px; height:80px">
-													<h2>张医生</h2>
-													<p>华山大学心血管主任, 国内著名的心血管病专家</p>
-										</a>
+											<a href="#">
+															<img src="images/person.jpg" style="width:80px; height:80px">
+															<h2>张医生</h2>
+															<p>华山大学心血管主任, 国内著名的心血管病专家</p>
+											</a>
 							</li> -->
 						</ul>
 					</div>
@@ -45,7 +58,7 @@
 						</li>
 					</ul>
 				</div>
-			</div>			
+			</div>
 			<script>
 				seajs.use(seajs.prefix + 'example/lehealth/consultlist', function(lehealth) {
 					lehealth.render();

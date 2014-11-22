@@ -3,32 +3,30 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		<title>医生详情</title>
+		<title>我的监护人</title>
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" />
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
 		<script src="js/seajs-config.js"></script>
 	</head>
 	<body>
-		<div data-role="page" id="doctordetail"  data-theme="f">
-			<div id="doctordetailcover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000"></div>
-			<div data-role="content">
-				<div id="info" style="margin-top:20px;">
-					<img src="images/person.jpg" id="thumbnail" style="height:130px; width: 100px; float:left">
-					<div style="padding: 10px 0px 0px 20px; float:left; font-size:14px; width:150px;">
-						<span id="doctorname" style="font-size:20px;font-weight:bold; color:black"></span>&nbsp;&nbsp;
-						<span id="gender"></span>
-						<br><br>
-						<span id="doctortitle"></span>
-						<br><br>
-						来自于<span id="hospital"></span>
-					</div>
-					<div style="clear:both"></div>
+		<div data-role="page" id="guardianlist"  data-theme="f">
+			<div id="guardianlistcover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000"></div>
+			<div data-role="content"  style="margin-bottom:20px">
+				<div id="guardianwraper" style="margin-top:10px;">
+					<span style="font-size:16px;display:block; color: gray; margin-bottom: 10px;">我的监护人</span>
+					<ul data-role="listview" data-inset="true" id="mylistwraper">
+						
+						<!-- <li>
+							<a href="#">
+								<span>张全丹</span>&nbsp;&nbsp;
+								<span>手机：1862174465</span>&nbsp;&nbsp;			
+							</a>
+						</li> -->
+					</ul>
 				</div>
-				<div style="height:30px;line-height:30px; font-size:16px; background-color:#f1f1f1; margin:20px 0px 10px 0px;">医生简介</div>
-				<div id="description"></div>
-				<div style="height:100px"></div>
+				<div style="height:60px"></div>
 				<div style="position:fixed; bottom:40px; left:0px;right:0px;padding: 0px 16px 0px 16px;background-color:#f9f9f9">
-					<a id="followDoctor" data-role="button">关注</a>
+					<a data-theme="f" id="add_guardian" data-role="button" href="/lehealth/addguardian.html" data-transition="slide">新增监护人</a>
 				</div>				
 			</div>
 			<div data-role="footer" data-position="fixed">
@@ -48,9 +46,9 @@
 						</li>
 					</ul>
 				</div>
-			</div>			
+			</div>
 			<script>
-				seajs.use(seajs.prefix + 'example/lehealth/expertdetail', function(lehealth) {
+				seajs.use(seajs.prefix + 'example/lehealth/guardianlist', function(lehealth) {
 					lehealth.render();
 				});
 			</script>

@@ -42,7 +42,7 @@ public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {
 		msps.addValue("diseasedescription", history.getDiseaseDescription());
 		msps.addValue("medicinedescription", history.getMedicineDescription());
 		msps.addValue("diseaseid", history.getDiseaseId());
-		String sql="UPDATE disease_history SET diseasedescription=:diseasedescription,medicinedescription=:medicinedescription,diseaseid=:diseaseid WHERE userid=:userid";
+		String sql="UPDATE disease_history SET diseasedescription=:diseasedescription,medicinedescription=:medicinedescription WHERE userid=:userid and diseaseid=:diseaseid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			sql="INSERT INTO disease_history VALUE(:uuid,:userid,:diseaseid,:diseasedescription,:medicinedescription)";

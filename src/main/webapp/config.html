@@ -25,8 +25,12 @@
 								<h2>我的活动</h2>
 							</a>
 						</li>
-					</ul>					
-
+						<li>
+							<a href="/lehealth/medicalhistory.html" data-transition="slide">
+								<h2>我的病史</h2>
+							</a>
+						</li>
+					</ul>
 					<span style="font-size:18px;display:block; color: #555; margin-top: 50px;">我的设置</span>
 					<ul data-role="listview" data-inset="true" id="listwraper" data-theme="f">
 						<li>
@@ -48,10 +52,10 @@
 							<div style="border-bottom:#888 1px solid"></div>
 						</li>
 						<li>
-							<a href="" data-transition="slide">
+							<a href="/lehealth/guardianlist.html" data-transition="slide">
 								<h2>监护人设置</h2>
 							</a>
-						</li>												
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -72,7 +76,7 @@
 						</li>
 					</ul>
 				</div>
-			</div>			
+			</div>
 			<script>
 						seajs.use(seajs.prefix + 'example/lehealth/config', function(lehealth) {
 							lehealth.render();

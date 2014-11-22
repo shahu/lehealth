@@ -37,6 +37,7 @@ define(function(require, exports, module) {
 							util.toast("获取数据失败，请刷新界面");
 						} else {
 							var userconfig = rspData.result;
+							$('#uid').html(util.getCookieByKey("loginid"));
 							$('#uname').val(userconfig.username).textinput();
 							$('#uweight').val(userconfig.weight).slider('refresh');
 							$('#uheight').val(userconfig.height).slider('refresh');

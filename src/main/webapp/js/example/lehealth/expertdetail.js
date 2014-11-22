@@ -3,7 +3,9 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require("./common");
 
-	var doctordetailUrl = "/lehealth/api/doctor.do";
+	var doctordetailUrl = "/lehealth/api/doctor.do",
+		followDoctorUrl = "/lehealth/api/attentiondoctor.do";
+
 
 	exports.render = function() {
 		$(document).off("pageshow", "#doctordetail");
@@ -44,11 +46,62 @@ define(function(require, exports, module) {
 						$('#hospital').html(doctormsg.hospital);
 						$('#description').html(doctormsg.desc);
 						$("#doctordetailcover").css("display", "none");
+						if(doctormsg.attention == 0) {
+							$('#followDoctor').html('关注');
+							$('#followDoctor').attr('targetstatus', '1');
+						} else if(doctormsg.attention == 1) {
+							$('#followDoctor').html('取消关注');
+							$('#followDoctor').attr('targetstatus', '0');
+						}
 					}
 				},
 				error: function(xhr, errormsg) {
 					util.toast("获取数据失败，请刷新界面");
 				}
+			});
+			var username = util.getCookieByKey("loginid"),
+			token = util.getCookieByKey("tk");			
+
+			$('#followDoctor').off('click');
+			$('#followDoctor').on('click', function() {
+				var targetstatus = $('#followDoctor').attr('targetstatus');
+				$.ajax({
+					url: followDoctorUrl,
+					type: "POST",
+					dataType: "json",
+					data:{
+						doctorid: util.getParams('id'),
+						loginid: username,
+						token: token,
+						status: targetstatus			
+					},
+					async: true,
+					success: function(rspData) {
+						if (rspData.errorcode) {
+							if(targetstatus == '0') {
+								util.toast("取消关注失败");
+							} else {
+								util.toast("关注失败");
+							}
+							
+						} else {
+							if(targetstatus == '0') {
+								util.toast("取消关注成功");	
+								$('#followDoctor').val('关注');
+							} else {
+								util.toast("关注成功");
+								$('#followDoctor').val('取消关注');
+							}
+						}
+					},
+					error: function(xhr, errormsg) {
+						if(targetstatus == '0') {
+							util.toast("取消关注失败");	
+						} else {
+							util.toast("关注失败");
+						}
+					}
+				});				
 			});
 
 

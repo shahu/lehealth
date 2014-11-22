@@ -72,7 +72,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		while(rs.next()){
 			MedicineInfo record=new MedicineInfo();
 			record.setMedicineId(rs.getInt("medicineid"));
-			record.setMedicineName(StringUtils.trimToEmpty("medicinename"));
+			record.setMedicineName(StringUtils.trimToEmpty(rs.getString("medicinename")));
 			record.setDate(rs.getDate("updatetime").getTime());
 			list.add(record);
 		}

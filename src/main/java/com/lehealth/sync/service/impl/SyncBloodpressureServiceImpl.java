@@ -40,12 +40,12 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 	@Override
 	public void syncFromYundf() {
 		String loginStr=YundfUtils.encode(getResponse(YundfUtils.loginUrl,YundfUtils.login.getLogin().toString()));
-		YundfUtils.login.setUid(uid);
-		YundfUtils.login.setToken(token);
+		YundfUtils.login.setUid("");
+		YundfUtils.login.setToken("");
 		String friendListStr=YundfUtils.encode(getResponse(YundfUtils.friendListUrl,YundfUtils.login.getFriendsRequest().toString()));
 		List<YundfUser> userList=new ArrayList<YundfUser>();
 		for(YundfUser user:userList){
-			YundfUtils.login.setAccid(accid);
+			YundfUtils.login.setAccid("");
 			int index=0;
 			for(int i=0;i<=10;i++){
 				YundfUtils.login.setIndex(index);
@@ -94,15 +94,15 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
             	postMethod.releaseConnection();
             }
         } catch (UnsupportedEncodingException e) {
-        	logger.error(">>>>>>>>>>>>>>>>>>>ssp UnsupportedEncodingException:"+e);
+        	logger.error(">>>>>>>>>>>>>>>>>>>UnsupportedEncodingException:"+e);
         } catch (ClientProtocolException e1) {
-            logger.error(">>>>>>>>>>>>>>>>>>>ssp ClientProtocolException:"+e1);
+            logger.error(">>>>>>>>>>>>>>>>>>>ClientProtocolException:"+e1);
         } catch (IOException e1) {
-        	logger.error(">>>>>>>>>>>>>>>>>>>ssp IOException:"+e1);
+        	logger.error(">>>>>>>>>>>>>>>>>>>IOException:"+e1);
         } catch (ParseException e) {
-        	logger.error(">>>>>>>>>>>>>>>>>>>ssp ParseException:"+e);
+        	logger.error(">>>>>>>>>>>>>>>>>>>ParseException:"+e);
         } catch (Exception e) {
-        	logger.error(">>>>>>>>>>>>>>>>>>>ssp Exception:"+e);
+        	logger.error(">>>>>>>>>>>>>>>>>>>Exception:"+e);
         }
 		return "";
 	}

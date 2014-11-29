@@ -12,7 +12,7 @@ import com.lehealth.sync.entity.YundfRecord;
 public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpressureDao {
 
 	public boolean saveRecord(List<YundfRecord> recordList){
-		
+		return true;
 	}
 	
 }

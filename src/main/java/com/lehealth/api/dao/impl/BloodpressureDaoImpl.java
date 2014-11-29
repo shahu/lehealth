@@ -1,9 +1,11 @@
 package com.lehealth.api.dao.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -18,9 +20,10 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public List<BloodpressureRecord> selectRecords(String userId,int days) {
-		String sql="SELECT updateTime,dbp,heartrate,sbp FROM bp_record WHERE userid=:userid ORDER BY recordDate DESC limit "+days;
+		String sql="SELECT updateTime,dbp,heartrate,sbp FROM bp_record WHERE userid=:userid AND Date(updatetime)>=:date";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
+		msps.addValue("date", new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), -days).getTime()));
 		List<BloodpressureRecord> list = new ArrayList<BloodpressureRecord>();
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){

@@ -44,7 +44,10 @@ public class HomeController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			int days=NumberUtils.toInt(request.getParameter("days"));
+			int days=NumberUtils.toInt(request.getParameter("days"),7);
+			if(days==0){
+				days=7;
+			}
 			HomeResult result=this.homeService.getHomeData(userId,days);
 			responseBody.setResult(result.toJsonObj());
 		}else{

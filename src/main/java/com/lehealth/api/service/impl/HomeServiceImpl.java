@@ -43,7 +43,7 @@ public class HomeServiceImpl implements HomeService{
 		result.setRecords(list);
 		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
 		result.setConfig(config);
-		List<MedicineRecord> medicineecords=this.medicineDao.selectRecords(userId, 7);
+		List<MedicineRecord> medicineecords=this.medicineDao.selectRecords(userId, days);
 		result.setMedicineecords(medicineecords);
 		return result;
 	}

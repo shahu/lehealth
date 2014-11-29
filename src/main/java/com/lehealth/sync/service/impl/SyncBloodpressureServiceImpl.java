@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -39,19 +38,19 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 
 	@Override
 	public void syncFromYundf() {
-		String loginStr=YundfUtils.encode(getResponse(YundfUtils.loginUrl,YundfUtils.login.getLogin().toString()));
+		String loginStr=YundfUtils.encode(getResponse(YundfUtils.loginUrl,YundfUtils.encode(YundfUtils.login.getLogin().toString())));
 		YundfUtils.login.setUid("");
 		YundfUtils.login.setToken("");
-		String friendListStr=YundfUtils.encode(getResponse(YundfUtils.friendListUrl,YundfUtils.login.getFriendsRequest().toString()));
+		String friendListStr=YundfUtils.encode(getResponse(YundfUtils.friendListUrl,YundfUtils.encode(YundfUtils.login.getFriendsRequest().toString())));
 		List<YundfUser> userList=new ArrayList<YundfUser>();
 		for(YundfUser user:userList){
 			YundfUtils.login.setAccid("");
 			int index=0;
 			for(int i=0;i<=10;i++){
 				YundfUtils.login.setIndex(index);
-				String recordListStr=YundfUtils.encode(getResponse(YundfUtils.loginUrl,YundfUtils.login.getRecordsRequest().toString()));
+				String recordListStr=YundfUtils.encode(getResponse(YundfUtils.loginUrl,YundfUtils.encode(YundfUtils.login.getRecordsRequest().toString())));
 				List<YundfRecord> recordList=new ArrayList<YundfRecord>();
-				boolean flas=this.syncBloodpressureDao.saveRecord(recordList);
+				boolean flag=this.syncBloodpressureDao.saveRecord(recordList);
 				index=+50;
 				if(recordList.size()<YundfUtils.limitCount){
 					break;
@@ -61,7 +60,7 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 		
 	}
 	
-	public String getResponse(String url,String requestBody){
+	private String getResponse(String url,String requestBody){
 		try {
             //已单例形式初始化链接线程池大小
             PoolConnectionManager connectionManager=PoolConnectionManager.getInstance();

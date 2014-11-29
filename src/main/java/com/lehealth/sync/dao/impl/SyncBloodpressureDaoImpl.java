@@ -8,7 +8,7 @@ import com.lehealth.api.dao.impl.BaseJdbcDao;
 import com.lehealth.sync.dao.SyncBloodpressureDao;
 import com.lehealth.sync.entity.YundfRecord;
 
-@Repository("userDao")
+@Repository("syncBloodpressureDao")
 public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpressureDao {
 
 	public boolean saveRecord(List<YundfRecord> recordList){

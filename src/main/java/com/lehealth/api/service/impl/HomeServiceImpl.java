@@ -32,19 +32,29 @@ public class HomeServiceImpl implements HomeService{
 
 	@Override
 	public HomeResult getHomeData(String userId,int days) {
-		HomeResult result=new HomeResult();
-		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
-		Collections.sort(list, new Comparator<BloodpressureRecord>() {
-			@Override
-			public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
-				return (int) (o1.getDate()-o2.getDate());
-			}
-		});
-		result.setRecords(list);
-		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
-		result.setConfig(config);
-		List<MedicineRecord> medicineecords=this.medicineDao.selectRecords(userId, days);
-		result.setMedicineecords(medicineecords);
+		HomeResult result=new HomeResult(days);
+		List<BloodpressureRecord> bpRecords=this.bloodpressureDao.selectRecords(userId,days);
+//		Collections.sort(bpRecords, new Comparator<BloodpressureRecord>() {
+//			@Override
+//			public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
+//				return (int) (o1.getDate()-o2.getDate());
+//			}
+//		});
+		result.setBpRecords(bpRecords);
+		BloodpressureConfig bpConfig=this.bloodpressureDao.selectConfig(userId);
+		result.setBpConfig(bpConfig);
+		List<MedicineRecord> medicineRecords=this.medicineDao.selectRecords(userId, days);
+//		Collections.sort(medicineRecords, new Comparator<MedicineRecord>() {
+//			@Override
+//			public int compare(MedicineRecord o1, MedicineRecord o2) {
+//				if(o1.getDate()==o2.getDate()){
+//					return o1.getMedicineId()-o2.getMedicineId();
+//				}else{
+//					return (int) (o1.getDate()-o2.getDate());
+//				}
+//			}
+//		});
+		result.setMedicineRecords(medicineRecords);
 		return result;
 	}
 

@@ -43,6 +43,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		result.setRecords(list);
 		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
 		result.setConfig(config);
+		result.setDays(days);
 		return result;
 	}
 

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.MedicineService;
 import com.lehealth.bean.MedicineConfig;
-import com.lehealth.bean.MedicineInfo;
+import com.lehealth.bean.MedicineRecord;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.type.ErrorCodeType;
 
@@ -49,9 +49,9 @@ public class MedicineController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			List<MedicineInfo> list=this.medicineService.getMedicineTodayRecords(userId);
+			List<MedicineRecord> list=this.medicineService.getTodayRecords(userId);
 			JSONArray arr=new JSONArray();
-			for(MedicineInfo info:list){
+			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());
 			}
 			responseBody.setResult(arr);
@@ -73,11 +73,11 @@ public class MedicineController {
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			String time=StringUtils.trimToEmpty(request.getParameter("time"));
 			float dosage=NumberUtils.toFloat(request.getParameter("dosage"));
-			MedicineInfo mInfo=new MedicineInfo();
+			MedicineRecord mInfo=new MedicineRecord();
 			mInfo.setUserId(userId);
 			mInfo.setMedicineId(medicineId);
 			mInfo.addSituation(time, dosage);
-			if(this.medicineService.updateMedicineRecord(mInfo)){
+			if(this.medicineService.addRecord(mInfo)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);
@@ -97,7 +97,7 @@ public class MedicineController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			List<MedicineConfig> list=this.medicineService.getMedicineConfigs(userId);
+			List<MedicineConfig> list=this.medicineService.getConfigs(userId);
 			JSONArray arr=new JSONArray();
 			for(MedicineConfig mc:list){
 				arr.add(mc.toJsonObj());
@@ -134,7 +134,7 @@ public class MedicineController {
 				float dosage=NumberUtils.toFloat(jsonObj.getString("dosage"));
 				mConfig.addConfig(time, dosage);
 			}
-			if(this.medicineService.modifyMedicineConfig(mConfig)){
+			if(this.medicineService.modifyConfig(mConfig)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);
@@ -156,7 +156,7 @@ public class MedicineController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
-			if(this.medicineService.delMedicineConfig(userId,medicineId)){
+			if(this.medicineService.deleteConfig(userId,medicineId)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

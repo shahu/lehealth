@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.service.MedicineService;
 import com.lehealth.bean.MedicineConfig;
-import com.lehealth.bean.MedicineInfo;
+import com.lehealth.bean.MedicineRecord;
 
 @Service("medicineService")
 public class MedicineServiceImpl implements MedicineService{
@@ -24,34 +24,34 @@ public class MedicineServiceImpl implements MedicineService{
 	private static Logger logger = Logger.getLogger(MedicineServiceImpl.class);
 
 	@Override
-	public List<MedicineInfo> getMedicineTodayRecords(String userId){
-		Map<Integer,MedicineInfo> map=this.medicineDao.selectMedicineTodayRecords(userId);
-		List<MedicineInfo> list=new ArrayList<MedicineInfo>(map.values());
+	public List<MedicineRecord> getTodayRecords(String userId){
+		Map<Integer,MedicineRecord> map=this.medicineDao.selectTodayRecords(userId);
+		List<MedicineRecord> list=new ArrayList<MedicineRecord>(map.values());
 		return list;
 	}
 	
 	@Override
-	public boolean updateMedicineRecord(MedicineInfo info){
-		return this.medicineDao.updateMedicineRecord(info);
+	public boolean addRecord(MedicineRecord info){
+		return this.medicineDao.updateRecord(info);
 	}
 	
 	@Override
-	public List<MedicineConfig> getMedicineConfigs(String userId) {
-		Map<Integer,MedicineConfig> map=this.medicineDao.selectMedicineConfigs(userId);
+	public List<MedicineConfig> getConfigs(String userId) {
+		Map<Integer,MedicineConfig> map=this.medicineDao.selectConfigs(userId);
 		List<MedicineConfig> list=new ArrayList<MedicineConfig>(map.values());
 		return list;
 	}
 	
 	@Override
-	public boolean modifyMedicineConfig(MedicineConfig mConfig) {
+	public boolean modifyConfig(MedicineConfig mConfig) {
 		//先删除
-		this.medicineDao.deleteMedicineConfig(mConfig.getUserId(),mConfig.getMedicineId());
+		this.medicineDao.deleteConfig(mConfig.getUserId(),mConfig.getMedicineId());
 		//再插入
-		return this.medicineDao.insertMedicineConfig(mConfig);
+		return this.medicineDao.insertConfig(mConfig);
 	}
 
 	@Override
-	public boolean delMedicineConfig(String userId, int medicineId) {
-		return this.medicineDao.deleteMedicineConfig(userId,medicineId);
+	public boolean deleteConfig(String userId, int medicineId) {
+		return this.medicineDao.deleteConfig(userId,medicineId);
 	}
 }

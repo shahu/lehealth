@@ -2,7 +2,7 @@ package com.lehealth.bean;
 
 import net.sf.json.JSONObject;
 
-public class BloodpressureInfo {
+public class BloodpressureRecord {
 	
 	private String userId="";
 	private long date=0;

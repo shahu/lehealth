@@ -4,25 +4,25 @@ import java.util.List;
 import java.util.Map;
 
 import com.lehealth.bean.MedicineConfig;
-import com.lehealth.bean.MedicineInfo;
+import com.lehealth.bean.MedicineRecord;
 
 public interface MedicineDao {
 	
-	//获取用药记录
-	public Map<Integer,MedicineInfo> selectMedicineTodayRecords(String userId);
-	
 	//获取今日用药记录
-	public List<MedicineInfo> selectMedicineRecords(String userId,int days);
+	public Map<Integer,MedicineRecord> selectTodayRecords(String userId);
+	
+	//获取用药记录
+	public List<MedicineRecord> selectRecords(String userId,int days);
 	
 	//更新用药记录
-	public boolean updateMedicineRecord(MedicineInfo info);
+	public boolean updateRecord(MedicineRecord info);
 	
 	//获取用药设置
-	public Map<Integer,MedicineConfig> selectMedicineConfigs(String userId);
+	public Map<Integer,MedicineConfig> selectConfigs(String userId);
 	
 	//删除用药设置
-	public boolean deleteMedicineConfig(String userId,int medicineId);
+	public boolean deleteConfig(String userId,int medicineId);
 	
 	//插入用药设置
-	public boolean insertMedicineConfig(MedicineConfig mConfig);
+	public boolean insertConfig(MedicineConfig mConfig);
 }

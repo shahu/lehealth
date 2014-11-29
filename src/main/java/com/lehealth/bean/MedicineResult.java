@@ -9,7 +9,7 @@ import net.sf.json.JSONObject;
 public class MedicineResult {
 	
 	private int status=1;
-	private List<MedicineInfo> records=new ArrayList<MedicineInfo>();
+	private List<MedicineRecord> records=new ArrayList<MedicineRecord>();
 	
 	public int getStatus() {
 		return status;
@@ -17,17 +17,17 @@ public class MedicineResult {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public List<MedicineInfo> getRecords() {
+	public List<MedicineRecord> getRecords() {
 		return records;
 	}
-	public void setRecords(List<MedicineInfo> records) {
+	public void setRecords(List<MedicineRecord> records) {
 		this.records = records;
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("status", status);
 		JSONArray arr=new JSONArray();
-		for(MedicineInfo record:records){
+		for(MedicineRecord record:records){
 			arr.add(record.toJsonObj());
 		}
 		obj.accumulate("records", arr);

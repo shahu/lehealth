@@ -38,16 +38,37 @@ define(function(require, exports, module) {
 					//更新评价文案
 					var judge = rspData.result.status;
 					switch (judge) {
-						case "1":
-							$("#judge_text").html("稳定");
+						case 1:
+							$("#judge_text").html("偏低");
 							break;
-						case "2":
-							$("#judge_text").html("波动");
+						case 2:
+							$("#judge_text").html("正常");
 							break;
+						case 3:
+							$("#judge_text").html("偏高");
+							break;						
 						default:
 					}
 					//更新趋势图
 					var bpDataArr = rspData.result.records;
+
+					var hasMedicate = false;
+					if(bpDataArr != null && bpDataArr.length > 0) {
+						var lastestBpDate = new Date(bpDataArr[bpDataArr.length - 1].date);
+						var now = new Date();
+						if(now.getFullYear() == lastestBpDate.getFullYear() 
+							&& now.getMonth() == lastestBpDate.getMonth()
+							&& now.getDate() == lastestBpDate.getDate()) {
+							hasMedicate = true;
+						}
+					}
+					if(!hasMedicate) {
+						$('#hasmedicate').html('还未');
+					} else {
+						$('#hasmedicate').html('已经');
+					}
+
+
 					var xAxisArr = [],
 						dbpArr = [],
 						sbpArr = [],

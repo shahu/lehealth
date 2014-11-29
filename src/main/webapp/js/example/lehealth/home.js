@@ -247,6 +247,8 @@ define(function(require, exports, module) {
 			function doRequestBpData() {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk");
+
+				// var days = 7;
 				$.ajax({
 					url: getBpRecordUrl,
 					type: "GET",
@@ -361,9 +363,11 @@ define(function(require, exports, module) {
 							tmpArr.sort(function(o1,o2) {
 								return o1.tm - o2.tm;
 							});
+							console.info('tmpArr: ');
 							console.info(tmpArr);
 
-							var finalObj = [];
+							var finalObj = [],
+								tips = [];
 							var from, to;
 
 							//合并相邻位置
@@ -384,9 +388,13 @@ define(function(require, exports, module) {
 										to: to,
 										label: {
 											text: tmpobj.name.join('+')
-										},
+										},										
 										color: 'blue'
 									});
+									tips.push({
+										name: tmpobj.name.join('+'),
+										color: '#87CEFF'
+									});									
 									from = 0;
 									to = 0;
 									continue;
@@ -401,7 +409,11 @@ define(function(require, exports, module) {
 										label: {
 											text: tmpobj.name.join('+')
 										},
-										color: 'blue'
+										color: '#87CEFF'
+									});
+									tips.push({
+										name: tmpobj.name.join('+'),
+										color: '#87CEFF'
 									});
 									from = 0;
 									to = 0;
@@ -413,15 +425,23 @@ define(function(require, exports, module) {
 							var color = [
 								"#A4D3EE",
 								"#B4CDCD",
-								"#90EE90"
+								"#90EE90",
+								"#B4EEB4",
+								"#97FFFF"
 							];
+							
+							console.info(tips);
 
 							for(var i = 0; i < finalObj.length; i++) {
 								finalObj[i]['color'] = color[i];
-								if(!finalObj[i].label) {
+								tips[i].color = color[i];
+								if(!finalObj[i].label.text) {
 									continue;
+								} else {
+									delete finalObj[i].label;
+									$('#medicationtips').append('<div style="height: 20px; line-height: 20px; width: 100%; overflow: auto"><div style="width: 12px; height: 12px; margin: 4px;float:left; background-color: ' + tips[i].color + '"></div> <div style="float:left; margin-left: 8px; font-size: 12px; width: 80%; overflow: auto">' + tips[i].name+'</div><div style="clear:both"></div></div>');
 								}
-								trendchart.xAxis[0].addPlotBand(finalObj[i]);	
+								trendchart.xAxis[0].addPlotBand(finalObj[i]);
 							}
 							
 							trendchart.xAxis[0].setCategories(xAxisArr);

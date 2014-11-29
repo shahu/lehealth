@@ -8,11 +8,11 @@ import net.sf.json.JSONObject;
 
 public class BloodpressureResult {
 	
-	private List<BloodpressureInfo> records=new ArrayList<BloodpressureInfo>();
+	private List<BloodpressureRecord> records=new ArrayList<BloodpressureRecord>();
 	private BloodpressureConfig config=new BloodpressureConfig();
 	
 	public int getStatus() {
-		for(BloodpressureInfo record:records){
+		for(BloodpressureRecord record:records){
 			if(record.getDbp()>=config.getDbp2()
 				||record.getSbp()>=config.getSbp2()
 				||record.getHeartrate()>=config.getHeartrate2()){
@@ -25,10 +25,11 @@ public class BloodpressureResult {
 		}
 		return 2;
 	}
+	
 	public void setConfig(BloodpressureConfig config) {
 		this.config = config;
 	}
-	public void setRecords(List<BloodpressureInfo> records) {
+	public void setRecords(List<BloodpressureRecord> records) {
 		this.records = records;
 	}
 	public JSONObject toJsonObj(){
@@ -36,7 +37,7 @@ public class BloodpressureResult {
 		if(records!=null&&!records.isEmpty()){
 			obj.accumulate("status", getStatus());
 			JSONArray arr=new JSONArray();
-			for(BloodpressureInfo record:records){
+			for(BloodpressureRecord record:records){
 				arr.add(record.toJsonObj());
 			}
 			obj.accumulate("records", arr);

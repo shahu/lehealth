@@ -13,9 +13,9 @@ import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.service.HomeService;
 import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureInfo;
+import com.lehealth.bean.BloodpressureRecord;
 import com.lehealth.bean.HomeResult;
-import com.lehealth.bean.MedicineInfo;
+import com.lehealth.bean.MedicineRecord;
 
 @Service("homeService")
 public class HomeServiceImpl implements HomeService{
@@ -31,19 +31,19 @@ public class HomeServiceImpl implements HomeService{
 	private static Logger logger = Logger.getLogger(HomeServiceImpl.class);
 
 	@Override
-	public HomeResult getHomeData(String userId) {
+	public HomeResult getHomeData(String userId,int days) {
 		HomeResult result=new HomeResult();
-		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId,7);
-		Collections.sort(list, new Comparator<BloodpressureInfo>() {
+		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
+		Collections.sort(list, new Comparator<BloodpressureRecord>() {
 			@Override
-			public int compare(BloodpressureInfo o1, BloodpressureInfo o2) {
+			public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
 				return (int) (o1.getDate()-o2.getDate());
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureConfig(userId);
+		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
 		result.setConfig(config);
-		List<MedicineInfo> medicineecords=this.medicineDao.selectMedicineRecords(userId, 7);
+		List<MedicineRecord> medicineecords=this.medicineDao.selectRecords(userId, 7);
 		result.setMedicineecords(medicineecords);
 		return result;
 	}

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,7 +44,8 @@ public class HomeController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			HomeResult result=this.homeService.getHomeData(userId);
+			int days=NumberUtils.toInt(request.getParameter("days"));
+			HomeResult result=this.homeService.getHomeData(userId,days);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);

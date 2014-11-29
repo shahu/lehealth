@@ -13,7 +13,7 @@ import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.dao.UserDao;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureInfo;
+import com.lehealth.bean.BloodpressureRecord;
 import com.lehealth.bean.BloodpressureResult;
 import com.lehealth.bean.UserGuardianInfo;
 
@@ -31,25 +31,25 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	private static Logger logger = Logger.getLogger(BloodpressureServiceImpl.class);
 
 	@Override
-	public BloodpressureResult getBloodpressureRecords(String userId,int days) {
+	public BloodpressureResult getRecords(String userId,int days) {
 		BloodpressureResult result=new BloodpressureResult();
-		List<BloodpressureInfo> list=this.bloodpressureDao.selectBloodpressureRecords(userId,days);
-		Collections.sort(list, new Comparator<BloodpressureInfo>() {
+		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
+		Collections.sort(list, new Comparator<BloodpressureRecord>() {
 			@Override
-			public int compare(BloodpressureInfo o1, BloodpressureInfo o2) {
+			public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
 				return (int) (o1.getDate()-o2.getDate());
 			}
 		});
 		result.setRecords(list);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureConfig(userId);
+		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
 		result.setConfig(config);
 		return result;
 	}
 
 	@Override
-	public boolean modifyBloodpressureRecord(BloodpressureInfo bpInfo) {
-		boolean flag=this.bloodpressureDao.updateBloodpressureRecord(bpInfo);
-		BloodpressureConfig config=this.bloodpressureDao.selectBloodpressureConfig(bpInfo.getUserId());
+	public boolean addRecord(BloodpressureRecord bpInfo) {
+		boolean flag=this.bloodpressureDao.insertRecord(bpInfo);
+		BloodpressureConfig config=this.bloodpressureDao.selectConfig(bpInfo.getUserId());
 		if(bpInfo.getDbp()>=config.getDbp2()
 			||bpInfo.getSbp()>=config.getSbp2()
 			||bpInfo.getHeartrate()>=config.getHeartrate2()
@@ -66,12 +66,12 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	}
 
 	@Override
-	public BloodpressureConfig getBloodpressureConfig(String userId) {
-		return this.bloodpressureDao.selectBloodpressureConfig(userId);
+	public BloodpressureConfig getConfig(String userId) {
+		return this.bloodpressureDao.selectConfig(userId);
 	}
 
 	@Override
-	public boolean modifyBloodpressureConfig(BloodpressureConfig bpConfig) {
-		return this.bloodpressureDao.updateBloodpressureConfig(bpConfig);
+	public boolean modifyConfig(BloodpressureConfig bpConfig) {
+		return this.bloodpressureDao.updateConfig(bpConfig);
 	}
 }

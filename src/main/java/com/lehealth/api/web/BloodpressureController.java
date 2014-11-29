@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureInfo;
+import com.lehealth.bean.BloodpressureRecord;
 import com.lehealth.bean.BloodpressureResult;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.type.ErrorCodeType;
@@ -46,7 +46,7 @@ public class BloodpressureController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int days=NumberUtils.toInt(request.getParameter("days"),7);
-			BloodpressureResult result=this.bloodpressureService.getBloodpressureRecords(userId,days);
+			BloodpressureResult result=this.bloodpressureService.getRecords(userId,days);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
@@ -70,13 +70,13 @@ public class BloodpressureController {
 			if(date==0){
 				date=System.currentTimeMillis();
 			}
-			BloodpressureInfo bpInfo=new BloodpressureInfo();
+			BloodpressureRecord bpInfo=new BloodpressureRecord();
 			bpInfo.setUserId(userId);
 			bpInfo.setDbp(dbp);
 			bpInfo.setSbp(sbp);
 			bpInfo.setHeartrate(heartrate);
 			bpInfo.setDate(date);
-			if(this.bloodpressureService.modifyBloodpressureRecord(bpInfo)){
+			if(this.bloodpressureService.addRecord(bpInfo)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);
@@ -96,7 +96,7 @@ public class BloodpressureController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			BloodpressureConfig bpConfig=this.bloodpressureService.getBloodpressureConfig(userId);
+			BloodpressureConfig bpConfig=this.bloodpressureService.getConfig(userId);
 			if(StringUtils.isBlank(bpConfig.getUserId())){
 				responseBody.setType(ErrorCodeType.abnormal);
 			}
@@ -132,7 +132,7 @@ public class BloodpressureController {
 			bpConfig.setSbp2(sbp2);
 			bpConfig.setHeartrate1(heartrate1);
 			bpConfig.setHeartrate2(heartrate2);
-			if(this.bloodpressureService.modifyBloodpressureConfig(bpConfig)){
+			if(this.bloodpressureService.modifyConfig(bpConfig)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

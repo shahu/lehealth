@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-public class MedicineInfo{
+public class MedicineRecord{
 	
 	private String userId="";
 	private int medicineId=0;

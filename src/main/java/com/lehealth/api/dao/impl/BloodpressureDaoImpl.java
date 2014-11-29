@@ -1,6 +1,5 @@
 package com.lehealth.api.dao.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,22 +10,22 @@ import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureInfo;
+import com.lehealth.bean.BloodpressureRecord;
 import com.lehealth.util.TokenUtils;
 
 @Repository("bloodpressureDao")
 public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDao {
 
 	@Override
-	public List<BloodpressureInfo> selectBloodpressureRecords(String userId,int days) {
-		String sql="SELECT recordDate,dbp,heartrate,sbp FROM bp_record WHERE userid=:userid ORDER BY recordDate DESC limit "+days;
+	public List<BloodpressureRecord> selectRecords(String userId,int days) {
+		String sql="SELECT updateTime,dbp,heartrate,sbp FROM bp_record WHERE userid=:userid ORDER BY recordDate DESC limit "+days;
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
-		List<BloodpressureInfo> list = new ArrayList<BloodpressureInfo>();
+		List<BloodpressureRecord> list = new ArrayList<BloodpressureRecord>();
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
-			BloodpressureInfo info=new BloodpressureInfo();
-			info.setDate(rs.getDate("recordDate").getTime());
+			BloodpressureRecord info=new BloodpressureRecord();
+			info.setDate(rs.getDate("updateTime").getTime());
 			info.setDbp(rs.getInt("dbp"));
 			info.setHeartrate(rs.getInt("heartrate"));
 			info.setSbp(rs.getInt("sbp"));
@@ -36,31 +35,24 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 	}
 
 	@Override
-	public boolean updateBloodpressureRecord(BloodpressureInfo info) {
-		String sql="UPDATE bp_record SET dbp=:dbp,sbp=:sbp,heartrate=:heartrate,updateTime=NOW() WHERE recordDate=:recordDate AND userid=:userid";
+	public boolean insertRecord(BloodpressureRecord info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("uuid", TokenUtils.buildUUid());
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("dbp", info.getDbp());
 		msps.addValue("sbp", info.getSbp());
 		msps.addValue("heartrate", info.getHeartrate());
-		msps.addValue("recordDate", new Date(info.getDate()));
+		String sql="INSERT INTO bp_record VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,now())";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO bp_record VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,:recordDate,now())";
-			i=this.namedJdbcTemplate.update(sql, msps);
-			if(i==0){
-				return false;
-			}else{
-				return true;
-			}
+			return false;
 		}else{
 			return true;
 		}
 	}
 
 	@Override
-	public BloodpressureConfig selectBloodpressureConfig(String userId) {
+	public BloodpressureConfig selectConfig(String userId) {
 		String sql="SELECT userid,dbp1,dbp2,sbp1,sbp2,heartrate1,heartrate2 FROM bp_setting WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
@@ -86,7 +78,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 	}
 
 	@Override
-	public boolean updateBloodpressureConfig(BloodpressureConfig bpConfig) {
+	public boolean updateConfig(BloodpressureConfig bpConfig) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", bpConfig.getUserId());
 		msps.addValue("dbp1", bpConfig.getDbp1());

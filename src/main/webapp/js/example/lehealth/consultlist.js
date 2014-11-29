@@ -40,7 +40,7 @@ define(function(require, exports, module) {
 						for (var i = 0; i < results.length; i++) {
 							var doctor = results[i];
 							
-							var seperator = (i == (results.length - 1)) ? "" : '<div style="border-bottom:#888 1px solid"></div>';
+							var seperator = "";//(i == (results.length - 1)) ? "" : '<div style="border-bottom:#888 1px solid"></div>';
 							var thumbnail = doctor.thumbnail ? doctor.thumbnail : "images/person.jpg";
 							if(doctor.attention == 0) {
 								html +=

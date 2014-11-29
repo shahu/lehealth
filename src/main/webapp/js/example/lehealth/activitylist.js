@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 						var html = "";
 						for(var i = 0; i < list.length; i++) {
 							var actobj = list[i];
-							var seperator = (i == (list.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
+							var seperator = "";//(i == (list.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
 							var timestr = getTimeStr(actobj.starttime, actobj.endtime);
 							html += '<li><a id="acturl" href="' + actobj.externalurl
 							 + '" data-transition="slide" style="padding:5px 10px;"><h2 id="actname">' 

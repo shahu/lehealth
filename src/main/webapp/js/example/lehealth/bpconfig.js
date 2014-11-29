@@ -88,6 +88,9 @@ define(function(require, exports, module) {
 							$('#heartbpl').val(heart1).slider('refresh');
 							$('#heartbph').val(heart2).slider('refresh');;						
 							util.toast("提交成功");
+							setTimeout(function() {
+								$.mobile.changePage("/lehealth/config.html", "slide");
+							}, 2000);
 						}
 					},
 					error: function(xhr, errormsg) {

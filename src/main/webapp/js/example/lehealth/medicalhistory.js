@@ -39,10 +39,10 @@ define(function(require, exports, module) {
 						var html = "";
 						for (var i = 0; i < results.length; i++) {
 							var historyobj = results[i];
-							var seperator = (i == (results.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
+							var seperator = "";//(i == (results.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
 							html += '<li><a href="/lehealth/medicalhistorydetail.html?a=1&diseaseId=' 
-								+ historyobj.diseaseId + '"><span>' 
-								+ historyobj.diseaseName 
+								+ historyobj.diseaseid + '"><span>' 
+								+ historyobj.diseasename 
 								+ '</span></li>';
 						}
 						$('#mylistwraper').empty();

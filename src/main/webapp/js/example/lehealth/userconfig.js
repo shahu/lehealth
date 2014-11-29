@@ -105,6 +105,9 @@ define(function(require, exports, module) {
 						} else {
 							util.toast("提交成功");
 						}
+						setTimeout(function() {
+							$.mobile.changePage("/lehealth/config.html", "slide");
+						}, 2000);
 					},
 					error: function(xhr, errormsg) {
 						util.toast("提交数据失败，请重新提交");

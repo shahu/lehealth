@@ -100,6 +100,9 @@ define(function(require, exports, module) {
 								$('#followDoctor').attr('targetstatus', '0');
 								$('#followDoctor').html('取消关注');
 							}
+							setTimeout(function() {
+								$.mobile.changePage("/lehealth/consultlist.html", "slide");
+							}, 2000);								
 						}
 					},
 					error: function(xhr, errormsg) {

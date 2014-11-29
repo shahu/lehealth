@@ -428,7 +428,10 @@ define(function(require, exports, module) {
 								"#B4CDCD",
 								"#90EE90",
 								"#B4EEB4",
-								"#D1D1D1"
+								"#D1D1D1",
+								"#CDAA7D",
+								"#BCEE68",
+								"#EEEE00"
 							];
 							
 							console.info(tips);

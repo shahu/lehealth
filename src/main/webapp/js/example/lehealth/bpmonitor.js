@@ -52,7 +52,9 @@ define(function(require, exports, module) {
 						dbpArr = [],
 						sbpArr = [],
 						rateArr = [];
-					$('#trendchart').css('width', bpDataArr.length * 45+ 'px');
+
+					var chartwidth = bpDataArr.length * 45 > screen.width ? bpDataArr.length * 45 : screen.width;
+					$('#trendchart').css('width', chartwidth+ 'px');
 					showCharts(days, function(trendchart) {
 						for (var i = 0; i < bpDataArr.length; i++) {
 							var bpobj = bpDataArr[i];

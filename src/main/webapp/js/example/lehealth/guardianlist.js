@@ -41,7 +41,7 @@ define(function(require, exports, module) {
 						var html = "";
 						for (var i = 0; i < results.length; i++) {
 							var guardian = results[i];
-							var seperator = (i == (results.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
+							var seperator = "";//(i == (results.length -1))? "" : '<div style="border-bottom:#888 1px solid"></div>';
 							html += '<li data-icon="delete"><a href="#" ><span>' 
 								+ guardian.guardianname 
 								+ '</span>&nbsp;&nbsp;<span>手机：' 

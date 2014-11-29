@@ -86,7 +86,7 @@ define(function(require, exports, module) {
 	};
 
 	exports.toast = function(msg) {
-		$("<div class='ui-loader ui-overlay-shadow ui-body-f ui-corner-all'><h3>" + msg + "</h3></div>")
+		$("<div class='ui-loader ui-overlay-shadow ui-body-f ui-corner-all' style='background-color:#f9f9f9'><h3>" + msg + "</h3></div>")
 			.css({
 				display: "block",
 				opacity: 0.90,
@@ -95,7 +95,7 @@ define(function(require, exports, module) {
 				"text-align": "center",
 				width: "270px",
 				left: ($(window).width() - 284) / 2,
-				top: $(window).height() / 2
+				top: $(window).height() / 2 - 30
 			})
 			.appendTo($.mobile.pageContainer).delay(1500)
 			.fadeOut(400, function() {

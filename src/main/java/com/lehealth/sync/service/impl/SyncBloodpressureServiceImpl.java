@@ -139,7 +139,7 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 			List<YundfUser> userList=new ArrayList<YundfUser>();
 			Set<String> userIds=new HashSet<String>();
 			for(Entry<String,YundfUser> e:users.entrySet()){
-				if(e.getValue().getLastRid()==-1){
+				if(e.getValue().getLastRid()<=0){
 					continue;
 				}
 				//掺入记录

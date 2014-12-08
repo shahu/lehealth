@@ -13,7 +13,7 @@ public class YundfUtils {
 	public static String friendListUrl="https://smartbp.duapp.com/account/friend/list";
 	public static String recordListUrl="https://smartbp.duapp.com/account/record/list";
 	
-	public static int limitCount=5;
+	public static int limitCount=50;
 	
 	public static YundfLogin login=new YundfLogin();
 	static{

@@ -1,44 +1,33 @@
 package com.lehealth.sync.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class YundfUser {
 
-	private String accid="";
-	private String markname="";
-	private String access="";
-	private String atype="";
+	private String accId="";
 	private String phone="";
-	private String nickname="";
-	private String realname="";
-	private String gender="";
-	private String birthday="";
-	private String province="";
-	private String city="";
-	private String tall="";
-	private String weight="";
+	private String userId="";
+	private int lastRid=0;
+	private List<YundfRecord> records=new ArrayList<YundfRecord>();
+//	private String markname="";
+//	private String access="";
+//	private String atype="";
 	
-	public String getAccid() {
-		return accid;
+//	private String nickname="";
+//	private String realname="";
+//	private String gender="";
+//	private String birthday="";
+//	private String province="";
+//	private String city="";
+//	private String tall="";
+//	private String weight="";
+	
+	public String getAccId() {
+		return accId;
 	}
-	public void setAccid(String accid) {
-		this.accid = accid;
-	}
-	public String getMarkname() {
-		return markname;
-	}
-	public void setMarkname(String markname) {
-		this.markname = markname;
-	}
-	public String getAccess() {
-		return access;
-	}
-	public void setAccess(String access) {
-		this.access = access;
-	}
-	public String getAtype() {
-		return atype;
-	}
-	public void setAtype(String atype) {
-		this.atype = atype;
+	public void setAccId(String accId) {
+		this.accId = accId;
 	}
 	public String getPhone() {
 		return phone;
@@ -46,53 +35,25 @@ public class YundfUser {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getNickname() {
-		return nickname;
+	public String getUserId() {
+		return userId;
 	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getRealname() {
-		return realname;
+	public int getLastRid() {
+		return lastRid;
 	}
-	public void setRealname(String realname) {
-		this.realname = realname;
+	public void setLastRid(int lastRid) {
+		this.lastRid = lastRid;
 	}
-	public String getGender() {
-		return gender;
+	public List<YundfRecord> getRecords() {
+		return records;
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setRecords(List<YundfRecord> records) {
+		this.records = records;
 	}
-	public String getBirthday() {
-		return birthday;
+	public void addRecord(YundfRecord record) {
+		this.records.add(record);
 	}
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getTall() {
-		return tall;
-	}
-	public void setTall(String tall) {
-		this.tall = tall;
-	}
-	public String getWeight() {
-		return weight;
-	}
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
-	
 }

@@ -31,6 +31,11 @@ public class MedicineServiceImpl implements MedicineService{
 	}
 	
 	@Override
+	public List<MedicineRecord> getRecords(String userId,int days){
+		return this.medicineDao.selectRecords(userId, days);
+	}
+	
+	@Override
 	public boolean addRecord(MedicineRecord info){
 		return this.medicineDao.updateRecord(info);
 	}

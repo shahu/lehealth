@@ -1,76 +1,60 @@
 package com.lehealth.sync.entity;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import org.apache.commons.lang3.time.DateUtils;
+
+import com.lehealth.util.Constant;
+
 public class YundfRecord {
+	//舒张压
+	private int diastolic=0;
+	//心率
+	private int pulse=0;
+	//收缩压
+	private int systolic=0;
+	private long rdatetime=0;
+	private int rid=0;
+//	private String did="";
+//	private String arrhythmia="";
+//	private String identity="";
+//	private String sequence="";
+//	private String uid="";
 	
-	private String diastolic="";
-	private String did="";
-	private String arrhythmia="";
-	private String identity="";
-	private String pulse="";
-	private String rdatetime="";
-	private String rid="";
-	private String sequence="";
-	private String systolic="";
-	private String uid="";
-	public String getDiastolic() {
+	public int getDiastolic() {
 		return diastolic;
 	}
-	public void setDiastolic(String diastolic) {
+	public void setDiastolic(int diastolic) {
 		this.diastolic = diastolic;
 	}
-	public String getDid() {
-		return did;
-	}
-	public void setDid(String did) {
-		this.did = did;
-	}
-	public String getArrhythmia() {
-		return arrhythmia;
-	}
-	public void setArrhythmia(String arrhythmia) {
-		this.arrhythmia = arrhythmia;
-	}
-	public String getIdentity() {
-		return identity;
-	}
-	public void setIdentity(String identity) {
-		this.identity = identity;
-	}
-	public String getPulse() {
+	public int getPulse() {
 		return pulse;
 	}
-	public void setPulse(String pulse) {
+	public void setPulse(int pulse) {
 		this.pulse = pulse;
 	}
-	public String getRdatetime() {
+	public int getSystolic() {
+		return systolic;
+	}
+	public void setSystolic(int systolic) {
+		this.systolic = systolic;
+	}
+	public long getRdatetime() {
 		return rdatetime;
 	}
 	public void setRdatetime(String rdatetime) {
-		this.rdatetime = rdatetime;
+		try {
+			Date date = DateUtils.parseDate(rdatetime, Constant.dateFormat_yyyy_mm_dd_hh_mm_ss);
+			this.rdatetime = date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
-	public String getRid() {
+	public int getRid() {
 		return rid;
 	}
-	public void setRid(String rid) {
+	public void setRid(int rid) {
 		this.rid = rid;
 	}
-	public String getSequence() {
-		return sequence;
-	}
-	public void setSequence(String sequence) {
-		this.sequence = sequence;
-	}
-	public String getSystolic() {
-		return systolic;
-	}
-	public void setSystolic(String systolic) {
-		this.systolic = systolic;
-	}
-	public String getUid() {
-		return uid;
-	}
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	
 }

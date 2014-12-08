@@ -57,7 +57,7 @@ public class BloodpressureResult {
 			Date today=new Date();
 			Date tempDate=DateUtils.addDays(today, -days);
 			JSONArray bpArr=new JSONArray();
-			while(tempDate.before(today)){
+			while(!tempDate.after(today)){
 				String temp=DateFormatUtils.format(tempDate, Constant.dateFormat_yyyy_mm_dd);
 				if(bpTemp.containsKey(temp)){
 					bpArr.add(bpTemp.get(temp).toJsonObj());

@@ -29,16 +29,14 @@ public class SyncBloodpressureController {
 	
 	private static Logger logger = Logger.getLogger(SyncBloodpressureController.class);
 	
-	@Scheduled(cron = "5 30 9 * * ?")
+	@Scheduled(cron = "5 0/10 * * * ?")
 	public void syncBloodpressureFromYundf() {
-		System.out.println("syncBloodpressureFromYundf");
-		this.syncBloodpressureService.syncFromYundf();
+		//this.syncBloodpressureService.syncFromYundf();
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/syncyundf.do", method = RequestMethod.GET)
 	public String syncYundf(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		System.out.println("test syncBloodpressureFromYundf");
 		this.syncBloodpressureService.syncFromYundf();
 		return "ok";
 	}

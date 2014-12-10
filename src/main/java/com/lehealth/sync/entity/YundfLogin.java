@@ -1,5 +1,9 @@
 package com.lehealth.sync.entity;
 
+import java.text.DecimalFormat;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
 import net.sf.json.JSONObject;
 
 public class YundfLogin {
@@ -20,7 +24,7 @@ public class YundfLogin {
 		this.phoneNumber = phoneNumber;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = DigestUtils.md5Hex(password);
 	}
 	public void setAtype(int atype) {
 		this.atype = atype;

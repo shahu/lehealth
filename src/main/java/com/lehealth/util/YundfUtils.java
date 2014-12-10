@@ -8,6 +8,7 @@ import com.lehealth.sync.entity.YundfLogin;
 
 public class YundfUtils {
 
+	public static int source=1; 
 	public static String loginUrl="https://smartbp.duapp.com/account/login";
 	public static String friendListUrl="https://smartbp.duapp.com/account/friend/list";
 	public static String recordListUrl="https://smartbp.duapp.com/account/record/list";
@@ -16,10 +17,10 @@ public class YundfUtils {
 	
 	public static YundfLogin login=new YundfLogin();
 	static{
-		login.setPhoneNumber("18621545318");
+		login.setPhoneNumber("+8618621545318");
 		login.setPassword("1234qwer");
 		login.setCount(limitCount);
-		login.setDirector(false);
+		login.setDirector(true);
 	}
 	
 	public static byte keyByte=0;
@@ -36,14 +37,9 @@ public class YundfUtils {
 	}
 	
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		String str="aba";
-		byte[] bArray = str.getBytes("UTF-8");
-		byte[] temp=new byte[bArray.length];
-		for(int i=0;i<bArray.length;i++){
-			temp[i]=(byte) (bArray[i] ^ keyByte);
-		}
-		str=new String(temp,"UTF-8");
+		String str="!Pzzx*254?xz`zxqblkblhkonoikbxvPzzx;.#*?xz`zjvPzzx*;))-5(>xz`zxlkc<cc;?<kcnmli?ikil<kbh<bkkn<k>xP'";
 		System.out.println(str);
+		System.out.println(encode(str));
 	}
 	
 	public static String encode(String str){

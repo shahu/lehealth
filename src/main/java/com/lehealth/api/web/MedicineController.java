@@ -40,7 +40,7 @@ public class MedicineController {
 	
 	private static Logger logger = Logger.getLogger(MedicineController.class);
 	
-	//获取用药信息
+	//获取今日用药记录
 	@ResponseBody
 	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.GET)
 	public ResponseBean getmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -50,6 +50,31 @@ public class MedicineController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			List<MedicineRecord> list=this.medicineService.getTodayRecords(userId);
+			JSONArray arr=new JSONArray();
+			for(MedicineRecord info:list){
+				arr.add(info.toJsonObj());
+			}
+			responseBody.setResult(arr);
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
+	
+	//获取今日用药记录
+	@ResponseBody
+	@RequestMapping(value = "/medicinerecords.do", method = RequestMethod.GET)
+	public ResponseBean getMedicineRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			int days=NumberUtils.toInt(request.getParameter("days"),7);
+			if(days==0){
+				days=7;
+			}
+			List<MedicineRecord> list=this.medicineService.getRecords(userId,days);
 			JSONArray arr=new JSONArray();
 			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());

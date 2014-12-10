@@ -10,6 +10,9 @@ public interface MedicineService {
 	//获取今日用药记录
 	public List<MedicineRecord> getTodayRecords(String userId);
 	
+	//获取过去几天用药记录
+	public List<MedicineRecord> getRecords(String userId,int days);
+	
 	//更新用药记录
 	public boolean addRecord(MedicineRecord info);
 	

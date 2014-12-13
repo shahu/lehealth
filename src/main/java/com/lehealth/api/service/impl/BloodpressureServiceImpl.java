@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureRecord;
 import com.lehealth.bean.BloodpressureResult;
-import com.lehealth.bean.UserGuardianInfo;
+import com.lehealth.bean.PanientGuardianInfo;
 
 @Service("bloodpressureService")
 public class BloodpressureServiceImpl implements BloodpressureService{
@@ -28,8 +27,6 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	@Qualifier("userDao")
 	private UserDao userDao;
 	
-	private static Logger logger = Logger.getLogger(BloodpressureServiceImpl.class);
-
 	@Override
 	public BloodpressureResult getRecords(String userId,int days) {
 		BloodpressureResult result=new BloodpressureResult();
@@ -58,7 +55,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			||bpInfo.getSbp()<=config.getSbp1()
 			||bpInfo.getHeartrate()<=config.getHeartrate1()){
 			//获取监护人手机
-			List<UserGuardianInfo> list=this.userDao.selectUserGuardianInfos(bpInfo.getUserId());
+			List<PanientGuardianInfo> list=this.userDao.selectUserGuardianInfos(bpInfo.getUserId());
 			//调用短信通知监护人
 			//TODO
 			//sendMessage(guardian.getGuardianNumber());

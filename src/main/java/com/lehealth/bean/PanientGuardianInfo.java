@@ -2,7 +2,7 @@ package com.lehealth.bean;
 
 import net.sf.json.JSONObject;
 
-public class UserGuardianInfo {
+public class PanientGuardianInfo {
 	
 	private String userId="";
 	private String guardianName="";

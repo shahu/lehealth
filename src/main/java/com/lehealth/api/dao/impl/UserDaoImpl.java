@@ -10,20 +10,20 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.UserDao;
-import com.lehealth.bean.UserGuardianInfo;
-import com.lehealth.bean.UserInfo;
+import com.lehealth.bean.PanientGuardianInfo;
+import com.lehealth.bean.PanientInfo;
 import com.lehealth.util.TokenUtils;
 
 @Repository("userDao")
 public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 
 	@Override
-	public UserInfo selectUserInfo(String userid) {
+	public PanientInfo selectUserInfo(String userid) {
 		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_patient_info WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		UserInfo info=new UserInfo();
+		PanientInfo info=new PanientInfo();
 		if(rs.next()){
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String userName=StringUtils.trimToEmpty(rs.getString("username"));
@@ -42,7 +42,7 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 	}
 
 	@Override
-	public boolean updateUserInfo(UserInfo info) {
+	public boolean updateUserInfo(PanientInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("gender", info.getGender());
@@ -64,14 +64,14 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 	}
 
 	@Override
-	public List<UserGuardianInfo> selectUserGuardianInfos(String userId) {
+	public List<PanientGuardianInfo> selectUserGuardianInfos(String userId) {
 		String sql="SELECT userid,guardianname,guardiannumber FROM user_patient_guardian WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		List<UserGuardianInfo> list=new ArrayList<UserGuardianInfo>();
+		List<PanientGuardianInfo> list=new ArrayList<PanientGuardianInfo>();
 		while(rs.next()){
-			UserGuardianInfo info=new UserGuardianInfo();
+			PanientGuardianInfo info=new PanientGuardianInfo();
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String guardianName=StringUtils.trimToEmpty(rs.getString("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(rs.getString("guardiannumber"));
@@ -84,7 +84,7 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 	}
 
 	@Override
-	public boolean insertUserGuardianInfo(UserGuardianInfo info) {
+	public boolean insertUserGuardianInfo(PanientGuardianInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("guardianname", info.getGuardianName());

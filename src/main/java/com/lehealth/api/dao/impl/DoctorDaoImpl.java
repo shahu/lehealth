@@ -7,14 +7,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import com.lehealth.api.dao.DoctorDao;
-import com.lehealth.bean.Doctor;
+import com.lehealth.bean.DoctorInfo;
 import com.lehealth.util.TokenUtils;
 
 @Repository("doctorDao")
 public class DoctorDaoImpl extends BaseJdbcDao implements DoctorDao {
 
 	@Override
-	public List<Doctor> selectDoctors(String patinetId) {
+	public List<DoctorInfo> selectDoctors(String patinetId) {
 		String sql="SELECT t1.userid,t1.description,t1.gender,t1.hospital,t1.id,t1.name,t1.title,t1.thumbnail,t2.doctorid as did "
 				+"FROM user_doctor_info t1 "
 				+"LEFT JOIN mapping_doctor_patient_attention t2 "
@@ -22,9 +22,9 @@ public class DoctorDaoImpl extends BaseJdbcDao implements DoctorDao {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("patinetid", patinetId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		List<Doctor> list=new ArrayList<Doctor>();
+		List<DoctorInfo> list=new ArrayList<DoctorInfo>();
 		while(rs.next()){
-			Doctor d=new Doctor();
+			DoctorInfo d=new DoctorInfo();
 			d.setDesc(StringUtils.trim(rs.getString("description")));
 			d.setGender(rs.getInt("gender"));
 			d.setHospital(StringUtils.trimToEmpty(rs.getString("hospital")));
@@ -45,8 +45,8 @@ public class DoctorDaoImpl extends BaseJdbcDao implements DoctorDao {
 	}
 
 	@Override
-	public Doctor selectDoctor(String patinetId,String doctorId) {
-		Doctor d=new Doctor();
+	public DoctorInfo selectDoctor(String patinetId,String doctorId) {
+		DoctorInfo d=new DoctorInfo();
 		String sql="SELECT t1.description,t1.gender,t1.hospital,t1.id,t1.name,t1.title,t1.thumbnail,t1.image,t2.doctorid as did "
 				+"FROM user_doctor_info t1 "
 				+"LEFT JOIN mapping_doctor_patient_attention t2 "

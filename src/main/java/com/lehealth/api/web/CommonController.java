@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -34,8 +33,6 @@ public class CommonController {
 	@Autowired
 	@Qualifier("commonService")
 	private CommonService commonService;
-	
-	private static Logger logger = Logger.getLogger(CommonController.class);
 	
 	//获取线下活动列表
 	@ResponseBody

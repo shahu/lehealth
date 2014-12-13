@@ -10,7 +10,6 @@ import net.sf.json.JSONArray;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -36,9 +35,7 @@ public class DiseaseController {
 	@Qualifier("diseaseService")
 	private DiseaseService diseaseService;
 	
-	private static Logger logger = Logger.getLogger(DiseaseController.class);
-	
-	//获取病例
+	//患者获取自己病例
 	@ResponseBody
 	@RequestMapping(value = "/diseasehistorys.do", method = RequestMethod.GET)
 	public ResponseBean getDiseaseHistorys(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -59,7 +56,7 @@ public class DiseaseController {
 		return responseBody;
 	}
 	
-	//获取疾病内容
+	//患者获取自己疾病内容
 	@ResponseBody
 	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.GET)
 	public ResponseBean getDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -81,7 +78,7 @@ public class DiseaseController {
 		return responseBody;
 	}
 	
-	//添加新病例
+	//患者添加自己的新病例
 	@ResponseBody
 	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.POST)
 	public ResponseBean modifyDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

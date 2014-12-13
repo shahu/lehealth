@@ -10,7 +10,6 @@ import net.sf.json.JSONArray;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,8 @@ import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.UserService;
 import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.UserGuardianInfo;
-import com.lehealth.bean.UserInfo;
+import com.lehealth.bean.PanientGuardianInfo;
+import com.lehealth.bean.PanientInfo;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -38,9 +37,7 @@ public class UserController {
 	@Qualifier("userService")
 	private UserService userService;
 	
-	private static Logger logger = Logger.getLogger(UserController.class);
-	
-	//获取个人信息
+	//患者获取自己个人信息
 	@ResponseBody
 	@RequestMapping(value = "/userinfo.do", method = RequestMethod.GET)
 	public ResponseBean getUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -49,7 +46,7 @@ public class UserController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			UserInfo info=this.userService.getUserInfo(userId);
+			PanientInfo info=this.userService.getUserInfo(userId);
 			if(StringUtils.isNotBlank(info.getUserId())){
 				responseBody.setResult(info.toJsonObj());
 			}else{
@@ -61,7 +58,7 @@ public class UserController {
 		return responseBody;
 	}
 	
-	//更新个人信息
+	//患者更新自己个人信息
 	@ResponseBody
 	@RequestMapping(value = "/userinfo.do", method = RequestMethod.POST)
 	public ResponseBean modifyUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -75,7 +72,7 @@ public class UserController {
 			long birthday=NumberUtils.toInt(request.getParameter("birthday"));;
 			float height=NumberUtils.toInt(request.getParameter("height"));;
 			float weight=NumberUtils.toInt(request.getParameter("weight"));
-			UserInfo info=new UserInfo();
+			PanientInfo info=new PanientInfo();
 			info.setBirthday(birthday);
 			info.setGender(gender);
 			info.setHeight(height);
@@ -93,7 +90,7 @@ public class UserController {
 		return responseBody;
 	}
 	
-	//获取监护人信息
+	//患者获取自己监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardianinfos.do", method = RequestMethod.GET)
 	public ResponseBean getGuardianInfos(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -102,9 +99,9 @@ public class UserController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			List<UserGuardianInfo> list=this.userService.getUserGuardianInfos(userId);
+			List<PanientGuardianInfo> list=this.userService.getUserGuardianInfos(userId);
 			JSONArray arr=new JSONArray();
-			for(UserGuardianInfo info:list){
+			for(PanientGuardianInfo info:list){
 				arr.add(info.toJsonObj());
 			}
 			responseBody.setResult(arr);
@@ -114,7 +111,7 @@ public class UserController {
 		return responseBody;
 	}
 	
-	//新增监护人信息
+	//患者新增自己监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.POST)
 	public ResponseBean modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -125,7 +122,7 @@ public class UserController {
 		if(StringUtils.isNotBlank(userId)){
 			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-			UserGuardianInfo info=new UserGuardianInfo();
+			PanientGuardianInfo info=new PanientGuardianInfo();
 			info.setUserId(userId);
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
@@ -140,7 +137,7 @@ public class UserController {
 		return responseBody;
 	}
 	
-	//删除监护人信息
+	//患者删除自己监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardianinfodel.do", method = RequestMethod.POST)
 	public ResponseBean delGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

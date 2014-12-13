@@ -11,7 +11,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -38,9 +37,7 @@ public class MedicineController {
 	@Qualifier("medicineService")
 	private MedicineService medicineService;
 	
-	private static Logger logger = Logger.getLogger(MedicineController.class);
-	
-	//获取今日用药记录
+	//患者获取自己今日用药记录
 	@ResponseBody
 	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.GET)
 	public ResponseBean getmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -61,7 +58,7 @@ public class MedicineController {
 		return responseBody;
 	}
 	
-	//获取今日用药记录
+	//患者获取自己过去一段时间用药记录
 	@ResponseBody
 	@RequestMapping(value = "/medicinerecords.do", method = RequestMethod.GET)
 	public ResponseBean getMedicineRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -86,7 +83,7 @@ public class MedicineController {
 		return responseBody;
 	}
 	
-	//更新用药记录
+	//患者更新自己今日用药记录
 	@ResponseBody
 	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.POST)
 	public ResponseBean addmedicinehistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -113,7 +110,7 @@ public class MedicineController {
 		return responseBody;
 	}
 		
-	//获取用药设置
+	//患者获取自己用药设置
 	@ResponseBody
 	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.GET)
 	public ResponseBean getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -134,7 +131,7 @@ public class MedicineController {
 		return responseBody;
 	}
 	
-	//更新用药设置
+	//患者更新自己用药设置
 	@ResponseBody
 	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.POST)
 	public ResponseBean modifyMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -171,7 +168,7 @@ public class MedicineController {
 		return responseBody;
 	}
 	
-	//删除用药设置
+	//患者除用自己药设置
 	@ResponseBody
 	@RequestMapping(value = "/medicinesettingdel.do", method = RequestMethod.POST)
 	public ResponseBean deleteMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,6 @@ public class MedicineServiceImpl implements MedicineService{
 	@Qualifier("medicineDao")
 	private MedicineDao medicineDao;
 	
-	private static Logger logger = Logger.getLogger(MedicineServiceImpl.class);
-
 	@Override
 	public List<MedicineRecord> getTodayRecords(String userId){
 		Map<Integer,MedicineRecord> map=this.medicineDao.selectTodayRecords(userId);

@@ -1,11 +1,12 @@
-package com.lehealth.api.web;
+package com.lehealth.admin.web;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,43 +14,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lehealth.api.service.HomeService;
+import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.HomeResult;
+import com.lehealth.bean.DoctorInfo;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/admin")
 public class HomeController {
-	
+
 	@Autowired
 	@Qualifier("loginService")
 	private LoginService loginService;
 	
 	@Autowired
-	@Qualifier("homeService")
-	private HomeService homeService;
+	@Qualifier("doctorService")
+	private DoctorService doctorService;
 	
-	//患者首页数据接口
+	private static Logger logger = Logger.getLogger(HomeController.class);
+	
+	//医生获取关注的病人列表
 	@ResponseBody
-	@RequestMapping(value = "/homedata.do", method = RequestMethod.GET)
-	public ResponseBean homeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/patients.do", method = RequestMethod.POST)
+	public ResponseBean getPatients(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			int days=NumberUtils.toInt(request.getParameter("days"),7);
-			if(days==0){
-				days=7;
-			}
-			HomeResult result=this.homeService.getHomeData(userId,days);
-			responseBody.setResult(result.toJsonObj());
+			List<DoctorInfo> list=this.doctorService.getDoctors(userId);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}
 		return responseBody;
 	}
+	
+	//医生获取病人信息
+	
+	//医生获取病人血压、用药记录，同首页
+	
+	//医生获取病史
 	
 }

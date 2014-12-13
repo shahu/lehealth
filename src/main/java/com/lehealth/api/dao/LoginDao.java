@@ -1,6 +1,6 @@
 package com.lehealth.api.dao;
 
-import com.lehealth.bean.User;
+import com.lehealth.bean.UserInfomation;
 
 public interface LoginDao {
 	
@@ -8,9 +8,9 @@ public interface LoginDao {
 	public boolean checkUser4Login(String loginId,String pwdmd5);
 	
 	//获取用户id
-	public User getUser(String loginId);
+	public UserInfomation getUser(String loginId);
 	
 	//注册新用户
-	public boolean insertUser(User user);
+	public boolean insertUser(UserInfomation user);
 	
 }

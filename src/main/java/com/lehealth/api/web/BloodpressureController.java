@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -34,9 +33,7 @@ public class BloodpressureController {
 	@Qualifier("bloodpressureService")
 	private BloodpressureService bloodpressureService;
 	
-	private static Logger logger = Logger.getLogger(BloodpressureController.class);
-	
-	//血压数据获取
+	//患者获取自己血压数据
 	@ResponseBody
 	@RequestMapping(value = "/bprecords.do", method = RequestMethod.GET)
 	public ResponseBean bprecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -57,7 +54,7 @@ public class BloodpressureController {
 		return responseBody;
 	}
 	
-	//用户血压数据录入
+	//患者录入自己血压数据
 	@ResponseBody
 	@RequestMapping(value = "/bprecord.do", method = RequestMethod.POST)
 	public ResponseBean bprecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -90,7 +87,7 @@ public class BloodpressureController {
 		return responseBody;
 	}
 	
-	//获取血压控制设置
+	//患者获取自己血压控制设置
 	@ResponseBody
 	@RequestMapping(value = "/bpsetting.do", method = RequestMethod.GET)
 	public ResponseBean getBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -112,7 +109,7 @@ public class BloodpressureController {
 		return responseBody;
 	}
 	
-	//更新血压控制设置
+	//患者更新自己血压控制设置
 	@ResponseBody
 	@RequestMapping(value = "/bpsetting.do", method = RequestMethod.POST)
 	public ResponseBean modifyBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

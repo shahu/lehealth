@@ -2,7 +2,7 @@ package com.lehealth.bean;
 
 import net.sf.json.JSONObject;
 
-public class Doctor {
+public class DoctorInfo {
 	
 	private String id="";
 	private String userId="";

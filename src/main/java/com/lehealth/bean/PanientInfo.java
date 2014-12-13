@@ -3,7 +3,7 @@ package com.lehealth.bean;
 import java.util.Calendar;
 import net.sf.json.JSONObject;
 
-public class UserInfo {
+public class PanientInfo {
 	
 	private String userId="";
 	private String userName="";

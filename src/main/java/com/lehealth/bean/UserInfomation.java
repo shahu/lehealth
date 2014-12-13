@@ -6,7 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.lehealth.util.TokenUtils;
 
-public class User {
+public class UserInfomation {
 
 	private String userId="";
 	private String loginId="";

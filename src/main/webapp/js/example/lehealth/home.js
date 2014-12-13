@@ -248,7 +248,7 @@ define(function(require, exports, module) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk");
 
-				// var days = 7;
+				var dayTotal = 15;
 				$.ajax({
 					url: getBpRecordUrl,
 					type: "GET",
@@ -256,7 +256,8 @@ define(function(require, exports, module) {
 					async: true,
 					data: {
 						loginid: username,
-						token: token
+						token: token,
+						days: dayTotal
 					},
 					success: function(rspData) {
 						if (rspData.errorcode) {
@@ -288,9 +289,9 @@ define(function(require, exports, module) {
 							now.setMilliseconds(0);
 
 							console.info(now.getTime());
-							var beginBaseline = now.getTime()  - (dayInms * 7);
+							var beginBaseline = now.getTime()  - (dayInms * dayTotal);
 							//循环筛选数据
-							for (var i = 1; i <= 7; i++) {
+							for (var i = 1; i <= dayTotal; i++) {
 								var found = false;
 								for (var j = 0; j < bpDataArr.length; j++) {
 									var bpdate = bpDataArr[j].date;
@@ -427,11 +428,14 @@ define(function(require, exports, module) {
 								"#B4CDCD",
 								"#90EE90",
 								"#B4EEB4",
-								"#97FFFF"
+								"#D1D1D1",
+								"#CDAA7D",
+								"#BCEE68",
+								"#EEEE00"
 							];
 							
 							console.info(tips);
-
+							$('#medicationtips').empty();
 							for(var i = 0; i < finalObj.length; i++) {
 								finalObj[i]['color'] = color[i];
 								tips[i].color = color[i];

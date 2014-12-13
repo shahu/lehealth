@@ -15,9 +15,9 @@
 			<div data-role="content">
 				<div style="float:right;">
 					<div data-role="controlgroup" data-type="horizontal" data-mini="true">
-					  <a id="sevendaybtn" data-role="button">七天</a>
-					  <a id="halfmonbtn" data-role="button">半月</a>
-					  <a id="monbtn" data-role="button">一月</a>
+					  <a id="sevendaybtn" data-role="button">7天</a>
+					  <a id="halfmonbtn" data-role="button">15天</a>
+					  <a id="monbtn" data-role="button">30天</a>
 					</div>					
 				</div>
 				<div style="clear:both"></div>
@@ -29,9 +29,9 @@
 				<div id="judge" class="dp_tips">
 					<div style="padding:1em; text-shadow:0 1px 0 #f3f3f3;">
 						<h3>评估和建议</h3>
-						<ol data-role="listview" data-theme="f">
+						<ol data-role="listview" id="bptips" data-theme="f">
 							<li style="border-color:#f9f9f9">你的血压状况为<span id="judge_text"></span></li>
-							<li style="border-color:#f9f9f9">您今天还未录入血压数据，请点击录入</li>
+							<li style="border-color:#f9f9f9">您今天<span id="hasmedicate">还未</span>录入血压数据</li>
 						</ol>
 					</div>
 				</div>

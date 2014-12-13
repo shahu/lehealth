@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public ErrorCodeType registerNewUser(String loginId,String password) {
+	public ErrorCodeType registerNewUser(String loginId,String password,int roleId) {
 		//是否用户名存在
 		User user=this.loginDao.getUser(loginId);
 		if(StringUtils.isNotBlank(user.getUserId())){
@@ -43,6 +43,7 @@ public class LoginServiceImpl implements LoginService{
 		user.setUserId(userId);
 		user.setLoginId(loginId);
 		user.setPassword(password);
+		user.setRoleID(roleId);
 		boolean isSuccess=this.loginDao.insertUser(user);
 		if(isSuccess){
 			return ErrorCodeType.normal;

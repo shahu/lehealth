@@ -19,7 +19,7 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 
 	@Override
 	public UserInfo selectUserInfo(String userid) {
-		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_info WHERE userid=:userid";
+		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_patient_info WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -50,10 +50,10 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 		msps.addValue("height", info.getHeight());
 		msps.addValue("weight", info.getWeight());
 		msps.addValue("username", info.getUserName());
-		String sql="UPDATE user_info SET gender=:gender,birthday=:birthday,height=:height,weight=:weight,username=:username WHERE userid=:userid";
+		String sql="UPDATE user_patient_info SET gender=:gender,birthday=:birthday,height=:height,weight=:weight,username=:username WHERE userid=:userid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO user_info VALUE(:uuid,:userid,:gender,:birthday,:height,:weight,:username)";
+			sql="INSERT INTO user_patient_info VALUE(:uuid,:userid,:gender,:birthday,:height,:weight,:username)";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){
@@ -65,7 +65,7 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 
 	@Override
 	public List<UserGuardianInfo> selectUserGuardianInfos(String userId) {
-		String sql="SELECT userid,guardianname,guardiannumber FROM user_guardian WHERE userid=:userid";
+		String sql="SELECT userid,guardianname,guardiannumber FROM user_patient_guardian WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -90,7 +90,7 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 		msps.addValue("guardianname", info.getGuardianName());
 		msps.addValue("guardiannumber", info.getGuardianNumber());
 		msps.addValue("uuid", TokenUtils.buildUUid());
-		String sql="INSERT INTO user_guardian VALUE(:uuid,:userid,:guardianname,:guardiannumber)";
+		String sql="INSERT INTO user_patient_guardian VALUE(:uuid,:userid,:guardianname,:guardiannumber)";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			return false;
@@ -104,7 +104,7 @@ public class UserDaoImpl extends BaseJdbcDao implements UserDao {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("guardiannumber", guardianNumber);
-		String sql="DELETE FROM user_guardian WHERE userid=:userid and guardiannumber=:guardiannumber";
+		String sql="DELETE FROM user_patient_guardian WHERE userid=:userid and guardiannumber=:guardiannumber";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			return false;

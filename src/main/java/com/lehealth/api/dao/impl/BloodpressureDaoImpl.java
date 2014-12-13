@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -21,7 +20,8 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public List<BloodpressureRecord> selectRecords(String userId,int days) {
-		String sql="SELECT updateTime,dbp,heartrate,sbp FROM bp_record WHERE userid=:userid AND Date(updatetime)>=:date";
+		String sql="SELECT updateTime,dbp,heartrate,sbp FROM bp_record "
+				+"WHERE userid=:userid AND Date(updatetime)>=:date";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("date", new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), -days).getTime()));

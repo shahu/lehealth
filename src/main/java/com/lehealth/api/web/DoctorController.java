@@ -62,10 +62,10 @@ public class DoctorController {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
+		String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		Doctor doctor=this.doctorService.getDoctor(userId,doctorId);
-		if(doctor.getId()!=0){
+		if(StringUtils.isNotBlank(doctor.getId())){
 			responseBody.setResult(doctor.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.abnormal);
@@ -82,7 +82,7 @@ public class DoctorController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			int doctorId=NumberUtils.toInt(request.getParameter("doctorid"));
+			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 			int attention=NumberUtils.toInt(request.getParameter("attention"));
 			if(this.doctorService.modifyAttentionStatus(userId,doctorId,attention)){
 				responseBody.setType(ErrorCodeType.normal);
@@ -95,4 +95,25 @@ public class DoctorController {
 		return responseBody;
 	}
 	
+	//医生获取关注的病人列表
+	@ResponseBody
+	@RequestMapping(value = "/patients.do", method = RequestMethod.POST)
+	public ResponseBean getPatients(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
+			int attention=NumberUtils.toInt(request.getParameter("attention"));
+			if(this.doctorService.modifyAttentionStatus(userId,doctorId,attention)){
+				responseBody.setType(ErrorCodeType.normal);
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
+		}else{
+			responseBody.setType(ErrorCodeType.invalidToken);
+		}
+		return responseBody;
+	}
 }

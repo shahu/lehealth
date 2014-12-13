@@ -59,11 +59,13 @@ public class LoginController {
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
 		ResponseBean responseBody=new ResponseBean();
 		if(StringUtils.isNotBlank(loginId)&&StringUtils.isNotBlank(password)){
-			ErrorCodeType type=this.loginService.registerNewUser(loginId,password);
+			ErrorCodeType type=this.loginService.registerNewUser(loginId,password,4);
 			responseBody.setType(type);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);
 		}
 		return responseBody;
 	}
+	
+	//医生注册
 }

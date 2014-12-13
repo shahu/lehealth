@@ -21,7 +21,7 @@ public class DoctorServiceImpl implements DoctorService{
 	private static Logger logger = Logger.getLogger(DoctorServiceImpl.class);
 
 	@Override
-	public Doctor getDoctor(String userId,int doctorId) {
+	public Doctor getDoctor(String userId,String doctorId) {
 		return this.doctorDao.selectDoctor(userId,doctorId);
 	}
 
@@ -31,7 +31,7 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	
 	@Override
-	public boolean modifyAttentionStatus(String userId,int doctorId,int status){
+	public boolean modifyAttentionStatus(String userId,String doctorId,int status){
 		//取消关注
 		if(status==0){
 			return this.doctorDao.cancelAttentionDoctor(userId,doctorId);

@@ -10,11 +10,11 @@ public interface DoctorDao {
 	public List<Doctor> selectDoctors(String userId);
 	
 	//获取医生信息
-	public Doctor selectDoctor(String userId,int doctorId);
+	public Doctor selectDoctor(String userId,String doctorId);
 	
 	//关注医生
-	public boolean cancelAttentionDoctor(String userId,int doctorId);
+	public boolean cancelAttentionDoctor(String userId,String doctorId);
 	
 	//取消关注医生
-	public boolean attentionDoctor(String userId,int doctorId);
+	public boolean attentionDoctor(String userId,String doctorId);
 }

@@ -1,7 +1,5 @@
 package com.lehealth.sync.entity;
 
-import java.text.DecimalFormat;
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 import net.sf.json.JSONObject;

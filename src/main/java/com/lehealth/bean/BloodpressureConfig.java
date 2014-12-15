@@ -5,12 +5,12 @@ import net.sf.json.JSONObject;
 public class BloodpressureConfig {
 
 	private String userId="";
-	private int dbp1=0;
-	private int dbp2=0;
-	private int sbp1=0;
-	private int sbp2=0;
+	private int dbp1=50;
+	private int dbp2=90;
+	private int sbp1=120;
+	private int sbp2=140;
 	private int heartrate1=0;
-	private int heartrate2=0;
+	private int heartrate2=200;
 	
 	public String getUserId() {
 		return userId;

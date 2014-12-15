@@ -33,8 +33,9 @@ public class HomeController {
 	
 	//患者首页数据接口
 	@ResponseBody
-	@RequestMapping(value = "/homedata.do", method = RequestMethod.GET)
-	public ResponseBean homeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/home/data", method = RequestMethod.GET)
+//	@RequestMapping(value = "/homedata.do", method = RequestMethod.GET)
+	public ResponseBean getHomeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();

@@ -13,7 +13,6 @@ define(function(require, exports, module) {
 			$("#medicationsettingcover").css("display", "none");
 			$("#status_update").val(1);
 			$('#datefrom').val('');
-			$('#dateto').val('');
 			$('.dosage').val('');
 			$(".config").css("display","none");
 			$(".config").removeClass("show_config");
@@ -112,8 +111,7 @@ define(function(require, exports, module) {
 				var status_update=$("#status_update").val();
 				if(status_update==1){
 					$("#status_update").val(0);
-					if(!($("#datefrom").val()!=0
-							&&$("#dateto").val()!=0)){
+					if(!($("#datefrom").val()!=0)){
 						alert('请选择日期');
 						$("#status_update").val(1);
 						return;
@@ -123,8 +121,6 @@ define(function(require, exports, module) {
 					var	medicineid = $('#medacine').val();
 					var	datefromStr = $('#datefrom').val().replace(/-/g,"/");
 					var datefrom = new Date(datefromStr);
-					var	datetoStr =  $('#dateto').val().replace(/-/g,"/");
-					var dateto = new Date(datetoStr);
 					var configs=[];
 					var flag=1;
 					$.each($((".show_config")),function(){
@@ -170,7 +166,6 @@ define(function(require, exports, module) {
 							token: token,
 							medicineid: medicineid,
 							datefrom:datefrom.getTime(),
-							dateto:dateto.getTime(),
 							configs:JSON.stringify(configs),
 						},
 						success: function(rspData) {
@@ -187,7 +182,6 @@ define(function(require, exports, module) {
 							} else {
 								$("#status_update").val(1);
 								$('#datefrom').val('');
-								$('#dateto').val('');
 								$('.dosage').val('');
 								$(".config").css("display","none");
 								$(".config").removeClass("show_config");

@@ -27,7 +27,8 @@ public class LoginController {
 	
 	//用户登录
 	@ResponseBody
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+//	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public ResponseBean login(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
@@ -50,13 +51,14 @@ public class LoginController {
 	
 	//患者注册
 	@ResponseBody
-	@RequestMapping(value = "/patient/register.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/patient/register", method = RequestMethod.POST)
+//	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
 	public ResponseBean register(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
 		ResponseBean responseBody=new ResponseBean();
 		if(StringUtils.isNotBlank(loginId)&&StringUtils.isNotBlank(password)){
-			ErrorCodeType type=this.loginService.registerNewUser(loginId,password,4);
+			ErrorCodeType type=this.loginService.registerPanient(loginId,password,4);
 			responseBody.setType(type);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);
@@ -64,21 +66,17 @@ public class LoginController {
 		return responseBody;
 	}
 	
-	//医生注册
+	//用户权限
 	@ResponseBody
-	@RequestMapping(value = "/doctor/register.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/role", method = RequestMethod.POST)
 	public ResponseBean doctorregister(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String password=StringUtils.trimToEmpty(request.getParameter("password"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		if(StringUtils.isNotBlank(loginId)&&StringUtils.isNotBlank(password)){
-			ErrorCodeType type=this.loginService.registerNewUser(loginId,password,2);
-			if(type==ErrorCodeType.normal){
-				//创建用户成功则获取医生信息进行录入
-				//TODO
-			}else{
-				responseBody.setType(type);
-			}
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			UserInfomation userInfo=this.loginService.getUserBaseInfo(loginId, token);
+			responseBody.setResult(userInfo.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);
 		}

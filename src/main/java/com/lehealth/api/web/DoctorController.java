@@ -37,8 +37,9 @@ public class DoctorController {
 	
 	//患者获取医生列表
 	@ResponseBody
-	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
-	public ResponseBean doctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/doctor/list", method = RequestMethod.GET)
+//	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
+	public ResponseBean getDoctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -54,8 +55,9 @@ public class DoctorController {
 	
 	//患者获取医生信息
 	@ResponseBody
-	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
-	public ResponseBean doctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/doctor/list", method = RequestMethod.GET)
+//	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
+	public ResponseBean getDoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -72,8 +74,9 @@ public class DoctorController {
 	
 	//患者添加医生关注或取消关注
 	@ResponseBody
-	@RequestMapping(value = "/attentiondoctor.do", method = RequestMethod.POST)
-	public ResponseBean attentiondoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/doctor/attention", method = RequestMethod.POST)
+//	@RequestMapping(value = "/attentiondoctor.do", method = RequestMethod.POST)
+	public ResponseBean addDoctorAttention(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();

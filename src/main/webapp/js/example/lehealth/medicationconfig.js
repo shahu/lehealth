@@ -61,13 +61,11 @@ define(function(require, exports, module) {
 					console.info("test3:"+settings[i]);
 					console.info("test4:"+$("#medicationconfiglistwraper").html());
 					var datefrom=new Date(settings[i].datefrom);
-					var dateto=new Date(settings[i].dateto);
 					var delurl='/lehealth/medicationdelsetting.html?a=1'
 						+'&medicineid='+settings[i].medicineid
 						+'&medicinename='+settings[i].medicinename
 						+'&configs='+encodeURIComponent(JSON.stringify(settings[i].configs))
-						+'&datefrom='+dateFormat(datefrom)
-						+'&dateto='+dateFormat(dateto);
+						+'&datefrom='+dateFormat(datefrom);
 					var html='<li id="li_'+settings[i].medicineid+'">'
 						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
 						+settings[i].medicinename
@@ -82,7 +80,7 @@ define(function(require, exports, module) {
 					}
 					html+='</ul>'
 						+'</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'&nbsp;~&nbsp;'+dateFormat(dateto)+'</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'开始复用</div>'
 						+'</li>';
 					$("#medicationconfiglistwraper").append(html);
 					console.info("test5:"+$("#medicationconfiglistwraper").html());

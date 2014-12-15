@@ -14,7 +14,6 @@ public class MedicineConfig {
 	private String medicineName="";
 	private Map<String,Float> configs=new HashMap<String, Float>();
 	private long dateFrom=0;
-	private long dateTo=0;
 	
 	public String getUserId() {
 		return userId;
@@ -40,12 +39,6 @@ public class MedicineConfig {
 	public void setDateFrom(long dateFrom) {
 		this.dateFrom = dateFrom;
 	}
-	public long getDateTo() {
-		return dateTo;
-	}
-	public void setDateTo(long dateTo) {
-		this.dateTo = dateTo;
-	}
 	public Map<String, Float> getConfigs() {
 		return configs;
 	}
@@ -61,7 +54,6 @@ public class MedicineConfig {
 			obj.accumulate("medicineid", medicineId);
 			obj.accumulate("medicinename", medicineName);
 			obj.accumulate("datefrom", dateFrom);
-			obj.accumulate("dateto", dateTo);
 			JSONArray arr=new JSONArray();
 			for(Entry<String, Float> e : configs.entrySet()){
 				JSONObject config=new JSONObject();

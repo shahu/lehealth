@@ -37,7 +37,8 @@ public class DiseaseController {
 	
 	//患者获取自己病例
 	@ResponseBody
-	@RequestMapping(value = "/diseasehistorys.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/disease/history/list", method = RequestMethod.GET)
+//	@RequestMapping(value = "/diseasehistorys.do", method = RequestMethod.GET)
 	public ResponseBean getDiseaseHistorys(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -58,7 +59,8 @@ public class DiseaseController {
 	
 	//患者获取自己疾病内容
 	@ResponseBody
-	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/disease/history/info", method = RequestMethod.GET)
+//	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.GET)
 	public ResponseBean getDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -80,8 +82,9 @@ public class DiseaseController {
 	
 	//患者添加自己的新病例
 	@ResponseBody
-	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.POST)
-	public ResponseBean modifyDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/disease/history/add", method = RequestMethod.POST)
+//	@RequestMapping(value = "/diseasehistory.do", method = RequestMethod.POST)
+	public ResponseBean addDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.UserService;
-import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.bean.PanientGuardianInfo;
 import com.lehealth.bean.PanientInfo;
@@ -39,8 +38,9 @@ public class UserController {
 	
 	//患者获取自己个人信息
 	@ResponseBody
-	@RequestMapping(value = "/userinfo.do", method = RequestMethod.GET)
-	public ResponseBean getUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/panient/info", method = RequestMethod.GET)
+//	@RequestMapping(value = "/userinfo.do", method = RequestMethod.GET)
+	public ResponseBean getPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
@@ -60,8 +60,9 @@ public class UserController {
 	
 	//患者更新自己个人信息
 	@ResponseBody
-	@RequestMapping(value = "/userinfo.do", method = RequestMethod.POST)
-	public ResponseBean modifyUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/panient/modify", method = RequestMethod.POST)
+//	@RequestMapping(value = "/userinfo.do", method = RequestMethod.POST)
+	public ResponseBean modifyPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
@@ -92,7 +93,8 @@ public class UserController {
 	
 	//患者获取自己监护人信息
 	@ResponseBody
-	@RequestMapping(value = "/guardianinfos.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/guardian/list", method = RequestMethod.GET)
+//	@RequestMapping(value = "/guardianinfos.do", method = RequestMethod.GET)
 	public ResponseBean getGuardianInfos(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -113,7 +115,8 @@ public class UserController {
 	
 	//患者新增自己监护人信息
 	@ResponseBody
-	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/guardian/add", method = RequestMethod.POST)
+//	@RequestMapping(value = "/guardianinfo.do", method = RequestMethod.POST)
 	public ResponseBean modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -139,7 +142,8 @@ public class UserController {
 	
 	//患者删除自己监护人信息
 	@ResponseBody
-	@RequestMapping(value = "/guardianinfodel.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/guardian/delete", method = RequestMethod.POST)
+//	@RequestMapping(value = "/guardianinfodel.do", method = RequestMethod.POST)
 	public ResponseBean delGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));

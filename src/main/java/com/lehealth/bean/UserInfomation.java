@@ -6,11 +6,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.lehealth.util.TokenUtils;
 
-public class User {
+public class UserInfomation {
 
-	private String userId;
-	private String loginId;
-	private String pwdmd5;
+	private String userId="";
+	private String loginId="";
+	private String pwdmd5="";
+	private int roleId=3;
 	
 	public String getUserId() {
 		return userId;
@@ -36,6 +37,12 @@ public class User {
 	public void setPassword(String password) {
 		this.pwdmd5 = DigestUtils.md5Hex(password);
 	}
+	public int getRoleId() {
+		return roleId;
+	}
+	public void setRoleID(int roleId) {
+		this.roleId = roleId;
+	}
 	public boolean validToken(String token){
 		return token.equals(TokenUtils.buildToken(this.loginId, this.pwdmd5));
 	}
@@ -43,6 +50,7 @@ public class User {
 		JSONObject obj=new JSONObject();
 		obj.accumulate("loginid", loginId);
 		obj.accumulate("token", TokenUtils.buildToken(this.loginId, this.pwdmd5));
+		obj.accumulate("roleid", roleId);
 		return obj;
 	}
 }

@@ -1,15 +1,7 @@
 package com.lehealth.bean;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
-
-import com.lehealth.util.Constant;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -18,7 +10,6 @@ public class BloodpressureResult {
 	
 	private List<BloodpressureRecord> records=new ArrayList<BloodpressureRecord>();
 	private BloodpressureConfig config=new BloodpressureConfig();
-	private int days=7;
 	
 	public int getStatus() {
 		for(BloodpressureRecord record:records){
@@ -41,30 +32,18 @@ public class BloodpressureResult {
 	public void setRecords(List<BloodpressureRecord> records) {
 		this.records = records;
 	}
-	public void setDays(int days) {
-		this.days = days;
-	}
 
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		if(records!=null&&!records.isEmpty()){
 			obj.accumulate("status", getStatus());
 			
-			Map<String,BloodpressureRecord> bpTemp=new HashMap<String, BloodpressureRecord>();
-			for(BloodpressureRecord record:records){
-				bpTemp.put(DateFormatUtils.format(new Date(record.getDate()), Constant.dateFormat_yyyy_mm_dd),record);
-			}
-			Date today=new Date();
-			Date tempDate=DateUtils.addDays(today, -days);
 			JSONArray bpArr=new JSONArray();
-			while(!tempDate.after(today)){
-				String temp=DateFormatUtils.format(tempDate, Constant.dateFormat_yyyy_mm_dd);
-				if(bpTemp.containsKey(temp)){
-					bpArr.add(bpTemp.get(temp).toJsonObj());
-				}
-				tempDate=DateUtils.addDays(tempDate, 1);
+			for(BloodpressureRecord record:records){
+				bpArr.add(record.toJsonObj());
 			}
 			obj.accumulate("records", bpArr);
+			
 		}
 		return obj;
 	}

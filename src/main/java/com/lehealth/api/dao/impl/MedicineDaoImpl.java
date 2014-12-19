@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -32,8 +31,7 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 				+"LEFT JOIN medicine_record t3 "
 				+"ON (t1.userid=t3.userid AND t1.medicineid=t3.medicineid AND t1.time=t3.time AND Date(t3.updatetime)=:date) "
 				+"WHERE t1.userid=:userid "
-				+"AND t1.datefrom<=:date "
-				+"AND t1.dateto>=:date ";
+				+"AND t1.datefrom<=:date ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("date", new Date(System.currentTimeMillis()));
@@ -62,7 +60,8 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	
 	@Override
 	public List<MedicineRecord> selectRecords(String userId, int days) {
-		String sql="SELECT t1.userid,t1.medicineid,t2.name AS medicinename,t1.updatetime FROM medicine_record t1 "
+		String sql="SELECT t1.userid,t1.medicineid,t2.name AS medicinename,t1.updatetime "
+				+"FROM medicine_record t1 "
 				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
 				+"WHERE t1.userid=:userid AND Date(t1.updatetime)>=:date";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
@@ -105,7 +104,8 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	
 	@Override
 	public Map<Integer,MedicineConfig> selectConfigs(String userId) {
-		String sql="SELECT t1.medicineid,t1.datefrom,t1.dateto,t1.time,t1.dosage,t2.name AS medicinename FROM medicine_setting t1 "
+		String sql="SELECT t1.medicineid,t1.datefrom,t1.time,t1.dosage,t2.name AS medicinename FROM "
+				+"medicine_setting t1 "
 				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
 				+"WHERE t1.userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
@@ -119,7 +119,6 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 				mConfig.setMedicineId(medicineId);
 				mConfig.setMedicineName(StringUtils.trimToEmpty(rs.getString("medicinename")));
 				mConfig.setDateFrom(rs.getDate("datefrom").getTime());
-				mConfig.setDateTo(rs.getDate("dateto").getTime());
 				map.put(medicineId, mConfig);
 			}
 			MedicineConfig mConfig=map.get(medicineId);
@@ -135,13 +134,12 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 		msps.addValue("userid", mConfig.getUserId());
 		msps.addValue("medicineid", mConfig.getMedicineId());
 		msps.addValue("datefrom", new Timestamp(mConfig.getDateFrom()));
-		msps.addValue("dateto", new Timestamp(mConfig.getDateTo()));
 		if(mConfig.getConfigs()!=null&&!mConfig.getConfigs().isEmpty()){
 			for(Entry<String,Float> e : mConfig.getConfigs().entrySet()){
 				msps.addValue("time", e.getKey());
 				msps.addValue("dosage", e.getValue());
 				msps.addValue("uuid", TokenUtils.buildUUid());
-				String sql="INSERT INTO medicine_setting VALUE(:uuid,:userid,:medicineid,:dosage,:time,:datefrom,:dateto)";
+				String sql="INSERT INTO medicine_setting VALUE(:uuid,:userid,:medicineid,:dosage,:time,:datefrom)";
 				index+=this.namedJdbcTemplate.update(sql, msps);
 			}
 		}

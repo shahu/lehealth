@@ -2,7 +2,6 @@ package com.lehealth.api.service.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ public class DiseaseServiceImpl implements DiseaseService{
 	@Qualifier("diseaseDao")
 	private DiseaseDao diseaseDao;
 	
-	private static Logger logger = Logger.getLogger(DiseaseServiceImpl.class);
-
 	@Override
 	public List<DiseaseHistory> getDiseaseHistorys(String userId) {
 		return this.diseaseDao.selectDiseaseHistorys(userId);

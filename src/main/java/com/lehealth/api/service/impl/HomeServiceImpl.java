@@ -1,7 +1,6 @@
 package com.lehealth.api.service.impl;
 
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,8 +24,6 @@ public class HomeServiceImpl implements HomeService{
 	@Qualifier("medicineDao")
 	private MedicineDao medicineDao;
 	
-	private static Logger logger = Logger.getLogger(HomeServiceImpl.class);
-
 	@Override
 	public HomeResult getHomeData(String userId,int days) {
 		HomeResult result=new HomeResult(days);

@@ -56,9 +56,12 @@ public class HomeResult{
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		
-		Map<String,BloodpressureRecord> bpTemp=new HashMap<String, BloodpressureRecord>();
+		Map<String,List<BloodpressureRecord>> bpTemp=new HashMap<String,List<BloodpressureRecord>>();
 		for(BloodpressureRecord record:bpRecords){
-			bpTemp.put(DateFormatUtils.format(new Date(record.getDate()), Constant.dateFormat_yyyy_mm_dd),record);
+			if(!bpTemp.containsKey(DateFormatUtils.format(new Date(record.getDate()), Constant.dateFormat_yyyy_mm_dd))){
+				bpTemp.put(DateFormatUtils.format(new Date(record.getDate()),Constant.dateFormat_yyyy_mm_dd), new ArrayList<BloodpressureRecord>());
+			}
+			bpTemp.get(DateFormatUtils.format(new Date(record.getDate()),Constant.dateFormat_yyyy_mm_dd)).add(record);
 		}
 		
 		Date today=new Date();
@@ -66,9 +69,19 @@ public class HomeResult{
 		
 		JSONArray bpArr=new JSONArray();
 		while(!tempDate.after(today)){
-			String temp=DateFormatUtils.format(tempDate, Constant.dateFormat_yyyy_mm_dd);
-			if(bpTemp.containsKey(temp)){
-				bpArr.add(bpTemp.get(temp).toJsonObj());
+			String tempKey=DateFormatUtils.format(tempDate, Constant.dateFormat_yyyy_mm_dd);
+			if(bpTemp.containsKey(tempKey)){
+				List<BloodpressureRecord> list=bpTemp.get(tempKey);
+				if(list.size()==1){
+					bpArr.add(list.get(0).toJsonObj());
+				}else if(list.size()>=2){
+					BloodpressureRecord tempRecord=new BloodpressureRecord();
+					tempRecord.setDbp((list.get(list.size()-1).getDbp()+list.get(list.size()-2).getDbp())/2);
+					tempRecord.setSbp((list.get(list.size()-1).getSbp()+list.get(list.size()-2).getSbp())/2);
+					tempRecord.setDate(list.get(0).getDate());
+					tempRecord.setHeartrate((list.get(list.size()-1).getHeartrate()+list.get(list.size()-2).getHeartrate())/2);
+				}
+				
 			}
 			tempDate=DateUtils.addDays(tempDate, 1);
 		}

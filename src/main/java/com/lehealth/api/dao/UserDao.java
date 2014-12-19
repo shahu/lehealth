@@ -2,22 +2,22 @@ package com.lehealth.api.dao;
 
 import java.util.List;
 
-import com.lehealth.bean.UserGuardianInfo;
-import com.lehealth.bean.UserInfo;
+import com.lehealth.bean.PanientGuardianInfo;
+import com.lehealth.bean.PanientInfo;
 
 public interface UserDao {
 	
 	//获取个人信息
-	public UserInfo selectUserInfo(String userId);
+	public PanientInfo selectUserInfo(String userId);
 	
 	//更新个人信息
-	public boolean updateUserInfo(UserInfo info);
+	public boolean updateUserInfo(PanientInfo info);
 	
 	//获取监护人信息
-	public List<UserGuardianInfo> selectUserGuardianInfos(String userId);
+	public List<PanientGuardianInfo> selectUserGuardianInfos(String userId);
 	
 	//新增监护人信息
-	public boolean insertUserGuardianInfo(UserGuardianInfo info);
+	public boolean insertUserGuardianInfo(PanientGuardianInfo info);
 	
 	//删除监护人信息
 	public boolean deleteUserGuardianInfo(String userId,String guardianNumber);

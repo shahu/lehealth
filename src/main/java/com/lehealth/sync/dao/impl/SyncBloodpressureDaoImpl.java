@@ -1,6 +1,5 @@
 package com.lehealth.sync.dao.impl;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -27,9 +26,11 @@ public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpr
 
 	@Override
 	public Map<String,YundfUser> getLastRids(Set<String> phoneNumbers){
-		String sql="SELECT t1.loginid,t1.userid,t2.lastSyncRid FROM user t1 "
-				+"LEFT OUTER JOIN user_record_sync t2 ON (t1.userid=t2.userid AND source="+YundfUtils.source+") "
-				+"WHERE loginid IN (:phones) ";
+		String sql="SELECT t1.loginid,t1.userid,t2.lastSyncRid "
+				+"FROM user_base_info t1 "
+				+"LEFT OUTER JOIN sync_patient_record t2 ON (t1.userid=t2.userid AND source="+YundfUtils.source+") "
+				+"WHERE loginid IN (:phones) "
+				+"AND t1.roleid!=3";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("phones", phoneNumbers);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -69,7 +70,7 @@ public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpr
 
 	@Override
 	public void deleteSyncRid(Set<String> userIds) {
-		String sql="DELETE FROM user_record_sync WHERE userid IN (:userids)";
+		String sql="DELETE FROM sync_patient_record WHERE userid IN (:userids)";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userids", userIds);
 		this.namedJdbcTemplate.update(sql, msps);
@@ -77,7 +78,7 @@ public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpr
 
 	@Override
 	public void insertSyncRid(final List<YundfUser> users) {
-		String sql="INSERT INTO user_record_sync VALUE(?,?,?,?,now())";
+		String sql="INSERT INTO sync_patient_record VALUE(?,?,?,?,now())";
 		BatchPreparedStatementSetter updateBpss = new BatchPreparedStatementSetter(){
             @Override
             public void setValues(PreparedStatement ps, int i)

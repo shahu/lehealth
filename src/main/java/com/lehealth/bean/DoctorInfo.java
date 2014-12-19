@@ -2,9 +2,10 @@ package com.lehealth.bean;
 
 import net.sf.json.JSONObject;
 
-public class Doctor {
+public class DoctorInfo {
 	
-	private int id=0;
+	private String id="";
+	private String userId="";
 	private String name="";
 	private int gender=0;
 	private String title="";
@@ -14,11 +15,17 @@ public class Doctor {
 	private String image="";
 	private int attention=0;
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getName() {
 		return name;
@@ -71,7 +78,7 @@ public class Doctor {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("id", id);
+		obj.accumulate("id", userId);
 		obj.accumulate("name", name);
 		obj.accumulate("gender", gender);
 		obj.accumulate("title", title);

@@ -45,7 +45,9 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 	public List<MedicineCategroy> selectMedicines() {
 		List<MedicineCategroy> list=new ArrayList<MedicineCategroy>();
 		Map<Integer,MedicineCategroy> map=new HashMap<Integer,MedicineCategroy>();
-		String sql="SELECT t1.id AS mid,t1.name AS mname,t2.id AS cid,t2.name AS cname FROM medicine t1 INNER JOIN medicine_category t2 ON t1.cateid=t2.id";
+		String sql="SELECT t1.id AS mid,t1.name AS mname,t2.id AS cid,t2.name AS cname "
+				+"FROM medicine t1 "
+				+"INNER JOIN medicine_category t2 ON t1.cateid=t2.id";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
 			int mid=rs.getInt("mid");
@@ -71,7 +73,9 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 	public List<DiseaseCategroy> selectDiseases() {
 		List<DiseaseCategroy> list=new ArrayList<DiseaseCategroy>();
 		Map<Integer,DiseaseCategroy> map=new HashMap<Integer,DiseaseCategroy>();
-		String sql="SELECT t1.id AS did,t1.name AS dname,t2.id AS cid,t2.name AS cname FROM disease t1 INNER JOIN disease_category t2 ON t1.cateid=t2.id";
+		String sql="SELECT t1.id AS did,t1.name AS dname,t2.id AS cid,t2.name AS cname "
+				+"FROM disease t1 "
+				+"INNER JOIN disease_category t2 ON t1.cateid=t2.id";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
 			int did=rs.getInt("did");

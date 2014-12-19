@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.LoginService;
 import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.User;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -26,11 +25,10 @@ public class LoginController {
 	@Qualifier("loginService")
 	private LoginService loginService;
 	
-	private static Logger logger = Logger.getLogger(LoginController.class);
-	
-	//用户信息
+	//用户登录
 	@ResponseBody
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+//	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public ResponseBean login(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
@@ -39,7 +37,7 @@ public class LoginController {
 			ErrorCodeType type=this.loginService.checkUser4Login(loginId, password);
 			responseBody.setType(type);
 			if(type==ErrorCodeType.normal){
-				User user=new User();
+				UserInfomation user=new UserInfomation();
 				user.setLoginId(loginId);
 				user.setPassword(password);
 				responseBody.setResult(user.toJsonObj());
@@ -51,19 +49,38 @@ public class LoginController {
 		return responseBody;
 	}
 	
-	//用户注册
+	//患者注册
 	@ResponseBody
-	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/patient/register", method = RequestMethod.POST)
+//	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
 	public ResponseBean register(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
 		ResponseBean responseBody=new ResponseBean();
 		if(StringUtils.isNotBlank(loginId)&&StringUtils.isNotBlank(password)){
-			ErrorCodeType type=this.loginService.registerNewUser(loginId,password);
+			ErrorCodeType type=this.loginService.registerPanient(loginId,password,4);
 			responseBody.setType(type);
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);
 		}
 		return responseBody;
 	}
+	
+	//用户权限
+	@ResponseBody
+	@RequestMapping(value = "/role", method = RequestMethod.POST)
+	public ResponseBean doctorregister(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody=new ResponseBean();
+		String userId=this.loginService.checkUser4Token(loginId, token);
+		if(StringUtils.isNotBlank(userId)){
+			UserInfomation userInfo=this.loginService.getUserBaseInfo(loginId, token);
+			responseBody.setResult(userInfo.toJsonObj());
+		}else{
+			responseBody.setType(ErrorCodeType.invalidUser);
+		}
+		return responseBody;
+	}
+	
 }

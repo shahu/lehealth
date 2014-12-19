@@ -30,9 +30,7 @@ define(function(require, exports, module) {
 			$("#plan").append(plan);
 			
 			var datefrom=util.getParams("datefrom");
-			var dateto=util.getParams("dateto");
 			$("#datefrom").text(datefrom);
-			$("#dateto").text(dateto);
 			
 			$("#config_delete").off('click');
 			$("#config_delete").on('click', function(event) {

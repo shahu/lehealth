@@ -44,6 +44,18 @@ define(function(require, exports, module) {
 			}
 			if(role == roles.admin) {
 				//显示医生录入标签
+				getPatients(function(err, patientArr) {
+					if(err) {
+						alertMsg("获取病人列表失败");
+						return;
+					}
+					var firstpatient = patientArr[0];
+					if(firstpatient) {
+						showPatientInfo(firstpatient, function() {
+							console.info("获取成功");
+						});
+					}
+				});
 			} else if(role == roles.doctor) {
 				//显示我的病人标签，同时请求第一个病人数据展示
 				getPatients(function(err, patientArr) {
@@ -104,10 +116,14 @@ define(function(require, exports, module) {
 				token: pwd
 			},
 			success: function(rsp) {
-				console.info(rsp);
+				if(rsp.errorcode) {
+					cb(rsp.errorcode);
+				} else {
+					cb(0, rsp.result.roleid);
+				}
 			},
 			error: function(xhr, errormsg) {
-
+				cb(1);
 			}
 		});
 	}
@@ -117,8 +133,29 @@ define(function(require, exports, module) {
 	 * @param  {Function} cb [description]
 	 * @return {[type]}      [description]
 	 */
-	function getAndRenderPatients(cb) {
+	function getPatients(cb) {
+		var loginId = util.getCookieByKey("loginid"),
+			pwd = util.getCookieByKey("tk");
+		$.ajax({
+			url: '/lehealth/admin/patient/list.do',
+			dataType: 'json',
+			type: 'get',
+			data: {
+				loginid: loginId,
+				token: pwd
+			},
+			success: function(rsp) {
+				console.info(rsp);
+				if(rsp.errorcode) {
+					cb(rsp.errorcode);
+				} else {
+					console.info(rsp);
+				}
+			},
+			error: function(xhr, errorMsg) {
 
+			}
+		});	
 	}
 
 	/**

@@ -21,6 +21,22 @@ define(function(require, exports, module) {
 
 		});
 
+		$('#sideupdown_icon').on('click', function() {
+			if($(this).hasClass('icon-chevron-up')) {
+				$(this).removeClass('icon-chevron-up');
+				$(this).addClass('icon-chevron-down');
+				$('#list_div').slideUp('slow', function() {
+					
+				});
+			} else if($(this).hasClass('icon-chevron-down')) {
+				$(this).removeClass('icon-chevron-down');
+				$(this).addClass('icon-chevron-up');
+				$('#list_div').slideDown('slow', function() {
+					
+				});
+			}
+		});
+
 		getUserBasicInfo(function(err, role) {
 			if(err) {
 				alertMsg("请求失败，请稍后重试");
@@ -50,7 +66,7 @@ define(function(require, exports, module) {
 	};
 
 	function showPatientInfo(patientInfo, cb) {
-		int count = 3;
+		var count = 3;
 		getAndRenderPatientInfo(function(err) {
 			count--;
 			if(count == 0) {
@@ -77,7 +93,23 @@ define(function(require, exports, module) {
 	 * @return {[type]}      [description]
 	 */
 	function getUserBasicInfo(cb) {
+		var loginId = util.getCookieByKey("loginid"),
+			pwd = util.getCookieByKey("tk");
+		$.ajax({
+			url: '/lehealth/api/role.do',
+			dataType: 'json',
+			type: 'post',
+			data: {
+				loginid: loginId,
+				token: pwd
+			},
+			success: function(rsp) {
+				console.info(rsp);
+			},
+			error: function(xhr, errormsg) {
 
+			}
+		});
 	}
 
 	/**

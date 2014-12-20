@@ -11,8 +11,21 @@ define(function(require, exports, module) {
 		$('.login_btn').on('click', function(event) {
 			var username = $('#login_username').val(),
 				pwd = $('#login_pwd').val();
-			if(!username || !pwd) {
+			if(!username) {
+				// $('#login_username').popover({
+				// 	"placement": "right",
+				// 	"html": "请输入用户名"
+				// });
+				alert('请输入用户名');
 				return;
+			}
+			if(!pwd) {
+				// $('#login_pwd').popover({
+				// 	"placement": "right",
+				// 	"html": "请输入密码"
+				// });	
+				alert('请输入密码');
+				return;				
 			}
 
 			$.ajax({
@@ -34,7 +47,7 @@ define(function(require, exports, module) {
 						util.setCookie("tk", encodeURIComponent(rspData.result.token));
 						//两秒后跳转指定页面，否则跳转首页
 						setTimeout(function() {
-							window.location.href = 'http://www.baidu.com';
+							window.location.href = '/lehealth/backendhome.html';
 						}, 2000);
 					}
 				},
@@ -47,7 +60,10 @@ define(function(require, exports, module) {
 	};
 
 	function alertMsg(msg) {
-		alert(msg);
+		$('.login_btn').popover({
+			"placement": "right",
+			"html": msg
+		});
 	}
 
 });

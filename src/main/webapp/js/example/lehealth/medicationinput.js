@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var submitMedicineRecordUrl = "/lehealth/api/medicinehistory.do";
+	var submitMedicineRecordUrl = "/lehealth/api/medicine/history/add";
 
 	exports.render = function() {
 		$(document).off("pageshow","#medicationinput");

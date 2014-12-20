@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	var util = require('./common');
 	
 	var getMedicineListUrl = "/lehealth/api/medicines.do";
-	var submitMedicineConfigUrl = "/lehealth/api/medicinesetting.do";
+	var submitMedicineConfigUrl = "/lehealth/api/medicine/setting/modify";
 
 	exports.render = function() {
 		$(document).off("pageshow","#medicationsetting");

@@ -55,7 +55,7 @@ public class DoctorController {
 	
 	//患者获取医生信息
 	@ResponseBody
-	@RequestMapping(value = "/doctor/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/doctor/info", method = RequestMethod.GET)
 //	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
 	public ResponseBean getDoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();

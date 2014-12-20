@@ -115,7 +115,7 @@ public class MedicineController {
 		
 	//患者获取自己用药设置
 	@ResponseBody
-	@RequestMapping(value = "/medicine/setting/info", method = RequestMethod.GET)
+	@RequestMapping(value = "/medicine/setting/list", method = RequestMethod.GET)
 //	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.GET)
 	public ResponseBean getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));

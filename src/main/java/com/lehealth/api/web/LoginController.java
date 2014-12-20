@@ -68,7 +68,7 @@ public class LoginController {
 	
 	//用户权限
 	@ResponseBody
-	@RequestMapping(value = "/role", method = RequestMethod.POST)
+	@RequestMapping(value = "/role", method = RequestMethod.GET)
 	public ResponseBean doctorregister(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));

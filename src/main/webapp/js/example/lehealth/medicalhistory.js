@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var historyApi = "/lehealth/api/diseasehistorys.do";
+	var historyApi = "/lehealth/api/disease/history/list";
 
 	exports.render = function() {
 

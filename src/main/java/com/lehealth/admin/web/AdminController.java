@@ -1,8 +1,11 @@
 package com.lehealth.admin.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
+import com.lehealth.api.service.PanientService;
+import com.lehealth.bean.PanientInfo;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.type.ErrorCodeType;
 
@@ -25,8 +31,8 @@ public class AdminController {
 	private LoginService loginService;
 	
 	@Autowired
-	@Qualifier("doctorService")
-	private DoctorService doctorService;
+	@Qualifier("panientService")
+	private PanientService panientService;
 	
 	private static Logger logger = Logger.getLogger(AdminController.class);
 	
@@ -38,10 +44,9 @@ public class AdminController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
-		System.out.println("test!!!");
 		if(StringUtils.isNotBlank(userId)){
-			//List<DoctorInfo> list=this.doctorService.getPanients(userId);
-			System.out.println("test!!!");
+			//List<PanientInfo> list=this.panientService.getPanients(userId);
+			
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

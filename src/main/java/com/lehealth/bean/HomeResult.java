@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -58,10 +59,15 @@ public class HomeResult{
 		
 		Map<String,List<BloodpressureRecord>> bpTemp=new HashMap<String,List<BloodpressureRecord>>();
 		for(BloodpressureRecord record:bpRecords){
-			if(!bpTemp.containsKey(DateFormatUtils.format(new Date(record.getDate()), Constant.dateFormat_yyyy_mm_dd))){
-				bpTemp.put(DateFormatUtils.format(new Date(record.getDate()),Constant.dateFormat_yyyy_mm_dd), new ArrayList<BloodpressureRecord>());
+			Date date=new Date(record.getDate());
+			String key=DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
+			int hour=NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
+			if(hour>=4&&hour<=10){
+				if(!bpTemp.containsKey(key)){
+					bpTemp.put(key, new ArrayList<BloodpressureRecord>());
+				}
+				bpTemp.get(key).add(record);
 			}
-			bpTemp.get(DateFormatUtils.format(new Date(record.getDate()),Constant.dateFormat_yyyy_mm_dd)).add(record);
 		}
 		
 		Date today=new Date();

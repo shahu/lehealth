@@ -148,9 +148,11 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 					userList.add(e.getValue());
 				}
 			}
-			//先删除后插入
-			this.syncBloodpressureDao.deleteSyncRid(userIds);
-			this.syncBloodpressureDao.insertSyncRid(userList);
+			if(userIds.size()>0){
+				//先删除后插入
+				this.syncBloodpressureDao.deleteSyncRid(userIds);
+				this.syncBloodpressureDao.insertSyncRid(userList);
+			}
 		}
 	}
 	

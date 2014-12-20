@@ -46,7 +46,7 @@ public class PanientController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			PanientInfo info=this.panientService.getUserInfo(userId);
+			PanientInfo info=this.panientService.getInfo(userId);
 			if(StringUtils.isNotBlank(info.getUserId())){
 				responseBody.setResult(info.toJsonObj());
 			}else{
@@ -80,7 +80,7 @@ public class PanientController {
 			info.setUserId(userId);
 			info.setUserName(userName);
 			info.setWeight(weight);
-			if(this.panientService.modifyUserInfo(info)){
+			if(this.panientService.modifyInfo(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);
@@ -101,7 +101,7 @@ public class PanientController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			List<PanientGuardianInfo> list=this.panientService.getUserGuardianInfos(userId);
+			List<PanientGuardianInfo> list=this.panientService.getGuardianInfos(userId);
 			JSONArray arr=new JSONArray();
 			for(PanientGuardianInfo info:list){
 				arr.add(info.toJsonObj());
@@ -129,7 +129,7 @@ public class PanientController {
 			info.setUserId(userId);
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
-			if(this.panientService.modifyUserGuardianInfo(info)){
+			if(this.panientService.modifyGuardianInfo(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);
@@ -151,7 +151,7 @@ public class PanientController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
 		if(StringUtils.isNotBlank(userId)){
-			if(this.panientService.delUserGuardianInfo(userId,guardianNumber)){
+			if(this.panientService.deleteGuardianInfo(userId,guardianNumber)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

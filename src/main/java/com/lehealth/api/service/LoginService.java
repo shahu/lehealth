@@ -6,7 +6,7 @@ import com.lehealth.type.ErrorCodeType;
 public interface LoginService {
 	
 	//注册新用户
-	public ErrorCodeType registerPanient(String loginId,String password,int roleId);
+	public ErrorCodeType registerUser(String loginId,String password,int roleId);
 	
 	//登录判断
 	public ErrorCodeType checkUser4Login(String loginId,String password);

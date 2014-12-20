@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public ErrorCodeType registerPanient(String loginId,String password,int roleId) {
+	public ErrorCodeType registerUser(String loginId,String password,int roleId) {
 		//是否用户名存在
 		UserInfomation user=this.loginDao.getUser(loginId);
 		if(StringUtils.isNotBlank(user.getUserId())){

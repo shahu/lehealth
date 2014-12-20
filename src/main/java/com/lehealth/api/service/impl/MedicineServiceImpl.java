@@ -28,7 +28,7 @@ public class MedicineServiceImpl implements MedicineService{
 	}
 	
 	@Override
-	public List<MedicineRecord> getRecords(String userId,int days){
+	public List<MedicineRecord> getHistoryRecords(String userId,int days){
 		return this.medicineDao.selectRecords(userId, days);
 	}
 	

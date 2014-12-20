@@ -18,7 +18,7 @@ import com.lehealth.util.TokenUtils;
 public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
-	public PanientInfo selectUserInfo(String userid) {
+	public PanientInfo selectInfo(String userid) {
 		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_patient_info WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
@@ -42,7 +42,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public boolean updateUserInfo(PanientInfo info) {
+	public boolean updateInfo(PanientInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("gender", info.getGender());
@@ -64,7 +64,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public List<PanientGuardianInfo> selectUserGuardianInfos(String userId) {
+	public List<PanientGuardianInfo> selectGuardianInfos(String userId) {
 		String sql="SELECT userid,guardianname,guardiannumber FROM user_patient_guardian WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
@@ -84,7 +84,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public boolean insertUserGuardianInfo(PanientGuardianInfo info) {
+	public boolean insertGuardianInfo(PanientGuardianInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("guardianname", info.getGuardianName());
@@ -100,7 +100,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public boolean deleteUserGuardianInfo(String userId,String guardianNumber) {
+	public boolean deleteGuardianInfo(String userId,String guardianNumber) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("guardiannumber", guardianNumber);
@@ -111,6 +111,24 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 		}else{
 			return true;
 		}
+	}
+
+	@Override
+	public List<PanientInfo> selectPanients(String doctorId) {
+		List<PanientInfo> list=new ArrayList<PanientInfo>();
+		String sql="SELECT t1.patinetid,t2.username FROM mapping_doctor_patient_attention t1 "
+				+"LEFT JOIN user_patient_info t2 ON t1.patinetid=t2.userid "
+				+"WHERE t1.doctorid=:doctorid ";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("doctorid", doctorId);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		while(rs.next()){
+			PanientInfo info=new PanientInfo();
+			info.setUserId(StringUtils.trimToEmpty(rs.getString("patinetid")));
+			info.setUserName(StringUtils.trimToEmpty(rs.getString("username")));
+			list.add(info);
+		}
+		return list;
 	}
 
 }

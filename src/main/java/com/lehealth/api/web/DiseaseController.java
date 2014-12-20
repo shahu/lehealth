@@ -45,7 +45,7 @@ public class DiseaseController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			List<DiseaseHistory> list=this.diseaseService.getDiseaseHistorys(userId);
+			List<DiseaseHistory> list=this.diseaseService.getHistoryList(userId);
 			JSONArray arr=new JSONArray();
 			for(DiseaseHistory d:list){
 				arr.add(d.toJsonObj());
@@ -68,7 +68,7 @@ public class DiseaseController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
-			DiseaseHistory history=this.diseaseService.getDiseaseHistory(userId,diseaseId);
+			DiseaseHistory history=this.diseaseService.getHistory(userId,diseaseId);
 			if(StringUtils.isNotBlank(history.getUserId())){
 				responseBody.setResult(history.toJsonObj());
 			}else{
@@ -98,7 +98,7 @@ public class DiseaseController {
 			info.setDiseaseId(diseaseId);
 			info.setDiseaseDescription(diseaseDescription);
 			info.setMedicineDescription(medicinedescription);
-			if(this.diseaseService.modifyDiseaseHistory(info)){
+			if(this.diseaseService.modifyHistory(info)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

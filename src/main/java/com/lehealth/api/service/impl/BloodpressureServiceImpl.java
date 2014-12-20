@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.BloodpressureDao;
-import com.lehealth.api.dao.UserDao;
+import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureRecord;
@@ -24,8 +24,8 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	private BloodpressureDao bloodpressureDao;
 	
 	@Autowired
-	@Qualifier("userDao")
-	private UserDao userDao;
+	@Qualifier("panientDao")
+	private PanientDao panientDao;
 	
 	@Override
 	public BloodpressureResult getRecords(String userId,int days) {
@@ -54,7 +54,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			||bpInfo.getSbp()<=config.getSbp1()
 			||bpInfo.getHeartrate()<=config.getHeartrate1()){
 			//获取监护人手机
-			List<PanientGuardianInfo> list=this.userDao.selectUserGuardianInfos(bpInfo.getUserId());
+			List<PanientGuardianInfo> list=this.panientDao.selectUserGuardianInfos(bpInfo.getUserId());
 			//调用短信通知监护人
 			//TODO
 			//sendMessage(guardian.getGuardianNumber());

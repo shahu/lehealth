@@ -115,8 +115,20 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
 	public List<PanientInfo> selectPanients(String doctorId) {
-		
-		return null;
+		List<PanientInfo> list=new ArrayList<PanientInfo>();
+		String sql="SELECT t1.patinetid,t2.username FROM mapping_doctor_patient_attention t1 "
+				+"LEFT JOIN user_patient_info t2 ON t1.patinetid=t2.userid "
+				+"WHERE t1.doctorid=:doctorid ";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("doctorid", doctorId);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		while(rs.next()){
+			PanientInfo info=new PanientInfo();
+			info.setUserId(StringUtils.trimToEmpty(rs.getString("patinetid")));
+			info.setUserName(StringUtils.trimToEmpty(rs.getString("username")));
+			list.add(info);
+		}
+		return list;
 	}
 
 }

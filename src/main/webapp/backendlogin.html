@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>后台登陆</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Bootstrap core CSS -->
+		<link href="js/sea-modules/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="js/sea-modules/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
+		<script src="js/seajs-config.js"></script>
+		<script src="js/sea-modules/jquery/jquery/1.7.2/jquery.js"></script>
+		<script type="text/javascript" src="js/sea-modules/bootstrap/js/bootstrap.min.js"></script>
+		<style>
+			body {
+				padding-top: 40px;
+				padding-bottom: 40px;
+				background-color: #eee;
+			}
+			.form-signin {
+				max-width: 330px;
+				padding: 15px;
+				margin: 0 auto;
+			}
+			.form-signin .form-signin-heading,
+			.form-signin .checkbox {
+				margin-bottom: 10px;
+			}
+			.form-signin .checkbox {
+				font-weight: normal;
+			}
+			.form-signin .form-control {
+				position: relative;
+				height: auto;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				padding: 10px;
+				font-size: 16px;
+			}
+			.form-signin .form-control:focus {
+				z-index: 2;
+			}
+			.form-signin input[type="text"] {
+				margin-bottom: -1px;
+				border-bottom-right-radius: 0;
+				border-bottom-left-radius: 0;
+				width: 100%;
+			}
+			.form-signin input[type="password"] {
+				margin-bottom: 10px;
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container" style="">
+			<div class="form-signin" role="form">
+				<h2 class="form-signin-heading">请登录</h2>
+				<input id="login_username" type="text" class="form-control" placeholder="用户名" required autofocus>
+				<div style="height: 20px"></div>
+				<input id="login_pwd" type="password" class="form-control" placeholder="密码" required>
+				<div style="height: 20px"></div>
+				<button class="btn btn-lg btn-primary btn-block login_btn" type="submit">登陆</button>
+			</div>
+		</div>
+		<script>
+				seajs.use(seajs.prefix + 'example/lehealth/bglogin', function(lehealth) {
+					lehealth.render();
+				});
+		</script>
+	</body>
+</html>

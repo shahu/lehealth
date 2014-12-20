@@ -435,8 +435,17 @@ define(function(require, exports, module) {
 							];
 							
 							console.info(tips);
+
+							var colorIdx = 0,
+								colorByName = {};
 							$('#medicationtips').empty();
 							for(var i = 0; i < finalObj.length; i++) {
+								if(colorByName[finalObj[i].label.text])
+								{
+									finalObj[i]['color'] = color[i];
+									tips[i].color = color[i];
+								}
+
 								finalObj[i]['color'] = color[i];
 								tips[i].color = color[i];
 								if(!finalObj[i].label.text) {

@@ -71,4 +71,10 @@ public class PanientInfo {
 		return obj;
 	}
 	
+	public JSONObject toBaseJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("username", userName);
+		obj.accumulate("userid", userId);
+		return obj;
+	}
 }

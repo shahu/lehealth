@@ -44,7 +44,7 @@ public class DoctorController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		String userId=this.loginService.checkUser4Token(loginId, token);
-		List<DoctorInfo> list=this.doctorService.getDoctors(userId);
+		List<DoctorInfo> list=this.doctorService.getInfoList(userId);
 		JSONArray arr=new JSONArray();
 		for(DoctorInfo d:list){
 			arr.add(d.toJsonObj());
@@ -63,7 +63,7 @@ public class DoctorController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 		String userId=this.loginService.checkUser4Token(loginId, token);
-		DoctorInfo doctor=this.doctorService.getDoctor(userId,doctorId);
+		DoctorInfo doctor=this.doctorService.getInfo(userId,doctorId);
 		if(StringUtils.isNotBlank(doctor.getId())){
 			responseBody.setResult(doctor.toJsonObj());
 		}else{

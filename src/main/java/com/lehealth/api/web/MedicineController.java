@@ -73,7 +73,7 @@ public class MedicineController {
 			if(days==0){
 				days=7;
 			}
-			List<MedicineRecord> list=this.medicineService.getRecords(userId,days);
+			List<MedicineRecord> list=this.medicineService.getHistoryRecords(userId,days);
 			JSONArray arr=new JSONArray();
 			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());

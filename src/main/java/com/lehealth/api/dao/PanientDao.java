@@ -8,17 +8,20 @@ import com.lehealth.bean.PanientInfo;
 public interface PanientDao {
 	
 	//获取个人信息
-	public PanientInfo selectUserInfo(String userId);
+	public PanientInfo selectInfo(String userId);
 	
 	//更新个人信息
-	public boolean updateUserInfo(PanientInfo info);
+	public boolean updateInfo(PanientInfo info);
 	
 	//获取监护人信息
-	public List<PanientGuardianInfo> selectUserGuardianInfos(String userId);
+	public List<PanientGuardianInfo> selectGuardianInfos(String userId);
 	
 	//新增监护人信息
-	public boolean insertUserGuardianInfo(PanientGuardianInfo info);
+	public boolean insertGuardianInfo(PanientGuardianInfo info);
 	
 	//删除监护人信息
-	public boolean deleteUserGuardianInfo(String userId,String guardianNumber);
+	public boolean deleteGuardianInfo(String userId,String guardianNumber);
+	
+	//获取被关注病人列表
+	public List<PanientInfo> selectPanients(String doctorId);
 }

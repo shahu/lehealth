@@ -18,17 +18,17 @@ public class DiseaseServiceImpl implements DiseaseService{
 	private DiseaseDao diseaseDao;
 	
 	@Override
-	public List<DiseaseHistory> getDiseaseHistorys(String userId) {
-		return this.diseaseDao.selectDiseaseHistorys(userId);
+	public List<DiseaseHistory> getHistoryList(String userId) {
+		return this.diseaseDao.selectHistorys(userId);
 	}
 
 	@Override
-	public boolean modifyDiseaseHistory(DiseaseHistory diseaseHistory) {
-		return this.diseaseDao.updateDiseaseHistory(diseaseHistory);
+	public boolean modifyHistory(DiseaseHistory diseaseHistory) {
+		return this.diseaseDao.updateHistory(diseaseHistory);
 	}
 
 	@Override
-	public DiseaseHistory getDiseaseHistory(String userId, int diseaseId) {
-		return this.diseaseDao.selectDiseaseHistory(userId,diseaseId);
+	public DiseaseHistory getHistory(String userId, int diseaseId) {
+		return this.diseaseDao.selectHistory(userId,diseaseId);
 	}
 }

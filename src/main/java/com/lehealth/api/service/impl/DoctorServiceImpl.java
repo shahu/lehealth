@@ -18,12 +18,12 @@ public class DoctorServiceImpl implements DoctorService{
 	private DoctorDao doctorDao;
 	
 	@Override
-	public DoctorInfo getDoctor(String userId,String doctorId) {
+	public DoctorInfo getInfo(String userId,String doctorId) {
 		return this.doctorDao.selectDoctor(userId,doctorId);
 	}
 
 	@Override
-	public List<DoctorInfo> getDoctors(String userId) {
+	public List<DoctorInfo> getInfoList(String userId) {
 		return this.doctorDao.selectDoctors(userId);
 	}
 	

@@ -108,9 +108,9 @@ define(function(require, exports, module) {
 		var loginId = util.getCookieByKey("loginid"),
 			pwd = util.getCookieByKey("tk");
 		$.ajax({
-			url: '/lehealth/api/role.do',
+			url: '/lehealth/api/role',
 			dataType: 'json',
-			type: 'get',
+			type: 'post',
 			data: {
 				loginid: loginId,
 				token: pwd
@@ -137,7 +137,7 @@ define(function(require, exports, module) {
 		var loginId = util.getCookieByKey("loginid"),
 			pwd = util.getCookieByKey("tk");
 		$.ajax({
-			url: '/lehealth/admin/patient/list.do',
+			url: '/lehealth/admin/patient/list',
 			dataType: 'json',
 			type: 'get',
 			data: {

@@ -10,6 +10,26 @@
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
 		<script src="js/seajs-config.js"></script>
 		<script type="text/javascript" scr="js/sea-modules/bootstrap/js/bootstrap.min.js"></script>
+		<style>
+				#baseInfo td { padding: 8px;}
+				fieldset.scheduler-border {
+				    border: 1px groove #ddd !important;
+				    padding: 0 1.4em 1.4em 1.4em !important;
+				    margin: 0 0 1.5em 0 !important;
+				    -webkit-box-shadow:  0px 0px 0px 0px #000;
+				            box-shadow:  0px 0px 0px 0px #000;
+				}
+
+			    legend.scheduler-border {
+			        font-size: 1.2em !important;
+			        font-weight: bold !important;
+			        text-align: left !important;
+			        width:auto;
+			        padding:0 10px;
+			        border-bottom:none;
+			        margin-bottom: 0px;
+			    }
+		</style>
 	</head>
 	<body>
 		<div class="leftDiv" style="width:20%;height:100%;background-color: #333333; float:left; position:fixed; top: 0px;left: 0px;">
@@ -44,17 +64,54 @@
 			<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
 				用户基本信息
 			</div>
-			<div>
-				<table>
+			<div id="baseInfo" style="font-size: 20px;padding: 10px 10px 10px 0px;">
+				<table style="width: 80%">
 					<tr>
-						<td>姓名：</td>
-						<td></td>
-						<td></td>
-						<td></td>						
+						<td style="width: 12%; font-weight: bold; text-align: right">姓名：</td>
+						<td style="width: 38%">张业飞</td>
+						<td style="width: 15%; font-weight: bold; text-align: right">手机号：</td>
+						<td style="width: 35%">18621744657</td>
 					</tr>
-					<tr></tr>
-					<tr></tr>
+					<tr>
+						<td style="font-weight: bold; text-align: right">性别：</td>
+						<td>男</td>
+						<td style="font-weight: bold; text-align: right">身高：</td>
+						<td>163厘米</td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; text-align: right">体重：</td>
+						<td>90公斤</td>
+						<td style="font-weight: bold; text-align: right">出生日期：</td>
+						<td>1964年5月20日</td>
+					</tr>
 				</table>
+			</div>
+			<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
+				血压和用药信息
+			</div>
+			<div>
+			</div>
+			<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
+				用户病史
+			</div>
+			<div id="deaselist">
+				<div style="margin-right: 20px; margin-left: 40px;">
+					<div style="background-color:#888888; color: white; font-size: 18px; height: 30px; line-height: 30px;  border-radius:5px;padding-left: 20px;">
+						1. 高血压
+						<span style="float: right">2011年1月 - 2014年3月</span>
+						<div style="clear:both"></div>
+					</div>
+					<div>
+						<fieldset class="scheduler-border">
+							<legend class="scheduler-border">病情描述</legend>
+							我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！
+						</fieldset>
+						<fieldset class="scheduler-border">
+							<legend class="scheduler-border">用药不良反应</legend>
+							我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！
+						</fieldset>						
+					</div>
+				</div>
 			</div>
 		</div>
 		<div style="clear:both"></div>

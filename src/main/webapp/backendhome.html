@@ -42,9 +42,6 @@
 			</h3>
 			<div id="list_div" style="padding-left: 20px;padding-right: 5px;">
 				<ul class="nav nav-pills nav-stacked" id="patients">
-					<li class="active"><a href="#">张业飞</a></li>
-					<li><a href="#">任一林</a></li>
-					<li><a href="#">周芷若</a></li>
 				</ul>
 			</div>
 			
@@ -52,66 +49,76 @@
 			<h3 style="color:#888888; padding-left: 20px; cursor: pointer">我的设置</h3>
 			<div style="padding-left: 20px; padding-right: 5px;">
 				<ul class="nav nav-pills nav-stacked">
-					<li><a href="#">修改密码</a></li>
-					<li><a href="#">修改个人信息</a></li>
 				</ul>
 			</div>
 			<div style="padding: 5px 20px 5px 20px">
-				<button class="btn btn-danger" style="width: 100%;">退出登录</button>
+				<button id="exit" class="btn btn-danger" style="width: 100%;">退出登录</button>
 			</div>
 		</div>
-		<div class="mainDiv" style="width:80%; height:100%; float:left; position: fixed; top: 0px; right: 0px;">
-			<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
-				用户基本信息
-			</div>
-			<div id="baseInfo" style="font-size: 20px;padding: 10px 10px 10px 0px;">
-				<table style="width: 80%">
-					<tr>
-						<td style="width: 12%; font-weight: bold; text-align: right">姓名：</td>
-						<td style="width: 38%">张业飞</td>
-						<td style="width: 15%; font-weight: bold; text-align: right">手机号：</td>
-						<td style="width: 35%">18621744657</td>
-					</tr>
-					<tr>
-						<td style="font-weight: bold; text-align: right">性别：</td>
-						<td>男</td>
-						<td style="font-weight: bold; text-align: right">身高：</td>
-						<td>163厘米</td>
-					</tr>
-					<tr>
-						<td style="font-weight: bold; text-align: right">体重：</td>
-						<td>90公斤</td>
-						<td style="font-weight: bold; text-align: right">出生日期：</td>
-						<td>1964年5月20日</td>
-					</tr>
-				</table>
-			</div>
-			<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
-				血压和用药信息
-			</div>
-			<div>
-			</div>
-			<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
-				用户病史
-			</div>
-			<div id="deaselist">
-				<div style="margin-right: 20px; margin-left: 40px;">
-					<div style="background-color:#888888; color: white; font-size: 18px; height: 30px; line-height: 30px;  border-radius:5px;padding-left: 20px;">
-						1. 高血压
-						<span style="float: right">2011年1月 - 2014年3月</span>
-						<div style="clear:both"></div>
+		<div class="mainDiv" style="width:80%; height:100%; float:left; position: fixed; top: 0px; right: 0px; overflow: auto; display: none">
+			<div class="wraper" style="">
+				<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
+					用户基本信息
+				</div>
+				<div id="baseInfo" style="font-size: 20px;padding: 10px 10px 10px 0px;">
+					<table style="width: 80%">
+						<tr>
+							<td style="width: 12%; font-weight: bold; text-align: right">姓名：</td>
+							<td id="username" style="width: 38%"></td>
+							<td style="width: 15%; font-weight: bold; text-align: right">手机号：</td>
+							<td style="width: 35%" id="phonenum"></td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: right">性别：</td>
+							<td id="gender"></td>
+							<td style="font-weight: bold; text-align: right">身高：</td>
+							<td id="height"></td>
+						</tr>
+						<tr>
+							<td style="font-weight: bold; text-align: right">体重：</td>
+							<td id="weight"></td>
+							<td style="font-weight: bold; text-align: right">年龄：</td>
+							<td id="age"></td>
+						</tr>
+					</table>
+				</div>
+				<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
+					血压和用药信息
+				</div>
+				<div style="margin:10px;">
+					<div style="margin-left: 20px; overflow-x: auto">
+						<div id="medicationInfo" style="height: 400px; width: 960px">
+							
+						</div>
 					</div>
-					<div>
-						<fieldset class="scheduler-border">
-							<legend class="scheduler-border">病情描述</legend>
-							我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！
-						</fieldset>
-						<fieldset class="scheduler-border">
-							<legend class="scheduler-border">用药不良反应</legend>
-							我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！我的病终于有治了！
-						</fieldset>						
+					<div id="medicationtips" style="border: 1px solid #A6A6A6; padding: 10px; margin: 20px; border-radius:5px; width: 800px">
 					</div>
 				</div>
+				<div style="background-color:#08c; color: white; font-size: 24.5px; height: 40px; line-height: 40px; margin: 10px;border-radius:5px;padding-left: 20px;">
+					用户病史
+				</div>
+				<div id="deaselist">
+					<div style="margin-right: 20px; margin-left: 40px;">
+						<div style="background-color:#888888; color: white; font-size: 18px; height: 30px; line-height: 30px;  border-radius:5px;padding-left: 20px;">
+							<span class="deseasename"></span>
+							<div style="clear:both"></div>
+						</div>
+						<div>
+							<fieldset class="scheduler-border">
+								<legend class="scheduler-border">病情描述</legend>
+								<p class="deseasedesc">
+										
+								</p>
+							</fieldset>
+							<fieldset class="scheduler-border">
+								<legend class="scheduler-border">用药不良反应</legend>
+								<p class="meditiondesc">
+									
+								</p>
+							</fieldset>						
+						</div>
+					</div>
+				</div>					
 			</div>
 		</div>
 		<div style="clear:both"></div>

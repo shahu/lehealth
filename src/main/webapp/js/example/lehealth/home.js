@@ -272,7 +272,9 @@ define(function(require, exports, module) {
 							//更新评价文案
 							var judge = rspData.result.status;
 							var latestData = rspData.result.records[rspData.result.records.length - 1];
-							showJudgePannel(judge, latestData.heartrate, latestData.sbp, latestData.dbp);
+							if(latestData) {
+								showJudgePannel(judge, latestData.heartrate, latestData.sbp, latestData.dbp);		
+							}
 
 							var dayInms = 3600 * 1000 * 24;
 							//更新趋势图
@@ -310,7 +312,6 @@ define(function(require, exports, module) {
 										heartrate: null
 									});
 								}
-
 							}
 
 							var xAxisArr = [],

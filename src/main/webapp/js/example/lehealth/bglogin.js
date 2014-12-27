@@ -64,6 +64,7 @@ define(function(require, exports, module) {
 			"placement": "right",
 			"html": msg
 		});
+		alert(msg);
 	}
 
 });

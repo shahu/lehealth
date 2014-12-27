@@ -25,6 +25,7 @@ public class SyncBloodpressureController {
 	
 	@Scheduled(cron = "5 0/10 * * * ?")
 	public void syncBloodpressureFromYundf() {
+		logger.info("begin sync from yundf");
 		this.syncBloodpressureService.syncFromYundf();
 	}
 	

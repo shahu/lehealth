@@ -29,6 +29,38 @@ define(function(require, exports, module) {
 
 			$.mobile.loading('hide');
 
+			$('#sbp').on('change', function() {
+				var val = $('#sbp').val();
+				if(val > 140) {
+					$('#sbp').css('color', 'red');
+					$('#sbp').css('font-size', '20px');
+				} else {
+					$('#sbp').css('color', 'green');
+					$('#sbp').css('font-size', '14px');						
+				}
+			});
+
+			$('#dbp').on('change', function() {
+				var val = $('#dbp').val();
+				if(val > 90) {
+					$('#dbp').css('color', 'red');
+					$('#dbp').css('font-size', '20px');
+				} else {
+					$('#dbp').css('color', 'green');
+					$('#dbp').css('font-size', '14px');						
+				}
+			});
+
+			$('#heartbp').on('change', function() {
+				var val = $('#heartbp').val();
+				if(val > 80) {
+					$('#heartbp').css('color', 'red');
+					$('#heartbp').css('font-size', '20px');
+				} else {
+					$('#heartbp').css('color', 'green');
+					$('#heartbp').css('font-size', '14px');						
+				}
+			});					
 
 			$("#dp_record_bpdata").off('click');
 			$("#dp_record_bpdata").on('click', function do_record_bpdateFn(event) {

@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.lehealth.sync.entity.YundfLogin;
 
 public class YundfUtils {
@@ -43,6 +45,9 @@ public class YundfUtils {
 	}
 	
 	public static String encode(String str){
+		if(StringUtils.isBlank(str)){
+			return "";
+		}
 		try {
 			byte[] bArray = str.getBytes("UTF-8");
 			byte[] temp=new byte[bArray.length];

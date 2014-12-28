@@ -46,38 +46,29 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 	@Override
 	public void syncFromYundf() {
 		boolean readySync=false;
+		logger.info("readySync yundf begin ");
 		//通过手机号和密码访问登录接口
-		String loginStr=YundfUtils.encode(getResponse(YundfUtils.loginUrl,YundfUtils.encode(YundfUtils.login.getLogin().toString())));
-		logger.info("yundf login api response is:"+readySync);
+		JSONObject loginObj=getDataFromYundf(YundfUtils.loginUrl,YundfUtils.login.getLogin());
 		//获取登录接口返回
-		if(StringUtils.isNotBlank(loginStr)){
-			try{
-				JSONObject loginObj=JSONObject.fromObject(loginStr);
-				JSONObject errorObj=loginObj.getJSONObject("error");
-				int code=errorObj.getInt("code");
-				if(code==0){
-					JSONObject accountObj=loginObj.getJSONObject("account");
-					YundfUtils.login.setUid(StringUtils.trimToEmpty(accountObj.getString("uid")));
-					YundfUtils.login.setToken(StringUtils.trimToEmpty(loginObj.getString("token")));
-					logger.info("get yundf login uid="+StringUtils.trimToEmpty(accountObj.getString("uid"))
-							+",token="+StringUtils.trimToEmpty(loginObj.getString("token")));
-					readySync=true;
-				}
-			}catch(Exception e){
-				logger.info("parse yundf login response error",e);
+		if(loginObj!=null){
+			JSONObject errorObj=loginObj.getJSONObject("error");
+			int code=errorObj.getInt("code");
+			if(code==0){
+				JSONObject accountObj=loginObj.getJSONObject("account");
+				YundfUtils.login.setUid(StringUtils.trimToEmpty(accountObj.getString("uid")));
+				YundfUtils.login.setToken(StringUtils.trimToEmpty(loginObj.getString("token")));
+				logger.info("get yundf login uid="+StringUtils.trimToEmpty(accountObj.getString("uid"))
+						+",token="+StringUtils.trimToEmpty(loginObj.getString("token")));
+				readySync=true;
 			}
 		}
 		logger.info("readySync yundf is "+readySync);
-		
 		Map<String,YundfUser> users=new HashMap<String, YundfUser>();
 		if(readySync){
 			//通过登录接口返回的uid和token获取好友列表
-			String friendListStr=YundfUtils.encode(getResponse(YundfUtils.friendListUrl,YundfUtils.encode(YundfUtils.login.getFriendsRequest().toString())));
-			
-			logger.info("yundf friendList api response is:"+friendListStr);
+			JSONObject friendsObj=getDataFromYundf(YundfUtils.friendListUrl, YundfUtils.login.getFriendsRequest());
 			//获取好友列表返回
-			if(StringUtils.isNotBlank(friendListStr)){
-				JSONObject friendsObj=JSONObject.fromObject(friendListStr);
+			if(friendsObj!=null){
 				JSONObject errorObj=friendsObj.getJSONObject("error");
 				int code=errorObj.getInt("code");
 				if(code==0){
@@ -99,7 +90,6 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 				}
 			}
 		}
-		
 		logger.info("yundf friendList size="+users.size());
 		if(users.size()>0){
 			//查询用户上次更新到的条数，没有则认为是0
@@ -119,10 +109,8 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 				e.getValue().setLastRid(lastRid);
 				e.getValue().setUserId(userId);
 				logger.info("sync yundf accid:"+accId+",phone:"+e.getKey()+",userid:"+userId+" record from "+lastRid);
-				String recordListStr=YundfUtils.encode(getResponse(YundfUtils.recordListUrl,YundfUtils.encode(YundfUtils.login.getRecordsRequest().toString())));
-				logger.info("yundf userId:"+userId+" recordList api response is:"+recordListStr);
-				if(StringUtils.isNotBlank(recordListStr)){
-					JSONObject recordsObj=JSONObject.fromObject(recordListStr);
+				JSONObject recordsObj=getDataFromYundf(YundfUtils.recordListUrl, YundfUtils.login.getRecordsRequest());
+				if(recordsObj!=null){
 					JSONObject errorObj=recordsObj.getJSONObject("error");
 					int code=errorObj.getInt("code");
 					if(code==0){
@@ -175,6 +163,28 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 		logger.info("yundf sync end");
 	}
 	
+	private static JSONObject getDataFromYundf(String url,JSONObject requestObj){
+		if(requestObj==null){
+			return null;
+		}
+		logger.info("yundf request uri:"+url);
+		logger.info("yundf request queryString:"+requestObj.toString());
+		String requestBody=YundfUtils.encode(requestObj.toString());
+		String responseBody=YundfUtils.encode(getResponse(url,requestBody));
+		logger.info("yundf request response:"+responseBody);
+		if(StringUtils.isBlank(responseBody)){
+			logger.info("yundf request response is empty or error");
+			return null;
+		}
+		try{
+			JSONObject resultObj=JSONObject.fromObject(responseBody);
+			return resultObj;
+		}catch(Exception e){
+			logger.info("yundf request response parse json exception,",e);
+			return null;
+		}
+	}
+	
 	private static String getResponse(String url,String requestBody){
 		try {
             //已单例形式初始化链接线程池大小
@@ -196,7 +206,7 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
                 HttpEntity respEntity = response.getEntity();
                 String responseStr = EntityUtils.toString(respEntity, "UTF-8");
                 if(response.getStatusLine().getStatusCode()!=200){
-                    logger.warn("error status code:"+response.getStatusLine().getStatusCode());
+                    logger.warn("error status code:"+response.getStatusLine().getStatusCode()+",from url:"+url);
                 }else{
                     if(!StringUtils.isBlank(responseStr)){
 //                    	System.out.println("url="+url);

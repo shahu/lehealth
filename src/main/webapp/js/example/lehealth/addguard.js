@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var guardianApi = "/lehealth/api/guardianinfo.do";
+	var guardianApi = "/lehealth/api/guardian/add";
 
 	exports.bindEvent = function() {
 

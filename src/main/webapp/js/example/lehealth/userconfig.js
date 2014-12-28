@@ -3,8 +3,9 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var userConfigUrl = "/lehealth/api/userinfo.do";
-
+	var getUserConfigUrl = "/lehealth/api/panient/info";
+	var modifyUserConfigUrl = "/lehealth/api/panient/modify";
+	
 	exports.bindEvent = function() {
 
 		$(document).off("pageshow", "#userconfigpage");
@@ -16,7 +17,7 @@ define(function(require, exports, module) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk");
 				$.ajax({
-					url: userConfigUrl,
+					url: getUserConfigUrl,
 					type: "GET",
 					dataType: "json",
 					async: true,
@@ -81,7 +82,7 @@ define(function(require, exports, module) {
 				birthday = new Date(birthday).getTime();
 
 				$.ajax({
-					url: userConfigUrl,
+					url: modifyUserConfigUrl,
 					type: "POST",
 					dataType: "json",
 					async: true,

@@ -3,9 +3,8 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var guardianApi = "/lehealth/api/guardianinfo.do";
-	var getguardianApi = "/lehealth/api/guardianinfos.do";
-	var delguardianApi = "/lehealth/api/guardianinfodel.do";
+	var getguardianApi = "/lehealth/api/guardian/list";
+	var delguardianApi = "/lehealth/api/guardian/delete";
 
 	exports.render = function() {
 

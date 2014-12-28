@@ -3,8 +3,9 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var bpConfigUrl = "/lehealth/api/bpsetting.do";
-
+	var getBpConfigUrl = "/lehealth/api/bp/setting/info";
+	var modifyBpConfigUrl = "/lehealth/api/bp/setting/modify";
+	
 	exports.render = function() {
 
 		$(document).off("pageshow", "#bpconfigpage");
@@ -16,7 +17,7 @@ define(function(require, exports, module) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk");
 				$.ajax({
-					url: bpConfigUrl,
+					url: getBpConfigUrl,
 					type: "GET",
 					dataType: "json",
 					async: true,
@@ -58,7 +59,7 @@ define(function(require, exports, module) {
 					heart1 = $('#heartbpl').val(),
 					heart2 = $('#heartbph').val();
 				$.ajax({
-					url: bpConfigUrl,
+					url: modifyBpConfigUrl,
 					type: "POST",
 					dataType: "json",
 					async: true,

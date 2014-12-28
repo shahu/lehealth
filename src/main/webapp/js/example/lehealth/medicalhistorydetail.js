@@ -3,7 +3,8 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var historyApi = "/lehealth/api/diseasehistory.do";
+	var getHistoryApi = "/lehealth/api/disease/history/info";
+	var modifyHistoryApi = "/lehealth/api/disease/history/add";
 	var diseaseApi = "/lehealth/api/diseases.do";
 
 	exports.bindEvent = function() {
@@ -17,7 +18,7 @@ define(function(require, exports, module) {
 				var username = util.getCookieByKey("loginid"),
 					token = util.getCookieByKey("tk");
 				$.ajax({
-					url: historyApi,
+					url: getHistoryApi,
 					type: "GET",
 					dataType: "json",
 					async: true,
@@ -88,7 +89,7 @@ define(function(require, exports, module) {
 					
 
 				$.ajax({
-					url: historyApi,
+					url: modifyHistoryApi,
 					type: "POST",
 					dataType: "json",
 					async: true,

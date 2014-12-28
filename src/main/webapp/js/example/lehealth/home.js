@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 
-	var getBpRecordUrl = "/lehealth/api/homedata.do";
+	var getBpRecordUrl = "/lehealth/api/home/data";
 
 	//根据旋转的角度获取评分指示原点的圆心
 	function getPoitorXY(degree, radius, x, y) {

@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	var util = require('./common');
 	var highcharts = require('highcharts');
 
-	var getBpRecordUrl = "/lehealth/api/bprecords.do";
+	var getBpRecordUrl = "/lehealth/api/bp/record/list";
 
 	var trendchart;
 

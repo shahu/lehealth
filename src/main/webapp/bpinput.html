@@ -14,28 +14,28 @@
 			<div id="bpinputcover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000"></div>
 			<div data-role="content" style="border-width:0px;" >
 				<div id="bpinput">
-					<div id="sdp" style="width:100%">
+					<div style="width:100%">
 						<div style="font-size:14px; height:40px; line-height:40px">
 							<span style="font-size:20px; font-weight:bold;">收缩压</span>/毫米汞柱
 						</div>
-						<div style="width:100%; margin: 20px 0px" >
-							<input type="range" name="points" id="sbp" value="120" min="80" max="180" data-highlight="true" >
+						<div style="width:100%; margin: 20px 0px" id="sbpwraper">
+							<input type="range" name="points" id="sbp" value="120" min="80" max="180" data-highlight="true" style="color: green">
 						</div>
 					</div>
-					<div id="sdp">
+					<div>
 						<div style="font-size:14px; height:40px; line-height:40px">
 							<span style="font-size:20px; font-weight:bold;">舒张压</span>/毫米汞柱
 						</div>
 						<div style="width:100%; margin: 20px 0px">
-							<input type="range" name="points" id="dbp" value="90" min="50" max="150" data-highlight="true">
+							<input type="range" name="points" id="dbp" value="90" min="50" max="150" data-highlight="true" style="color: green">
 						</div>
 					</div>
-					<div id="dpdeta" style="width:100%">
+					<div style="width:100%">
 						<div style="font-size:14px; height:40px; line-height:40px">
 							<span style="font-size:20px; font-weight:bold;">脉搏</span>/次
 						</div>
 						<div style="width:100%; margin: 20px 0px">
-							<input type="range" name="points" id="heartbp" value="60" min="40" max="150" data-highlight="true">
+							<input type="range" name="points" id="heartbp" value="60" min="40" max="150" data-highlight="true" style="color: green">
 						</div>
 					</div>
 				</div>

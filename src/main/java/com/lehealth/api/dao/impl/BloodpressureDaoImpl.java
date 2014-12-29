@@ -20,7 +20,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public List<BloodpressureRecord> selectRecords(String userId,int days) {
-		String sql="SELECT updateTime,dbp,heartrate,sbp FROM bp_record "
+		String sql="SELECT updateTime,dbp,heartrate,sbp,dosed FROM bp_record "
 				+"WHERE userid=:userid AND Date(updatetime)>=:date";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
@@ -33,6 +33,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 			info.setDbp(rs.getInt("dbp"));
 			info.setHeartrate(rs.getInt("heartrate"));
 			info.setSbp(rs.getInt("sbp"));
+			info.setDosed(rs.getInt("dosed"));
 			list.add(info);
 		}
 		return list;
@@ -46,7 +47,8 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		msps.addValue("dbp", info.getDbp());
 		msps.addValue("sbp", info.getSbp());
 		msps.addValue("heartrate", info.getHeartrate());
-		String sql="INSERT INTO bp_record VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,now())";
+		msps.addValue("dosed", info.getDosed());
+		String sql="INSERT INTO bp_record VALUE(:uuid,:userid,:dbp,:sbp,:heartrate,now(),:dosed)";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
 			return false;

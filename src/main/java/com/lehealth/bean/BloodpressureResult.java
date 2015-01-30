@@ -42,6 +42,7 @@ public class BloodpressureResult {
 			for(BloodpressureRecord record:records){
 				bpArr.add(record.toJsonObj());
 			}
+			
 			obj.accumulate("records", bpArr);
 			
 		}

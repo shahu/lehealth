@@ -67,20 +67,20 @@ define(function(require, exports, module) {
 						+'&configs='+encodeURIComponent(JSON.stringify(settings[i].configs))
 						+'&datefrom='+dateFormat(datefrom);
 					var html='<li id="li_'+settings[i].medicineid+'">'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 16px;color:#333333;">'
 						+settings[i].medicinename
 						+'<a href="'+delurl+'">'
 						+'<span style="float:right">删除</span>'
 						+'</a>'
 						+'</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 16px;color:#333333;">'
 						+'<ul>';
 					for(var j=0;j<settings[i].configs.length;j++){
 						html+='<li>每日于'+settings[i].configs[j].time+'服用'+settings[i].configs[j].dosage+'毫克</li>';
 					}
 					html+='</ul>'
 						+'</div>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;">'+dateFormat(datefrom)+'开始复用</div>'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 16px;">'+dateFormat(datefrom)+'开始服用</div>'
 						+'</li>';
 					$("#medicationconfiglistwraper").append(html);
 					console.info("test5:"+$("#medicationconfiglistwraper").html());

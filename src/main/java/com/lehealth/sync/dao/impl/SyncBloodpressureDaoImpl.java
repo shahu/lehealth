@@ -47,7 +47,7 @@ public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpr
 
 	@Override
 	public void insertRecord(final String userId, final List<YundfRecord> records) {
-		String sql="INSERT INTO bp_record VALUE(?,?,?,?,?,?)";
+		String sql="INSERT INTO bp_record VALUE(?,?,?,?,?,?,-1)";
 		BatchPreparedStatementSetter updateBpss = new BatchPreparedStatementSetter(){
             @Override
             public void setValues(PreparedStatement ps, int i)

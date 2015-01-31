@@ -5,6 +5,9 @@ define(function(require, exports, module) {
 
 	var getBpRecordUrl = "/lehealth/api/home/data";
 
+	//记住上一次的评估状态，用于做动画
+	var laststatus;	
+
 	//根据旋转的角度获取评分指示原点的圆心
 	function getPoitorXY(degree, radius, x, y) {
 		var _x = x + radius * Math.cos(2 * Math.PI * degree / 360);
@@ -15,12 +18,13 @@ define(function(require, exports, module) {
 		};
 	}
 
-	function showJudgePannel(status, heartrate, sbp, dbp) {
+	function showJudgeInternal(degree, heartrate, sbp, dbp) {
 		var stateColorArr = [
 			'rgb(120, 210, 90)',
 			'rgb(240, 180, 90)',
 			'rgb(220, 60, 70)'
 		];
+		var status = getStatusByDegree(degree);
 		var monitorStage = new Kinetic.Stage({
 			container: "healthInfo",
 			width: document.getElementById("healthInfo").offsetWidth,
@@ -57,16 +61,7 @@ define(function(require, exports, module) {
 			rotationDeg: 330
 		});
 
-
-		var degree = 0; //just for test
-		if (status == 1) {
-			degree = 165;
-		} else if (status == 2) {
-			degree = 275;
-		} else if (status == 3) {
-			degree = 380;
-		}
-
+		console.info(degree);
 		var poitorXY = getPoitorXY(degree, monitorStage.getHeight() / 2 - 26,
 			monitorStage.getWidth() / 2, monitorStage.getHeight() / 2);
 
@@ -112,18 +107,7 @@ define(function(require, exports, module) {
 			align: 'center',
 			width: monitorStage.getWidth(),
 			fill: stateColorArr[status - 1]
-		});
-
-		// var time = new Kinetic.Text({
-		// 	  x: 0,
-		// 	  y: 145,
-		// 	  text: '11:58',
-		// 	  fontSize: 20,
-		// 	  fontStyle: 'bold',
-		// 	  align: 'center',
-		// 	  width: monitorStage.getWidth(),
-		// 	  fill: 'rgb(142, 142, 142)'
-		// });						
+		});				
 
 		//向用户层中添加上面的矩形
 		layer.add(arc1);
@@ -137,7 +121,64 @@ define(function(require, exports, module) {
 		// layer.add(time);
 		//将上面的用户层添加到舞台上
 		monitorStage.add(layer);
-		monitorStage.draw();
+		monitorStage.draw();			
+	}
+
+	function showJudgePannel(status, heartrate, sbp, dbp) {
+		var degree = getDegreeByStatus(status);
+		if(!laststatus) {
+			laststatus = status;
+			showJudgeInternal(degree, heartrate, sbp, dbp);
+		} else {
+			var lastdegree = getDegreeByStatus(laststatus);
+			laststatus = status;
+			if(lastdegree == degree) {
+				showJudgeInternal(degree, heartrate, sbp, dbp);		
+			} else {
+				var diff = degree - lastdegree;
+				var unit = degree > lastdegree? 10 : -10;
+				var time = (diff/unit) * 5;
+				var cur = lastdegree;
+				var animateTimer = setInterval(function() {
+					cur += unit;
+					showJudgeInternal(cur, heartrate, sbp, dbp);
+					if(cur > degree) {
+						clearInterval(animateTimer);
+					}		
+				}, 5);
+			}
+		}
+
+
+	}
+
+	window.requestAnimFrame = (function(callback) {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(callback) {
+          window.setTimeout(callback, 10);
+        };
+    })();
+
+	function getStatusByDegree(degree) {
+		if(degree >= 110 && degree < 220) {
+			return 1;
+		} else if(degree >= 220 && degree < 330) {
+			return 2;
+		} else if(degree >= 330 && degree < 430) {
+			return 3;
+		}
+	}
+
+	function getDegreeByStatus(status) {
+		var degree = 0; //just for test
+		if (status == 1) {
+			degree = 165;
+		} else if (status == 2) {
+			degree = 275;
+		} else if (status == 3) {
+			degree = 380;
+		}
+		return degree;				
 	}
 
 	exports.render = function() {
@@ -152,7 +193,6 @@ define(function(require, exports, module) {
 		$(document).off("pageshow", "#homepage");
 
 		$(document).on("pageshow", "#homepage", function() {
-
 
 			console.info('home init');
 
@@ -272,7 +312,9 @@ define(function(require, exports, module) {
 							//更新评价文案
 							var judge = rspData.result.status;
 							var latestData = rspData.result.records[rspData.result.records.length - 1];
-							showJudgePannel(judge, latestData.heartrate, latestData.sbp, latestData.dbp);
+							if(latestData) {
+								showJudgePannel(judge, latestData.heartrate, latestData.sbp, latestData.dbp);		
+							}
 
 							var dayInms = 3600 * 1000 * 24;
 							//更新趋势图
@@ -310,7 +352,6 @@ define(function(require, exports, module) {
 										heartrate: null
 									});
 								}
-
 							}
 
 							var xAxisArr = [],

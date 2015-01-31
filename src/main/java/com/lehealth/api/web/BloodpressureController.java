@@ -68,6 +68,7 @@ public class BloodpressureController {
 			int dbp=NumberUtils.toInt(request.getParameter("dbp"));
 			int sbp=NumberUtils.toInt(request.getParameter("sbp"));
 			int heartrate=NumberUtils.toInt(request.getParameter("heartrate"));
+			int dosed=NumberUtils.toInt(request.getParameter("dosed"));//0未服1已服
 			long date=NumberUtils.toLong(request.getParameter("date"));
 			if(date==0){
 				date=System.currentTimeMillis();
@@ -78,6 +79,7 @@ public class BloodpressureController {
 			bpInfo.setSbp(sbp);
 			bpInfo.setHeartrate(heartrate);
 			bpInfo.setDate(date);
+			bpInfo.setDosed(dosed);
 			if(this.bloodpressureService.addRecord(bpInfo)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{

@@ -54,7 +54,7 @@ define(function(require, exports, module) {
 				$("#medicationrecordlistwraper").html('');
 				for (var i = 0; i < records.length; i++) {
 					var html='<li>'
-						+'<div style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'
+						+'<div style="line-height: 24px;vertical-align: middle;font-size: 16px;color:#333333;">'
 						+records[i].medicinename
 						+'</div>'
 						+'<ul>';;
@@ -64,7 +64,7 @@ define(function(require, exports, module) {
 							+'&medicinename='+records[i].medicinename
 							+'&time='+records[i].results[j].time
 							+'&dosage='+records[i].results[j].dosage;
-						html+='<li style="line-height: 24px;vertical-align: middle;font-size: 12px;color:#333333;">'+records[i].results[j].time+'服用'+records[i].results[j].dosage+'毫克';
+						html+='<li style="line-height: 24px;vertical-align: middle;font-size: 16px;color:#333333;">'+records[i].results[j].time+'服用'+records[i].results[j].dosage+'毫克';
 						if(records[i].results[j].status=='0'){
 							html+='<a href="'+addurl+'"><span style="float:right">记录服用</span></a>';
 						}else{

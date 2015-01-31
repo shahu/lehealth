@@ -9,6 +9,7 @@ public class BloodpressureRecord {
 	private int dbp=0;
 	private int sbp=0;
 	private int heartrate=0;
+	private int dosed=-1;
 	
 	public String getUserId() {
 		return userId;
@@ -40,6 +41,12 @@ public class BloodpressureRecord {
 	public void setHeartrate(int heartrate) {
 		this.heartrate = heartrate;
 	}
+	public int getDosed() {
+		return dosed;
+	}
+	public void setDosed(int dosed) {
+		this.dosed = dosed;
+	}
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
@@ -47,6 +54,7 @@ public class BloodpressureRecord {
 		obj.accumulate("dbp", dbp);
 		obj.accumulate("sbp", sbp);
 		obj.accumulate("heartrate", heartrate);
+		obj.accumulate("dosed", dosed);
 		return obj;
 	}
 }

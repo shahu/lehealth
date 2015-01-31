@@ -318,6 +318,13 @@ define(function(require, exports, module) {
 						var found = false;
 						for (var j = 0; j < bpDataArr.length; j++) {
 							var bpdate = bpDataArr[j].date;
+							var tmpDate = new Date(bpdate);
+							tmpDate.setHours(0);
+							tmpDate.setMinutes(0);
+							tmpDate.setSeconds(0);
+							tmpDate.setMilliseconds(0);	
+							bpDataArr[j].date = bpdate = tmpDate.getTime();						
+
 							if (bpdate >= (beginBaseline + i * dayInms) && bpdate < (beginBaseline + (i + 1) * dayInms)) {
 								newDataArr.push(bpDataArr[j]);
 								console.info('bpdate: ' + bpdate);

@@ -72,7 +72,6 @@ public class HomeResult{
 		
 		Date today=new Date();
 		Date tempDate=DateUtils.addDays(today, -days);
-		
 		JSONArray bpArr=new JSONArray();
 		while(!tempDate.after(today)){
 			String tempKey=DateFormatUtils.format(tempDate, Constant.dateFormat_yyyy_mm_dd);
@@ -86,6 +85,7 @@ public class HomeResult{
 					tempRecord.setSbp((list.get(list.size()-1).getSbp()+list.get(list.size()-2).getSbp())/2);
 					tempRecord.setDate(list.get(0).getDate());
 					tempRecord.setHeartrate((list.get(list.size()-1).getHeartrate()+list.get(list.size()-2).getHeartrate())/2);
+					bpArr.add(tempRecord.toJsonObj());
 				}
 				
 			}

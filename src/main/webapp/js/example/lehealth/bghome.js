@@ -61,9 +61,7 @@ define(function(require, exports, module) {
 				alertMsg("请求失败，请稍后重试");
 				return;
 			}
-			if(role == roles.admin) {
-				
-			} else if(role == roles.doctor) {
+			if(role == roles.admin || role == roles.doctor) {
 				//显示我的病人标签，同时请求第一个病人数据展示
 				getPatients(function(err, patientArr) {
 					if(err) {

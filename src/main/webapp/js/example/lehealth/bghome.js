@@ -183,7 +183,7 @@ define(function(require, exports, module) {
 		$.ajax({
 			url: '/lehealth/api/role',
 			dataType: 'json',
-			type: 'post',
+			type: 'get',
 			data: {
 				loginid: loginId,
 				token: pwd

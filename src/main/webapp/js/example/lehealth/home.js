@@ -311,15 +311,15 @@ define(function(require, exports, module) {
 						} else {
 							//更新评价文案
 							var judge = rspData.result.status;
-							var latestData = rspData.result.records[rspData.result.records.length - 1];
+							var latestData = rspData.result.records ? rspData.result.records[rspData.result.records.length - 1] : undefined;
 							if(latestData) {
 								showJudgePannel(judge, latestData.heartrate, latestData.sbp, latestData.dbp);		
 							}
 
 							var dayInms = 3600 * 1000 * 24;
 							//更新趋势图
-							var bpDataArr = rspData.result.records,
-								medicalhistory = rspData.result.history,
+							var bpDataArr = rspData.result.records || [],
+								medicalhistory = rspData.result.history || [],
 								newDataArr = [];
 							var now = new Date();
 							
@@ -337,6 +337,12 @@ define(function(require, exports, module) {
 								var found = false;
 								for (var j = 0; j < bpDataArr.length; j++) {
 									var bpdate = bpDataArr[j].date;
+									var tmpDate = new Date(bpdate);
+									tmpDate.setHours(0);
+									tmpDate.setMinutes(0);
+									tmpDate.setSeconds(0);
+									tmpDate.setMilliseconds(0);	
+									bpDataArr[j].date = bpdate = tmpDate.getTime();										
 									if (bpdate >= (beginBaseline + i * dayInms) && bpdate < (beginBaseline + (i + 1) * dayInms)) {
 										newDataArr.push(bpDataArr[j]);
 										console.info('bpdate: ' + bpdate);
@@ -480,6 +486,7 @@ define(function(require, exports, module) {
 							var colorIdx = 0,
 								colorByName = {};
 							$('#medicationtips').empty();
+							var hasMedicalHistory = false;
 							for(var i = 0; i < finalObj.length; i++) {
 								if(colorByName[finalObj[i].label.text])
 								{
@@ -492,10 +499,15 @@ define(function(require, exports, module) {
 								if(!finalObj[i].label.text) {
 									continue;
 								} else {
+									hasMedicalHistory = true;
 									delete finalObj[i].label;
 									$('#medicationtips').append('<div style="height: 20px; line-height: 20px; width: 100%; overflow: auto"><div style="width: 12px; height: 12px; margin: 4px;float:left; background-color: ' + tips[i].color + '"></div> <div style="float:left; margin-left: 8px; font-size: 12px; width: 80%; overflow: auto">' + tips[i].name+'</div><div style="clear:both"></div></div>');
 								}
 								trendchart.xAxis[0].addPlotBand(finalObj[i]);
+							}
+							if(!hasMedicalHistory)
+							{
+								$('#medicationtips').append('<div style="height: 20px; line-height: 20px; width: 100%; overflow: auto"><div style="float:left; margin-left: 8px; font-size: 12px; width: 80%; overflow: auto">没有您的用药数据</div><div style="clear:both"></div></div>');
 							}
 							
 							trendchart.xAxis[0].setCategories(xAxisArr);

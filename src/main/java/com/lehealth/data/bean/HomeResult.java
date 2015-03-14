@@ -121,7 +121,7 @@ public class HomeResult{
 		if(this.guardedInfos != null && !this.guardedInfos.isEmpty()){
 			JSONArray gArr = new JSONArray();
 			for(PanientInfo guarded : guardedInfos){
-				gArr.add(guarded.toJsonObj());
+				gArr.add(guarded.toBaseJsonObj());
 			}
 			if(gArr.size() > 0){
 				obj.accumulate("guardeds", gArr);

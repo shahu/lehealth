@@ -2,8 +2,8 @@ package com.lehealth.api.dao;
 
 import java.util.List;
 
-import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureRecord;
+import com.lehealth.data.bean.BloodpressureConfig;
+import com.lehealth.data.bean.BloodpressureRecord;
 
 public interface BloodpressureDao {
 	

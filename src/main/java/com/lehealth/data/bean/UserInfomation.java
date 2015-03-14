@@ -1,8 +1,9 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
 import net.sf.json.JSONObject;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.lehealth.util.TokenUtils;
 
@@ -44,7 +45,7 @@ public class UserInfomation {
 		this.roleId = roleId;
 	}
 	public boolean validToken(String token){
-		return token.equals(TokenUtils.buildToken(this.loginId, this.pwdmd5));
+		return StringUtils.isNotBlank(this.userId) && token.equals(TokenUtils.buildToken(this.loginId, this.pwdmd5));
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();

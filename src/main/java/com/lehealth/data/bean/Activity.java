@@ -1,8 +1,8 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
 import net.sf.json.JSONObject;
 
-public class Activitie {
+public class Activity {
 	
 	private int id=0;
 	private String name="";
@@ -13,43 +13,43 @@ public class Activitie {
 	private String externalUrl="";
 	
 	public int getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
-		return name;
+		return this.name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
 	public String getLocation() {
-		return location;
+		return this.location;
 	}
 	public void setLocation(String location) {
 		this.location = location;
 	}
 	public String getDesc() {
-		return desc;
+		return this.desc;
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
 	public long getStartTime() {
-		return startTime;
+		return this.startTime;
 	}
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
 	public long getEndTime() {
-		return endTime;
+		return this.endTime;
 	}
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
 	public String getExternalUrl() {
-		return externalUrl;
+		return this.externalUrl;
 	}
 	public void setExternalUrl(String externalUrl) {
 		this.externalUrl = externalUrl;
@@ -57,13 +57,13 @@ public class Activitie {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("id", id);
-		obj.accumulate("name", name);
-		obj.accumulate("starttime", startTime);
-		obj.accumulate("endtime", endTime);
-		obj.accumulate("location", location);
-		obj.accumulate("desc", desc);
-		obj.accumulate("externalurl", externalUrl);
+		obj.accumulate("id", this.id);
+		obj.accumulate("name", this.name);
+		obj.accumulate("starttime", this.startTime);
+		obj.accumulate("endtime", this.endTime);
+		obj.accumulate("location", this.location);
+		obj.accumulate("desc", this.desc);
+		obj.accumulate("externalurl", this.externalUrl);
 		return obj;
 	}
 }

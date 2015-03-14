@@ -1,4 +1,4 @@
-package com.lehealth.type;
+package com.lehealth.data.type;
 
 public enum ErrorCodeType {
 	normal(0,""),

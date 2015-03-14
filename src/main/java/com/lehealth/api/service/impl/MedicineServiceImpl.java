@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.service.MedicineService;
-import com.lehealth.bean.MedicineConfig;
-import com.lehealth.bean.MedicineRecord;
+import com.lehealth.data.bean.MedicineConfig;
+import com.lehealth.data.bean.MedicineRecord;
 
 @Service("medicineService")
 public class MedicineServiceImpl implements MedicineService{

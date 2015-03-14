@@ -1,6 +1,6 @@
 package com.lehealth.api.dao;
 
-import com.lehealth.bean.UserInfomation;
+import com.lehealth.data.bean.UserInfomation;
 
 public interface LoginDao {
 	

@@ -10,15 +10,15 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.PanientDao;
-import com.lehealth.bean.PanientGuardianInfo;
-import com.lehealth.bean.PanientInfo;
+import com.lehealth.data.bean.PanientGuardianInfo;
+import com.lehealth.data.bean.PanientInfo;
 import com.lehealth.util.TokenUtils;
 
 @Repository("panientDao")
 public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
-	public PanientInfo selectInfo(String userid) {
+	public PanientInfo selectPanient(String userid) {
 		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_patient_info WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
@@ -44,7 +44,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public boolean updateInfo(PanientInfo info) {
+	public boolean updatePanient(PanientInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("gender", info.getGender());
@@ -66,7 +66,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public List<PanientGuardianInfo> selectGuardianInfos(String userId) {
+	public List<PanientGuardianInfo> selectGuardianList(String userId) {
 		String sql="SELECT userid,guardianname,guardiannumber FROM user_patient_guardian WHERE userid=:userid";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
@@ -86,7 +86,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public boolean insertGuardianInfo(PanientGuardianInfo info) {
+	public boolean insertGuardian(PanientGuardianInfo info) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", info.getUserId());
 		msps.addValue("guardianname", info.getGuardianName());
@@ -102,7 +102,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public boolean deleteGuardianInfo(String userId,String guardianNumber) {
+	public boolean deleteGuardian(String userId,String guardianNumber) {
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("guardiannumber", guardianNumber);
@@ -116,13 +116,31 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 
 	@Override
-	public List<PanientInfo> selectPanients(String doctorId) {
+	public List<PanientInfo> selectPanientListByGuardian(String guardianPhoneNumber) {
+		List<PanientInfo> list=new ArrayList<PanientInfo>();
+		String sql="select t2.username,t2.userid from user_patient_guardian t1 "
+				+"inner join user_patient_info t2 on t1.userid=t2.userid "
+				+"where t1.guardiannumber = :guardianPhoneNumber";
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("guardianPhoneNumber", guardianPhoneNumber);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		while(rs.next()){
+			PanientInfo info=new PanientInfo();
+			info.setUserId(StringUtils.trimToEmpty(rs.getString("userid")));
+			info.setUserName(StringUtils.trimToEmpty(rs.getString("username")));
+			list.add(info);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<PanientInfo> selectPanientListByDoctor(String doctorUserId) {
 		List<PanientInfo> list=new ArrayList<PanientInfo>();
 		String sql="SELECT t1.patinetid,t2.username FROM mapping_doctor_patient_attention t1 "
 				+"LEFT JOIN user_patient_info t2 ON t1.patinetid=t2.userid "
 				+"WHERE t1.doctorid=:doctorid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("doctorid", doctorId);
+		msps.addValue("doctorid", doctorUserId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
 			PanientInfo info=new PanientInfo();

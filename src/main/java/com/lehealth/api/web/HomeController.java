@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.HomeService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.HomeResult;
-import com.lehealth.bean.ResponseBean;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.HomeResult;
+import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/home")
 public class HomeController {
 	
 	@Autowired
@@ -33,20 +34,27 @@ public class HomeController {
 	
 	//患者首页数据接口
 	@ResponseBody
-	@RequestMapping(value = "/home/data", method = RequestMethod.GET)
-//	@RequestMapping(value = "/homedata.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/data", method = RequestMethod.GET)
 	public ResponseBean getHomeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			int days=NumberUtils.toInt(request.getParameter("days"),7);
-			if(days==0){
-				days=7;
+		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token = StringUtils.trimToEmpty(request.getParameter("token"));
+		String targetUserId = StringUtils.trimToEmpty(request.getParameter("user"));
+		ResponseBean responseBody = new ResponseBean();
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			int days = NumberUtils.toInt(request.getParameter("days"), 7);
+			if(days <= 0){
+				days = 7;
 			}
-			HomeResult result=this.homeService.getHomeData(userId,days);
-			responseBody.setResult(result.toJsonObj());
+			// 看自己的首页
+			if(StringUtils.isBlank(targetUserId)){
+				HomeResult result = this.homeService.getHomeData(user, days);
+				responseBody.setResult(result.toJsonObj());
+			// 看别人的首页
+			}else{
+				HomeResult result = this.homeService.getHomeData(targetUserId, days);
+				responseBody.setResult(result.toJsonObj());
+			}
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

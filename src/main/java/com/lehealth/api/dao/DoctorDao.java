@@ -2,7 +2,7 @@ package com.lehealth.api.dao;
 
 import java.util.List;
 
-import com.lehealth.bean.DoctorInfo;
+import com.lehealth.data.bean.DoctorInfo;
 
 public interface DoctorDao {
 	

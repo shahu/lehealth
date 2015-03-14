@@ -1,4 +1,4 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
 import java.util.Calendar;
 import net.sf.json.JSONObject;

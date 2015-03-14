@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	var util = require('./common');
 
 	var loginUrl = "/lehealth/api/login";
-	var registerUrl = "/lehealth/api/patient/patient/register";
+	var registerUrl = "/lehealth/api/patient/register";
 
 
 	exports.render = function() {

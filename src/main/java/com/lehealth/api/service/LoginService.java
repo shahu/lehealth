@@ -1,7 +1,7 @@
 package com.lehealth.api.service;
 
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 public interface LoginService {
 	

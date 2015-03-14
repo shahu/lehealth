@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.LoginDao;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.util.TokenUtils;
 
 @Service("loginService")

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.CommonDao;
 import com.lehealth.api.service.CommonService;
-import com.lehealth.bean.Activity;
-import com.lehealth.bean.DiseaseCategroy;
-import com.lehealth.bean.MedicineCategroy;
+import com.lehealth.data.bean.Activity;
+import com.lehealth.data.bean.DiseaseCategroy;
+import com.lehealth.data.bean.MedicineCategroy;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService{

@@ -10,8 +10,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.PanientDao;
-import com.lehealth.bean.PanientGuardianInfo;
-import com.lehealth.bean.PanientInfo;
+import com.lehealth.data.bean.PanientGuardianInfo;
+import com.lehealth.data.bean.PanientInfo;
 import com.lehealth.util.TokenUtils;
 
 @Repository("panientDao")

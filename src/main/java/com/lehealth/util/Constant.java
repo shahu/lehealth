@@ -2,8 +2,8 @@ package com.lehealth.util;
 
 import java.util.Comparator;
 
-import com.lehealth.bean.BloodpressureRecord;
-import com.lehealth.bean.MedicineRecord;
+import com.lehealth.data.bean.BloodpressureRecord;
+import com.lehealth.data.bean.MedicineRecord;
 
 public class Constant {
 	public static final String dateFormat_hh="HH";

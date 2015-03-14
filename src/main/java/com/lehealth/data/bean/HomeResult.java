@@ -1,4 +1,4 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,17 +27,9 @@ public class HomeResult{
 	public HomeResult(List<BloodpressureRecord> bpRecords,
 			BloodpressureConfig bpConfig,
 			List<MedicineRecord> medicineRecords,
-			int days){
-		if(bpRecords !=null && !bpRecords.isEmpty()){
-			this.bpRecords = bpRecords;
-		}
-		if(bpConfig !=null){
-			this.bpConfig = bpConfig;
-		}
-		if(medicineRecords !=null && !medicineRecords.isEmpty()){
-			this.medicineRecords = medicineRecords;
-		}
-		this.days = days;
+			int days,
+			PanientInfo info){
+		this.setCommon(bpRecords, bpConfig, medicineRecords, days, info);
 	}
 	
 	public HomeResult(List<BloodpressureRecord> bpRecords,
@@ -45,6 +37,17 @@ public class HomeResult{
 			List<MedicineRecord> medicineRecords,
 			int days,
 			List<PanientInfo> guardedInfos,
+			PanientInfo info){
+		this.setCommon(bpRecords, bpConfig, medicineRecords, days, info);
+		if(guardedInfos !=null && !guardedInfos.isEmpty()){
+			this.guardedInfos = guardedInfos;
+		}
+	}
+	
+	private void setCommon(List<BloodpressureRecord> bpRecords,
+			BloodpressureConfig bpConfig,
+			List<MedicineRecord> medicineRecords,
+			int days,
 			PanientInfo info){
 		if(bpRecords !=null && !bpRecords.isEmpty()){
 			this.bpRecords = bpRecords;
@@ -56,9 +59,6 @@ public class HomeResult{
 			this.medicineRecords = medicineRecords;
 		}
 		this.days = days;
-		if(guardedInfos !=null && !guardedInfos.isEmpty()){
-			this.guardedInfos = guardedInfos;
-		}
 		if(info !=null){
 			this.info = info;
 		}

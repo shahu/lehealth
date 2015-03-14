@@ -1,7 +1,8 @@
 package com.lehealth.api.service;
 
 import java.util.List;
-import com.lehealth.bean.DoctorInfo;
+
+import com.lehealth.data.bean.DoctorInfo;
 
 public interface DoctorService {
 

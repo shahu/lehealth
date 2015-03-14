@@ -2,8 +2,8 @@ package com.lehealth.api.service;
 
 import java.util.List;
 
-import com.lehealth.bean.PanientGuardianInfo;
-import com.lehealth.bean.PanientInfo;
+import com.lehealth.data.bean.PanientGuardianInfo;
+import com.lehealth.data.bean.PanientInfo;
 
 public interface PanientService {
 

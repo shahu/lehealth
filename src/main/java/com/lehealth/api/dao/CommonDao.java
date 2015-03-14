@@ -2,9 +2,9 @@ package com.lehealth.api.dao;
 
 import java.util.List;
 
-import com.lehealth.bean.Activity;
-import com.lehealth.bean.DiseaseCategroy;
-import com.lehealth.bean.MedicineCategroy;
+import com.lehealth.data.bean.Activity;
+import com.lehealth.data.bean.DiseaseCategroy;
+import com.lehealth.data.bean.MedicineCategroy;
 
 public interface CommonDao {
 	

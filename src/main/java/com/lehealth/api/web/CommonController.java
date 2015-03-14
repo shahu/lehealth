@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.CommonService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.Activity;
-import com.lehealth.bean.DiseaseCategroy;
-import com.lehealth.bean.MedicineCategroy;
-import com.lehealth.bean.ResponseBean;
+import com.lehealth.data.bean.Activity;
+import com.lehealth.data.bean.DiseaseCategroy;
+import com.lehealth.data.bean.MedicineCategroy;
+import com.lehealth.data.bean.ResponseBean;
 
 @Controller
 @RequestMapping("/api")

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.HomeService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.HomeResult;
-import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.HomeResult;
+import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/api")
@@ -47,11 +47,15 @@ public class HomeController {
 			if(days <= 0){
 				days = 7;
 			}
+			// 看自己的首页
 			if(StringUtils.isBlank(targetUserId)){
-				targetUserId = user.getUserId();
+				HomeResult result = this.homeService.getHomeData(user, days);
+				responseBody.setResult(result.toJsonObj());
+			// 看别人的首页
+			}else{
+				HomeResult result = this.homeService.getHomeData(targetUserId, days);
+				responseBody.setResult(result.toJsonObj());
 			}
-			HomeResult result = this.homeService.getHomeData(targetUserId, days, loginId);
-			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
 		}

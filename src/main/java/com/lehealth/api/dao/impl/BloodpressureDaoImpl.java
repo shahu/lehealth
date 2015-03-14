@@ -11,8 +11,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.BloodpressureDao;
-import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureRecord;
+import com.lehealth.data.bean.BloodpressureConfig;
+import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.util.TokenUtils;
 
 @Repository("bloodpressureDao")

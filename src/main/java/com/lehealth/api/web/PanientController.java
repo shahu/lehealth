@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.PanientService;
-import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.PanientGuardianInfo;
-import com.lehealth.bean.PanientInfo;
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.PanientGuardianInfo;
+import com.lehealth.data.bean.PanientInfo;
+import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/api")

@@ -10,11 +10,12 @@ import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.service.HomeService;
-import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureRecord;
-import com.lehealth.bean.HomeResult;
-import com.lehealth.bean.MedicineRecord;
-import com.lehealth.bean.PanientInfo;
+import com.lehealth.data.bean.BloodpressureConfig;
+import com.lehealth.data.bean.BloodpressureRecord;
+import com.lehealth.data.bean.HomeResult;
+import com.lehealth.data.bean.MedicineRecord;
+import com.lehealth.data.bean.PanientInfo;
+import com.lehealth.data.bean.UserInfomation;
 
 @Service("homeService")
 public class HomeServiceImpl implements HomeService{
@@ -36,17 +37,18 @@ public class HomeServiceImpl implements HomeService{
 		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(userId,days);
 		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(userId);
 		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(userId, days);
-		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days);
+		PanientInfo info = this.panientDao.selectPanient(userId);
+		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days, info);
 		return result;
 	}
 	
 	@Override
-	public HomeResult getHomeData(String userId, int days, String phoneNumber) {
-		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(userId,days);
-		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(userId);
-		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(userId, days);
-		List<PanientInfo> guardedInfos = this.panientDao.selectPanientListByGuardian(phoneNumber);
-		PanientInfo info = this.panientDao.selectPanient(userId);
+	public HomeResult getHomeData(UserInfomation user, int days) {
+		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(user.getUserId(),days);
+		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(user.getUserId());
+		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(user.getUserId(), days);
+		List<PanientInfo> guardedInfos = this.panientDao.selectPanientListByGuardian(user.getLoginId());
+		PanientInfo info = this.panientDao.selectPanient(user.getUserId());
 		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days, guardedInfos, info);
 		return result;
 	}

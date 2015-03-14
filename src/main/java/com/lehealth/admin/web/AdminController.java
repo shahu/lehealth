@@ -21,12 +21,12 @@ import com.lehealth.api.service.DiseaseService;
 import com.lehealth.api.service.HomeService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.PanientService;
-import com.lehealth.bean.DiseaseHistory;
-import com.lehealth.bean.HomeResult;
-import com.lehealth.bean.PanientInfo;
-import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.DiseaseHistory;
+import com.lehealth.data.bean.HomeResult;
+import com.lehealth.data.bean.PanientInfo;
+import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/admin")

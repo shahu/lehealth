@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css" />
 		<script type="text/javascript">
 			var viewport = document.querySelector("meta[name=viewport]");
-			var winWidths=$(window).width();
+			var winWidths= document.documentElement.clientWidth;
 			var densityDpi=640/winWidths;
 			densityDpi= densityDpi>1?300*640*densityDpi/640:densityDpi;
 			if(isWeixin()){

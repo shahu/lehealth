@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 						default:
 					}
 					//更新趋势图
-					var bpDataArr = rspData.result.records;
+					var bpDataArr = rspData.result.records || [];
 
 					var hasMedicate = false;
 					if(bpDataArr != null && bpDataArr.length > 0) {
@@ -66,8 +66,26 @@ define(function(require, exports, module) {
 						$('#hasmedicate').html('还未');
 					} else {
 						$('#hasmedicate').html('已经');
-					}
+					}					
 
+					if(bpDataArr.length == 1) {
+						var bpData = bpDataArr[0];
+						var tmp = {};
+						for(var i in bpData) {
+							tmp[i] = bpData[i];
+						}
+						tmp.date += 1000 * 3600;
+						bpDataArr.push(tmp);
+					}
+					console.info(bpDataArr);
+					var now = new Date().getTime();
+					for(var i = 0; i < days; i++) {
+						bpDataArr.push({
+							date: now - (i * 24 * 3600 * 1000),
+							dbp: null,
+							sbp: null
+						});
+					}
 
 					var ranges = [];
 					var	averages = [];

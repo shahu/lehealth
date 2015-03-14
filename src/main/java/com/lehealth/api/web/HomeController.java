@@ -17,6 +17,7 @@ import com.lehealth.api.service.HomeService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.bean.HomeResult;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -38,14 +39,18 @@ public class HomeController {
 	public ResponseBean getHomeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token = StringUtils.trimToEmpty(request.getParameter("token"));
+		String targetUserId = StringUtils.trimToEmpty(request.getParameter("user"));
 		ResponseBean responseBody = new ResponseBean();
-		String userId = this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			int days = NumberUtils.toInt(request.getParameter("days"), 7);
 			if(days <= 0){
 				days = 7;
 			}
-			HomeResult result = this.homeService.getHomeData(userId, days, loginId);
+			if(StringUtils.isBlank(targetUserId)){
+				targetUserId = user.getUserId();
+			}
+			HomeResult result = this.homeService.getHomeData(targetUserId, days, loginId);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);

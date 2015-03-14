@@ -32,7 +32,7 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public ErrorCodeType registerUser(String loginId,String password,int roleId) {
 		//是否用户名存在
-		UserInfomation user=this.loginDao.getUser(loginId);
+		UserInfomation user=this.getUserBaseInfo(loginId);
 		if(StringUtils.isNotBlank(user.getUserId())){
 			return ErrorCodeType.repeatUser;
 		}
@@ -50,22 +50,18 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public String checkUser4Token(String loginId,String token) {
-		if(StringUtils.isNotBlank(loginId)
-				&&StringUtils.isNotBlank(token)){
-			UserInfomation user=this.loginDao.getUser(loginId);
+	public UserInfomation getUserBaseInfo(String loginId,String token) {
+		if(StringUtils.isNotBlank(loginId) && StringUtils.isNotBlank(token)){
+			UserInfomation user = this.getUserBaseInfo(loginId);
 			if(user.validToken(token)){
-				return user.getUserId();
-			}else{
-				return "";
+				return user;
 			}
-		}else{
-			return "";
 		}
+		return null;
 	}
 	
 	@Override
-	public UserInfomation getUserBaseInfo(String loginId,String token) {
+	public UserInfomation getUserBaseInfo(String loginId) {
 		return this.loginDao.getUser(loginId);
 	}
 }

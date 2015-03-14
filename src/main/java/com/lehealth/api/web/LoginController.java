@@ -73,10 +73,9 @@ public class LoginController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			UserInfomation userInfo=this.loginService.getUserBaseInfo(loginId, token);
-			responseBody.setResult(userInfo.toJsonObj());
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			responseBody.setResult(user.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);
 		}

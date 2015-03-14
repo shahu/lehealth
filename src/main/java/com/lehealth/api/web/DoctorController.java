@@ -21,6 +21,7 @@ import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.bean.DoctorInfo;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -43,11 +44,13 @@ public class DoctorController {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		List<DoctorInfo> list=this.doctorService.getInfoList(userId);
 		JSONArray arr=new JSONArray();
-		for(DoctorInfo d:list){
-			arr.add(d.toJsonObj());
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			List<DoctorInfo> list=this.doctorService.getInfoList(user.getUserId());
+			for(DoctorInfo d:list){
+				arr.add(d.toJsonObj());
+			}
 		}
 		responseBody.setResult(arr);
 		return responseBody;
@@ -62,10 +65,14 @@ public class DoctorController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		DoctorInfo doctor=this.doctorService.getInfo(userId,doctorId);
-		if(StringUtils.isNotBlank(doctor.getId())){
-			responseBody.setResult(doctor.toJsonObj());
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			DoctorInfo doctor=this.doctorService.getInfo(user.getUserId(),doctorId);
+			if(StringUtils.isNotBlank(doctor.getId())){
+				responseBody.setResult(doctor.toJsonObj());
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
 		}else{
 			responseBody.setType(ErrorCodeType.abnormal);
 		}
@@ -80,11 +87,11 @@ public class DoctorController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 			int attention=NumberUtils.toInt(request.getParameter("attention"));
-			if(this.doctorService.modifyAttentionStatus(userId,doctorId,attention)){
+			if(this.doctorService.modifyAttentionStatus(user.getUserId(),doctorId,attention)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

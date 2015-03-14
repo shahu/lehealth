@@ -21,6 +21,7 @@ import com.lehealth.api.service.DiseaseService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -43,9 +44,9 @@ public class DiseaseController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			List<DiseaseHistory> list=this.diseaseService.getHistoryList(userId);
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			List<DiseaseHistory> list=this.diseaseService.getHistoryList(user.getUserId());
 			JSONArray arr=new JSONArray();
 			for(DiseaseHistory d:list){
 				arr.add(d.toJsonObj());
@@ -65,10 +66,10 @@ public class DiseaseController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
-			DiseaseHistory history=this.diseaseService.getHistory(userId,diseaseId);
+			DiseaseHistory history=this.diseaseService.getHistory(user.getUserId(), diseaseId);
 			if(StringUtils.isNotBlank(history.getUserId())){
 				responseBody.setResult(history.toJsonObj());
 			}else{
@@ -88,13 +89,13 @@ public class DiseaseController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
 			String diseaseDescription=StringUtils.trimToEmpty(request.getParameter("diseasedescription"));
 			String medicinedescription=StringUtils.trimToEmpty(request.getParameter("medicinedescription"));
 			DiseaseHistory info=new DiseaseHistory();
-			info.setUserId(userId);
+			info.setUserId(user.getUserId());
 			info.setDiseaseId(diseaseId);
 			info.setDiseaseDescription(diseaseDescription);
 			info.setMedicineDescription(medicinedescription);

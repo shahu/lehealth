@@ -19,6 +19,7 @@ import com.lehealth.bean.BloodpressureConfig;
 import com.lehealth.bean.BloodpressureRecord;
 import com.lehealth.bean.BloodpressureResult;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -41,13 +42,13 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			int days=NumberUtils.toInt(request.getParameter("days"),7);
 			if(days==0){
 				days=7;
 			}
-			BloodpressureResult result=this.bloodpressureService.getRecords(userId,days);
+			BloodpressureResult result=this.bloodpressureService.getRecords(user.getUserId(),days);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
@@ -63,8 +64,8 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			int dbp=NumberUtils.toInt(request.getParameter("dbp"));
 			int sbp=NumberUtils.toInt(request.getParameter("sbp"));
 			int heartrate=NumberUtils.toInt(request.getParameter("heartrate"));
@@ -74,7 +75,7 @@ public class BloodpressureController {
 				date=System.currentTimeMillis();
 			}
 			BloodpressureRecord bpInfo=new BloodpressureRecord();
-			bpInfo.setUserId(userId);
+			bpInfo.setUserId(user.getUserId());
 			bpInfo.setDbp(dbp);
 			bpInfo.setSbp(sbp);
 			bpInfo.setHeartrate(heartrate);
@@ -99,9 +100,9 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			BloodpressureConfig bpConfig=this.bloodpressureService.getConfig(userId);
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			BloodpressureConfig bpConfig=this.bloodpressureService.getConfig(user.getUserId());
 			if(StringUtils.isBlank(bpConfig.getUserId())){
 				responseBody.setType(ErrorCodeType.abnormal);
 			}
@@ -122,8 +123,8 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			int dbp1=NumberUtils.toInt(request.getParameter("dbp1"));
 			int dbp2=NumberUtils.toInt(request.getParameter("dbp2"));
 			int sbp1=NumberUtils.toInt(request.getParameter("sbp1"));
@@ -131,7 +132,7 @@ public class BloodpressureController {
 			int heartrate1=NumberUtils.toInt(request.getParameter("heartrate1"));
 			int heartrate2=NumberUtils.toInt(request.getParameter("heartrate2"));
 			BloodpressureConfig bpConfig=new BloodpressureConfig();
-			bpConfig.setUserId(userId);
+			bpConfig.setUserId(user.getUserId());
 			bpConfig.setDbp1(dbp1);
 			bpConfig.setDbp2(dbp2);
 			bpConfig.setSbp1(sbp1);

@@ -22,6 +22,7 @@ import com.lehealth.api.service.PanientService;
 import com.lehealth.bean.ResponseBean;
 import com.lehealth.bean.PanientGuardianInfo;
 import com.lehealth.bean.PanientInfo;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -43,9 +44,9 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			PanientInfo info=this.panientService.getPanient(userId);
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			PanientInfo info=this.panientService.getPanient(user.getUserId());
 			if(StringUtils.isNotBlank(info.getUserId())){
 				responseBody.setResult(info.toJsonObj());
 			}else{
@@ -64,8 +65,8 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String userName=StringUtils.trimToEmpty(request.getParameter("username"));
 			int gender=NumberUtils.toInt(request.getParameter("gender"));
 			long birthday=NumberUtils.toInt(request.getParameter("birthday"));;
@@ -75,7 +76,7 @@ public class PanientController {
 			info.setBirthday(birthday);
 			info.setGender(gender);
 			info.setHeight(height);
-			info.setUserId(userId);
+			info.setUserId(user.getUserId());
 			info.setUserName(userName);
 			info.setWeight(weight);
 			if(this.panientService.modifyPanient(info)){
@@ -96,8 +97,8 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			List<PanientGuardianInfo> list=this.panientService.getGuardianList(loginId);
 			JSONArray arr=new JSONArray();
 			for(PanientGuardianInfo info:list){
@@ -117,12 +118,12 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
 			PanientGuardianInfo info=new PanientGuardianInfo();
-			info.setUserId(userId);
+			info.setUserId(user.getUserId());
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
 			if(this.panientService.modifyGuardian(info)){
@@ -143,10 +144,10 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
 		String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-		if(StringUtils.isNotBlank(userId)){
-			if(this.panientService.deleteGuardian(userId,guardianNumber)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			if(this.panientService.deleteGuardian(user.getUserId(),guardianNumber)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

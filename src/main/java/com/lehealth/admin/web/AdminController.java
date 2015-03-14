@@ -25,6 +25,7 @@ import com.lehealth.bean.DiseaseHistory;
 import com.lehealth.bean.HomeResult;
 import com.lehealth.bean.PanientInfo;
 import com.lehealth.bean.ResponseBean;
+import com.lehealth.bean.UserInfomation;
 import com.lehealth.type.ErrorCodeType;
 
 @Controller
@@ -54,9 +55,9 @@ public class AdminController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			List<PanientInfo> list=this.panientService.getPanientListByDoctor(userId);
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			List<PanientInfo> list=this.panientService.getPanientListByDoctor(user.getUserId());
 			JSONArray arr=new JSONArray();
 			for(PanientInfo p:list){
 				arr.add(p.toBaseJsonObj());
@@ -75,8 +76,8 @@ public class AdminController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
 			PanientInfo p=this.panientService.getPanient(pid);
 			responseBody.setResult(p.toJsonObj());
@@ -93,8 +94,8 @@ public class AdminController {
 		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token = StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId = this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String pid = StringUtils.trimToEmpty(request.getParameter("pid"));
 			int days = NumberUtils.toInt(request.getParameter("days"),7);
 			if(days <= 0){
@@ -115,8 +116,8 @@ public class AdminController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
 			List<DiseaseHistory> list=this.diseaseService.getHistoryList(pid);
 			JSONArray arr=new JSONArray();

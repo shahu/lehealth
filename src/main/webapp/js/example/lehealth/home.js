@@ -209,7 +209,7 @@ define(function(require, exports, module) {
 				// judgechart,
 				chartcount = 1;
 
-			showJudgePannel(1, 60, 120, 90);
+			showJudgePannel(1, 0, 0, 0);
 
 			//渲染图表原始界面,先填充默认数据，然后再通过网络请求填充真实数据
 			var highcharts = require('highcharts');

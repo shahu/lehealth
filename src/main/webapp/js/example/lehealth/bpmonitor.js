@@ -37,17 +37,21 @@ define(function(require, exports, module) {
 					// point.update(score);
 					//更新评价文案
 					var judge = rspData.result.status;
-					switch (judge) {
-						case 1:
-							$("#judge_text").html("偏低");
-							break;
-						case 2:
-							$("#judge_text").html("正常");
-							break;
-						case 3:
-							$("#judge_text").html("偏高");
-							break;						
-						default:
+					if(!judge) {
+						$("#judge_text").html("暂无您的血压状况评估");
+					} else {
+						switch (judge) {
+							case 1:
+								$("#judge_text").html("您的血压状况偏低");
+								break;
+							case 2:
+								$("#judge_text").html("您的血压状况正常");
+								break;
+							case 3:
+								$("#judge_text").html("您的血压状况偏高");
+								break;						
+							default:
+						}							
 					}
 					//更新趋势图
 					var bpDataArr = rspData.result.records || [];

@@ -51,7 +51,7 @@ public class LoginController {
 	
 	//患者注册
 	@ResponseBody
-	@RequestMapping(value = "/patient/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/patient/register")
 //	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
 	public ResponseBean register(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));

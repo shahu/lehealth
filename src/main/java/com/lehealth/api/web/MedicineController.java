@@ -27,7 +27,7 @@ import com.lehealth.data.bean.UserInfomation;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/medicine")
 public class MedicineController {
 	
 	@Autowired
@@ -40,8 +40,7 @@ public class MedicineController {
 	
 	//患者获取自己今日用药记录
 	@ResponseBody
-	@RequestMapping(value = "/medicine/today/list", method = RequestMethod.GET)
-//	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/today/list", method = RequestMethod.GET)
 	public ResponseBean getMedicineHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -62,8 +61,7 @@ public class MedicineController {
 	
 	//患者获取自己过去一段时间用药记录
 	@ResponseBody
-	@RequestMapping(value = "/medicine/record/list", method = RequestMethod.GET)
-//	@RequestMapping(value = "/medicinerecords.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/record/list", method = RequestMethod.GET)
 	public ResponseBean getMedicineRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -88,8 +86,7 @@ public class MedicineController {
 	
 	//患者更新自己今日用药记录
 	@ResponseBody
-	@RequestMapping(value = "/medicine/history/add", method = RequestMethod.POST)
-//	@RequestMapping(value = "/medicinehistory.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/history/add", method = RequestMethod.POST)
 	public ResponseBean addMedicineHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -116,8 +113,7 @@ public class MedicineController {
 		
 	//患者获取自己用药设置
 	@ResponseBody
-	@RequestMapping(value = "/medicine/setting/list", method = RequestMethod.GET)
-//	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/setting/list", method = RequestMethod.GET)
 	public ResponseBean getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -138,8 +134,7 @@ public class MedicineController {
 	
 	//患者更新自己用药设置
 	@ResponseBody
-	@RequestMapping(value = "/medicine/setting/modify", method = RequestMethod.POST)
-//	@RequestMapping(value = "/medicinesetting.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/modify", method = RequestMethod.POST)
 	public ResponseBean modifyMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -174,8 +169,7 @@ public class MedicineController {
 	
 	//患者除用自己药设置
 	@ResponseBody
-	@RequestMapping(value = "/medicine/setting/delete", method = RequestMethod.POST)
-//	@RequestMapping(value = "/medicinesettingdel.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/delete", method = RequestMethod.POST)
 	public ResponseBean deleteMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));

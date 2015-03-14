@@ -25,7 +25,7 @@ import com.lehealth.data.bean.UserInfomation;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/doctor")
 public class DoctorController {
 
 	@Autowired
@@ -38,8 +38,7 @@ public class DoctorController {
 	
 	//患者获取医生列表
 	@ResponseBody
-	@RequestMapping(value = "/doctor/list", method = RequestMethod.GET)
-//	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseBean getDoctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
@@ -58,8 +57,7 @@ public class DoctorController {
 	
 	//患者获取医生信息
 	@ResponseBody
-	@RequestMapping(value = "/doctor/info", method = RequestMethod.GET)
-//	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public ResponseBean getDoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
@@ -81,8 +79,7 @@ public class DoctorController {
 	
 	//患者添加医生关注或取消关注
 	@ResponseBody
-	@RequestMapping(value = "/doctor/attention", method = RequestMethod.POST)
-//	@RequestMapping(value = "/attentiondoctor.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/attention", method = RequestMethod.POST)
 	public ResponseBean addDoctorAttention(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));

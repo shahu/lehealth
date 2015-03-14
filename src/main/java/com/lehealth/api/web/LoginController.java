@@ -28,7 +28,6 @@ public class LoginController {
 	//用户登录
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-//	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public ResponseBean login(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
@@ -52,7 +51,6 @@ public class LoginController {
 	//患者注册
 	@ResponseBody
 	@RequestMapping(value = "/patient/register")
-//	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
 	public ResponseBean register(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));

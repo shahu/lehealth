@@ -23,7 +23,7 @@ import com.lehealth.data.bean.UserInfomation;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/bp")
 public class BloodpressureController {
 	
 	@Autowired
@@ -36,8 +36,7 @@ public class BloodpressureController {
 	
 	//患者获取自己血压数据
 	@ResponseBody
-	@RequestMapping(value = "/bp/record/list", method = RequestMethod.GET)
-//	@RequestMapping(value = "/bprecords.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/record/list", method = RequestMethod.GET)
 	public ResponseBean getBpRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -58,8 +57,7 @@ public class BloodpressureController {
 	
 	//患者录入自己血压数据
 	@ResponseBody
-	@RequestMapping(value = "/bp/record/add", method = RequestMethod.POST)
-//	@RequestMapping(value = "/bprecord.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/record/add", method = RequestMethod.POST)
 	public ResponseBean addBpRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -94,8 +92,7 @@ public class BloodpressureController {
 	
 	//患者获取自己血压控制设置
 	@ResponseBody
-	@RequestMapping(value = "/bp/setting/info", method = RequestMethod.GET)
-//	@RequestMapping(value = "/bpsetting.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/setting/info", method = RequestMethod.GET)
 	public ResponseBean getBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -117,8 +114,7 @@ public class BloodpressureController {
 	
 	//患者更新自己血压控制设置
 	@ResponseBody
-	@RequestMapping(value = "/bp/setting/modify", method = RequestMethod.POST)
-//	@RequestMapping(value = "/bpsetting.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/modify", method = RequestMethod.POST)
 	public ResponseBean modifyBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));

@@ -21,7 +21,7 @@ import com.lehealth.data.bean.UserInfomation;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/home")
 public class HomeController {
 	
 	@Autowired
@@ -34,8 +34,7 @@ public class HomeController {
 	
 	//患者首页数据接口
 	@ResponseBody
-	@RequestMapping(value = "/home/data", method = RequestMethod.GET)
-//	@RequestMapping(value = "/homedata.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/data", method = RequestMethod.GET)
 	public ResponseBean getHomeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token = StringUtils.trimToEmpty(request.getParameter("token"));

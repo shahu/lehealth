@@ -2,10 +2,32 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="viewport" content="width=device-width, target-densityDpi=device-dpi, user-scalable=yes">
 		<title>登录</title>
 		<!-- <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.min.css" /> -->
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css" />
+		<script type="text/javascript">
+			var viewport = document.querySelector("meta[name=viewport]");
+			var winWidths= document.documentElement.clientWidth;
+			var densityDpi=640/winWidths;
+			densityDpi= densityDpi>1?300*640*densityDpi/640:densityDpi;
+			if(isWeixin()){
+				viewport.setAttribute('content', 'width=640, target-densityDpi='+densityDpi);
+			}else{
+				viewport.setAttribute('content', 'width=640, user-scalable=no');
+				window.setTimeout(function(){
+					viewport.setAttribute('content', 'width=640, user-scalable=yes');
+				},1000);
+			}
+			function isWeixin(){
+				var ua = navigator.userAgent.toLowerCase();
+				if(ua.match(/MicroMessenger/i)=="micromessenger") {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		</script>
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
 		<script src="js/seajs-config.js"></script>			
 	</head>

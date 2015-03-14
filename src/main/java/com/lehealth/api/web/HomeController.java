@@ -36,16 +36,16 @@ public class HomeController {
 	@RequestMapping(value = "/home/data", method = RequestMethod.GET)
 //	@RequestMapping(value = "/homedata.do", method = RequestMethod.GET)
 	public ResponseBean getHomeData(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
+		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token = StringUtils.trimToEmpty(request.getParameter("token"));
+		ResponseBean responseBody = new ResponseBean();
+		String userId = this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			int days=NumberUtils.toInt(request.getParameter("days"),7);
-			if(days==0){
-				days=7;
+			int days = NumberUtils.toInt(request.getParameter("days"), 7);
+			if(days <= 0){
+				days = 7;
 			}
-			HomeResult result=this.homeService.getHomeData(userId,days);
+			HomeResult result = this.homeService.getHomeData(userId, days, loginId);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);

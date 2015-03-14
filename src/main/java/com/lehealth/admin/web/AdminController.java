@@ -47,7 +47,7 @@ public class AdminController {
 	@Qualifier("diseaseService")
 	private DiseaseService diseaseService;
 	
-	//医生获取关注的病人列表
+	// 医生获取关注的病人列表
 	@ResponseBody
 	@RequestMapping(value = "/patient/list", method = RequestMethod.GET)
 	public ResponseBean getPatients(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -56,7 +56,7 @@ public class AdminController {
 		ResponseBean responseBody=new ResponseBean();
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			List<PanientInfo> list=this.panientService.getPanientList(userId);
+			List<PanientInfo> list=this.panientService.getPanientListByDoctor(userId);
 			JSONArray arr=new JSONArray();
 			for(PanientInfo p:list){
 				arr.add(p.toBaseJsonObj());
@@ -68,7 +68,7 @@ public class AdminController {
 		return responseBody;
 	}
 	
-	//医生获取病人信息
+	// 医生获取病人信息
 	@ResponseBody
 	@RequestMapping(value = "/patient/info", method = RequestMethod.GET)
 	public ResponseBean getPatientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -78,7 +78,7 @@ public class AdminController {
 		String userId=this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
-			PanientInfo p=this.panientService.getInfo(pid);
+			PanientInfo p=this.panientService.getPanient(pid);
 			responseBody.setResult(p.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
@@ -86,21 +86,21 @@ public class AdminController {
 		return responseBody;
 	}
 	
-	//医生获取病人血压和用药记录
+	// 医生获取病人血压和用药记录
 	@ResponseBody
 	@RequestMapping(value = "/patient/record/list", method = RequestMethod.GET)
 	public ResponseBean getPatientBpRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token = StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
+		String userId = this.loginService.checkUser4Token(loginId, token);
 		if(StringUtils.isNotBlank(userId)){
-			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
-			int days=NumberUtils.toInt(request.getParameter("days"),7);
-			if(days==0){
-				days=7;
+			String pid = StringUtils.trimToEmpty(request.getParameter("pid"));
+			int days = NumberUtils.toInt(request.getParameter("days"),7);
+			if(days <= 0){
+				days = 7;
 			}
-			HomeResult result=this.homeService.getHomeData(pid,days);
+			HomeResult result = this.homeService.getHomeData(pid, days);
 			responseBody.setResult(result.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidToken);
@@ -108,7 +108,7 @@ public class AdminController {
 		return responseBody;
 	}
 	
-	//医生获取病史
+	// 医生获取病史
 	@ResponseBody
 	@RequestMapping(value = "/patient/disease/list", method = RequestMethod.GET)
 	public ResponseBean getPatientDiseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

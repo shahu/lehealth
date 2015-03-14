@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.CommonService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.Activitie;
+import com.lehealth.bean.Activity;
 import com.lehealth.bean.DiseaseCategroy;
 import com.lehealth.bean.MedicineCategroy;
 import com.lehealth.bean.ResponseBean;
@@ -39,9 +39,9 @@ public class CommonController {
 	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)
 	public ResponseBean activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
-		List<Activitie> list=this.commonService.getAtivities();
+		List<Activity> list=this.commonService.getAtivities();
 		JSONArray arr=new JSONArray();
-		for(Activitie a:list){
+		for(Activity a:list){
 			arr.add(a.toJsonObj());
 		}
 		responseBody.setResult(arr);

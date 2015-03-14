@@ -10,7 +10,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.CommonDao;
-import com.lehealth.bean.Activitie;
+import com.lehealth.bean.Activity;
 import com.lehealth.bean.Disease;
 import com.lehealth.bean.DiseaseCategroy;
 import com.lehealth.bean.Medicine;
@@ -20,12 +20,12 @@ import com.lehealth.bean.MedicineCategroy;
 public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 
 	@Override
-	public List<Activitie> selectAtivities() {
-		List<Activitie> list=new ArrayList<Activitie>();
+	public List<Activity> selectAtivities() {
+		List<Activity> list=new ArrayList<Activity>();
 		String sql="SELECT externalurl,description,endtime,id,location,name,starttime FROM activitie";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
 		while(rs.next()){
-			Activitie a=new Activitie();
+			Activity a=new Activity();
 			a.setExternalUrl(StringUtils.trimToEmpty(rs.getString("externalurl")));
 			a.setDesc(StringUtils.trimToEmpty(rs.getString("description")));
 			a.setEndTime(rs.getDate("endtime").getTime());

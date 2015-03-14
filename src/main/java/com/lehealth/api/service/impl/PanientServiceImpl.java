@@ -20,40 +20,47 @@ public class PanientServiceImpl implements PanientService{
 	
 	//获取个人信息
 	@Override
-	public PanientInfo getInfo(String userId) {
-		return this.panientDao.selectInfo(userId);
+	public PanientInfo getPanient(String userId) {
+		return this.panientDao.selectPanient(userId);
 	}
 
 	//更新个人信息
 	@Override
-	public boolean modifyInfo(PanientInfo info) {
-		return this.panientDao.updateInfo(info);
+	public boolean modifyPanient(PanientInfo info) {
+		return this.panientDao.updatePanient(info);
 	}
 
-	//获取监护人信息
+	//获取监护人列表
 	@Override
-	public List<PanientGuardianInfo> getGuardianInfos(String userId) {
-		return this.panientDao.selectGuardianInfos(userId);
+	public List<PanientGuardianInfo> getGuardianList(String userId) {
+		return this.panientDao.selectGuardianList(userId);
 	}
 
-	//添加监护人信息
+	// 添加监护人信息
 	@Override
-	public boolean modifyGuardianInfo(PanientGuardianInfo info) {
+	public boolean modifyGuardian(PanientGuardianInfo info) {
 		//先删除
-		this.panientDao.deleteGuardianInfo(info.getUserId(),info.getGuardianNumber());
+		this.panientDao.deleteGuardian(info.getUserId(),info.getGuardianNumber());
 		//再插入
-		return this.panientDao.insertGuardianInfo(info);
+		return this.panientDao.insertGuardian(info);
 	}
 
-	//删除监护人
+	// 删除监护人
 	@Override
-	public boolean deleteGuardianInfo(String userId,String guardianNumber) {
-		return this.panientDao.deleteGuardianInfo(userId,guardianNumber);
+	public boolean deleteGuardian(String userId,String guardianNumber) {
+		return this.panientDao.deleteGuardian(userId,guardianNumber);
 	}
 
+	// 获取被监护人列表
 	@Override
-	public List<PanientInfo> getPanientList(String doctorId) {
-		return this.panientDao.selectPanients(doctorId);
+	public List<PanientInfo> getPanientListByGuardian(String guardianPhoneNumber) {
+		return this.panientDao.selectPanientListByGuardian(guardianPhoneNumber);
+	}
+	
+	// 获取被关注病人列表
+	@Override
+	public List<PanientInfo> getPanientListByDoctor(String doctorId) {
+		return this.panientDao.selectPanientListByDoctor(doctorId);
 	}
 
 }

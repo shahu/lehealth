@@ -7,21 +7,24 @@ import com.lehealth.bean.PanientInfo;
 
 public interface PanientDao {
 	
-	//获取个人信息
-	public PanientInfo selectInfo(String userId);
+	// 获取个人信息
+	public PanientInfo selectPanient(String userId);
 	
-	//更新个人信息
-	public boolean updateInfo(PanientInfo info);
+	// 更新个人信息
+	public boolean updatePanient(PanientInfo info);
 	
-	//获取监护人信息
-	public List<PanientGuardianInfo> selectGuardianInfos(String userId);
+	// 获取监护人列表
+	public List<PanientGuardianInfo> selectGuardianList(String userId);
 	
-	//新增监护人信息
-	public boolean insertGuardianInfo(PanientGuardianInfo info);
+	// 新增监护人信息
+	public boolean insertGuardian(PanientGuardianInfo info);
 	
-	//删除监护人信息
-	public boolean deleteGuardianInfo(String userId,String guardianNumber);
+	// 删除监护人信息
+	public boolean deleteGuardian(String userId,String guardianNumber);
+	
+	// 获取被监护人列表
+	public List<PanientInfo> selectPanientListByGuardian(String guardianPhoneNumber);
 	
 	//获取被关注病人列表
-	public List<PanientInfo> selectPanients(String doctorId);
+	public List<PanientInfo> selectPanientListByDoctor(String doctorUserId);
 }

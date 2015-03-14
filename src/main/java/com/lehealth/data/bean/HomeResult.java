@@ -129,7 +129,7 @@ public class HomeResult{
 		}
 		
 		if(this.info != null && StringUtils.isNotBlank(this.info.getUserId())){
-			obj.accumulate("info", this.info.toBaseJsonObj());
+			obj.accumulate("info", this.info.toJsonObj());
 		}
 		
 		return obj;

@@ -61,9 +61,7 @@ define(function(require, exports, module) {
 				alertMsg("请求失败，请稍后重试");
 				return;
 			}
-			if(role == roles.admin) {
-				
-			} else if(role == roles.doctor) {
+			if(role == roles.admin || role == roles.doctor) {
 				//显示我的病人标签，同时请求第一个病人数据展示
 				getPatients(function(err, patientArr) {
 					if(err) {
@@ -183,7 +181,7 @@ define(function(require, exports, module) {
 		$.ajax({
 			url: '/lehealth/api/role',
 			dataType: 'json',
-			type: 'post',
+			type: 'get',
 			data: {
 				loginid: loginId,
 				token: pwd
@@ -320,6 +318,13 @@ define(function(require, exports, module) {
 						var found = false;
 						for (var j = 0; j < bpDataArr.length; j++) {
 							var bpdate = bpDataArr[j].date;
+							var tmpDate = new Date(bpdate);
+							tmpDate.setHours(0);
+							tmpDate.setMinutes(0);
+							tmpDate.setSeconds(0);
+							tmpDate.setMilliseconds(0);	
+							bpDataArr[j].date = bpdate = tmpDate.getTime();						
+
 							if (bpdate >= (beginBaseline + i * dayInms) && bpdate < (beginBaseline + (i + 1) * dayInms)) {
 								newDataArr.push(bpDataArr[j]);
 								console.info('bpdate: ' + bpdate);

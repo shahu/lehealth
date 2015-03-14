@@ -11,7 +11,7 @@ public class MedicineCategroy {
 	private int cateId=0;
 	private String cateName="";
 	
-	private List<Medicine> medicines=new ArrayList<Medicine>();
+	private List<MedicineInfo> medicines=new ArrayList<MedicineInfo>();
 
 
 	public int getCateId() {
@@ -26,13 +26,13 @@ public class MedicineCategroy {
 	public void setCateName(String cateName) {
 		this.cateName = cateName;
 	}
-	public List<Medicine> getMedicines() {
+	public List<MedicineInfo> getMedicines() {
 		return medicines;
 	}
-	public void setMedicines(List<Medicine> medicines) {
+	public void setMedicines(List<MedicineInfo> medicines) {
 		this.medicines = medicines;
 	}
-	public void addMedicine(Medicine medicine) {
+	public void addMedicine(MedicineInfo medicine) {
 		this.medicines.add(medicine);
 	}
 	
@@ -40,7 +40,7 @@ public class MedicineCategroy {
 		JSONObject obj=new JSONObject();
 		obj.accumulate("catename", cateName);
 		JSONArray arr=new JSONArray();
-		for(Medicine m:medicines){
+		for(MedicineInfo m:medicines){
 			arr.add(m.toJsonObj());
 		}
 		obj.accumulate("medicines", arr);

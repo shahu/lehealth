@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.CommonDao;
 import com.lehealth.data.bean.Activity;
-import com.lehealth.data.bean.Disease;
+import com.lehealth.data.bean.DiseaseInfo;
 import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.Medicine;
+import com.lehealth.data.bean.MedicineInfo;
 import com.lehealth.data.bean.MedicineCategroy;
 
 @Repository("commonDao")
@@ -60,7 +60,7 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 				medicineCategroy.setCateName(cname);
 				map.put(cid, medicineCategroy);
 			}
-			Medicine medicine=new Medicine();
+			MedicineInfo medicine=new MedicineInfo();
 			medicine.setId(mid);
 			medicine.setName(mname);
 			map.get(cid).addMedicine(medicine);
@@ -88,7 +88,7 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 				diseaseCategroy.setCateName(cname);
 				map.put(cid, diseaseCategroy);
 			}
-			Disease disease=new Disease();
+			DiseaseInfo disease=new DiseaseInfo();
 			disease.setId(did);
 			disease.setName(dname);
 			map.get(cid).addDisease(disease);

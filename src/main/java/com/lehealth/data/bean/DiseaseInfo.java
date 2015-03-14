@@ -2,7 +2,7 @@ package com.lehealth.data.bean;
 
 import net.sf.json.JSONObject;
 
-public class Disease {
+public class DiseaseInfo {
 	
 	private int id=0;
 	private String name="";

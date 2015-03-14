@@ -2,7 +2,7 @@ package com.lehealth.data.bean;
 
 import net.sf.json.JSONObject;
 
-public class Medicine {
+public class MedicineInfo {
 	
 	//TODO 药物增加厂商用于区别
 	private int id=0;

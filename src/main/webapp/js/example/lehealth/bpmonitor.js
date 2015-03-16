@@ -82,6 +82,7 @@ define(function(require, exports, module) {
 						bpDataArr.push(tmp);
 					}
 					console.info(bpDataArr);
+					var isEmpty = (bpDataArr.length == 0 ? true : false);
 					var now = new Date().getTime();
 					for(var i = 0; i < days; i++) {
 						bpDataArr.push({
@@ -104,7 +105,7 @@ define(function(require, exports, module) {
 					
 					var chartwidth = bpDataArr.length * 45 > screen.width ? bpDataArr.length * 45 : screen.width;
 					$('#trendchart').css('width', chartwidth+ 'px');
-					showCharts(averages,ranges);
+					showCharts(averages,ranges, isEmpty);
 				}
 			},
 			error: function(xhr, errormsg) {
@@ -114,11 +115,48 @@ define(function(require, exports, module) {
 
 	}	
 
-	function showCharts(averages,ranges) {
+	function showCharts(averages,ranges, isEmpty) {
 		$('#trendchart').empty();
 		//渲染血压趋势图
 		var gridTheme = require('highcharts_theme').getGridThemeOption();
 		highcharts.setOptions(gridTheme);
+		if(isEmpty) {
+			var yopts = [{
+				title: {
+					text: '次',
+					margin:0
+				},
+				lineWidth : 1,
+				min: 0,
+				max: 200
+			},{
+				title: {
+					text: 'mmHg',
+					margin: 0
+				},
+				lineWidth : 1,
+				opposite:true,
+				min: 0,
+				max: 200
+			}];				
+		} else {
+			var yopts = [{
+				title: {
+					text: '次',
+					margin:0
+				},
+				lineWidth : 1
+			},{
+				title: {
+					text: 'mmHg',
+					margin: 0
+				},
+				lineWidth : 1,
+				opposite:true
+			}];			
+		}
+		
+
 		$('#trendchart').highcharts({
 			title: {
 				text: ''
@@ -127,22 +165,12 @@ define(function(require, exports, module) {
 				text: ''
 			},
 			xAxis: {
-				type: 'datetime'
+				type: 'datetime',
+				dateTimeLabelFormats: {
+					day: '%m.%e'
+				}
 			},
-			yAxis: [{
-				title: {
-					text: '次',
-					margin:0
-				},
-				lineWidth : 1,
-			},{
-				title: {
-					text: 'mmHg',
-					margin: 0
-				},
-				lineWidth : 1,
-				opposite:true
-			}],
+			yAxis: yopts,
 			legend: {},
 			series: [{
 				name: '血压',

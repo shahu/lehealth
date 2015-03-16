@@ -1,4 +1,4 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class DiseaseCategroy {
 	private int cateId=0;
 	private String cateName="";
 	
-	private List<Disease> diseases=new ArrayList<Disease>();
+	private List<DiseaseInfo> diseases=new ArrayList<DiseaseInfo>();
 
 
 	public int getCateId() {
@@ -26,20 +26,20 @@ public class DiseaseCategroy {
 	public void setCateName(String cateName) {
 		this.cateName = cateName;
 	}
-	public List<Disease> getDiseases() {
+	public List<DiseaseInfo> getDiseases() {
 		return diseases;
 	}
-	public void setDiseases(List<Disease> diseases) {
+	public void setDiseases(List<DiseaseInfo> diseases) {
 		this.diseases = diseases;
 	}
-	public void addDisease(Disease diseases) {
+	public void addDisease(DiseaseInfo diseases) {
 		this.diseases.add(diseases);
 	}
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("catename", cateName);
 		JSONArray arr=new JSONArray();
-		for(Disease d:diseases){
+		for(DiseaseInfo d:diseases){
 			arr.add(d.toJsonObj());
 		}
 		obj.accumulate("diseases", arr);

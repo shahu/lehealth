@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.DoctorInfo;
-import com.lehealth.bean.ResponseBean;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.DoctorInfo;
+import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/doctor")
 public class DoctorController {
 
 	@Autowired
@@ -37,17 +38,18 @@ public class DoctorController {
 	
 	//患者获取医生列表
 	@ResponseBody
-	@RequestMapping(value = "/doctor/list", method = RequestMethod.GET)
-//	@RequestMapping(value = "/doctors.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseBean getDoctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		List<DoctorInfo> list=this.doctorService.getInfoList(userId);
 		JSONArray arr=new JSONArray();
-		for(DoctorInfo d:list){
-			arr.add(d.toJsonObj());
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			List<DoctorInfo> list=this.doctorService.getInfoList(user.getUserId());
+			for(DoctorInfo d:list){
+				arr.add(d.toJsonObj());
+			}
 		}
 		responseBody.setResult(arr);
 		return responseBody;
@@ -55,17 +57,20 @@ public class DoctorController {
 	
 	//患者获取医生信息
 	@ResponseBody
-	@RequestMapping(value = "/doctor/info", method = RequestMethod.GET)
-//	@RequestMapping(value = "/doctor.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public ResponseBean getDoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ResponseBean responseBody=new ResponseBean();
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		DoctorInfo doctor=this.doctorService.getInfo(userId,doctorId);
-		if(StringUtils.isNotBlank(doctor.getId())){
-			responseBody.setResult(doctor.toJsonObj());
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			DoctorInfo doctor=this.doctorService.getInfo(user.getUserId(),doctorId);
+			if(StringUtils.isNotBlank(doctor.getId())){
+				responseBody.setResult(doctor.toJsonObj());
+			}else{
+				responseBody.setType(ErrorCodeType.abnormal);
+			}
 		}else{
 			responseBody.setType(ErrorCodeType.abnormal);
 		}
@@ -74,17 +79,16 @@ public class DoctorController {
 	
 	//患者添加医生关注或取消关注
 	@ResponseBody
-	@RequestMapping(value = "/doctor/attention", method = RequestMethod.POST)
-//	@RequestMapping(value = "/attentiondoctor.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/attention", method = RequestMethod.POST)
 	public ResponseBean addDoctorAttention(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
 			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 			int attention=NumberUtils.toInt(request.getParameter("attention"));
-			if(this.doctorService.modifyAttentionStatus(userId,doctorId,attention)){
+			if(this.doctorService.modifyAttentionStatus(user.getUserId(),doctorId,attention)){
 				responseBody.setType(ErrorCodeType.normal);
 			}else{
 				responseBody.setType(ErrorCodeType.abnormal);

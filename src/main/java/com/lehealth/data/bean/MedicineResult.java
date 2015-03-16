@@ -1,4 +1,4 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
 import java.util.ArrayList;
 import java.util.List;

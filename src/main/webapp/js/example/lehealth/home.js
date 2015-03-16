@@ -511,6 +511,14 @@ define(function(require, exports, module) {
 							}
 							
 							trendchart.xAxis[0].setCategories(xAxisArr);
+							trendchart.yAxis[0].update({
+								min: 0,
+								max: 200
+							});
+							trendchart.yAxis[1].update({
+								min: 0,
+								max: 200
+							});							
 							trendchart.series[0].setData(dbpArr);
 							trendchart.series[1].setData(sbpArr);
 							trendchart.series[2].setData(rateArr);

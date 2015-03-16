@@ -15,8 +15,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.MedicineDao;
-import com.lehealth.bean.MedicineConfig;
-import com.lehealth.bean.MedicineRecord;
+import com.lehealth.data.bean.MedicineConfig;
+import com.lehealth.data.bean.MedicineRecord;
 import com.lehealth.util.TokenUtils;
 
 @Repository("medicineDao")

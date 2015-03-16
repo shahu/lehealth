@@ -1,6 +1,7 @@
-package com.lehealth.bean;
+package com.lehealth.data.bean;
 
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.type.ErrorCodeType;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 

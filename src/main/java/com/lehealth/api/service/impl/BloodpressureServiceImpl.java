@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.service.BloodpressureService;
-import com.lehealth.bean.BloodpressureConfig;
-import com.lehealth.bean.BloodpressureRecord;
-import com.lehealth.bean.BloodpressureResult;
-import com.lehealth.bean.PanientGuardianInfo;
+import com.lehealth.data.bean.BloodpressureConfig;
+import com.lehealth.data.bean.BloodpressureRecord;
+import com.lehealth.data.bean.BloodpressureResult;
+import com.lehealth.data.bean.PanientGuardianInfo;
 
 @Service("bloodpressureService")
 public class BloodpressureServiceImpl implements BloodpressureService{
@@ -54,7 +54,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			||bpInfo.getSbp()<=config.getSbp1()
 			||bpInfo.getHeartrate()<=config.getHeartrate1()){
 			//获取监护人手机
-			List<PanientGuardianInfo> list=this.panientDao.selectGuardianInfos(bpInfo.getUserId());
+			List<PanientGuardianInfo> list=this.panientDao.selectGuardianList(bpInfo.getUserId());
 			//调用短信通知监护人
 			//TODO
 			//sendMessage(guardian.getGuardianNumber());

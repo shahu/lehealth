@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.LoginService;
-import com.lehealth.bean.ResponseBean;
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
 @RequestMapping("/api")
@@ -28,7 +28,6 @@ public class LoginController {
 	//用户登录
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-//	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public ResponseBean login(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
@@ -52,7 +51,6 @@ public class LoginController {
 	//患者注册
 	@ResponseBody
 	@RequestMapping(value = "/patient/register")
-//	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
 	public ResponseBean register(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String password=StringUtils.trimToEmpty(request.getParameter("password"));
@@ -73,10 +71,9 @@ public class LoginController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		String userId=this.loginService.checkUser4Token(loginId, token);
-		if(StringUtils.isNotBlank(userId)){
-			UserInfomation userInfo=this.loginService.getUserBaseInfo(loginId, token);
-			responseBody.setResult(userInfo.toJsonObj());
+		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		if(user != null){
+			responseBody.setResult(user.toJsonObj());
 		}else{
 			responseBody.setType(ErrorCodeType.invalidUser);
 		}

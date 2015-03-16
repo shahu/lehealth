@@ -2,12 +2,14 @@ package com.lehealth.api.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+
 import com.lehealth.api.dao.DoctorDao;
-import com.lehealth.bean.DoctorInfo;
+import com.lehealth.data.bean.DoctorInfo;
 import com.lehealth.util.TokenUtils;
 
 @Repository("doctorDao")

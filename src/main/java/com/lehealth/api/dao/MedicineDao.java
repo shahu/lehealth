@@ -3,8 +3,8 @@ package com.lehealth.api.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.lehealth.bean.MedicineConfig;
-import com.lehealth.bean.MedicineRecord;
+import com.lehealth.data.bean.MedicineConfig;
+import com.lehealth.data.bean.MedicineRecord;
 
 public interface MedicineDao {
 	

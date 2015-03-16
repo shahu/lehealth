@@ -6,7 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.LoginDao;
-import com.lehealth.bean.UserInfomation;
+import com.lehealth.data.bean.UserInfomation;
 
 @Repository("loginDao")
 public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {

@@ -1,7 +1,7 @@
 package com.lehealth.api.service;
 
-import com.lehealth.bean.UserInfomation;
-import com.lehealth.type.ErrorCodeType;
+import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.type.ErrorCodeType;
 
 public interface LoginService {
 	
@@ -12,9 +12,9 @@ public interface LoginService {
 	public ErrorCodeType checkUser4Login(String loginId,String password);
 	
 	//token校验获取userid
-	public String checkUser4Token(String loginId,String token);
+	public UserInfomation getUserBaseInfo(String loginId,String token);
 	
 	//获取用户身份信息
-	public UserInfomation getUserBaseInfo(String loginId,String token);
+	public UserInfomation getUserBaseInfo(String loginId);
 		
 }

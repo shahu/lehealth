@@ -2,14 +2,14 @@ package com.lehealth.api.service;
 
 import java.util.List;
 
-import com.lehealth.bean.Activitie;
-import com.lehealth.bean.DiseaseCategroy;
-import com.lehealth.bean.MedicineCategroy;
+import com.lehealth.data.bean.Activity;
+import com.lehealth.data.bean.DiseaseCategroy;
+import com.lehealth.data.bean.MedicineCategroy;
 
 public interface CommonService {
 	
 	//获取活动列表
-	public List<Activitie> getAtivities();
+	public List<Activity> getAtivities();
 	
 	//获取药物列表
 	public List<MedicineCategroy> getMedicines();

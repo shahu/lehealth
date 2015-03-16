@@ -1,4 +1,4 @@
-package com.lehealth.sync.controller;
+package com.lehealth.sync.schedule;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,13 +15,13 @@ import com.lehealth.sync.service.SyncBloodpressureService;
 
 @Controller
 @RequestMapping("/test")
-public class SyncBloodpressureController {
+public class SyncBloodpressureSchedule {
 
 	@Autowired
 	@Qualifier("syncBloodpressureService")
 	private SyncBloodpressureService syncBloodpressureService;
 	
-	private static Logger logger = Logger.getLogger(SyncBloodpressureController.class);
+	private static Logger logger = Logger.getLogger(SyncBloodpressureSchedule.class);
 	
 	@Scheduled(cron = "5 0/10 * * * ?")
 	public void syncBloodpressureFromYundf() {

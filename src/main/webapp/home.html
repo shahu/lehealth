@@ -13,10 +13,14 @@
 		<div data-role="page" id="homepage">
 			<div id="homepagecover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000"></div>
 			<div data-role="content" style="border-width:0px;" >
-				<div id="topbar" style="margin-bottom: 10px;">
-					<div id="curuser"></div>
-					<div id="todayDate" style="font-size:20px; color: #909090; font-weight: bold; text-align:center; ">
+				<div id="topbar" style="margin-bottom: 10px;font-size:20px; color: #909090; font-weight: bold; position: relative;">
+					<div id="curuser" style="text-align:center; float:left">我</div>
+					<div id="todayDate" style="text-align:center; width: 100%; position: absolute;">
 					</div>
+					<div style="text-align:center; float: right;">
+						<!-- <a class="ui-btn ui-icon-bars ui-btn-icon-notext" style="width:20px; height: 20px;" id="userlistbtn"></a> -->
+					</div>
+					<div style="clear:both"></div>	
 				</div>
 				<div style="overflow:auto">
 					<div id="healthInfo" style="height: 220px; margin-bottom: 15px;">

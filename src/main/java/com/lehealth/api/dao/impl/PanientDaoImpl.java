@@ -118,8 +118,9 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	@Override
 	public List<PanientInfo> selectPanientListByGuardian(String guardianPhoneNumber) {
 		List<PanientInfo> list=new ArrayList<PanientInfo>();
-		String sql="select t2.username,t1.userid from user_patient_guardian t1 "
-				+"left join user_patient_info t2 on t1.userid=t2.userid "
+		String sql="select t3.username,t2.loginid,t1.userid from user_patient_guardian t1 "
+				+"inner join user_base_info t2 on t1.userid=t2.userid "
+				+"left join user_patient_info t3 on t1.userid=t3.userid "
 				+"where t1.guardiannumber = :guardianPhoneNumber";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("guardianPhoneNumber", guardianPhoneNumber);
@@ -128,6 +129,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			PanientInfo info=new PanientInfo();
 			info.setUserId(StringUtils.trimToEmpty(rs.getString("userid")));
 			info.setUserName(StringUtils.trimToEmpty(rs.getString("username")));
+			info.setPhoneNumber(StringUtils.trimToEmpty(rs.getString("loginid")));
 			list.add(info);
 		}
 		return list;

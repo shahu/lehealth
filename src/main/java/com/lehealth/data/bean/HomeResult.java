@@ -108,7 +108,7 @@ public class HomeResult{
 			}
 		}
 		
-		if(this.bpRecords != null && !this.bpRecords.isEmpty()){
+		if(this.medicineRecords != null && !this.medicineRecords.isEmpty()){
 			JSONArray mArr = new JSONArray();
 			for(MedicineRecord record : medicineRecords){
 				mArr.add(record.toHomeJsonObj());

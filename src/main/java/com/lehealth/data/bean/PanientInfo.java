@@ -1,12 +1,16 @@
 package com.lehealth.data.bean;
 
 import java.util.Calendar;
+
+import org.apache.commons.lang3.StringUtils;
+
 import net.sf.json.JSONObject;
 
 public class PanientInfo {
 	
 	private String userId="";
 	private String userName="";
+	private String phoneNumber="";
 	private int gender=0;
 	private long birthday=0;
 	private float height=0;
@@ -23,6 +27,12 @@ public class PanientInfo {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	public int getGender() {
 		return gender;
@@ -62,19 +72,23 @@ public class PanientInfo {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("username", userName);
-		obj.accumulate("gender", gender);
-		obj.accumulate("weight", weight);
-		obj.accumulate("height", height);
-		obj.accumulate("birthday", birthday);
+		obj.accumulate("username", this.userName);
+		obj.accumulate("gender", this.gender);
+		obj.accumulate("weight", this.weight);
+		obj.accumulate("height", this.height);
+		obj.accumulate("birthday", this.birthday);
 		obj.accumulate("age", getAge());
 		return obj;
 	}
 	
 	public JSONObject toBaseJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("username", userName);
-		obj.accumulate("userid", userId);
+		if(StringUtils.isNotBlank(this.userName)){
+			obj.accumulate("username", this.userName);
+		}else{
+			obj.accumulate("username", this.phoneNumber);
+		}
+		obj.accumulate("userid", this.userId);
 		return obj;
 	}
 }

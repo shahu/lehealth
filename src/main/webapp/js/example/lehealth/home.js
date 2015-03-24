@@ -228,7 +228,7 @@ define(function(require, exports, module) {
 						theme: 'c',
 						html: ''
 					});
-					doRequestBpData($(this).attr('userid'), $(this).text());		
+					doRequestBpData($(this).attr('userid'), $(this).text());
 				}
 				$('#ulistwraper').css('display', 'none');
 				$('.triangle-bg').css('display', 'none');
@@ -333,7 +333,7 @@ define(function(require, exports, module) {
 						loginid: username,
 						token: token,
 						days: dayTotal,
-						userid: userid
+						user: userid
 					},
 					success: function(rspData) {
 						//隐藏loading界面
@@ -548,6 +548,9 @@ define(function(require, exports, module) {
 								colorByName = {};
 							$('#medicationtips').empty();
 							var hasMedicalHistory = false;
+							trendchart.xAxis[0].update({
+								plotBands: []
+							});
 							for (var i = 0; i < finalObj.length; i++) {
 								if (colorByName[finalObj[i].label.text]) {
 									finalObj[i]['color'] = color[i];

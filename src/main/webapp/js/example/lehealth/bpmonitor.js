@@ -172,6 +172,12 @@ define(function(require, exports, module) {
 			},
 			yAxis: yopts,
 			legend: {},
+			tooltip: {
+				dateTimeLabelFormats: {
+					minute: '%m月%e日 %H:%M',
+					second: '%m月%e日 %H:%M:%S'
+				}
+			},
 			series: [{
 				name: '血压',
 				data: ranges,

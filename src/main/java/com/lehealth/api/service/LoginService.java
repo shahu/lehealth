@@ -20,4 +20,7 @@ public interface LoginService {
 	
 	// 发送短信验证码
 	public ErrorCodeType sendIdentifyingCode(String phoneNumber);
+	
+	// 清除验证码缓存
+	public void clearIdentifyingCodeCache();
 }

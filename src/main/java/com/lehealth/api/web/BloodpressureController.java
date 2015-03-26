@@ -79,7 +79,7 @@ public class BloodpressureController {
 			bpInfo.setHeartrate(heartrate);
 			bpInfo.setDate(date);
 			bpInfo.setDosed(dosed);
-			if(this.bloodpressureService.addRecord(bpInfo)){
+			if(this.bloodpressureService.addRecord(bpInfo, loginId)){
 				return new BaseResponse(ErrorCodeType.normal).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();

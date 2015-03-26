@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.sync.dao.SyncBloodpressureDao;
 import com.lehealth.sync.entity.YundfRecord;
 import com.lehealth.sync.entity.YundfUser;
@@ -40,6 +41,10 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 	@Autowired
 	@Qualifier("syncBloodpressureDao")
 	private SyncBloodpressureDao syncBloodpressureDao;
+	
+	@Autowired
+	@Qualifier("bloodpressureService")
+	private BloodpressureService bloodpressureService;
 	
 	private static Logger logger = Logger.getLogger(SyncBloodpressureServiceImpl.class);
 
@@ -96,6 +101,7 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 			Map<String,YundfUser> existPhones=this.syncBloodpressureDao.getLastRids(users.keySet());
 			logger.info("get yundf user last rids");
 			for(Entry<String, YundfUser> e:users.entrySet()){
+				// 过滤非系统用户
 				if(!existPhones.containsKey(e.getKey())){
 					logger.info("phone:"+e.getKey()+" is not lehealth user");
 					continue;
@@ -129,6 +135,8 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 									e.getValue().setLastRid(rid);
 								}
 								e.getValue().addRecord(yundfRecord);
+								// 短信通知
+								this.bloodpressureService.checkBloodpressureConfig(yundfRecord.getSystolic(), yundfRecord.getDiastolic(), yundfRecord.getPulse(), e.getKey());
 							}
 						}else{
 							e.getValue().setLastRid(-1);

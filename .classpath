@@ -28,5 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/ryl/work/文档/lehealth/短信接口/LIB/CCP_REST_SDK_JAVA_v2.6.3r.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

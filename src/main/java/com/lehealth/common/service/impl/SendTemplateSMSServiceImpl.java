@@ -18,8 +18,8 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService,Initia
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		restAPI.init("sandboxapp.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
-		restAPI.setAccount("accountSid", "accountToken");// 初始化主帐号名称和主帐号令牌
-		restAPI.setAppId("AppId");// 初始化应用ID
+		restAPI.setAccount("8a48b55149896cfd0149cac015792970", "4417bab1343f44a5811a3feb95d3009c");// 初始化主帐号名称和主帐号令牌
+		restAPI.setAppId("8a48b55149896cfd0149cac156022973");// 初始化应用ID
 	}
 	
 	@Override

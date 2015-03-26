@@ -17,7 +17,7 @@ import com.lehealth.api.service.HomeService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.HomeResult;
 import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
@@ -40,7 +40,7 @@ public class HomeController {
 		String token = StringUtils.trimToEmpty(request.getParameter("token"));
 		String targetUserId = StringUtils.trimToEmpty(request.getParameter("user"));
 		ResponseBean responseBody = new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int days = NumberUtils.toInt(request.getParameter("days"), 7);
 			if(days <= 0){

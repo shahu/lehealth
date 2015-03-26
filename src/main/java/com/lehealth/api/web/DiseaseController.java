@@ -21,7 +21,7 @@ import com.lehealth.api.service.DiseaseService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.DiseaseHistory;
 import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
@@ -43,7 +43,7 @@ public class DiseaseController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<DiseaseHistory> list=this.diseaseService.getHistoryList(user.getUserId());
 			JSONArray arr=new JSONArray();
@@ -64,7 +64,7 @@ public class DiseaseController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
 			DiseaseHistory history=this.diseaseService.getHistory(user.getUserId(), diseaseId);
@@ -86,7 +86,7 @@ public class DiseaseController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
 			String diseaseDescription=StringUtils.trimToEmpty(request.getParameter("diseasedescription"));

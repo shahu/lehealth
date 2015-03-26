@@ -19,7 +19,7 @@ import com.lehealth.data.bean.BloodpressureConfig;
 import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.BloodpressureResult;
 import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
@@ -41,7 +41,7 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int days=NumberUtils.toInt(request.getParameter("days"),7);
 			if(days==0){
@@ -62,7 +62,7 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int dbp=NumberUtils.toInt(request.getParameter("dbp"));
 			int sbp=NumberUtils.toInt(request.getParameter("sbp"));
@@ -97,7 +97,7 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			BloodpressureConfig bpConfig=this.bloodpressureService.getConfig(user.getUserId());
 			if(StringUtils.isBlank(bpConfig.getUserId())){
@@ -119,7 +119,7 @@ public class BloodpressureController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int dbp1=NumberUtils.toInt(request.getParameter("dbp1"));
 			int dbp2=NumberUtils.toInt(request.getParameter("dbp2"));

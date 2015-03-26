@@ -23,7 +23,7 @@ import com.lehealth.api.service.MedicineService;
 import com.lehealth.data.bean.MedicineConfig;
 import com.lehealth.data.bean.MedicineRecord;
 import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
@@ -45,7 +45,7 @@ public class MedicineController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<MedicineRecord> list=this.medicineService.getTodayRecords(user.getUserId());
 			JSONArray arr=new JSONArray();
@@ -66,7 +66,7 @@ public class MedicineController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int days=NumberUtils.toInt(request.getParameter("days"),7);
 			if(days==0){
@@ -91,7 +91,7 @@ public class MedicineController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			String time=StringUtils.trimToEmpty(request.getParameter("time"));
@@ -118,7 +118,7 @@ public class MedicineController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<MedicineConfig> list=this.medicineService.getConfigs(user.getUserId());
 			JSONArray arr=new JSONArray();
@@ -139,7 +139,7 @@ public class MedicineController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			long fromTimeStamp=NumberUtils.toLong(request.getParameter("datefrom"));
@@ -174,7 +174,7 @@ public class MedicineController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			if(this.medicineService.deleteConfig(user.getUserId(),medicineId)){

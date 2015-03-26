@@ -3,7 +3,9 @@ package com.lehealth.data.type;
 public enum ErrorCodeType {
 	normal(0,""),
 	invalidUser(1,"用户名或密码错误"),
+	invalidParam(1,"请求参数错误"),
 	invalidToken(1,"请重新登录"),
+	invalidIdentifyingCode(1,"验证码错误"),
 	repeatUser(2,"用户名重复，请重新输入"),
 	abnormal(3,"数据异常，请稍后再试");
 	

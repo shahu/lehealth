@@ -21,7 +21,7 @@ import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.DoctorInfo;
 import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
@@ -44,7 +44,7 @@ public class DoctorController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		JSONArray arr=new JSONArray();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<DoctorInfo> list=this.doctorService.getInfoList(user.getUserId());
 			for(DoctorInfo d:list){
@@ -63,7 +63,7 @@ public class DoctorController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			DoctorInfo doctor=this.doctorService.getInfo(user.getUserId(),doctorId);
 			if(StringUtils.isNotBlank(doctor.getId())){
@@ -84,7 +84,7 @@ public class DoctorController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 			int attention=NumberUtils.toInt(request.getParameter("attention"));

@@ -22,7 +22,7 @@ import com.lehealth.api.service.PanientService;
 import com.lehealth.data.bean.PanientGuardianInfo;
 import com.lehealth.data.bean.PanientInfo;
 import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 
 @Controller
@@ -44,7 +44,7 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			PanientInfo info=this.panientService.getPanient(user.getUserId());
 			if(StringUtils.isNotBlank(info.getUserId())){
@@ -65,7 +65,7 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String userName=StringUtils.trimToEmpty(request.getParameter("username"));
 			int gender=NumberUtils.toInt(request.getParameter("gender"));
@@ -97,7 +97,7 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<PanientGuardianInfo> list=this.panientService.getGuardianList(loginId);
 			JSONArray arr=new JSONArray();
@@ -118,7 +118,7 @@ public class PanientController {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
@@ -145,7 +145,7 @@ public class PanientController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		ResponseBean responseBody=new ResponseBean();
 		String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			if(this.panientService.deleteGuardian(user.getUserId(),guardianNumber)){
 				responseBody.setType(ErrorCodeType.normal);

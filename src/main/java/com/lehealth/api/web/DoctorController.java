@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.api.service.DoctorService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.DoctorInfo;
-import com.lehealth.data.bean.ResponseBean;
 import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonArrayResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 
 @Controller
 @RequestMapping("/api/doctor")
@@ -39,8 +42,7 @@ public class DoctorController {
 	//患者获取医生列表
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ResponseBean getDoctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
+	public JSONObject getDoctors(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		JSONArray arr=new JSONArray();
@@ -51,15 +53,13 @@ public class DoctorController {
 				arr.add(d.toJsonObj());
 			}
 		}
-		responseBody.setResult(arr);
-		return responseBody;
+		return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 	}
 	
 	//患者获取医生信息
 	@ResponseBody
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public ResponseBean getDoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
+	public JSONObject getDoctor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
@@ -67,36 +67,33 @@ public class DoctorController {
 		if(user != null){
 			DoctorInfo doctor=this.doctorService.getInfo(user.getUserId(),doctorId);
 			if(StringUtils.isNotBlank(doctor.getId())){
-				responseBody.setResult(doctor.toJsonObj());
+				return new JsonObjectResponse(ErrorCodeType.normal, doctor.toJsonObj()).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.abnormal);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者添加医生关注或取消关注
 	@ResponseBody
 	@RequestMapping(value = "/attention", method = RequestMethod.POST)
-	public ResponseBean addDoctorAttention(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject addDoctorAttention(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 			int attention=NumberUtils.toInt(request.getParameter("attention"));
 			if(this.doctorService.modifyAttentionStatus(user.getUserId(),doctorId,attention)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.normal).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 }

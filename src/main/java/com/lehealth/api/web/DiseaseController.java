@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lehealth.api.service.DiseaseService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.DiseaseHistory;
-import com.lehealth.data.bean.ResponseBean;
 import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonArrayResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 
 @Controller
 @RequestMapping("/api/disease")
@@ -39,10 +42,9 @@ public class DiseaseController {
 	//患者获取自己病例
 	@ResponseBody
 	@RequestMapping(value = "/history/list", method = RequestMethod.GET)
-	public ResponseBean getDiseaseHistorys(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getDiseaseHistorys(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<DiseaseHistory> list=this.diseaseService.getHistoryList(user.getUserId());
@@ -50,42 +52,38 @@ public class DiseaseController {
 			for(DiseaseHistory d:list){
 				arr.add(d.toJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者获取自己疾病内容
 	@ResponseBody
 	@RequestMapping(value = "/history/info", method = RequestMethod.GET)
-	public ResponseBean getDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
 			DiseaseHistory history=this.diseaseService.getHistory(user.getUserId(), diseaseId);
 			if(StringUtils.isNotBlank(history.getUserId())){
-				responseBody.setResult(history.toJsonObj());
+				return new JsonObjectResponse(ErrorCodeType.normal, history.toJsonObj()).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者添加自己的新病例
 	@ResponseBody
 	@RequestMapping(value = "/history/add", method = RequestMethod.POST)
-	public ResponseBean addDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject addDiseaseHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
@@ -97,14 +95,13 @@ public class DiseaseController {
 			info.setDiseaseDescription(diseaseDescription);
 			info.setMedicineDescription(medicinedescription);
 			if(this.diseaseService.modifyHistory(info)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.normal).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -24,9 +25,11 @@ import com.lehealth.api.service.PanientService;
 import com.lehealth.data.bean.DiseaseHistory;
 import com.lehealth.data.bean.HomeResult;
 import com.lehealth.data.bean.PanientInfo;
-import com.lehealth.data.bean.ResponseBean;
 import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonArrayResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 
 @Controller
 @RequestMapping("/admin")
@@ -51,10 +54,9 @@ public class AdminController {
 	// 医生获取关注的病人列表
 	@ResponseBody
 	@RequestMapping(value = "/patient/list", method = RequestMethod.GET)
-	public ResponseBean getPatients(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getPatients(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<PanientInfo> list=this.panientService.getPanientListByDoctor(user.getUserId());
@@ -62,38 +64,34 @@ public class AdminController {
 			for(PanientInfo p:list){
 				arr.add(p.toBaseJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 医生获取病人信息
 	@ResponseBody
 	@RequestMapping(value = "/patient/info", method = RequestMethod.GET)
-	public ResponseBean getPatientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getPatientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
 			PanientInfo p=this.panientService.getPanient(pid);
-			responseBody.setResult(p.toJsonObj());
+			return new JsonObjectResponse(ErrorCodeType.normal, p.toJsonObj()).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 医生获取病人血压和用药记录
 	@ResponseBody
 	@RequestMapping(value = "/patient/record/list", method = RequestMethod.GET)
-	public ResponseBean getPatientBpRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getPatientBpRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId = StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token = StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String pid = StringUtils.trimToEmpty(request.getParameter("pid"));
@@ -102,20 +100,18 @@ public class AdminController {
 				days = 7;
 			}
 			HomeResult result = this.homeService.getHomeData(pid, days);
-			responseBody.setResult(result.toJsonObj());
+			return new JsonObjectResponse(ErrorCodeType.normal, result.toJsonObj()).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 医生获取病史
 	@ResponseBody
 	@RequestMapping(value = "/patient/disease/list", method = RequestMethod.GET)
-	public ResponseBean getPatientDiseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getPatientDiseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
@@ -124,11 +120,10 @@ public class AdminController {
 			for(DiseaseHistory d:list){
 				arr.add(d.toJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 }

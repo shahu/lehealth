@@ -22,9 +22,10 @@ import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.MedicineService;
 import com.lehealth.data.bean.MedicineConfig;
 import com.lehealth.data.bean.MedicineRecord;
-import com.lehealth.data.bean.ResponseBean;
 import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonArrayResponse;
 
 @Controller
 @RequestMapping("/api/medicine")
@@ -41,10 +42,9 @@ public class MedicineController {
 	//患者获取自己今日用药记录
 	@ResponseBody
 	@RequestMapping(value = "/today/list", method = RequestMethod.GET)
-	public ResponseBean getMedicineHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getMedicineHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<MedicineRecord> list=this.medicineService.getTodayRecords(user.getUserId());
@@ -52,20 +52,18 @@ public class MedicineController {
 			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者获取自己过去一段时间用药记录
 	@ResponseBody
 	@RequestMapping(value = "/record/list", method = RequestMethod.GET)
-	public ResponseBean getMedicineRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getMedicineRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int days=NumberUtils.toInt(request.getParameter("days"),7);
@@ -77,20 +75,18 @@ public class MedicineController {
 			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者更新自己今日用药记录
 	@ResponseBody
 	@RequestMapping(value = "/history/add", method = RequestMethod.POST)
-	public ResponseBean addMedicineHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject addMedicineHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
@@ -101,23 +97,21 @@ public class MedicineController {
 			mInfo.setMedicineId(medicineId);
 			mInfo.addSituation(time, dosage);
 			if(this.medicineService.addRecord(mInfo)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.normal).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 		
 	//患者获取自己用药设置
 	@ResponseBody
 	@RequestMapping(value = "/setting/list", method = RequestMethod.GET)
-	public ResponseBean getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			List<MedicineConfig> list=this.medicineService.getConfigs(user.getUserId());
@@ -125,20 +119,18 @@ public class MedicineController {
 			for(MedicineConfig mc:list){
 				arr.add(mc.toJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者更新自己用药设置
 	@ResponseBody
 	@RequestMapping(value = "/setting/modify", method = RequestMethod.POST)
-	public ResponseBean modifyMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject modifyMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
@@ -156,36 +148,32 @@ public class MedicineController {
 				mConfig.addConfig(time, dosage);
 			}
 			if(this.medicineService.modifyConfig(mConfig)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.normal).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		
-		return responseBody;
 	}
 	
 	//患者除用自己药设置
 	@ResponseBody
 	@RequestMapping(value = "/setting/delete", method = RequestMethod.POST)
-	public ResponseBean deleteMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject deleteMedicineSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			if(this.medicineService.deleteConfig(user.getUserId(),medicineId)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.normal).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 		
 }

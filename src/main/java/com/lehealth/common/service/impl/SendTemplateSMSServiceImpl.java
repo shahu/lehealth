@@ -1,26 +1,17 @@
 package com.lehealth.common.service.impl;
 
-import java.util.Map;
-import java.util.Set;
+import net.sf.json.JSONObject;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
-import com.cloopen.rest.sdk.CCPRestSDK;
+import com.lehealth.common.sdk.CCPRestSDK;
 import com.lehealth.common.service.SendTemplateSMSService;
 import com.lehealth.util.Constant;
 
 @Service("sendTemplateSMSService")
-public class SendTemplateSMSServiceImpl implements SendTemplateSMSService,InitializingBean{
+public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 
 	private CCPRestSDK restAPI = new CCPRestSDK();
-	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		restAPI.init("sandboxapp.cloopen.com", "8883");// 初始化服务器地址和端口，格式如下，服务器地址不需要写https://
-		restAPI.setAccount("8a48b55149896cfd0149cac015792970", "4417bab1343f44a5811a3feb95d3009c");// 初始化主帐号名称和主帐号令牌
-		restAPI.setAppId("8a48b55149896cfd0149cac156022973");// 初始化应用ID
-	}
 	
 	@Override
 	public boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode){
@@ -35,20 +26,12 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService,Initia
 	}
 	
 	private boolean sendTemplateSMS(String to, String tid, String[] datas){
-		Map<String, Object> result = restAPI.sendTemplateSMS(to, tid, datas);
-		System.out.println("SDKTestGetSubAccounts result=" + result);
-		if("000000".equals(result.get("statusCode"))){
-			//正常返回输出data包体信息（map）
-			Map<String,Object> data = (Map<String, Object>) result.get("data");
-			Set<String> keySet = data.keySet();
-			for(String key:keySet){
-				Object object = data.get(key);
-				System.out.println(key +" = "+object);
-			}
+		JSONObject result = restAPI.sendTemplateSMS(to, tid, datas);
+		System.out.println(result.toString());
+		if(result.has("statusCode")
+				&& "000000".equals(result.getString("statusCode"))){
 			return true;
 		}else{
-			//异常返回输出错误码和错误信息
-			System.out.println("错误码=" + result.get("statusCode") +" 错误信息= "+result.get("statusMsg"));
 			return false;
 		}
 	}

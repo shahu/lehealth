@@ -7,7 +7,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 public class PoolConnectionManager {
     
-    //单例
     private static PoolConnectionManager instance;
     
     public static synchronized PoolConnectionManager getInstance() {

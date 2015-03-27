@@ -25,7 +25,10 @@ public class PoolConnectionManager {
     }
     
     public CloseableHttpClient getHttpClient() {
-        return HttpClients.custom().setConnectionManager(this.poolingHttpClientConnectionManager).build();
+        return HttpClients
+        		.custom()
+        		.setConnectionManager(this.poolingHttpClientConnectionManager)
+        		.build();
     }
     
     public static RequestConfig requestConfig = RequestConfig

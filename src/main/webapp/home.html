@@ -8,74 +8,69 @@
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css" />
 		<script src="js/sea-modules/seajs/seajs/2.2.1/sea.js"></script>
 		<script src="js/seajs-config.js"></script>
-		<style>
-			#nav-toggle { position: absolute; right: 20px; top: 10px; }
-			#nav-toggle span { position: absolute; top: 0px; left:  0px;}
-			#nav-toggle span, 
-			#nav-toggle span:before,
-			#nav-toggle span:after {
-			  cursor: pointer;
-			  border-radius: 1px;
-			  height: 3px;
-			  width: 28px;
-			  background: #909090;
-			  position: absolute;
-			  display: block;
-			  content: '';
-			}
-			#nav-toggle span:before {
-			  top: -9px;
-			}
-			#nav-toggle span:after {
-			  bottom: -9px; 
-			}
-
-			.triangle-border {
-				border-width: 6px;
-				border-color: transparent transparent #fff transparent;
-				border-style: dashed dashed solid dashed;
-				z-index: 200;
-				top: 10px;
-				right:-23px;
-				position: absolute;
-				display: none;
-			}
-
-			.triangle-bg {
-				border-width: 6px;
-				border-color: transparent transparent #dedede transparent;
-				border-style: dashed dashed solid dashed;
-				z-index: 100;
-				top: 8px;
-				right:-23px;
-				position: absolute;
-				display: none;
-			}
-
-			.uitem {
-				height: 34px;
-				padding: 0px 10px 0px 10px;
-				border-bottom: 1px solid #ddd;
-				line-height: 34px;
-				font-size: 18px;
-				color: #909090;
-				overflow: hidden;
-				text-align: center;
-			}
-
-			#ulistwraper {
-				position: absolute;
-				border: 1px solid #ddd;
-				background-color: #fff;
-				top: 30px;
-				right: -10px;
-				z-index: 100;				
-			}
-
-		</style>
 	</head>
 	<body>
 		<div data-role="page" id="homepage">
+			<style>
+				#nav-toggle { position: absolute; right: 20px; top: 10px; }
+				#nav-toggle span { position: absolute; top: 0px; left:  0px;}
+				#nav-toggle span,
+				#nav-toggle span:before,
+				#nav-toggle span:after {
+				cursor: pointer;
+				border-radius: 1px;
+				height: 3px;
+				width: 28px;
+				background: #909090;
+				position: absolute;
+				display: block;
+				content: '';
+				}
+				#nav-toggle span:before {
+				top: -9px;
+				}
+				#nav-toggle span:after {
+				bottom: -9px;
+				}
+				.triangle-border {
+					border-width: 6px;
+					border-color: transparent transparent #fff transparent;
+					border-style: dashed dashed solid dashed;
+					z-index: 200;
+					top: 10px;
+					right:-23px;
+					position: absolute;
+					display: none;
+				}
+				.triangle-bg {
+					border-width: 6px;
+					border-color: transparent transparent #dedede transparent;
+					border-style: dashed dashed solid dashed;
+					z-index: 100;
+					top: 8px;
+					right:-23px;
+					position: absolute;
+					display: none;
+				}
+				.uitem {
+					height: 34px;
+					padding: 0px 10px 0px 10px;
+					border-bottom: 1px solid #ddd;
+					line-height: 34px;
+					font-size: 18px;
+					color: #909090;
+					overflow: hidden;
+					text-align: center;
+				}
+				#ulistwraper {
+					position: absolute;
+					border: 1px solid #ddd;
+					background-color: #fff;
+					top: 30px;
+					right: -10px;
+									z-index: 100;
+				}
+			</style>
 			<div id="homepagecover" style="position:fixed; width:100%; height:100%; background-color:#f9f9f9; z-index: 5000; margin-left: -10px; margin-right: -10px;"></div>
 			<div data-role="content" style="border-width:0px;" >
 				<div id="topbar" style="margin-bottom: 10px; margin-top: -10px; font-size:20px; color: #909090; font-weight: bold; position: relative;">
@@ -88,13 +83,13 @@
 						<i class="triangle-border"></i>
 					</a>
 					<div id="ulistwraper" style="display:none;">
-					</div>					
-					<div style="clear:both"></div>	
+					</div>
+					<div style="clear:both"></div>
 				</div>
 				<div style="overflow:auto">
 					<div id="healthInfo" style="height: 220px; margin-bottom: 15px;">
 						
-					</div>						
+					</div>
 				</div>
 				<div style=" margin-left: -20px; overflow-x: auto">
 					<div id="medicationInfo" style="height: 250px; width: 600px">
@@ -102,7 +97,7 @@
 					</div>
 				</div>
 				<div id="medicationtips" class="ui-corner-all" style="border: 1px solid #A6A6A6; padding: 10px;">
-				</div>				
+				</div>
 			</div>
 			<div data-role="footer" data-position="fixed">
 				<div data-role="navbar" data-theme="c">

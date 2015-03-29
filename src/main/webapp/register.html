@@ -26,12 +26,19 @@
 			<div data-role="content">
 				<div style="width: 80%;height: 250px; top:50%; left:50%;position:absolute;margin-top: -125px; margin-left:-40%">
 					<input id="register_username" type="text" placeholder="手机号">
-					<div style="height:10px"></div>
+					<div style="height:5px"></div>
 					<input id="register_pwd" type="password" placeholder="密码">
-					<div style="height:10px"></div>
+					<div style="height:5px"></div>
 					<input id="register_repwd" type="password" placeholder="重复密码">
-					<div style="height:10px"></div>
+					<div style="height:5px"></div>
+					<div>
+						<div style="width: 60%; display: inline-block;float: left; margin-right: 10px;"><input id="verifyCode" type="text" placeholder="输入验证码"></div>
+						<div style="margin: 0 auto; float: right; width: 35%" ><a id="obtainCode" data-role="button" data-mini="true">获取</a></div>
+						<div style="clear:both"></div>
+					</div>
+					<div style="height:5px"></div>					
 					<a id="doRegister" data-role="button">注册</a>
+					
 				</div>
 			</div>
 			<script>

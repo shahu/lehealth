@@ -20,6 +20,8 @@ import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.BloodpressureResult;
 import com.lehealth.data.bean.PanientGuardianInfo;
 import com.lehealth.data.bean.UserBaseInfo;
+import com.lehealth.data.type.BloodPressStatusType;
+import com.lehealth.util.Constant;
 
 @Service("bloodpressureService")
 public class BloodpressureServiceImpl implements BloodpressureService{
@@ -44,15 +46,19 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	public BloodpressureResult getRecords(String userId,int days) {
 		BloodpressureResult result=new BloodpressureResult();
 		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
-		Collections.sort(list, new Comparator<BloodpressureRecord>() {
-			@Override
-			public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
-				return (int) (o1.getDate()-o2.getDate());
-			}
-		});
-		result.setRecords(list);
+		if(!list.isEmpty()){
+			Collections.sort(list, new Comparator<BloodpressureRecord>() {
+				@Override
+				public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
+					return (int) (o1.getDate()-o2.getDate());
+				}
+			});
+			result.setRecords(list);
+		}
 		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
-		result.setConfig(config);
+		if(StringUtils.isNotBlank(config.getUserId())){
+			result.setConfig(config);
+		}
 		return result;
 	}
 
@@ -81,12 +87,8 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		if(user != null){
 			BloodpressureConfig config=this.bloodpressureDao.selectConfig(user.getUserId());
 			if(StringUtils.isNotBlank(config.getUserId())){
-				if(dbp >= config.getDbp2()
-					|| sbp >= config.getSbp2()
-					|| heartrate >= config.getHeartrate2()
-					|| dbp <= config.getDbp1()
-					|| sbp <= config.getSbp1()
-					|| heartrate <= config.getHeartrate1()){
+				BloodPressStatusType statusCode = Constant.getBpStatus(sbp, dbp, heartrate, config);
+				if(statusCode != BloodPressStatusType.normal){
 					//获取监护人手机
 					List<PanientGuardianInfo> list = this.panientDao.selectGuardianList(user.getUserId());
 					//调用短信通知监护人

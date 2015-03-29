@@ -10,11 +10,14 @@ public interface BloodpressureService {
 	public BloodpressureResult getRecords(String userId,int days);
 	
 	//更新用户血压记录
-	public boolean addRecord(BloodpressureRecord bpInfo);
+	public boolean addRecord(BloodpressureRecord bpInfo, String phoneNumber);
 	
 	//获取血压控制设置
 	public BloodpressureConfig getConfig(String userId);
 	
 	//更新血压控制设置
 	public boolean modifyConfig(BloodpressureConfig bpConfig);
+	
+	//检查血压波动并通知
+	public void checkBloodpressureConfig(int sbp, int dbp,int heartrate, String phoneNumber);
 }

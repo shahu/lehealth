@@ -7,7 +7,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 public class PoolConnectionManager {
     
-    //单例
     private static PoolConnectionManager instance;
     
     public static synchronized PoolConnectionManager getInstance() {
@@ -26,7 +25,10 @@ public class PoolConnectionManager {
     }
     
     public CloseableHttpClient getHttpClient() {
-        return HttpClients.custom().setConnectionManager(this.poolingHttpClientConnectionManager).build();
+        return HttpClients
+        		.custom()
+        		.setConnectionManager(this.poolingHttpClientConnectionManager)
+        		.build();
     }
     
     public static RequestConfig requestConfig = RequestConfig

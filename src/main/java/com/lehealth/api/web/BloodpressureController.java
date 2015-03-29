@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,10 @@ import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.BloodpressureConfig;
 import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.BloodpressureResult;
-import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 
 @Controller
 @RequestMapping("/api/bp")
@@ -37,32 +40,29 @@ public class BloodpressureController {
 	//患者获取自己血压数据
 	@ResponseBody
 	@RequestMapping(value = "/record/list", method = RequestMethod.GET)
-	public ResponseBean getBpRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getBpRecords(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int days=NumberUtils.toInt(request.getParameter("days"),7);
 			if(days==0){
 				days=7;
 			}
 			BloodpressureResult result=this.bloodpressureService.getRecords(user.getUserId(),days);
-			responseBody.setResult(result.toJsonObj());
+			return new JsonObjectResponse(ErrorCodeType.success, result.toJsonObj()).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者录入自己血压数据
 	@ResponseBody
 	@RequestMapping(value = "/record/add", method = RequestMethod.POST)
-	public ResponseBean addBpRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject addBpRecord(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int dbp=NumberUtils.toInt(request.getParameter("dbp"));
 			int sbp=NumberUtils.toInt(request.getParameter("sbp"));
@@ -79,47 +79,42 @@ public class BloodpressureController {
 			bpInfo.setHeartrate(heartrate);
 			bpInfo.setDate(date);
 			bpInfo.setDosed(dosed);
-			if(this.bloodpressureService.addRecord(bpInfo)){
-				responseBody.setType(ErrorCodeType.normal);
+			if(this.bloodpressureService.addRecord(bpInfo, loginId)){
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者获取自己血压控制设置
 	@ResponseBody
 	@RequestMapping(value = "/setting/info", method = RequestMethod.GET)
-	public ResponseBean getBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			BloodpressureConfig bpConfig=this.bloodpressureService.getConfig(user.getUserId());
 			if(StringUtils.isBlank(bpConfig.getUserId())){
-				responseBody.setType(ErrorCodeType.abnormal);
-			}
-			else{
-				responseBody.setResult(bpConfig.toJsonObj());
+				return new BaseResponse(ErrorCodeType.failed).toJson();
+			}else{
+				return new JsonObjectResponse(ErrorCodeType.success, bpConfig.toJsonObj()).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	//患者更新自己血压控制设置
 	@ResponseBody
 	@RequestMapping(value = "/setting/modify", method = RequestMethod.POST)
-	public ResponseBean modifyBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject modifyBpSetting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int dbp1=NumberUtils.toInt(request.getParameter("dbp1"));
 			int dbp2=NumberUtils.toInt(request.getParameter("dbp2"));
@@ -136,14 +131,13 @@ public class BloodpressureController {
 			bpConfig.setHeartrate1(heartrate1);
 			bpConfig.setHeartrate2(heartrate2);
 			if(this.bloodpressureService.modifyConfig(bpConfig)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 		
 }

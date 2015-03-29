@@ -28,10 +28,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String userName=StringUtils.trimToEmpty(rs.getString("username"));
 			int gender=rs.getInt("gender");
-			if(rs.getDate("birthday")!=null){
-				long birthday=rs.getDate("birthday").getTime();
-				info.setBirthday(birthday);
-			}
+			long birthday=rs.getTimestamp("birthday").getTime();
 			float height=rs.getFloat("height");
 			float weight=rs.getFloat("weight");
 			info.setUserId(id);
@@ -39,6 +36,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			info.setGender(gender);
 			info.setHeight(height);
 			info.setWeight(weight);
+			info.setBirthday(birthday);
 		}
 		return info;
 	}

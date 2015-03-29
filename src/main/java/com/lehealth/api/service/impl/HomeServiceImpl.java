@@ -15,7 +15,7 @@ import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.HomeResult;
 import com.lehealth.data.bean.MedicineRecord;
 import com.lehealth.data.bean.PanientInfo;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 
 @Service("homeService")
 public class HomeServiceImpl implements HomeService{
@@ -43,7 +43,7 @@ public class HomeServiceImpl implements HomeService{
 	}
 	
 	@Override
-	public HomeResult getHomeData(UserInfomation user, int days) {
+	public HomeResult getHomeData(UserBaseInfo user, int days) {
 		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(user.getUserId(),days);
 		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(user.getUserId());
 		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(user.getUserId(), days);

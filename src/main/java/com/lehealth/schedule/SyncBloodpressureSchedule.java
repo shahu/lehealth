@@ -1,4 +1,4 @@
-package com.lehealth.sync.schedule;
+package com.lehealth.schedule;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

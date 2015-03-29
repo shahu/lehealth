@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +21,8 @@ import com.lehealth.api.service.LoginService;
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseCategroy;
 import com.lehealth.data.bean.MedicineCategroy;
-import com.lehealth.data.bean.ResponseBean;
+import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.JsonArrayResponse;
 
 @Controller
 @RequestMapping("/api")
@@ -37,43 +39,37 @@ public class CommonController {
 	//获取线下活动列表
 	@ResponseBody
 	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)
-	public ResponseBean activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
+	public JSONObject activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		List<Activity> list=this.commonService.getAtivities();
 		JSONArray arr=new JSONArray();
 		for(Activity a:list){
 			arr.add(a.toJsonObj());
 		}
-		responseBody.setResult(arr);
-		return responseBody;
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 	
 	//药物列表
 	@ResponseBody
 	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
-	public ResponseBean medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
+	public JSONObject medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		List<MedicineCategroy> list=this.commonService.getMedicines();
 		JSONArray arr=new JSONArray();
 		for(MedicineCategroy mc:list){
 			arr.add(mc.toJsonObj());
 		}
-		responseBody.setResult(arr);
-		return responseBody;
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 		
 	//疾病列表
 	@ResponseBody
 	@RequestMapping(value = "/diseases.do", method = RequestMethod.GET)
-	public ResponseBean diseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ResponseBean responseBody=new ResponseBean();
+	public JSONObject diseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		List<DiseaseCategroy> list=this.commonService.getDiseases();
 		JSONArray arr=new JSONArray();
 		for(DiseaseCategroy mc:list){
 			arr.add(mc.toJsonObj());
 		}
-		responseBody.setResult(arr);
-		return responseBody;
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 	
 }

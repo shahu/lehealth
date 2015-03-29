@@ -19,7 +19,10 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
 	public PanientInfo selectPanient(String userid) {
-		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_patient_info WHERE userid=:userid";
+		String sql="SELECT t1.loginid,t1.userid, t2.username, t2.gender, t2.birthday, t2.height, t2.weight "
+				+ "FROM user_base_info t1 "
+				+ "left join user_patient_info t2 on t1.userid=t2.userid "
+				+ "where t1.userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
@@ -28,8 +31,8 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String userName=StringUtils.trimToEmpty(rs.getString("username"));
 			int gender=rs.getInt("gender");
-			if(rs.getDate("birthday")!=null){
-				long birthday=rs.getDate("birthday").getTime();
+			if(rs.getTimestamp("birthday") != null){
+				long birthday=rs.getTimestamp("birthday").getTime();
 				info.setBirthday(birthday);
 			}
 			float height=rs.getFloat("height");
@@ -39,6 +42,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			info.setGender(gender);
 			info.setHeight(height);
 			info.setWeight(weight);
+			
 		}
 		return info;
 	}

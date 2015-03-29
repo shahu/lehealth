@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -21,9 +22,11 @@ import com.lehealth.api.service.LoginService;
 import com.lehealth.api.service.PanientService;
 import com.lehealth.data.bean.PanientGuardianInfo;
 import com.lehealth.data.bean.PanientInfo;
-import com.lehealth.data.bean.ResponseBean;
-import com.lehealth.data.bean.UserInfomation;
+import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonArrayResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 
 @Controller
 @RequestMapping("/api")
@@ -40,38 +43,35 @@ public class PanientController {
 	// 患者获取自己个人信息
 	@ResponseBody
 	@RequestMapping(value = "/panient/info", method = RequestMethod.GET)
-	public ResponseBean getPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			PanientInfo info=this.panientService.getPanient(user.getUserId());
 			if(StringUtils.isNotBlank(info.getUserId())){
-				responseBody.setResult(info.toJsonObj());
+				return new JsonObjectResponse(ErrorCodeType.success, info.toJsonObj()).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 患者更新自己个人信息
 	@ResponseBody
-	@RequestMapping(value = "/panient/modify", method = RequestMethod.POST)
-	public ResponseBean modifyPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/panient/modify")
+	public JSONObject modifyPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String userName=StringUtils.trimToEmpty(request.getParameter("username"));
 			int gender=NumberUtils.toInt(request.getParameter("gender"));
-			long birthday=NumberUtils.toInt(request.getParameter("birthday"));;
-			float height=NumberUtils.toInt(request.getParameter("height"));;
-			float weight=NumberUtils.toInt(request.getParameter("weight"));
+			long birthday=NumberUtils.toLong(request.getParameter("birthday"));;
+			float height=NumberUtils.toFloat(request.getParameter("height"));;
+			float weight=NumberUtils.toFloat(request.getParameter("weight"));
 			PanientInfo info=new PanientInfo();
 			info.setBirthday(birthday);
 			info.setGender(gender);
@@ -80,45 +80,41 @@ public class PanientController {
 			info.setUserName(userName);
 			info.setWeight(weight);
 			if(this.panientService.modifyPanient(info)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 患者获取监护人列表
 	@ResponseBody
 	@RequestMapping(value = "/guardian/list", method = RequestMethod.GET)
-	public ResponseBean getGuardianList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject getGuardianList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
-			List<PanientGuardianInfo> list=this.panientService.getGuardianList(loginId);
+			List<PanientGuardianInfo> list=this.panientService.getGuardianList(user.getUserId());
 			JSONArray arr=new JSONArray();
 			for(PanientGuardianInfo info:list){
 				arr.add(info.toJsonObj());
 			}
-			responseBody.setResult(arr);
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 患者新增自己监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardian/add", method = RequestMethod.POST)
-	public ResponseBean modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject modifyGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			String guardianName=StringUtils.trimToEmpty(request.getParameter("guardianname"));
 			String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
@@ -127,34 +123,31 @@ public class PanientController {
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
 			if(this.panientService.modifyGuardian(info)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 	
 	// 患者删除自己监护人信息
 	@ResponseBody
 	@RequestMapping(value = "/guardian/delete", method = RequestMethod.POST)
-	public ResponseBean delGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public JSONObject delGuardianInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		ResponseBean responseBody=new ResponseBean();
 		String guardianNumber=StringUtils.trimToEmpty(request.getParameter("guardiannumber"));
-		UserInfomation user=this.loginService.getUserBaseInfo(loginId, token);
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			if(this.panientService.deleteGuardian(user.getUserId(),guardianNumber)){
-				responseBody.setType(ErrorCodeType.normal);
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				responseBody.setType(ErrorCodeType.abnormal);
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
-			responseBody.setType(ErrorCodeType.invalidToken);
+			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
-		return responseBody;
 	}
 }

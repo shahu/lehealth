@@ -11,6 +11,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+import com.lehealth.data.type.BloodPressStatusType;
 import com.lehealth.util.Constant;
 
 import net.sf.json.JSONArray;
@@ -72,13 +73,14 @@ public class HomeResult{
 			for(BloodpressureRecord record : this.bpRecords){
 				Date date = new Date(record.getDate());
 				String key = DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
-				int hour = NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
-				if(hour >= 4 && hour <= 10){
+				//TODO 测试
+				//int hour = NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
+				//if(hour >= 4 && hour <= 10){
 					if(!bpTemp.containsKey(key)){
 						bpTemp.put(key, new ArrayList<BloodpressureRecord>());
 					}
 					bpTemp.get(key).add(record);
-				}
+				//}
 			}
 			
 			Date today = new Date();
@@ -136,21 +138,14 @@ public class HomeResult{
 	}
 	
 	public int getStatus() {
-		if(bpRecords != null && !bpRecords.isEmpty() && bpConfig != null){
+		if(bpRecords != null && !bpRecords.isEmpty()){
 			for(BloodpressureRecord record : bpRecords){
-				if(record.getDbp() >= bpConfig.getDbp2()
-					|| record.getSbp() >= bpConfig.getSbp2()
-					|| record.getHeartrate() >= bpConfig.getHeartrate2()){
-					return 3;
-				}else if(record.getDbp() <= bpConfig.getDbp1()
-					|| record.getSbp() <= bpConfig.getSbp1()
-					|| record.getHeartrate() <= bpConfig.getHeartrate1()){
-					return 1;
+				BloodPressStatusType statusCode = Constant.getBpStatus(record.getSbp(), record.getDbp(), record.getHeartrate(), bpConfig);
+				if(statusCode != BloodPressStatusType.normal){
+					return statusCode.getCode();
 				}
 			}
-			return 2;
-		}else{
-			return 0;
 		}
+		return BloodPressStatusType.normal.getCode();
 	}
 }

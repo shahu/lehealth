@@ -3,6 +3,9 @@ package com.lehealth.data.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lehealth.data.type.BloodPressStatusType;
+import com.lehealth.util.Constant;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -12,18 +15,15 @@ public class BloodpressureResult {
 	private BloodpressureConfig config=new BloodpressureConfig();
 	
 	public int getStatus() {
-		for(BloodpressureRecord record:records){
-			if(record.getDbp()>=config.getDbp2()
-				||record.getSbp()>=config.getSbp2()
-				||record.getHeartrate()>=config.getHeartrate2()){
-				return 3;
-			}else if(record.getDbp()<=config.getDbp1()
-				||record.getSbp()<=config.getSbp1()
-				||record.getHeartrate()<=config.getHeartrate1()){
-				return 1;
+		if(records != null && !records.isEmpty()){
+			for(BloodpressureRecord record : records){
+				BloodPressStatusType statusCode = Constant.getBpStatus(record.getSbp(), record.getDbp(), record.getHeartrate(), config);
+				if(statusCode != BloodPressStatusType.normal){
+					return statusCode.getCode();
+				}
 			}
 		}
-		return 2;
+		return BloodPressStatusType.normal.getCode();
 	}
 	
 	public void setConfig(BloodpressureConfig config) {

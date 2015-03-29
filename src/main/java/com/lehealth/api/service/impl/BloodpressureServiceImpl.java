@@ -15,13 +15,13 @@ import com.lehealth.api.dao.LoginDao;
 import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.common.service.SendTemplateSMSService;
+import com.lehealth.common.util.CheckStatusUtil;
 import com.lehealth.data.bean.BloodpressureConfig;
 import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.BloodpressureResult;
 import com.lehealth.data.bean.PanientGuardianInfo;
 import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.BloodPressStatusType;
-import com.lehealth.util.Constant;
 
 @Service("bloodpressureService")
 public class BloodpressureServiceImpl implements BloodpressureService{
@@ -66,7 +66,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	public boolean addRecord(BloodpressureRecord bpInfo, String phoneNumber) {
 		boolean flag=this.bloodpressureDao.insertRecord(bpInfo);
 		if(flag){
-			this.checkBloodpressureConfig(bpInfo.getSbp(), bpInfo.getDbp(), bpInfo.getHeartrate(), phoneNumber);
+			this.noticeBloodpressureStatus(bpInfo.getSbp(), bpInfo.getDbp(), bpInfo.getHeartrate(), phoneNumber);
 		}
 		return flag;
 	}
@@ -82,12 +82,12 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	}
 	
 	@Override
-	public void checkBloodpressureConfig(int sbp, int dbp, int heartrate, String phoneNumber){
+	public void noticeBloodpressureStatus(int sbp, int dbp, int heartrate, String phoneNumber){
 		UserBaseInfo user = this.loginDao.selectUserBaseInfo(phoneNumber);
 		if(user != null){
 			BloodpressureConfig config=this.bloodpressureDao.selectConfig(user.getUserId());
 			if(StringUtils.isNotBlank(config.getUserId())){
-				BloodPressStatusType statusCode = Constant.getBpStatus(sbp, dbp, heartrate, config);
+				BloodPressStatusType statusCode = CheckStatusUtil.bloodpress(sbp, dbp, heartrate, config);
 				if(statusCode != BloodPressStatusType.normal){
 					//获取监护人手机
 					List<PanientGuardianInfo> list = this.panientDao.selectGuardianList(user.getUserId());

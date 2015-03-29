@@ -18,12 +18,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.service.BloodpressureService;
+import com.lehealth.common.util.HttpUtils;
+import com.lehealth.common.util.YundfUtils;
 import com.lehealth.sync.dao.SyncBloodpressureDao;
 import com.lehealth.sync.entity.YundfRecord;
 import com.lehealth.sync.entity.YundfUser;
 import com.lehealth.sync.service.SyncBloodpressureService;
-import com.lehealth.util.HttpUtils;
-import com.lehealth.util.YundfUtils;
 
 @Service("syncBloodpressureService")
 public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
@@ -126,7 +126,7 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 								}
 								e.getValue().addRecord(yundfRecord);
 								// 短信通知
-								this.bloodpressureService.checkBloodpressureConfig(yundfRecord.getSystolic(), yundfRecord.getDiastolic(), yundfRecord.getPulse(), e.getKey());
+								this.bloodpressureService.noticeBloodpressureStatus(yundfRecord.getSystolic(), yundfRecord.getDiastolic(), yundfRecord.getPulse(), e.getKey());
 							}
 						}else{
 							e.getValue().setLastRid(-1);

@@ -11,8 +11,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+import com.lehealth.common.util.CheckStatusUtil;
+import com.lehealth.common.util.Constant;
 import com.lehealth.data.type.BloodPressStatusType;
-import com.lehealth.util.Constant;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -138,14 +139,6 @@ public class HomeResult{
 	}
 	
 	public int getStatus() {
-		if(bpRecords != null && !bpRecords.isEmpty()){
-			for(BloodpressureRecord record : bpRecords){
-				BloodPressStatusType statusCode = Constant.getBpStatus(record.getSbp(), record.getDbp(), record.getHeartrate(), bpConfig);
-				if(statusCode != BloodPressStatusType.normal){
-					return statusCode.getCode();
-				}
-			}
-		}
-		return BloodPressStatusType.normal.getCode();
+		return CheckStatusUtil.bloodpress(bpRecords, bpConfig).getCode();
 	}
 }

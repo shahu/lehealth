@@ -15,11 +15,11 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.impl.BaseJdbcDao;
+import com.lehealth.common.util.TokenUtils;
+import com.lehealth.common.util.YundfUtils;
 import com.lehealth.sync.dao.SyncBloodpressureDao;
 import com.lehealth.sync.entity.YundfRecord;
 import com.lehealth.sync.entity.YundfUser;
-import com.lehealth.util.TokenUtils;
-import com.lehealth.util.YundfUtils;
 
 @Repository("syncBloodpressureDao")
 public class SyncBloodpressureDaoImpl extends BaseJdbcDao implements SyncBloodpressureDao {

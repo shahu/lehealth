@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import com.lehealth.util.Constant;
+import com.lehealth.common.util.Constant;
 
 public class YundfRecord {
 	//舒张压

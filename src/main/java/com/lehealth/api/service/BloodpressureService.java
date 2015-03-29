@@ -19,5 +19,5 @@ public interface BloodpressureService {
 	public boolean modifyConfig(BloodpressureConfig bpConfig);
 	
 	//检查血压波动并通知
-	public void checkBloodpressureConfig(int sbp, int dbp,int heartrate, String phoneNumber);
+	public void noticeBloodpressureStatus(int sbp, int dbp,int heartrate, String phoneNumber);
 }

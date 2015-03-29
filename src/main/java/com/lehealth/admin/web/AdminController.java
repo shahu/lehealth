@@ -64,7 +64,7 @@ public class AdminController {
 			for(PanientInfo p:list){
 				arr.add(p.toBaseJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -80,7 +80,7 @@ public class AdminController {
 		if(user != null){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
 			PanientInfo p=this.panientService.getPanient(pid);
-			return new JsonObjectResponse(ErrorCodeType.normal, p.toJsonObj()).toJson();
+			return new JsonObjectResponse(ErrorCodeType.success, p.toJsonObj()).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -100,7 +100,7 @@ public class AdminController {
 				days = 7;
 			}
 			HomeResult result = this.homeService.getHomeData(pid, days);
-			return new JsonObjectResponse(ErrorCodeType.normal, result.toJsonObj()).toJson();
+			return new JsonObjectResponse(ErrorCodeType.success, result.toJsonObj()).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -120,7 +120,7 @@ public class AdminController {
 			for(DiseaseHistory d:list){
 				arr.add(d.toJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}

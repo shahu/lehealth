@@ -99,7 +99,7 @@ public class MedicineController {
 			if(this.medicineService.addRecord(mInfo)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -150,7 +150,7 @@ public class MedicineController {
 			if(this.medicineService.modifyConfig(mConfig)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -169,7 +169,7 @@ public class MedicineController {
 			if(this.medicineService.deleteConfig(user.getUserId(),medicineId)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();

@@ -52,7 +52,7 @@ public class PanientController {
 			if(StringUtils.isNotBlank(info.getUserId())){
 				return new JsonObjectResponse(ErrorCodeType.success, info.toJsonObj()).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -82,7 +82,7 @@ public class PanientController {
 			if(this.panientService.modifyPanient(info)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -125,7 +125,7 @@ public class PanientController {
 			if(this.panientService.modifyGuardian(info)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -144,7 +144,7 @@ public class PanientController {
 			if(this.panientService.deleteGuardian(user.getUserId(),guardianNumber)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();

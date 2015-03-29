@@ -71,7 +71,7 @@ public class DiseaseController {
 			if(StringUtils.isNotBlank(history.getUserId())){
 				return new JsonObjectResponse(ErrorCodeType.success, history.toJsonObj()).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -97,7 +97,7 @@ public class DiseaseController {
 			if(this.diseaseService.modifyHistory(info)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();

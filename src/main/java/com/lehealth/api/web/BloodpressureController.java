@@ -82,7 +82,7 @@ public class BloodpressureController {
 			if(this.bloodpressureService.addRecord(bpInfo, loginId)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -99,7 +99,7 @@ public class BloodpressureController {
 		if(user != null){
 			BloodpressureConfig bpConfig=this.bloodpressureService.getConfig(user.getUserId());
 			if(StringUtils.isBlank(bpConfig.getUserId())){
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}else{
 				return new JsonObjectResponse(ErrorCodeType.success, bpConfig.toJsonObj()).toJson();
 			}
@@ -133,7 +133,7 @@ public class BloodpressureController {
 			if(this.bloodpressureService.modifyConfig(bpConfig)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();

@@ -6,7 +6,7 @@ import com.lehealth.data.type.ErrorCodeType;
 
 public class BaseResponse {
 	
-	private ErrorCodeType type=ErrorCodeType.normal;
+	private ErrorCodeType type=ErrorCodeType.success;
 	
 	public BaseResponse(ErrorCodeType type) {
 		this.type = type;

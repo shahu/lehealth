@@ -15,7 +15,7 @@ public enum ErrorCodeType {
 	failedIdentifyingCode(113,"获取验证码失败"),
 	muchIdentifyingCode(114,"获取验证码频繁"),
 	
-	abnormal(199,"数据异常，请稍后再试");
+	failed(199,"数据异常，请稍后再试");
 	
 	private ErrorCodeType(int code,String message) {
 		this.code = code;

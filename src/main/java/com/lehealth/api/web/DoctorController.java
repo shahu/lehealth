@@ -69,7 +69,7 @@ public class DoctorController {
 			if(StringUtils.isNotBlank(doctor.getId())){
 				return new JsonObjectResponse(ErrorCodeType.success, doctor.toJsonObj()).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -89,7 +89,7 @@ public class DoctorController {
 			if(this.doctorService.modifyAttentionStatus(user.getUserId(),doctorId,attention)){
 				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.abnormal).toJson();
+				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();

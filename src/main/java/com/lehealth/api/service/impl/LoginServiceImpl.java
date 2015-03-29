@@ -49,7 +49,7 @@ public class LoginServiceImpl implements LoginService{
 				this.identifyingCodeTime.remove(loginId);
 				return ErrorCodeType.success;
 			}else{
-				return ErrorCodeType.abnormal;
+				return ErrorCodeType.failed;
 			}
 		}
 	}
@@ -141,7 +141,7 @@ public class LoginServiceImpl implements LoginService{
 			this.identifyingCodeCount.get(ip).incrementAndGet();
 			return ErrorCodeType.success;
 		}else{
-			return ErrorCodeType.abnormal;
+			return ErrorCodeType.failed;
 		}
 	}
 	

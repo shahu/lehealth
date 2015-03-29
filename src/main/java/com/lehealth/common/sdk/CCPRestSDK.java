@@ -50,7 +50,7 @@ public class CCPRestSDK {
 	public static final String SCHEME = "https";
 	public static final String ACCOUNT_SID = "8a48b55149896cfd0149cac015792970";
 	public static final String ACCOUNT_TOKEN = "4417bab1343f44a5811a3feb95d3009c";
-	public static final String App_ID = "8a48b55149896cfd0149cac156022973";
+	public static final String App_ID = "8a48b55149896cfd0149cac296812979";
 
 	/**
 	 * 发送短信模板请求

@@ -73,12 +73,13 @@ public class HomeResult{
 				Date date = new Date(record.getDate());
 				String key = DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
 				int hour = NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
-				if(hour >= 4 && hour <= 10){
+				//TODO 测试需要
+				//if(hour >= 4 && hour <= 10){
 					if(!bpTemp.containsKey(key)){
 						bpTemp.put(key, new ArrayList<BloodpressureRecord>());
 					}
 					bpTemp.get(key).add(record);
-				}
+				//}
 			}
 			
 			Date today = new Date();

@@ -59,7 +59,10 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public BloodpressureConfig selectConfig(String userId) {
-		String sql="SELECT userid,dbp1,dbp2,sbp1,sbp2,heartrate1,heartrate2 FROM bp_setting WHERE userid=:userid";
+		String sql="SELECT t1.loginid,t1.userid,t2.dbp1,t2.dbp2,t2.sbp1,t2.sbp2,t2.heartrate1,t2.heartrate2 "
+				+ "FROM user_base_info t1 "
+				+ "left join bp_setting t2 on t1.userid=t2.userid "
+				+ "WHERE userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);

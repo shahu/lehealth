@@ -19,7 +19,10 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
 	public PanientInfo selectPanient(String userid) {
-		String sql="SELECT userid,username,gender,birthday,height,weight FROM user_patient_info WHERE userid=:userid";
+		String sql="SELECT t1.loginid,t1.userid, t2.username, t2.gender, t2.birthday, t2.height, t2.weight, t2.loginid "
+				+ "FROM user_base_info t1 "
+				+ "left join user_patient_info t2 on t1.userid=t2.userid "
+				+ "where t1.userid=:userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userid);
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);

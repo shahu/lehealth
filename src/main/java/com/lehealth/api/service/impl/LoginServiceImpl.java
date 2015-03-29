@@ -117,6 +117,7 @@ public class LoginServiceImpl implements LoginService{
 				return ErrorCodeType.muchIdentifyingCode;
 			}
 		}
+		
 		// 是否发送检查
 		if(this.identifyingCodeCache.containsKey(phoneNumber)){
 			long sendTime = System.currentTimeMillis();
@@ -131,7 +132,11 @@ public class LoginServiceImpl implements LoginService{
 		
 		// 发送验证短信
 		String identifyingCode = String.valueOf(random.nextInt(89999999)+10000000);
+		//TODO test
+		identifyingCode = "identifyingCode";
 		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
+		//TODO test
+		flag = true;
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);
 			this.identifyingCodeTime.put(phoneNumber, System.currentTimeMillis());

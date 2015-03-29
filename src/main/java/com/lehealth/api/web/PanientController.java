@@ -97,7 +97,7 @@ public class PanientController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
-			List<PanientGuardianInfo> list=this.panientService.getGuardianList(loginId);
+			List<PanientGuardianInfo> list=this.panientService.getGuardianList(user.getUserId());
 			JSONArray arr=new JSONArray();
 			for(PanientGuardianInfo info:list){
 				arr.add(info.toJsonObj());

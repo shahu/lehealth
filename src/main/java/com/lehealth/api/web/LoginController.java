@@ -78,7 +78,7 @@ public class LoginController {
 	@RequestMapping(value = "/identifyingcode")
 	public JSONObject identifyingcode(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String phoneNumber=StringUtils.trimToEmpty(request.getParameter("phone"));
-		Matcher matcher = phonePattern.matcher("phoneNumber"); 
+		Matcher matcher = phonePattern.matcher(phoneNumber); 
 		if(matcher.matches()){
 			String ip = Ipv4Util.getIp(request);
 			ErrorCodeType type=this.loginService.sendIdentifyingCode(phoneNumber,ip);

@@ -48,7 +48,10 @@ define(function(require, exports, module) {
 								$("#female").attr("checked", "checked");
 							}
 							var birthDate = new Date(userconfig.birthday);
-							birthday = birthDate.getFullYear() + '-' + (birthDate.getMonth() + 1) + "-" + birthDate.getDate();
+							var month = (birthDate.getMonth() + 1) < 10 ? ("0" + (birthDate.getMonth() + 1)) :(birthDate.getMonth() + 1);
+							var dayInMon =  birthDate.getDate() < 10 ? ("0" + birthDate.getDate()) : birthDate.getDate();
+							birthday = birthDate.getFullYear() + '-' + month + "-" + dayInMon;
+							console.info(birthday);
 							$('#ubirthday').val(birthday);
 						}
 					},

@@ -19,7 +19,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
 	public PanientInfo selectPanient(String userid) {
-		String sql="SELECT t1.loginid,t1.userid, t2.username, t2.gender, t2.birthday, t2.height, t2.weight, t2.loginid "
+		String sql="SELECT t1.loginid,t1.userid, t2.username, t2.gender, t2.birthday, t2.height, t2.weight "
 				+ "FROM user_base_info t1 "
 				+ "left join user_patient_info t2 on t1.userid=t2.userid "
 				+ "where t1.userid=:userid ";
@@ -31,7 +31,10 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			String id=StringUtils.trimToEmpty(rs.getString("userid"));
 			String userName=StringUtils.trimToEmpty(rs.getString("username"));
 			int gender=rs.getInt("gender");
-			long birthday=rs.getTimestamp("birthday").getTime();
+			if(rs.getTimestamp("birthday") != null){
+				long birthday=rs.getTimestamp("birthday").getTime();
+				info.setBirthday(birthday);
+			}
 			float height=rs.getFloat("height");
 			float weight=rs.getFloat("weight");
 			info.setUserId(id);
@@ -39,7 +42,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			info.setGender(gender);
 			info.setHeight(height);
 			info.setWeight(weight);
-			info.setBirthday(birthday);
+			
 		}
 		return info;
 	}

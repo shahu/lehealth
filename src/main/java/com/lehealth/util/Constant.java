@@ -30,5 +30,7 @@ public class Constant {
 		}
 	};
 	
-	public static final String identifyingCodeValidityMinute = "1";
+	public static final long identifyingCodeValidityMinute = 1;
+	public static final long identifyingCodeValidityTime = identifyingCodeValidityMinute*60*1000;
+	public static final long identifyingCodeValidityClearTime = 60*60*1000;
 }

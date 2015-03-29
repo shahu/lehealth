@@ -52,7 +52,7 @@ public class DiseaseController {
 			for(DiseaseHistory d:list){
 				arr.add(d.toJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -69,7 +69,7 @@ public class DiseaseController {
 			int diseaseId=NumberUtils.toInt(request.getParameter("diseaseid"));
 			DiseaseHistory history=this.diseaseService.getHistory(user.getUserId(), diseaseId);
 			if(StringUtils.isNotBlank(history.getUserId())){
-				return new JsonObjectResponse(ErrorCodeType.normal, history.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, history.toJsonObj()).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -95,7 +95,7 @@ public class DiseaseController {
 			info.setDiseaseDescription(diseaseDescription);
 			info.setMedicineDescription(medicinedescription);
 			if(this.diseaseService.modifyHistory(info)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}

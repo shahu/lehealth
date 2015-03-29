@@ -15,7 +15,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	
 	@Override
 	public boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode){
-		String[] datas = {identifyingCode,Constant.identifyingCodeValidityMinute};
+		String[] datas = {identifyingCode, String.valueOf(Constant.identifyingCodeValidityMinute)};
 		return this.sendTemplateSMS(phoneNumber, "7779", datas);
 	}
 	

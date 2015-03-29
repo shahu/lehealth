@@ -50,7 +50,7 @@ public class BloodpressureController {
 				days=7;
 			}
 			BloodpressureResult result=this.bloodpressureService.getRecords(user.getUserId(),days);
-			return new JsonObjectResponse(ErrorCodeType.normal, result.toJsonObj()).toJson();
+			return new JsonObjectResponse(ErrorCodeType.success, result.toJsonObj()).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -80,7 +80,7 @@ public class BloodpressureController {
 			bpInfo.setDate(date);
 			bpInfo.setDosed(dosed);
 			if(this.bloodpressureService.addRecord(bpInfo, loginId)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -101,7 +101,7 @@ public class BloodpressureController {
 			if(StringUtils.isBlank(bpConfig.getUserId())){
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}else{
-				return new JsonObjectResponse(ErrorCodeType.normal, bpConfig.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, bpConfig.toJsonObj()).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
@@ -131,7 +131,7 @@ public class BloodpressureController {
 			bpConfig.setHeartrate1(heartrate1);
 			bpConfig.setHeartrate2(heartrate2);
 			if(this.bloodpressureService.modifyConfig(bpConfig)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}

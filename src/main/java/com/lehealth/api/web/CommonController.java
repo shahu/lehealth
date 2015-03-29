@@ -45,7 +45,7 @@ public class CommonController {
 		for(Activity a:list){
 			arr.add(a.toJsonObj());
 		}
-		return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 	
 	//药物列表
@@ -57,7 +57,7 @@ public class CommonController {
 		for(MedicineCategroy mc:list){
 			arr.add(mc.toJsonObj());
 		}
-		return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 		
 	//疾病列表
@@ -69,7 +69,7 @@ public class CommonController {
 		for(DiseaseCategroy mc:list){
 			arr.add(mc.toJsonObj());
 		}
-		return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 	
 }

@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,11 +27,8 @@ public class ClearCacheSchedule {
 	@Qualifier("sendTemplateSMSService")
 	private SendTemplateSMSService sendTemplateSMSService;
 	
-	private static Logger logger = Logger.getLogger(ClearCacheSchedule.class);
-	
 	@Scheduled(cron = "5 1 * * * ?")
 	public void syncBloodpressureFromYundf() {
-		logger.info("begin sync from yundf");
 		this.loginService.clearIdentifyingCodeCache();
 	}
 	

@@ -52,7 +52,7 @@ public class MedicineController {
 			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -75,7 +75,7 @@ public class MedicineController {
 			for(MedicineRecord info:list){
 				arr.add(info.toJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -97,7 +97,7 @@ public class MedicineController {
 			mInfo.setMedicineId(medicineId);
 			mInfo.addSituation(time, dosage);
 			if(this.medicineService.addRecord(mInfo)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -119,7 +119,7 @@ public class MedicineController {
 			for(MedicineConfig mc:list){
 				arr.add(mc.toJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -148,7 +148,7 @@ public class MedicineController {
 				mConfig.addConfig(time, dosage);
 			}
 			if(this.medicineService.modifyConfig(mConfig)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -167,7 +167,7 @@ public class MedicineController {
 		if(user != null){
 			int medicineId=NumberUtils.toInt(request.getParameter("medicineid"));
 			if(this.medicineService.deleteConfig(user.getUserId(),medicineId)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}

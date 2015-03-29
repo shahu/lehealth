@@ -1,5 +1,8 @@
 package com.lehealth.api.web;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -7,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.UserRoleType;
 import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.JsonObjectResponse;
+import com.lehealth.util.Ipv4Util;
 
 @Controller
 @RequestMapping("/api")
@@ -39,11 +42,12 @@ public class LoginController {
 		String identifyingCode = StringUtils.trimToEmpty(request.getParameter("identifyingcode"));
 		if(StringUtils.isBlank(loginId)
 				|| StringUtils.isBlank(password)) {
-			return new BaseResponse(ErrorCodeType.invalidUser).toJson();
-		}else if(!this.loginService.checkIdentifyingCode(loginId, identifyingCode)) {
-			return new BaseResponse(ErrorCodeType.invalidIdentifyingCode).toJson();
+			return new BaseResponse(ErrorCodeType.invalidPassword).toJson();
 		}else{
-			ErrorCodeType type=this.loginService.registerUser(loginId, password, UserRoleType.panient);
+			ErrorCodeType type = this.loginService.checkIdentifyingCode(loginId, identifyingCode);
+			if(type == ErrorCodeType.success){
+				type=this.loginService.registerUser(loginId, password, UserRoleType.panient);
+			}
 			return new BaseResponse(type).toJson();
 		}
 	}
@@ -60,24 +64,27 @@ public class LoginController {
 		}else {
 			UserBaseInfo user=this.loginService.getUserByPassword(loginId, password);
 			if(user != null){
-				return new JsonObjectResponse(ErrorCodeType.normal, user.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, user.toJsonObj()).toJson();
 			}else{
-				return new BaseResponse(ErrorCodeType.invalidUser).toJson();
+				return new BaseResponse(ErrorCodeType.invalidPassword).toJson();
 			}
 		}
 	}
+	
+	private static final Pattern phonePattern = Pattern.compile("^(13[0-9]|15[0-9]|14[7|5]|17[0-9]|18[0-9])\\d{8}$");
 	
 	// 获取验证码
 	@ResponseBody
 	@RequestMapping(value = "/identifyingcode")
 	public JSONObject identifyingcode(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String phoneNumber=StringUtils.trimToEmpty(request.getParameter("phone"));
-		if(phoneNumber.length() != 11
-				|| NumberUtils.toLong(phoneNumber) > 0){
-			return new BaseResponse(ErrorCodeType.invalidUser).toJson();
-		}else{
-			ErrorCodeType type=this.loginService.sendIdentifyingCode(phoneNumber);
+		Matcher matcher = phonePattern.matcher("phoneNumber"); 
+		if(matcher.matches()){
+			String ip = Ipv4Util.getIp(request);
+			ErrorCodeType type=this.loginService.sendIdentifyingCode(phoneNumber,ip);
 			return new BaseResponse(type).toJson();
+		}else{
+			return new BaseResponse(ErrorCodeType.invalidPhoneNumber).toJson();
 		}
 	}
 	
@@ -89,9 +96,9 @@ public class LoginController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
-			return new JsonObjectResponse(ErrorCodeType.normal, user.toJsonObj()).toJson();
+			return new JsonObjectResponse(ErrorCodeType.success, user.toJsonObj()).toJson();
 		}else{
-			return new BaseResponse(ErrorCodeType.invalidUser).toJson();
+			return new BaseResponse(ErrorCodeType.invalidPassword).toJson();
 		}
 	}
 	

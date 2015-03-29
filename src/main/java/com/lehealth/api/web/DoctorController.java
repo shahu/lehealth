@@ -53,7 +53,7 @@ public class DoctorController {
 				arr.add(d.toJsonObj());
 			}
 		}
-		return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 	
 	//患者获取医生信息
@@ -67,7 +67,7 @@ public class DoctorController {
 		if(user != null){
 			DoctorInfo doctor=this.doctorService.getInfo(user.getUserId(),doctorId);
 			if(StringUtils.isNotBlank(doctor.getId())){
-				return new JsonObjectResponse(ErrorCodeType.normal, doctor.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, doctor.toJsonObj()).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -87,7 +87,7 @@ public class DoctorController {
 			String doctorId=StringUtils.trimToEmpty(request.getParameter("doctorid"));
 			int attention=NumberUtils.toInt(request.getParameter("attention"));
 			if(this.doctorService.modifyAttentionStatus(user.getUserId(),doctorId,attention)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}

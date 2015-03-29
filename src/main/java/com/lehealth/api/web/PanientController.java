@@ -50,7 +50,7 @@ public class PanientController {
 		if(user != null){
 			PanientInfo info=this.panientService.getPanient(user.getUserId());
 			if(StringUtils.isNotBlank(info.getUserId())){
-				return new JsonObjectResponse(ErrorCodeType.normal, info.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, info.toJsonObj()).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -80,7 +80,7 @@ public class PanientController {
 			info.setUserName(userName);
 			info.setWeight(weight);
 			if(this.panientService.modifyPanient(info)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -102,7 +102,7 @@ public class PanientController {
 			for(PanientGuardianInfo info:list){
 				arr.add(info.toJsonObj());
 			}
-			return new JsonArrayResponse(ErrorCodeType.normal, arr).toJson();
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}
@@ -123,7 +123,7 @@ public class PanientController {
 			info.setGuardianName(guardianName);
 			info.setGuardianNumber(guardianNumber);
 			if(this.panientService.modifyGuardian(info)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}
@@ -142,7 +142,7 @@ public class PanientController {
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			if(this.panientService.deleteGuardian(user.getUserId(),guardianNumber)){
-				return new BaseResponse(ErrorCodeType.normal).toJson();
+				return new BaseResponse(ErrorCodeType.success).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.abnormal).toJson();
 			}

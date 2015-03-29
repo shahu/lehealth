@@ -16,10 +16,10 @@ public interface LoginService {
 	public UserBaseInfo getUserByToken(String loginId, String token);
 	
 	// 检查短信验证码
-	public boolean checkIdentifyingCode(String phoneNumber, String identifyingCode);
+	public ErrorCodeType checkIdentifyingCode(String phoneNumber, String identifyingCode);
 	
 	// 发送短信验证码
-	public ErrorCodeType sendIdentifyingCode(String phoneNumber);
+	public ErrorCodeType sendIdentifyingCode(String phoneNumber, String ip);
 	
 	// 清除验证码缓存
 	public void clearIdentifyingCodeCache();

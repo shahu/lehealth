@@ -51,11 +51,11 @@ public class HomeController {
 			// 看自己的首页
 			if(StringUtils.isBlank(targetUserId)){
 				HomeResult result = this.homeService.getHomeData(user, days);
-				return new JsonObjectResponse(ErrorCodeType.normal, result.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, result.toJsonObj()).toJson();
 			// 看别人的首页
 			}else{
 				HomeResult result = this.homeService.getHomeData(targetUserId, days);
-				return new JsonObjectResponse(ErrorCodeType.normal, result.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, result.toJsonObj()).toJson();
 			}
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();

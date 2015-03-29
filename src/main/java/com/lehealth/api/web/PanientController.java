@@ -61,7 +61,7 @@ public class PanientController {
 	
 	// 患者更新自己个人信息
 	@ResponseBody
-	@RequestMapping(value = "/panient/modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/panient/modify")
 	public JSONObject modifyPanientInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -69,9 +69,9 @@ public class PanientController {
 		if(user != null){
 			String userName=StringUtils.trimToEmpty(request.getParameter("username"));
 			int gender=NumberUtils.toInt(request.getParameter("gender"));
-			long birthday=NumberUtils.toInt(request.getParameter("birthday"));;
-			float height=NumberUtils.toInt(request.getParameter("height"));;
-			float weight=NumberUtils.toInt(request.getParameter("weight"));
+			long birthday=NumberUtils.toLong(request.getParameter("birthday"));;
+			float height=NumberUtils.toFloat(request.getParameter("height"));;
+			float weight=NumberUtils.toFloat(request.getParameter("weight"));
 			PanientInfo info=new PanientInfo();
 			info.setBirthday(birthday);
 			info.setGender(gender);

@@ -74,7 +74,7 @@ public class HomeResult{
 			for(BloodpressureRecord record : this.bpRecords){
 				Date date = new Date(record.getDate());
 				String key = DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
-				//TODO 测试
+				//TODO test
 				//int hour = NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
 				//if(hour >= 4 && hour <= 10){
 					if(!bpTemp.containsKey(key)){

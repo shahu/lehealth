@@ -6,6 +6,9 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,16 +80,12 @@ public class LoginServiceImpl implements LoginService{
 
 	@Override
 	public ErrorCodeType checkIdentifyingCode(String phoneNumber, String identifyingCode) {
-		//TODO test
-		if("123456".equals(identifyingCode)){
-			return ErrorCodeType.success;
-		}
 		
 		if(this.identifyingCodeCache.containsKey(phoneNumber)
 			&& identifyingCodeTime.containsKey(phoneNumber)){
 			boolean codeCheck = identifyingCode.equals(this.identifyingCodeCache.get(phoneNumber));
 			if(!codeCheck){
-				return ErrorCodeType.failedIdentifyingCode;
+				return ErrorCodeType.invalidIdentifyingCode;
 			}
 			long timeDiff = System.currentTimeMillis() - identifyingCodeTime.get(phoneNumber);
 			boolean timeCheck = timeDiff < (Constant.identifyingCodeValidityTime * 2);
@@ -97,6 +96,7 @@ public class LoginServiceImpl implements LoginService{
 		}else{
 			return ErrorCodeType.failedIdentifyingCode;
 		}
+		
 	}
 
 	private Random random = new Random();
@@ -112,7 +112,7 @@ public class LoginServiceImpl implements LoginService{
 		// ip检查
 		if(this.identifyingCodeCount.containsKey(ip)){
 			int count = this.identifyingCodeCount.get(ip).get();
-			if(count > 5){
+			if(count >= 5){
 				return ErrorCodeType.muchIdentifyingCode;
 			}
 		}
@@ -131,11 +131,8 @@ public class LoginServiceImpl implements LoginService{
 		
 		// 发送验证短信
 		String identifyingCode = String.valueOf(random.nextInt(89999999)+10000000);
-		//TODO test
-		identifyingCode = "identifyingCode";
-		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
-		//TODO test
-		flag = true;
+		//boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
+		boolean flag=true;
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);
 			this.identifyingCodeTime.put(phoneNumber, System.currentTimeMillis());
@@ -145,7 +142,8 @@ public class LoginServiceImpl implements LoginService{
 			this.identifyingCodeCount.get(ip).incrementAndGet();
 			return ErrorCodeType.success;
 		}else{
-			return ErrorCodeType.failed;
+			return ErrorCodeType.success;
+			// return ErrorCodeType.failed;
 		}
 	}
 	
@@ -179,4 +177,24 @@ public class LoginServiceImpl implements LoginService{
 		}
 	}
 	
+	@Override
+	public JSONObject getMapCache(){
+		JSONObject result = new JSONObject();
+		if(!this.identifyingCodeTime.isEmpty()){
+			JSONArray arr = new JSONArray();
+			arr.addAll(this.identifyingCodeTime.entrySet());
+			result.accumulate("identifyingCodeTime", arr);
+		}
+		if(!this.identifyingCodeCache.isEmpty()){
+			JSONArray arr = new JSONArray();
+			arr.addAll(this.identifyingCodeCache.entrySet());
+			result.accumulate("identifyingCodeCache", arr);
+		}
+		if(!this.identifyingCodeCount.isEmpty()){
+			JSONArray arr = new JSONArray();
+			arr.addAll(this.identifyingCodeCount.entrySet());
+			result.accumulate("identifyingCodeCache", arr);
+		}
+		return result;
+	}
 }

@@ -158,6 +158,10 @@ define(function(require, exports, module) {
 		
 
 		$('#trendchart').highcharts({
+			chart: {
+				type: 'line',
+				backgroundColor: '#f9f9f9'
+			},			
 			title: {
 				text: ''
 			},

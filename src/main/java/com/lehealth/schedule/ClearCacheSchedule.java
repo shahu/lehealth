@@ -56,7 +56,6 @@ public class ClearCacheSchedule {
 	@ResponseBody
 	@RequestMapping(value = "/map.do", method = RequestMethod.GET)
 	public String map(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		this.loginService.getMapCache();
-		return "clear";
+		return this.loginService.getMapCache().toString();
 	}
 }

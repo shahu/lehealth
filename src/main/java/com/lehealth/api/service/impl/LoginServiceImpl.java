@@ -85,7 +85,7 @@ public class LoginServiceImpl implements LoginService{
 			&& identifyingCodeTime.containsKey(phoneNumber)){
 			boolean codeCheck = identifyingCode.equals(this.identifyingCodeCache.get(phoneNumber));
 			if(!codeCheck){
-				return ErrorCodeType.failedIdentifyingCode;
+				return ErrorCodeType.invalidIdentifyingCode;
 			}
 			long timeDiff = System.currentTimeMillis() - identifyingCodeTime.get(phoneNumber);
 			boolean timeCheck = timeDiff < (Constant.identifyingCodeValidityTime * 2);

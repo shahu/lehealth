@@ -112,7 +112,7 @@ public class LoginServiceImpl implements LoginService{
 		// ip检查
 		if(this.identifyingCodeCount.containsKey(ip)){
 			int count = this.identifyingCodeCount.get(ip).get();
-			if(count > 5){
+			if(count >= 5){
 				return ErrorCodeType.muchIdentifyingCode;
 			}
 		}
@@ -131,7 +131,8 @@ public class LoginServiceImpl implements LoginService{
 		
 		// 发送验证短信
 		String identifyingCode = String.valueOf(random.nextInt(89999999)+10000000);
-		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
+		//boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
+		boolean flag=true;
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);
 			this.identifyingCodeTime.put(phoneNumber, System.currentTimeMillis());

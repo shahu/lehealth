@@ -4,7 +4,6 @@ import net.sf.json.JSONObject;
 
 public class MedicineInfo {
 	
-	//TODO 药物增加厂商用于区别
 	private int id=0;
 	private String name="";
 	

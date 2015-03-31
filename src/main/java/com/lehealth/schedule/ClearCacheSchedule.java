@@ -36,13 +36,27 @@ public class ClearCacheSchedule {
 	@RequestMapping(value = "/send1.do", method = RequestMethod.GET)
 	public String send1(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		this.sendTemplateSMSService.sendIdentifyingCodeSMS("18621545318", "123456");
-		return "ok";
+		return "send1";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/send2.do", method = RequestMethod.GET)
 	public String send2(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		this.sendTemplateSMSService.sendNoticeSMS("18621545318", "aaa", "99", "88");
-		return "ok";
+		return "send2";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/clear.do", method = RequestMethod.GET)
+	public String clear(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		this.loginService.clearIdentifyingCodeCache();
+		return "clear";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/map.do", method = RequestMethod.GET)
+	public String map(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		this.loginService.getMapCache();
+		return "clear";
 	}
 }

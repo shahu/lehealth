@@ -23,7 +23,7 @@ public class Ipv4Util {
 		//TODO test
 		String ip = req.getParameter("ip");
 		if(!StringUtils.isBlank(ip)){
-			return ip;
+			return "127.0.0.1test";
 		}
 		
 		ip = parseIpInHeader(req.getHeader("x-forwarded-for"));

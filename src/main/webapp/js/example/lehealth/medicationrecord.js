@@ -50,6 +50,10 @@ define(function(require, exports, module) {
 			});
 
 			function showRecordList(records) {
+				if(records.length == 0) {
+					util.toast("暂无用药计划");
+					return;
+				}
 				console.info("medicationrecord set medicationrecordlistwraper null");
 				$("#medicationrecordlistwraper").html('');
 				for (var i = 0; i < records.length; i++) {

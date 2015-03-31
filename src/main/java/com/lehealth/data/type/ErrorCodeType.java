@@ -4,7 +4,7 @@ public enum ErrorCodeType {
 	success(0,""),
 	
 	invalidPassword(101,"用户名或密码错误"),
-	invalidToken(102,"请重新登录"),
+	invalidToken(1,"请重新登录"),
 	invalidParam(103,"请求参数错误"),
 	
 	invalidPhoneNumber(111,"不是正确的手机号"),

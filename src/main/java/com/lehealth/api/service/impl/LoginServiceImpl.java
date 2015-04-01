@@ -109,6 +109,12 @@ public class LoginServiceImpl implements LoginService{
 	
 	@Override
 	public ErrorCodeType sendIdentifyingCode(String phoneNumber, String ip) {
+		// 手机号检查
+		UserBaseInfo user=this.loginDao.selectUserBaseInfo(phoneNumber);
+		if(isValidUser(user)){
+			return ErrorCodeType.repeatPhoneNumber;
+		}
+		
 		// ip检查
 		if(this.identifyingCodeCount.containsKey(ip)){
 			int count = this.identifyingCodeCount.get(ip).get();

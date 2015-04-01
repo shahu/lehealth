@@ -13,7 +13,6 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import com.lehealth.common.util.CheckStatusUtil;
 import com.lehealth.common.util.Constant;
-import com.lehealth.data.type.BloodPressStatusType;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -68,20 +67,53 @@ public class HomeResult{
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj = new JSONObject();
+		if(this.bpRecords != null && !this.bpRecords.isEmpty()){
+			JSONArray bpArr = new JSONArray();
+			for(BloodpressureRecord record : this.bpRecords){
+				bpArr.add(record.toJsonObj());
+			}
+			obj.accumulate("status", this.getStatus());
+			obj.accumulate("records", bpArr);
+		}
+		
+		if(this.medicineRecords != null && !this.medicineRecords.isEmpty()){
+			JSONArray mArr = new JSONArray();
+			for(MedicineRecord record : medicineRecords){
+				mArr.add(record.toHomeJsonObj());
+			}
+			obj.accumulate("history", mArr);
+		}
+		
+		if(this.guardedInfos != null && !this.guardedInfos.isEmpty()){
+			JSONArray gArr = new JSONArray();
+			for(PanientInfo guarded : guardedInfos){
+				gArr.add(guarded.toBaseJsonObj());
+			}
+			obj.accumulate("guardeds", gArr);
+		}
+		
+		if(this.info != null && StringUtils.isNotBlank(this.info.getUserId())){
+			obj.accumulate("info", this.info.toJsonObj());
+		}
+		
+		return obj;
+	}
+	
+	public JSONObject toJsonObjBak(){
+		JSONObject obj = new JSONObject();
 		
 		Map<String,List<BloodpressureRecord>> bpTemp = new HashMap<String,List<BloodpressureRecord>>();
 		if(this.bpRecords != null && !this.bpRecords.isEmpty()){
 			for(BloodpressureRecord record : this.bpRecords){
 				Date date = new Date(record.getDate());
 				String key = DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
-				//TODO test
-				//int hour = NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
-				//if(hour >= 4 && hour <= 10){
+				int hour = NumberUtils.toInt(DateFormatUtils.format(date, Constant.dateFormat_hh));
+				if(hour >= 4 && hour <= 10){
 					if(!bpTemp.containsKey(key)){
 						bpTemp.put(key, new ArrayList<BloodpressureRecord>());
 					}
 					bpTemp.get(key).add(record);
-				//}
+				}
 			}
 			
 			Date today = new Date();

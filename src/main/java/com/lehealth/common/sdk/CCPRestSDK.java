@@ -38,8 +38,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import com.lehealth.util.Constant;
-import com.lehealth.util.PoolConnectionManager;
+import com.lehealth.common.util.Constant;
+import com.lehealth.common.util.PoolConnectionManager;
 
 public class CCPRestSDK {
 

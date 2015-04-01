@@ -9,8 +9,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.DiseaseDao;
+import com.lehealth.common.util.TokenUtils;
 import com.lehealth.data.bean.DiseaseHistory;
-import com.lehealth.util.TokenUtils;
 
 @Repository("diseaseDao")
 public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {

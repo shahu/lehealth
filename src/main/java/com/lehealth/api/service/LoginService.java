@@ -1,5 +1,7 @@
 package com.lehealth.api.service;
 
+import net.sf.json.JSONObject;
+
 import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.UserRoleType;
@@ -23,4 +25,7 @@ public interface LoginService {
 	
 	// 清除验证码缓存
 	public void clearIdentifyingCodeCache();
+	
+	// 查看内存信息
+	public JSONObject getMapCache();
 }

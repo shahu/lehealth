@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.lehealth.common.sdk.CCPRestSDK;
 import com.lehealth.common.service.SendTemplateSMSService;
-import com.lehealth.util.Constant;
+import com.lehealth.common.util.Constant;
 
 @Service("sendTemplateSMSService")
 public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{

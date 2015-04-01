@@ -1,4 +1,4 @@
-package com.lehealth.util;
+package com.lehealth.common.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

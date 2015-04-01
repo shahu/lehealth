@@ -5,8 +5,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.lehealth.common.util.TokenUtils;
 import com.lehealth.data.type.UserRoleType;
-import com.lehealth.util.TokenUtils;
 
 public class UserBaseInfo {
 

@@ -94,7 +94,7 @@ public class LoginServiceImpl implements LoginService{
 			}
 			return ErrorCodeType.success;
 		}else{
-			return ErrorCodeType.failedIdentifyingCode;
+			return ErrorCodeType.noneIdentifyingCode;
 		}
 		
 	}
@@ -109,6 +109,12 @@ public class LoginServiceImpl implements LoginService{
 	
 	@Override
 	public ErrorCodeType sendIdentifyingCode(String phoneNumber, String ip) {
+		// 手机号检查
+		UserBaseInfo user=this.loginDao.selectUserBaseInfo(phoneNumber);
+		if(isValidUser(user)){
+			return ErrorCodeType.repeatPhoneNumber;
+		}
+		
 		// ip检查
 		if(this.identifyingCodeCount.containsKey(ip)){
 			int count = this.identifyingCodeCount.get(ip).get();
@@ -131,8 +137,7 @@ public class LoginServiceImpl implements LoginService{
 		
 		// 发送验证短信
 		String identifyingCode = String.valueOf(random.nextInt(89999999)+10000000);
-		//boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
-		boolean flag=true;
+		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);
 			this.identifyingCodeTime.put(phoneNumber, System.currentTimeMillis());
@@ -142,8 +147,7 @@ public class LoginServiceImpl implements LoginService{
 			this.identifyingCodeCount.get(ip).incrementAndGet();
 			return ErrorCodeType.success;
 		}else{
-			return ErrorCodeType.success;
-			// return ErrorCodeType.failed;
+			return ErrorCodeType.failed;
 		}
 	}
 	

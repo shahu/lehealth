@@ -12,8 +12,9 @@ public enum ErrorCodeType {
 	
 	invalidIdentifyingCode(111,"验证码错误"),
 	expireIdentifyingCode(112,"验证码过期"),
-	failedIdentifyingCode(113,"获取验证码失败"),
-	muchIdentifyingCode(114,"获取验证码频繁"),
+	noneIdentifyingCode(113,"尚未获取验证码"),
+	failedIdentifyingCode(114,"获取验证码失败，请稍后再试"),
+	muchIdentifyingCode(115,"获取验证码频繁"),
 	
 	failed(199,"数据异常，请稍后再试");
 	

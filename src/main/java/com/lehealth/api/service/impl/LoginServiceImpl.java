@@ -94,7 +94,7 @@ public class LoginServiceImpl implements LoginService{
 			}
 			return ErrorCodeType.success;
 		}else{
-			return ErrorCodeType.failedIdentifyingCode;
+			return ErrorCodeType.noneIdentifyingCode;
 		}
 		
 	}

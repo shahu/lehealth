@@ -2,6 +2,7 @@ package com.lehealth.common.service.impl;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.common.sdk.CCPRestSDK;
@@ -12,6 +13,8 @@ import com.lehealth.common.util.Constant;
 public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 
 	private CCPRestSDK restAPI = new CCPRestSDK();
+	
+	private static Logger logger = Logger.getLogger(SendTemplateSMSServiceImpl.class);
 	
 	@Override
 	public boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode){
@@ -27,7 +30,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	
 	private boolean sendTemplateSMS(String to, String tid, String[] datas){
 		JSONObject result = restAPI.sendTemplateSMS(to, tid, datas);
-		System.out.println(result.toString());
+		logger.info("send sms :" + result.toString());
 		if(result.has("statusCode")
 				&& "000000".equals(result.getString("statusCode"))){
 			return true;

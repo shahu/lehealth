@@ -137,8 +137,7 @@ public class LoginServiceImpl implements LoginService{
 		
 		// 发送验证短信
 		String identifyingCode = String.valueOf(random.nextInt(89999999)+10000000);
-		//boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
-		boolean flag=true;
+		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);
 			this.identifyingCodeTime.put(phoneNumber, System.currentTimeMillis());
@@ -148,8 +147,7 @@ public class LoginServiceImpl implements LoginService{
 			this.identifyingCodeCount.get(ip).incrementAndGet();
 			return ErrorCodeType.success;
 		}else{
-			return ErrorCodeType.success;
-			// return ErrorCodeType.failed;
+			return ErrorCodeType.failed;
 		}
 	}
 	

@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -50,6 +52,15 @@ public class SystemVariableServiceImpl implements SystemVariableService,Initiali
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		updateSystemVariable();
+	}
+
+	@Override
+	public JSONArray getCache() {
+		JSONArray arr = new JSONArray();
+		if(!this.map.isEmpty()){
+			arr.addAll(this.map.entrySet());
+		}
+		return arr;
 	}
 	
 }

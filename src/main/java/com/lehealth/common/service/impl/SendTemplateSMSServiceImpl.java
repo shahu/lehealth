@@ -24,8 +24,9 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	
 	@Override
 	public boolean sendNoticeSMS(String phoneNumber,String userPhoneNumber, String sbp, String dbp){
-		String[] datas = {userPhoneNumber, sbp, dbp};
-		return this.sendTemplateSMS(phoneNumber, "7780", datas);
+		// String[] datas = {userPhoneNumber, sbp, dbp};
+		// return this.sendTemplateSMS(phoneNumber, "7780", datas);
+		return true;
 	}
 	
 	private boolean sendTemplateSMS(String to, String tid, String[] datas){

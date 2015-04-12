@@ -44,7 +44,7 @@ import com.lehealth.common.util.PoolConnectionManager;
 public class CCPRestSDK {
 
 	private static final String TemplateSMS = "SMS/TemplateSMS";
-	public static final String SERVER_IP = "sandboxapp.cloopen.com";
+	public static final String SERVER_IP = "app.cloopen.com";
 	public static final String SERVER_PORT = "8883";
 	public static final String PROTOCOL = "TLS";
 	public static final String SCHEME = "https";

@@ -6,4 +6,5 @@ public interface SystemVariableService {
 	
 	public String getValue(SystemVariableKeyType key);
 	
+	public void updateSystemVariable();
 }

@@ -1,7 +1,12 @@
 package com.lehealth.data.type;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum SystemVariableKeyType {
 
+	unknown("unknown"),
+	
 	sendNoticeMessageSwitch("send_notice_message_switch"),
 	
 	sendIdentifyingCodeMessageSwitch("send_identifyingcode_message_switch"),
@@ -13,9 +18,23 @@ public enum SystemVariableKeyType {
 	}
 	
 	private final String key;
-
+	private final static Map<String, SystemVariableKeyType> map = new HashMap<String, SystemVariableKeyType>();
+	
+	static{
+		for(SystemVariableKeyType key : SystemVariableKeyType.values()){
+			map.put(key.getKey(), key);
+		}
+	}
+	
 	public String getKey() {
 		return key;
 	}
 	
+	public static SystemVariableKeyType getType(String key){
+		if(map.containsKey(key)){
+			return map.get(key);
+		}else{
+			return SystemVariableKeyType.unknown;
+		}
+	}
 }

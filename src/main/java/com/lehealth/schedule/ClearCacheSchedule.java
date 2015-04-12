@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.SendTemplateSMSService;
+import com.lehealth.common.service.SystemVariableService;
 
 @Controller
 @RequestMapping("/test")
@@ -27,9 +28,18 @@ public class ClearCacheSchedule {
 	@Qualifier("sendTemplateSMSService")
 	private SendTemplateSMSService sendTemplateSMSService;
 	
+	@Autowired
+	@Qualifier("systemVariableService")
+	private SystemVariableService systemVariableService;
+	
 	@Scheduled(cron = "5 1 * * * ?")
 	public void syncBloodpressureFromYundf() {
 		this.loginService.clearIdentifyingCodeCache();
+	}
+	
+	@Scheduled(cron = "5 1/5 * * * ?")
+	public void refreshSystemVariable() {
+		this.systemVariableService.updateSystemVariable();
 	}
 	
 	//@ResponseBody

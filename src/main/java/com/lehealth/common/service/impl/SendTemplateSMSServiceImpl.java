@@ -52,6 +52,8 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	private boolean sendTemplateSMS(String to, String tid, String[] datas){
 		String domain = this.systemVariableService.getValue(SystemVariableKeyType.sendSMSMessageDomain);
 		
+//		(开发)sandboxapp.cloopen.com
+//		(生产)app.cloopen.com
 		if(StringUtils.isBlank(domain)){
 			logger.info("domain is null ,set default=app.cloopen.com");
 			domain = "app.cloopen.com";
@@ -70,7 +72,8 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 			}
 			sb.append(";");
 		}
-		sb.append("result=").append(result.toString());
+		sb.append("domain=").append(domain).append(";")
+			.append("result=").append(result.toString()).append(";");
 		logger.info(sb.toString());
 		
 		if(result.has("statusCode")

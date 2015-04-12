@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var loginUrl = "/lehealth/api/login";
 	var registerUrl = "/lehealth/api/patient/register";
 	var obtainCodeUrl = "/lehealth/api/identifyingcode";
-
+	var countDown;
 
 	exports.render = function() {
 		// $(document).one("pageshow", function() {
@@ -21,6 +21,15 @@ define(function(require, exports, module) {
 			textVisible: true,
 			theme: 'c',
 			html: ''
+		});
+
+		$(document).off("pagehide", "#register");
+		$(document).on("pagehide", "#register", function() {
+				if(countDown) {
+					clearInterval(countDown);
+					$('#obtainCode').prop('disabled', false).removeClass('ui-disabled');
+					$('#obtainCode').text("获取");					
+				}				
 		});
 
 		$(document).off("pageshow", "#register");
@@ -51,7 +60,7 @@ define(function(require, exports, module) {
 						} else {
 							$('#obtainCode').prop('disabled', true).addClass('ui-disabled');
 							$('#obtainCode').text("60");
-							var countDown = setInterval(function() {
+							countDown = setInterval(function() {
 								var timeInSec = parseInt($('#obtainCode').text());
 								timeInSec--;
 								console.info(timeInSec);

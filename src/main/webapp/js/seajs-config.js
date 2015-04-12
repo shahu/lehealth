@@ -89,7 +89,7 @@ if(seajs.production){
 	],
 	[
 		"lehealth/register.js",
-		"lehealth/register-6cbb36c9518a157ee0078549350abf1c.js"
+		"lehealth/register-ab06695ab07dccf89910f21f2c88f391.js"
 	],
 	[
 		"lehealth/userconfig.js",

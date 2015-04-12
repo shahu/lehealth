@@ -50,8 +50,14 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	}
 	
 	private boolean sendTemplateSMS(String to, String tid, String[] datas){
+		String domain = this.systemVariableService.getValue(SystemVariableKeyType.sendSMSMessageDomain);
 		
-		JSONObject result = restAPI.sendTemplateSMS(to, tid, datas);
+		if(StringUtils.isBlank(domain)){
+			logger.info("domain is null ,set default=app.cloopen.com");
+			domain = "app.cloopen.com";
+		}
+		
+		JSONObject result = restAPI.sendTemplateSMS(to, tid, datas, domain);
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("send sms : ")

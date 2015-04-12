@@ -44,7 +44,7 @@ import com.lehealth.common.util.PoolConnectionManager;
 public class CCPRestSDK {
 
 	private static final String TemplateSMS = "SMS/TemplateSMS";
-	public static final String SERVER_IP = "app.cloopen.com";
+//	public static final String SERVER_IP = "app.cloopen.com";
 	public static final String SERVER_PORT = "8883";
 	public static final String PROTOCOL = "TLS";
 	public static final String SCHEME = "https";
@@ -63,8 +63,8 @@ public class CCPRestSDK {
 	 *            可选参数 内容数据，用于替换模板中{序号}
 	 * @return
 	 */
-	public JSONObject sendTemplateSMS(String to, String templateId, String[] datas) {
-		JSONObject errorInfo = this.accountValidate();
+	public JSONObject sendTemplateSMS(String to, String templateId, String[] datas, String domain) {
+		JSONObject errorInfo = this.accountValidate(domain);
 		if(errorInfo != null){
 			return errorInfo;
 		}
@@ -80,7 +80,7 @@ public class CCPRestSDK {
 		String sig = ACCOUNT_SID + ACCOUNT_TOKEN + timestamp;
 		String acountType = "Accounts";
 		String signature = DigestUtils.md5Hex(sig);
-		String url = getBaseUrl().append("/" + acountType + "/").append(acountName).append("/" + TemplateSMS + "?sig=").append(signature).toString();
+		String url = getBaseUrl(domain).append("/" + acountType + "/").append(acountName).append("/" + TemplateSMS + "?sig=").append(signature).toString();
 		
 		String src = acountName + ":" + timestamp;
 		String auth = Base64.encodeBase64String(src.getBytes());
@@ -105,7 +105,7 @@ public class CCPRestSDK {
 		DefaultHttpClient httpclient = null;
 		HttpPost postMethod = null;
 		try{
-			httpclient = new CcopHttpClient().registerSSL(SERVER_IP, NumberUtils.toInt(SERVER_PORT), "TLS", "https");
+			httpclient = new CcopHttpClient().registerSSL(domain, NumberUtils.toInt(SERVER_PORT), "TLS", "https");
 			postMethod = new HttpPost(url);
 			if(header != null && !header.isEmpty()){
 				for(Entry<String,String> e:header.entrySet()){
@@ -146,15 +146,15 @@ public class CCPRestSDK {
 	}
 
 
-	private StringBuffer getBaseUrl() {
+	private StringBuffer getBaseUrl(String domain) {
 		StringBuffer sb = new StringBuffer("https://");
-		sb.append(SERVER_IP).append(":").append(SERVER_PORT);
+		sb.append(domain).append(":").append(SERVER_PORT);
 		sb.append("/2013-12-26");
 		return sb;
 	}
 	
-	private JSONObject accountValidate() {
-		if ((StringUtils.isBlank(SERVER_IP))) {
+	private JSONObject accountValidate(String domain) {
+		if ((StringUtils.isBlank(domain))) {
 			return getMyError("172004", "IP为空");
 		}
 		if ((StringUtils.isBlank(SERVER_PORT))) {

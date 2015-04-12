@@ -88,7 +88,9 @@ define(function(require, exports, module) {
 					color: '#99b'
 				}
 			},
-
+			global: {    
+		        useUTC: false    
+		    },			
 			navigation: {
 				buttonOptions: {
 					theme: {

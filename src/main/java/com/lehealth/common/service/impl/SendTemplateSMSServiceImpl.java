@@ -24,12 +24,13 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	private CCPRestSDK restAPI = new CCPRestSDK();
 	
 	private static Logger logger = Logger.getLogger(SendTemplateSMSServiceImpl.class);
+	private static String switchFlag = "1";
 	
 	@Override
 	public boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode){
 		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendIdentifyingCodeMessageSwitch);
 		logger.info("sendIdentifyingCodeSMS flag is : " + flag + "!");
-		if(StringUtils.isNotBlank(flag)){
+		if(switchFlag.equals(flag)){
 			String[] datas = {identifyingCode, String.valueOf(Constant.identifyingCodeValidityMinute)};
 			return this.sendTemplateSMS(phoneNumber, "7779", datas);
 		}else{
@@ -41,7 +42,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	public boolean sendNoticeSMS(String phoneNumber,String userPhoneNumber, String sbp, String dbp){
 		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendNoticeMessageSwitch);
 		logger.info("sendNoticeSMS flag is : " + flag + "!");
-		if(StringUtils.isNotBlank(flag)){
+		if(switchFlag.equals(flag)){
 			String[] datas = {userPhoneNumber, sbp, dbp};
 			return this.sendTemplateSMS(phoneNumber, "7780", datas);
 		}else{

@@ -44,12 +44,12 @@ public class CacheSchedule {
 		this.systemVariableService.updateSystemVariable();
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/send1.do", method = RequestMethod.GET)
-	public String send1(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		this.sendTemplateSMSService.sendIdentifyingCodeSMS("18621545318", "333333");
-		return "send1";
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/send1.do", method = RequestMethod.GET)
+//	public String send1(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		this.sendTemplateSMSService.sendIdentifyingCodeSMS("18621545318", "333333");
+//		return "send1";
+//	}
 	
 //	@ResponseBody
 //	@RequestMapping(value = "/send2.do", method = RequestMethod.GET)

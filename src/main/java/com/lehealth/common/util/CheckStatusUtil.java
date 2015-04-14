@@ -24,7 +24,7 @@ public class CheckStatusUtil {
 	public static BloodPressStatusType bloodpress(List<BloodpressureRecord> records, BloodpressureConfig config) {
 		if(records != null && !records.isEmpty()){
 			for(BloodpressureRecord record : records){
-				BloodPressStatusType statusCode = Constant.getBpStatus(record.getSbp(), record.getDbp(), record.getHeartrate(), config);
+				BloodPressStatusType statusCode = bloodpress(record.getSbp(), record.getDbp(), record.getHeartrate(), config);
 				if(statusCode != BloodPressStatusType.normal){
 					return statusCode;
 				}

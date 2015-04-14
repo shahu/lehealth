@@ -1,5 +1,6 @@
 package com.lehealth.api.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.service.HomeService;
+import com.lehealth.common.util.Constant;
 import com.lehealth.data.bean.BloodpressureConfig;
 import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.HomeResult;
@@ -35,8 +37,10 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public HomeResult getHomeData(String userId, int days) {
 		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(userId,days);
+		Collections.sort(bpRecords, Constant.bpComparator);
 		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(userId);
 		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(userId, days);
+		Collections.sort(medicineRecords, Constant.medicineComparator);
 		PanientInfo info = this.panientDao.selectPanient(userId);
 		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days, info);
 		return result;
@@ -45,8 +49,10 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public HomeResult getHomeData(UserBaseInfo user, int days) {
 		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(user.getUserId(),days);
+		Collections.sort(bpRecords, Constant.bpComparator);
 		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(user.getUserId());
 		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(user.getUserId(), days);
+		Collections.sort(medicineRecords, Constant.medicineComparator);
 		List<PanientInfo> guardedInfos = this.panientDao.selectPanientListByGuardian(user.getLoginId());
 		PanientInfo info = this.panientDao.selectPanient(user.getUserId());
 		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days, guardedInfos, info);

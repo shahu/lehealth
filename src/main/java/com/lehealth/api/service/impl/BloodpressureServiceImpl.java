@@ -1,7 +1,6 @@
 package com.lehealth.api.service.impl;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +15,7 @@ import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.common.service.SendTemplateSMSService;
 import com.lehealth.common.util.CheckStatusUtil;
+import com.lehealth.common.util.Constant;
 import com.lehealth.data.bean.BloodpressureConfig;
 import com.lehealth.data.bean.BloodpressureRecord;
 import com.lehealth.data.bean.BloodpressureResult;
@@ -47,12 +47,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		BloodpressureResult result=new BloodpressureResult();
 		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
 		if(!list.isEmpty()){
-			Collections.sort(list, new Comparator<BloodpressureRecord>() {
-				@Override
-				public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
-					return (int) (o1.getDate()-o2.getDate());
-				}
-			});
+			Collections.sort(list, Constant.bpComparator);
 			result.setRecords(list);
 		}
 		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);

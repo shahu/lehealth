@@ -52,7 +52,9 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	
 	private boolean sendTemplateSMS(String to, String tid, String[] datas){
 		String domain = this.systemVariableService.getValue(SystemVariableKeyType.sendSMSMessageDomain);
-		
+		String appId = this.systemVariableService.getValue(SystemVariableKeyType.yuntongxunAppId);
+		String sid = this.systemVariableService.getValue(SystemVariableKeyType.yuntongxunAccountSid);
+		String token = this.systemVariableService.getValue(SystemVariableKeyType.yuntongxunAccountToken);
 //		(开发)sandboxapp.cloopen.com
 //		(生产)app.cloopen.com
 		if(StringUtils.isBlank(domain)){
@@ -60,7 +62,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 			domain = "app.cloopen.com";
 		}
 		
-		JSONObject result = restAPI.sendTemplateSMS(to, tid, datas, domain);
+		JSONObject result = restAPI.sendTemplateSMS(to, tid, datas, domain, appId, sid, token);
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("send sms : ")

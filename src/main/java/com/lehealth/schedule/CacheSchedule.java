@@ -47,7 +47,7 @@ public class CacheSchedule {
 //	@ResponseBody
 //	@RequestMapping(value = "/send1.do", method = RequestMethod.GET)
 //	public String send1(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-//		this.sendTemplateSMSService.sendIdentifyingCodeSMS("18621545318", "222222");
+//		this.sendTemplateSMSService.sendIdentifyingCodeSMS("18621545318", "333333");
 //		return "send1";
 //	}
 	

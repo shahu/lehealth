@@ -11,7 +11,13 @@ public enum SystemVariableKeyType {
 	
 	sendIdentifyingCodeMessageSwitch("send_identifyingcode_message_switch"),
 	
-	sendSMSMessageDomain("send_SMS_message_domain");
+	sendSMSMessageDomain("send_SMS_message_domain"),
+	
+	yuntongxunAccountSid("yuntongxun_account_sid"),
+	
+	yuntongxunAccountToken("yuntongxun_account_token"),
+	
+	yuntongxunAppId("yuntongxun_app_id");
 	
 	private SystemVariableKeyType(String key) {
 		this.key = key;

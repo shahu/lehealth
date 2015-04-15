@@ -72,4 +72,15 @@ public class CommonController {
 		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
 	
+	//微信ticket
+	@ResponseBody
+	@RequestMapping(value = "/wxTicket", method = RequestMethod.GET)
+	public JSONObject wxTicket(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<DiseaseCategroy> list=this.commonService.getDiseases();
+		JSONArray arr=new JSONArray();
+		for(DiseaseCategroy mc:list){
+			arr.add(mc.toJsonObj());
+		}
+		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
+	}
 }

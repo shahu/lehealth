@@ -16,11 +16,16 @@ import org.springframework.stereotype.Service;
 import com.lehealth.common.dao.SystemVariableDao;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
+import com.lehealth.common.util.HttpUtils;
 import com.lehealth.data.type.SystemVariableKeyType;
 
 @Service("commonCacheService")
 public class CommonCacheServiceImpl implements CommonCacheService,InitializingBean{
 
+	@Autowired
+	@Qualifier("systemVariableService")
+	private SystemVariableService systemVariableService;
+	
 	private static Logger logger = Logger.getLogger(CommonCacheServiceImpl.class);
 	
 	private String weixinTicket = "";
@@ -36,16 +41,17 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 	
 	private void updateWeixinCache(){
 		logger.info("update weixin token and ticket begin");
-		Map<String, String> temp = this.systemVariableDao.selectSystemVariables();
-		if(temp != null && !temp.isEmpty()){
-			for(Entry<String, String> e : temp.entrySet()){
-				logger.info("update system variable : key=" + e.getKey() + ";value=" + e.getValue());
-				SystemVariableKeyType key = SystemVariableKeyType.getType(e.getKey());
-				if(key != SystemVariableKeyType.unknown){
-					map.put(key, e.getValue());
-				}
+		String tempToken = HttpUtils.getGetResponse(url);
+		if(StringUtils.isNotBlank(tempToken)){
+			this.weixinToken = tempToken;
+			
+			String tempTicket = HttpUtils.getGetResponse(url);
+			if(StringUtils.isNotBlank(tempTicket)){
+				this.weixinTicket = tempTicket;
 			}
+			
 		}
+		
 		logger.info("update weixin token and ticket end");
 	}
 

@@ -168,7 +168,7 @@ public class SyncBloodpressureServiceImpl implements SyncBloodpressureService{
 		logger.info("yundf request uri:"+url);
 		logger.info("yundf request queryString:"+requestObj.toString());
 		String requestBody=YundfUtils.encode(requestObj.toString());
-		String responseBody=YundfUtils.encode(HttpUtils.getPostResponse(url,requestBody));
+		String responseBody=YundfUtils.encode(HttpUtils.getPostResponse(url, requestBody, YundfUtils.getHeaderConfig()));
 		logger.info("yundf request response:"+responseBody);
 		if(StringUtils.isBlank(responseBody)){
 			logger.info("yundf request response is empty or error");

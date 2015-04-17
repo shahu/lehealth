@@ -18,37 +18,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.CommonService;
 import com.lehealth.api.service.LoginService;
+import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseCategroy;
 import com.lehealth.data.bean.MedicineCategroy;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.JsonArrayResponse;
 
 @Controller
 @RequestMapping("/api")
-public class CommonController {
+public class WeixinPayController {
 
 	@Autowired
 	@Qualifier("loginService")
 	private LoginService loginService;
 	
 	@Autowired
-	@Qualifier("commonService")
-	private CommonService commonService;
+	@Qualifier("commonCacheService")
+	private CommonCacheService commonCacheService;
 	
-	//获取线下活动列表
+	// 获取通用js ticket
 	@ResponseBody
-	@RequestMapping(value = "/activities.do", method = RequestMethod.GET)
-	public JSONObject activities(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		List<Activity> list=this.commonService.getAtivities();
-		JSONArray arr=new JSONArray();
-		for(Activity a:list){
-			arr.add(a.toJsonObj());
-		}
-		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
+	@RequestMapping(value = "/wxTicket", method = RequestMethod.GET)
+	public String wxTicket(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String wxTicket=this.commonCacheService.getWeixinTicket();
+		return wxTicket;
 	}
 	
-	//药物列表
+	// 生成商户订单
 	@ResponseBody
 	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
 	public JSONObject medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -57,10 +55,34 @@ public class CommonController {
 		for(MedicineCategroy mc:list){
 			arr.add(mc.toJsonObj());
 		}
+		return new BaseResponse(ErrorCodeType.success).toJson();
+	}
+	
+	// 微信预付单检查
+	@ResponseBody
+	@RequestMapping(value = "/medicines.do", method = RequestMethod.GET)
+	public JSONObject medicines(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<MedicineCategroy> list=this.commonService.getMedicines();
+		JSONArray arr=new JSONArray();
+		for(MedicineCategroy mc:list){
+			arr.add(mc.toJsonObj());
+		}
+		return new BaseResponse(ErrorCodeType.success).toJson();
+	}
+	
+	// 支付结果通知接口，微信服务器调用
+	@ResponseBody
+	@RequestMapping(value = "/diseases.do", method = RequestMethod.GET)
+	public JSONObject diseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<DiseaseCategroy> list=this.commonService.getDiseases();
+		JSONArray arr=new JSONArray();
+		for(DiseaseCategroy mc:list){
+			arr.add(mc.toJsonObj());
+		}
 		return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 	}
-		
-	//疾病列表
+	
+	// 查询订单情况
 	@ResponseBody
 	@RequestMapping(value = "/diseases.do", method = RequestMethod.GET)
 	public JSONObject diseases(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

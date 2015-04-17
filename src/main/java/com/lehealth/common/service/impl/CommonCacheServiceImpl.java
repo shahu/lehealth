@@ -30,6 +30,7 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 	
 	private String weixinTicket = "";
 	private String weixinToken = "";
+	
 	@Override
 	public String getWeixinTicket() {
 		return weixinTicket;
@@ -41,17 +42,23 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 	
 	private void updateWeixinCache(){
 		logger.info("update weixin token and ticket begin");
-		String tempToken = HttpUtils.getGetResponse(url);
+		StringBuilder accessTokenApi = new StringBuilder();
+		accessTokenApi.append("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid")
+			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID))
+			.append("&secret=")
+			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret));
+		String tempToken = HttpUtils.getGetResponse(accessTokenApi.toString());
 		if(StringUtils.isNotBlank(tempToken)){
 			this.weixinToken = tempToken;
-			
-			String tempTicket = HttpUtils.getGetResponse(url);
+			StringBuilder jsTicketApi = new StringBuilder();
+			jsTicketApi.append("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=")
+				.append(tempToken)
+				.append("&type=jsapi");
+			String tempTicket = HttpUtils.getGetResponse(jsTicketApi.toString());
 			if(StringUtils.isNotBlank(tempTicket)){
 				this.weixinTicket = tempTicket;
 			}
-			
 		}
-		
 		logger.info("update weixin token and ticket end");
 	}
 

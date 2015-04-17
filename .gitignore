@@ -1,6 +1,10 @@
 target/
 .DS_Store
 .classpath
+<<<<<<< HEAD
+=======
+.externalToolBuilders
+>>>>>>> master
 .project
 .pydevproject
 .settings

@@ -1,10 +1,6 @@
 target/
 .DS_Store
 .classpath
-<<<<<<< HEAD
-=======
-.externalToolBuilders
->>>>>>> b6b793c3bc37eb8ac0ba1fd6e431bc1c6c75e9c3
 .project
 .pydevproject
 .settings

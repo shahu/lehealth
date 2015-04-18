@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import com.lehealth.api.dao.CommonDao;
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseInfo;
 import com.lehealth.data.bean.DiseaseCategroy;
+import com.lehealth.data.bean.GoodsInfo;
 import com.lehealth.data.bean.MedicineInfo;
 import com.lehealth.data.bean.MedicineCategroy;
 
@@ -38,8 +40,6 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 		
 		return list;
 	}
-
-	
 
 	@Override
 	public List<MedicineCategroy> selectMedicines() {
@@ -95,5 +95,61 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 		}
 		list.addAll(map.values());
 		return list;
+	}
+
+	@Override
+	public List<GoodsInfo> selectGoodsInfos() {
+		List<GoodsInfo> list=new ArrayList<GoodsInfo>();
+		String sql="SELECT id,name,info,detail,images,fee_type,fee FROM goods_info "
+				+"WHERE status=1";
+		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
+		while(rs.next()){
+			GoodsInfo goodsInfo = new GoodsInfo();
+			int id=rs.getInt("id");
+			String name=StringUtils.trimToEmpty(rs.getString("name"));
+			String info=StringUtils.trimToEmpty(rs.getString("info"));
+			String detail=StringUtils.trimToEmpty(rs.getString("detail"));
+			String[] images=StringUtils.trimToEmpty(rs.getString("images")).split(",");
+			String feeType=StringUtils.trimToEmpty(rs.getString("fee_type"));
+			double fee = rs.getDouble("fee");
+			goodsInfo.setId(id);
+			goodsInfo.setName(name);
+			goodsInfo.setInfo(info);
+			goodsInfo.setDetail(detail);
+			goodsInfo.setImages(images);
+			goodsInfo.setFeeType(feeType);
+			goodsInfo.setFee(fee);
+			list.add(goodsInfo);
+		}
+		return list;
+	}
+
+	@Override
+	public GoodsInfo selectGoodsInfo(int goodsId) {
+		String sql="SELECT id,name,info,detail,images,fee_type,fee FROM goods_info "
+				+"WHERE status=1 "
+				+"AND id=:id";
+		MapSqlParameterSource msps = new MapSqlParameterSource();
+		msps.addValue("id", goodsId);
+		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
+		if(rs.next()){
+			GoodsInfo goodsInfo = new GoodsInfo();
+			int id=rs.getInt("id");
+			String name=StringUtils.trimToEmpty(rs.getString("name"));
+			String info=StringUtils.trimToEmpty(rs.getString("info"));
+			String detail=StringUtils.trimToEmpty(rs.getString("detail"));
+			String[] images=StringUtils.trimToEmpty(rs.getString("images")).split(",");
+			String feeType=StringUtils.trimToEmpty(rs.getString("fee_type"));
+			double fee = rs.getDouble("fee");
+			goodsInfo.setId(id);
+			goodsInfo.setName(name);
+			goodsInfo.setInfo(info);
+			goodsInfo.setDetail(detail);
+			goodsInfo.setImages(images);
+			goodsInfo.setFeeType(feeType);
+			goodsInfo.setFee(fee);
+			return goodsInfo;
+		}
+		return null;
 	}
 }

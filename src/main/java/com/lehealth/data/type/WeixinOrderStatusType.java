@@ -1,6 +1,6 @@
 package com.lehealth.data.type;
 
-public enum ErrorCodeType {
+public enum WeixinOrderStatusType {
 	success(0,""),
 	
 	invalidPassword(101,"用户名或密码错误"),
@@ -20,7 +20,7 @@ public enum ErrorCodeType {
 	
 	failed(199,"数据异常，请稍后再试");
 	
-	private ErrorCodeType(int code,String message) {
+	private WeixinOrderStatusType(int code,String message) {
 		this.code = code;
 		this.message = message;
 	}

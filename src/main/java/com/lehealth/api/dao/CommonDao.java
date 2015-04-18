@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseCategroy;
+import com.lehealth.data.bean.GoodsInfo;
 import com.lehealth.data.bean.MedicineCategroy;
 
 public interface CommonDao {
@@ -16,4 +17,10 @@ public interface CommonDao {
 	
 	//获取疾病列表
 	public List<DiseaseCategroy> selectDiseases();
+	
+	// 商品列表
+	public List<GoodsInfo> selectGoodsInfos();
+	
+	// 商品详情
+	public GoodsInfo selectGoodsInfo(int goodsId);
 }

@@ -1,8 +1,6 @@
 package com.lehealth.api.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +10,6 @@ import com.lehealth.api.dao.CommonDao;
 import com.lehealth.api.service.CommonService;
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.GoodsInfo;
 import com.lehealth.data.bean.MedicineCategroy;
 
 @Service("commonService")

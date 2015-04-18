@@ -6,9 +6,9 @@ import net.sf.json.JSONObject;
 
 import com.lehealth.data.type.ErrorCodeType;
 
-public class StringResponse extends BaseResponse {
+public class MapResponse extends BaseResponse {
 
-	public StringResponse(ErrorCodeType type, Map<String, String> result) {
+	public MapResponse(ErrorCodeType type, Map<String, String> result) {
 		super(type);
 		this.result = result;
 	}

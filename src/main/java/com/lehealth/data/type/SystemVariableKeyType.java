@@ -15,7 +15,11 @@ public enum SystemVariableKeyType {
 	yuntongxunAppId("yuntongxun_app_id"),
 	
 	weixinAppID("weixin_app_id"),
-	weixinAppSecret("weixin_app_secret");
+	weixinAppSecret("weixin_app_secret"),
+	weixinConfigNoncestr("weixin_config_noncestr"),
+	weixinPrePayNoncestr("weixin_pre_pay_noncestr"),
+	weixinCheckOrderNocestr("weixin_check_order_noncestr")
+	;
 	
 	private SystemVariableKeyType(String key) {
 		this.key = key;

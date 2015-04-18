@@ -1,10 +1,10 @@
 package com.lehealth.common.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.json.JSONArray;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.lehealth.common.dao.SystemVariableDao;
+import com.lehealth.api.dao.CommonDao;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.HttpUtils;
+import com.lehealth.data.bean.GoodsInfo;
 import com.lehealth.data.type.SystemVariableKeyType;
 
 @Service("commonCacheService")
@@ -26,7 +27,24 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 	@Qualifier("systemVariableService")
 	private SystemVariableService systemVariableService;
 	
+	@Autowired
+	@Qualifier("commonDao")
+	private CommonDao commonDao;
+	
 	private static Logger logger = Logger.getLogger(CommonCacheServiceImpl.class);
+	
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		updateCommonCache30();
+	}
+
+	@Override
+	public void updateCommonCache30(){
+		logger.info("update common cache begin");
+		updateWeixinCache();
+		updateGoodsCache();
+		logger.info("update common cache end");
+	}
 	
 	private String weixinTicket = "";
 	private String weixinToken = "";
@@ -62,18 +80,27 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 		logger.info("update weixin token and ticket end");
 	}
 
+	private Map<Integer, GoodsInfo> goodsInfos = new ConcurrentHashMap<Integer, GoodsInfo>();
+	
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		updateCommonCache30();
+	public List<GoodsInfo> getGoodsInfos() {
+		List<GoodsInfo> list = new ArrayList<GoodsInfo>(goodsInfos.values());
+		return list;
+	}
+	
+	@Override
+	public GoodsInfo getGoodsInfo(int goodsId) {
+		return goodsInfos.get(goodsId);
 	}
 
-	@Override
-	public void updateCommonCache30(){
-		logger.info("update common cache begin");
-		
-		updateWeixinCache();
-		
-		logger.info("update common cache end");
+	private void updateGoodsCache(){
+		logger.info("update goods infos begin");
+		Map<Integer, GoodsInfo> temp = this.commonDao.selectGoodsInfos();
+		if(temp != null && !temp.isEmpty()){
+			this.goodsInfos.clear();
+			this.goodsInfos.putAll(temp);
+		}
+		logger.info("update goods infos end");
 	}
 
 }

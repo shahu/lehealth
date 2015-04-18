@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.CommonService;
 import com.lehealth.api.service.LoginService;
+import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseCategroy;
 import com.lehealth.data.bean.GoodsInfo;
@@ -39,6 +40,10 @@ public class CommonController {
 	@Autowired
 	@Qualifier("commonService")
 	private CommonService commonService;
+	
+	@Autowired
+	@Qualifier("commonCacheService")
+	private CommonCacheService commonCacheService;
 	
 	// 获取线下活动列表
 	@ResponseBody
@@ -80,7 +85,7 @@ public class CommonController {
 	@ResponseBody
 	@RequestMapping(value = "/goods/list", method = RequestMethod.GET)
 	public JSONObject goodsList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		List<GoodsInfo> list=this.commonService.getGoodsInfos();
+		List<GoodsInfo> list=this.commonCacheService.getGoodsInfos();
 		JSONArray arr=new JSONArray();
 		for(GoodsInfo gi:list){
 			arr.add(gi.toJsonObj());
@@ -93,7 +98,7 @@ public class CommonController {
 	@RequestMapping(value = "/goods/detail", method = RequestMethod.GET)
 	public JSONObject goodsDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		int goodsId = NumberUtils.toInt(request.getParameter("goodsid"));
-		GoodsInfo info = this.commonService.getGoodsInfo(goodsId);
+		GoodsInfo info = this.commonCacheService.getGoodsInfo(goodsId);
 		if(info != null){
 			return new JsonObjectResponse(ErrorCodeType.success, info.toJsonObj()).toJson();
 		}else{

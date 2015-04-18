@@ -2,6 +2,7 @@ package com.lehealth.api.dao.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +99,8 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 	}
 
 	@Override
-	public List<GoodsInfo> selectGoodsInfos() {
-		List<GoodsInfo> list=new ArrayList<GoodsInfo>();
+	public Map<Integer, GoodsInfo> selectGoodsInfos() {
+		Map<Integer, GoodsInfo> map=new LinkedHashMap<Integer, GoodsInfo>();
 		String sql="SELECT id,name,info,detail,images,fee_type,fee FROM goods_info "
 				+"WHERE status=1";
 		SqlRowSet rs=this.jdbcTemplate.queryForRowSet(sql);
@@ -119,37 +120,9 @@ public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {
 			goodsInfo.setImages(images);
 			goodsInfo.setFeeType(feeType);
 			goodsInfo.setFee(fee);
-			list.add(goodsInfo);
+			map.put(id, goodsInfo);
 		}
-		return list;
+		return map;
 	}
 
-	@Override
-	public GoodsInfo selectGoodsInfo(int goodsId) {
-		String sql="SELECT id,name,info,detail,images,fee_type,fee FROM goods_info "
-				+"WHERE status=1 "
-				+"AND id=:id";
-		MapSqlParameterSource msps = new MapSqlParameterSource();
-		msps.addValue("id", goodsId);
-		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
-		if(rs.next()){
-			GoodsInfo goodsInfo = new GoodsInfo();
-			int id=rs.getInt("id");
-			String name=StringUtils.trimToEmpty(rs.getString("name"));
-			String info=StringUtils.trimToEmpty(rs.getString("info"));
-			String detail=StringUtils.trimToEmpty(rs.getString("detail"));
-			String[] images=StringUtils.trimToEmpty(rs.getString("images")).split(",");
-			String feeType=StringUtils.trimToEmpty(rs.getString("fee_type"));
-			double fee = rs.getDouble("fee");
-			goodsInfo.setId(id);
-			goodsInfo.setName(name);
-			goodsInfo.setInfo(info);
-			goodsInfo.setDetail(detail);
-			goodsInfo.setImages(images);
-			goodsInfo.setFeeType(feeType);
-			goodsInfo.setFee(fee);
-			return goodsInfo;
-		}
-		return null;
-	}
 }

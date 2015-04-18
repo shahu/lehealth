@@ -1,6 +1,8 @@
 package com.lehealth.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,13 +37,4 @@ public class CommonServiceImpl implements CommonService{
 		return this.commonDao.selectDiseases();
 	}
 
-	@Override
-	public List<GoodsInfo> getGoodsInfos() {
-		return this.commonDao.selectGoodsInfos();
-	}
-
-	@Override
-	public GoodsInfo getGoodsInfo(int goodsId) {
-		return this.commonDao.selectGoodsInfo(goodsId);
-	}
 }

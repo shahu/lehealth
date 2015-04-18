@@ -1,6 +1,7 @@
 package com.lehealth.api.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.lehealth.data.bean.Activity;
 import com.lehealth.data.bean.DiseaseCategroy;
@@ -19,8 +20,6 @@ public interface CommonDao {
 	public List<DiseaseCategroy> selectDiseases();
 	
 	// 商品列表
-	public List<GoodsInfo> selectGoodsInfos();
+	public Map<Integer, GoodsInfo> selectGoodsInfos();
 	
-	// 商品详情
-	public GoodsInfo selectGoodsInfo(int goodsId);
 }

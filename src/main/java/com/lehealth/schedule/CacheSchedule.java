@@ -57,32 +57,32 @@ public class CacheSchedule {
 		this.commonCacheService.updateCommonCache30();
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/refreshSystemVariable.do", method = RequestMethod.GET)
-	public String refreshSystemVariable(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		this.systemVariableService.updateSystemVariable();
-		return "refreshSystemVariable";
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/refreshSystemVariable.do", method = RequestMethod.GET)
+//	public String refreshSystemVariable(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		this.systemVariableService.updateSystemVariable();
+//		return "refreshSystemVariable";
+//	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/clearIdentifyingCode.do", method = RequestMethod.GET)
-	public String clearIdentifyingCode(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		this.loginService.clearIdentifyingCodeCache();
-		return "clearIdentifyingCode";
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/clearIdentifyingCode.do", method = RequestMethod.GET)
+//	public String clearIdentifyingCode(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		this.loginService.clearIdentifyingCodeCache();
+//		return "clearIdentifyingCode";
+//	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/refreshCommonCache30.do", method = RequestMethod.GET)
-	public String refreshCommonCache30(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		this.commonCacheService.updateCommonCache30();
-		return "updateCommonCache30";
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/refreshCommonCache30.do", method = RequestMethod.GET)
+//	public String refreshCommonCache30(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		this.commonCacheService.updateCommonCache30();
+//		return "updateCommonCache30";
+//	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/getCache.do", method = RequestMethod.GET)
-	public String getCache(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		JSONObject obj = this.loginService.getMapCache();
-		obj.accumulate("systemvariable", this.systemVariableService.getCache());
-		return obj.toString();
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/getCache.do", method = RequestMethod.GET)
+//	public String getCache(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		JSONObject obj = this.loginService.getMapCache();
+//		obj.accumulate("systemvariable", this.systemVariableService.getCache());
+//		return obj.toString();
+//	}
 }

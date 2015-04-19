@@ -15,9 +15,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.MedicineDao;
+import com.lehealth.api.entity.MedicineConfig;
+import com.lehealth.api.entity.MedicineRecord;
 import com.lehealth.common.util.TokenUtils;
-import com.lehealth.data.bean.MedicineConfig;
-import com.lehealth.data.bean.MedicineRecord;
 
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {

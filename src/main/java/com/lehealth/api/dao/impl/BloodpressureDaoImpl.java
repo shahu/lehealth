@@ -11,9 +11,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.BloodpressureDao;
+import com.lehealth.api.entity.BloodpressureConfig;
+import com.lehealth.api.entity.BloodpressureRecord;
 import com.lehealth.common.util.TokenUtils;
-import com.lehealth.data.bean.BloodpressureConfig;
-import com.lehealth.data.bean.BloodpressureRecord;
 
 @Repository("bloodpressureDao")
 public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDao {

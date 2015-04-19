@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.CommonDao;
+import com.lehealth.api.entity.GoodsInfo;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.HttpUtils;
-import com.lehealth.data.bean.GoodsInfo;
 import com.lehealth.data.type.SystemVariableKeyType;
 
 @Service("commonCacheService")

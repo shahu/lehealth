@@ -2,7 +2,7 @@ package com.lehealth.common.service;
 
 import java.util.List;
 
-import com.lehealth.data.bean.GoodsInfo;
+import com.lehealth.api.entity.GoodsInfo;
 
 public interface CommonCacheService {
 	

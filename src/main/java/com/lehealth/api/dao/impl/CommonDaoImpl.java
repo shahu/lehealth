@@ -12,12 +12,12 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.CommonDao;
-import com.lehealth.data.bean.Activity;
-import com.lehealth.data.bean.DiseaseInfo;
-import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.GoodsInfo;
-import com.lehealth.data.bean.MedicineInfo;
-import com.lehealth.data.bean.MedicineCategroy;
+import com.lehealth.api.entity.Activity;
+import com.lehealth.api.entity.DiseaseCategroy;
+import com.lehealth.api.entity.DiseaseInfo;
+import com.lehealth.api.entity.GoodsInfo;
+import com.lehealth.api.entity.MedicineCategroy;
+import com.lehealth.api.entity.MedicineInfo;
 
 @Repository("commonDao")
 public class CommonDaoImpl extends BaseJdbcDao implements CommonDao {

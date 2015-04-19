@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.util.Ipv4Util;
-import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.UserRoleType;
 import com.lehealth.response.bean.BaseResponse;

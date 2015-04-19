@@ -1,4 +1,4 @@
-package com.lehealth.data.bean;
+package com.lehealth.api.entity;
 
 import com.lehealth.data.type.GoodsStatusType;
 

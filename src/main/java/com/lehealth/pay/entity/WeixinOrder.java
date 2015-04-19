@@ -1,8 +1,8 @@
-package com.lehealth.data.bean;
+package com.lehealth.pay.entity;
 
 import net.sf.json.JSONObject;
 
-public class Activity {
+public class WeixinOrder {
 	
 	private int id=0;
 	private String name="";

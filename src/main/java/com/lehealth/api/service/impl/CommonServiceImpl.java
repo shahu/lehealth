@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.CommonDao;
+import com.lehealth.api.entity.Activity;
+import com.lehealth.api.entity.DiseaseCategroy;
+import com.lehealth.api.entity.MedicineCategroy;
 import com.lehealth.api.service.CommonService;
-import com.lehealth.data.bean.Activity;
-import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.MedicineCategroy;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService{

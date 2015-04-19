@@ -3,10 +3,10 @@ package com.lehealth.api.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.lehealth.data.bean.Activity;
-import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.GoodsInfo;
-import com.lehealth.data.bean.MedicineCategroy;
+import com.lehealth.api.entity.Activity;
+import com.lehealth.api.entity.DiseaseCategroy;
+import com.lehealth.api.entity.GoodsInfo;
+import com.lehealth.api.entity.MedicineCategroy;
 
 public interface CommonDao {
 	

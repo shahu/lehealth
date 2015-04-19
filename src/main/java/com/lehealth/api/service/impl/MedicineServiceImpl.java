@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.MedicineDao;
+import com.lehealth.api.entity.MedicineConfig;
+import com.lehealth.api.entity.MedicineRecord;
 import com.lehealth.api.service.MedicineService;
 import com.lehealth.common.util.Constant;
-import com.lehealth.data.bean.MedicineConfig;
-import com.lehealth.data.bean.MedicineRecord;
 
 @Service("medicineService")
 public class MedicineServiceImpl implements MedicineService{

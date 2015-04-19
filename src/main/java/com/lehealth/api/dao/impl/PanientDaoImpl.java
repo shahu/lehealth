@@ -10,9 +10,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.PanientDao;
+import com.lehealth.api.entity.PanientGuardianInfo;
+import com.lehealth.api.entity.PanientInfo;
 import com.lehealth.common.util.TokenUtils;
-import com.lehealth.data.bean.PanientGuardianInfo;
-import com.lehealth.data.bean.PanientInfo;
 
 @Repository("panientDao")
 public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {

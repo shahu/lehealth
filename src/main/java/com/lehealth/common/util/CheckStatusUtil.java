@@ -2,8 +2,8 @@ package com.lehealth.common.util;
 
 import java.util.List;
 
-import com.lehealth.data.bean.BloodpressureConfig;
-import com.lehealth.data.bean.BloodpressureRecord;
+import com.lehealth.api.entity.BloodpressureConfig;
+import com.lehealth.api.entity.BloodpressureRecord;
 import com.lehealth.data.type.BloodPressStatusType;
 
 public class CheckStatusUtil {

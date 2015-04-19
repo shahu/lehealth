@@ -2,8 +2,8 @@ package com.lehealth.api.service;
 
 import java.util.List;
 
-import com.lehealth.data.bean.MedicineConfig;
-import com.lehealth.data.bean.MedicineRecord;
+import com.lehealth.api.entity.MedicineConfig;
+import com.lehealth.api.entity.MedicineRecord;
 
 public interface MedicineService {
 	

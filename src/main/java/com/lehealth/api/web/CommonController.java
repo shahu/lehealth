@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lehealth.api.entity.Activity;
+import com.lehealth.api.entity.DiseaseCategroy;
+import com.lehealth.api.entity.GoodsInfo;
+import com.lehealth.api.entity.MedicineCategroy;
 import com.lehealth.api.service.CommonService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.CommonCacheService;
-import com.lehealth.data.bean.Activity;
-import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.GoodsInfo;
-import com.lehealth.data.bean.MedicineCategroy;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.JsonArrayResponse;

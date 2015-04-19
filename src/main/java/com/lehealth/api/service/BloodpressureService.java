@@ -1,8 +1,8 @@
 package com.lehealth.api.service;
 
-import com.lehealth.data.bean.BloodpressureConfig;
-import com.lehealth.data.bean.BloodpressureRecord;
-import com.lehealth.data.bean.BloodpressureResult;
+import com.lehealth.api.entity.BloodpressureConfig;
+import com.lehealth.api.entity.BloodpressureRecord;
+import com.lehealth.api.entity.BloodpressureResult;
 
 public interface BloodpressureService {
 	

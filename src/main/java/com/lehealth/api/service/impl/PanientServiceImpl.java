@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.PanientDao;
+import com.lehealth.api.entity.PanientGuardianInfo;
+import com.lehealth.api.entity.PanientInfo;
 import com.lehealth.api.service.PanientService;
-import com.lehealth.data.bean.PanientGuardianInfo;
-import com.lehealth.data.bean.PanientInfo;
 
 @Service("panientService")
 public class PanientServiceImpl implements PanientService{

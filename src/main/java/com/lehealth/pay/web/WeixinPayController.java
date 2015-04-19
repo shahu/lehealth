@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
-import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.SystemVariableKeyType;
 import com.lehealth.pay.service.WeixinPayService;
@@ -99,7 +99,6 @@ public class WeixinPayController {
 			String orderId = this.weixinPayService.buildOrder(user.getUserId(), goodsId);
 			// 调用微信接口下单
 			String prepayId = this.weixinPayService.prePayOrder();
-			
 			// 构造返回前端的信息
 			if(StringUtils.isNotBlank(prepayId)){
 				String appId = this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID);
@@ -139,7 +138,6 @@ public class WeixinPayController {
 	@ResponseBody
 	@RequestMapping(value = "/check/pay", method = RequestMethod.GET)
 	public JSONObject checkPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		
 		return new BaseResponse(ErrorCodeType.success).toJson();
 	}
 	

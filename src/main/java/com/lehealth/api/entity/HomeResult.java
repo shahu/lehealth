@@ -11,7 +11,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
-import com.lehealth.common.util.CheckStatusUtil;
+import com.lehealth.common.util.CheckStatusUtils;
 import com.lehealth.common.util.Constant;
 
 import net.sf.json.JSONArray;
@@ -212,6 +212,6 @@ public class HomeResult{
 	}
 	
 	public int getStatus() {
-		return CheckStatusUtil.bloodpress(bpRecords, bpConfig).getCode();
+		return CheckStatusUtils.bloodpress(bpRecords, bpConfig).getCode();
 	}
 }

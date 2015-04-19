@@ -21,6 +21,10 @@ public class HttpUtils {
 	
 	private static Logger logger = Logger.getLogger(HttpUtils.class);
 	
+	public static String getPostResponse(String url, String requestBody){
+		return getPostResponse(url, requestBody, null);
+	}
+	
 	public static String getPostResponse(String url, String requestBody, Map<String, String> header){
 		try {
             //已单例形式初始化链接线程池大小

@@ -13,7 +13,7 @@ import com.lehealth.api.dao.MedicineDao;
 import com.lehealth.api.entity.MedicineConfig;
 import com.lehealth.api.entity.MedicineRecord;
 import com.lehealth.api.service.MedicineService;
-import com.lehealth.common.util.Constant;
+import com.lehealth.common.util.ComparatorUtils;
 
 @Service("medicineService")
 public class MedicineServiceImpl implements MedicineService{
@@ -26,14 +26,14 @@ public class MedicineServiceImpl implements MedicineService{
 	public List<MedicineRecord> getTodayRecords(String userId){
 		Map<Integer,MedicineRecord> map = this.medicineDao.selectTodayRecords(userId);
 		List<MedicineRecord> list = new ArrayList<MedicineRecord>(map.values());
-		Collections.sort(list, Constant.medicineComparator);
+		Collections.sort(list, ComparatorUtils.medicineComparator);
 		return list;
 	}
 	
 	@Override
 	public List<MedicineRecord> getHistoryRecords(String userId,int days){
 		List<MedicineRecord> list = this.medicineDao.selectRecords(userId, days);
-		Collections.sort(list, Constant.medicineComparator);
+		Collections.sort(list, ComparatorUtils.medicineComparator);
 		return list;
 	}
 	

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.common.util.Ipv4Util;
+import com.lehealth.common.util.Ipv4Utils;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.UserRoleType;
 import com.lehealth.response.bean.BaseResponse;
@@ -77,7 +77,7 @@ public class LoginController {
 		String phoneNumber=StringUtils.trimToEmpty(request.getParameter("phone"));
 		Matcher matcher = phonePattern.matcher(phoneNumber); 
 		if(matcher.matches()){
-			String ip = Ipv4Util.getIp(request);
+			String ip = Ipv4Utils.getIp(request);
 			ErrorCodeType type=this.loginService.sendIdentifyingCode(phoneNumber,ip);
 			return new BaseResponse(type).toJson();
 		}else{

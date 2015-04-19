@@ -23,8 +23,10 @@ import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
+import com.lehealth.common.util.Ipv4Utils;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.SystemVariableKeyType;
+import com.lehealth.pay.entity.WeixinOrder;
 import com.lehealth.pay.service.WeixinPayService;
 import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.MapResponse;
@@ -94,38 +96,44 @@ public class WeixinPayController {
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int goodsId = NumberUtils.toInt(request.getParameter("goodsid"));
-			long timestamp = NumberUtils.toLong(request.getParameter("timestamp"), System.currentTimeMillis()/1000);
-			// 创建我们的订单
-			String orderId = this.weixinPayService.buildOrder(user.getUserId(), goodsId);
-			// 调用微信接口下单
-			String prepayId = this.weixinPayService.prePayOrder();
-			// 构造返回前端的信息
-			if(StringUtils.isNotBlank(prepayId)){
-				String appId = this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID);
-				String noncestr = this.systemVariableService.getValue(SystemVariableKeyType.weixinPrePayNoncestr);
-				String packageStr = "prepay_id=" + prepayId;
-				String signtype = "MD5";
-				StringBuilder sb = new StringBuilder();
-				sb.append("appId=")
-					.append(appId)
-					.append("&nonceStr=")
-					.append(noncestr)
-					.append("&package=")
-					.append(packageStr)
-					.append("&signType=")
-					.append(signtype)
-					.append("&timeStamp=")
-					.append(timestamp);
-				String paysign = DigestUtils.md5Hex(sb.toString());
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("appid", appId);
-				map.put("timestamp", String.valueOf(timestamp));
-				map.put("noncestr", noncestr);
-				map.put("package", packageStr);
-				map.put("signtype", signtype);
-				map.put("paysign", paysign);
-				map.put("orderid", orderId);
-				return new MapResponse(ErrorCodeType.success, map).toJson();
+			String openId = StringUtils.trimToEmpty(request.getParameter("openid"));
+			if(goodsId != 0 && StringUtils.isNotBlank(openId)){
+				String ip = Ipv4Utils.getIp(request);
+				long timestamp = NumberUtils.toLong(request.getParameter("timestamp"), System.currentTimeMillis()/1000);
+				// 创建我们的订单
+				WeixinOrder order = this.weixinPayService.buildOrder(user.getUserId(), openId, ip, goodsId);
+				if(order != null){
+					// 调用微信接口下单
+					String prepayId = this.weixinPayService.prePayOrder(order);
+					// 构造返回前端的信息
+					if(StringUtils.isNotBlank(prepayId)){
+						String appId = this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID);
+						String noncestr = this.systemVariableService.getValue(SystemVariableKeyType.weixinPrePayNoncestr);
+						String packageStr = "prepay_id=" + prepayId;
+						String signtype = "MD5";
+						StringBuilder sb = new StringBuilder();
+						sb.append("appId=")
+							.append(appId)
+							.append("&nonceStr=")
+							.append(noncestr)
+							.append("&package=")
+							.append(packageStr)
+							.append("&signType=")
+							.append(signtype)
+							.append("&timeStamp=")
+							.append(timestamp);
+						String paysign = DigestUtils.md5Hex(sb.toString());
+						Map<String, String> map = new HashMap<String, String>();
+						map.put("appid", appId);
+						map.put("timestamp", String.valueOf(timestamp));
+						map.put("noncestr", noncestr);
+						map.put("package", packageStr);
+						map.put("signtype", signtype);
+						map.put("paysign", paysign);
+						map.put("orderid", order.getOrderId());
+						return new MapResponse(ErrorCodeType.success, map).toJson();
+					}
+				}
 			}
 			return new BaseResponse(ErrorCodeType.failed).toJson();
 		}

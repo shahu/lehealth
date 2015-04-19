@@ -1,69 +1,95 @@
 package com.lehealth.pay.entity;
 
+import java.util.Date;
+
+import com.lehealth.api.entity.GoodsInfo;
+
 import net.sf.json.JSONObject;
 
 public class WeixinOrder {
 	
-	private int id=0;
-	private String name="";
-	private long startTime=0;
-	private long endTime=0;
-	private String location="";
-	private String desc="";
-	private String externalUrl="";
+	private int id;
+	private String orderId;
+	
+	private String userId;
+	private String openId;
+	private String ip;
+	
+	private GoodsInfo goodsInfo;
+	private String ext;
+	
+	private Date createTime;
+	private Date payTime;
+	private Date closeTime;
 	
 	public int getId() {
-		return this.id;
+		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return this.name;
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
-	public String getLocation() {
-		return this.location;
+	public String getUserId() {
+		return userId;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getDesc() {
-		return this.desc;
+	public String getIp() {
+		return ip;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
-	public long getStartTime() {
-		return this.startTime;
+	public GoodsInfo getGoodsInfo() {
+		return goodsInfo;
 	}
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
+	public void setGoodsInfo(GoodsInfo goodsInfo) {
+		this.goodsInfo = goodsInfo;
 	}
-	public long getEndTime() {
-		return this.endTime;
+	public String getExt() {
+		return ext;
 	}
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
+	public void setExt(String ext) {
+		this.ext = ext;
 	}
-	public String getExternalUrl() {
-		return this.externalUrl;
+	public String getOpenId() {
+		return openId;
 	}
-	public void setExternalUrl(String externalUrl) {
-		this.externalUrl = externalUrl;
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Date getPayTime() {
+		return payTime;
+	}
+	public void setPayTime(Date payTime) {
+		this.payTime = payTime;
+	}
+	public Date getCloseTime() {
+		return closeTime;
+	}
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
 	}
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("id", this.id);
-		obj.accumulate("name", this.name);
-		obj.accumulate("starttime", this.startTime);
-		obj.accumulate("endtime", this.endTime);
-		obj.accumulate("location", this.location);
-		obj.accumulate("desc", this.desc);
-		obj.accumulate("externalurl", this.externalUrl);
+		obj.accumulate("orderid", this.orderId);
+		obj.accumulate("userid", this.userId);
+		obj.accumulate("openid", this.openId);
+		obj.accumulate("ip", this.ip);
 		return obj;
 	}
 }

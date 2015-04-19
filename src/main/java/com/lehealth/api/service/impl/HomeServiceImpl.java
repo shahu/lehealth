@@ -17,7 +17,7 @@ import com.lehealth.api.entity.MedicineRecord;
 import com.lehealth.api.entity.PanientInfo;
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.HomeService;
-import com.lehealth.common.util.Constant;
+import com.lehealth.common.util.ComparatorUtils;
 
 @Service("homeService")
 public class HomeServiceImpl implements HomeService{
@@ -37,10 +37,10 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public HomeResult getHomeData(String userId, int days) {
 		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(userId,days);
-		Collections.sort(bpRecords, Constant.bpComparator);
+		Collections.sort(bpRecords, ComparatorUtils.bpComparator);
 		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(userId);
 		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(userId, days);
-		Collections.sort(medicineRecords, Constant.medicineComparator);
+		Collections.sort(medicineRecords, ComparatorUtils.medicineComparator);
 		PanientInfo info = this.panientDao.selectPanient(userId);
 		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days, info);
 		return result;
@@ -49,10 +49,10 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public HomeResult getHomeData(UserBaseInfo user, int days) {
 		List<BloodpressureRecord> bpRecords = this.bloodpressureDao.selectRecords(user.getUserId(),days);
-		Collections.sort(bpRecords, Constant.bpComparator);
+		Collections.sort(bpRecords, ComparatorUtils.bpComparator);
 		BloodpressureConfig bpConfig = this.bloodpressureDao.selectConfig(user.getUserId());
 		List<MedicineRecord> medicineRecords = this.medicineDao.selectRecords(user.getUserId(), days);
-		Collections.sort(medicineRecords, Constant.medicineComparator);
+		Collections.sort(medicineRecords, ComparatorUtils.medicineComparator);
 		List<PanientInfo> guardedInfos = this.panientDao.selectPanientListByGuardian(user.getLoginId());
 		PanientInfo info = this.panientDao.selectPanient(user.getUserId());
 		HomeResult result = new HomeResult(bpRecords, bpConfig, medicineRecords, days, guardedInfos, info);

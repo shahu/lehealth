@@ -6,7 +6,7 @@ import com.lehealth.api.entity.BloodpressureConfig;
 import com.lehealth.api.entity.BloodpressureRecord;
 import com.lehealth.data.type.BloodPressStatusType;
 
-public class CheckStatusUtil {
+public class CheckStatusUtils {
 
 	public static BloodPressStatusType bloodpress(int sbp, int dbp, int heartrate, BloodpressureConfig config) {
 		if((dbp >= config.getDbp2() && config.getDbp2() > 0)

@@ -19,8 +19,8 @@ import com.lehealth.api.entity.PanientGuardianInfo;
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.common.service.SendTemplateSMSService;
-import com.lehealth.common.util.CheckStatusUtil;
-import com.lehealth.common.util.Constant;
+import com.lehealth.common.util.CheckStatusUtils;
+import com.lehealth.common.util.ComparatorUtils;
 import com.lehealth.data.type.BloodPressStatusType;
 
 @Service("bloodpressureService")
@@ -47,7 +47,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		BloodpressureResult result=new BloodpressureResult();
 		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
 		if(!list.isEmpty()){
-			Collections.sort(list, Constant.bpComparator);
+			Collections.sort(list, ComparatorUtils.bpComparator);
 			result.setRecords(list);
 		}
 		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
@@ -82,7 +82,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		if(user != null){
 			BloodpressureConfig config=this.bloodpressureDao.selectConfig(user.getUserId());
 			if(StringUtils.isNotBlank(config.getUserId())){
-				BloodPressStatusType statusCode = CheckStatusUtil.bloodpress(sbp, dbp, heartrate, config);
+				BloodPressStatusType statusCode = CheckStatusUtils.bloodpress(sbp, dbp, heartrate, config);
 				if(statusCode != BloodPressStatusType.normal){
 					//获取监护人手机
 					List<PanientGuardianInfo> list = this.panientDao.selectGuardianList(user.getUserId());

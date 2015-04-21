@@ -1,5 +1,8 @@
 package com.lehealth.pay.service;
 
+import java.util.Map;
+
+import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.pay.entity.WeixinOrder;
 
 public interface WeixinPayService {
@@ -8,12 +11,15 @@ public interface WeixinPayService {
 	public WeixinOrder buildOrder(String userId, String openId,String ip, int goodsId);
 	
 	// 调用微信接口下单
-	public String prePayOrder(WeixinOrder order);
+	public Map<String, String> prePayOrder(WeixinOrder order, long timestamp);
 	
 	// 查询订单信息
-	public void getOrderInfo(String orderId);
+	public WeixinOrder getOrderInfo(String orderId);
 	
 	// 订单付费
-	public void payOrder(String orderId);
+	public ErrorCodeType payOrder(String orderId, String weixinOrderId);
+
+	// 关闭订单
+	public ErrorCodeType closeOrder(String orderId, String weixinOrderId);
 	
 }

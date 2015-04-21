@@ -18,6 +18,8 @@ public enum ErrorCodeType {
 	
 	noneData(131, "没有数据"),
 	
+	weixinError(141, "微信业务错误"),
+	
 	failed(199,"数据异常，请稍后再试");
 	
 	private ErrorCodeType(int code,String message) {

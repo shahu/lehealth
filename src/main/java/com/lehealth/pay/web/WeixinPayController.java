@@ -1,5 +1,6 @@
 package com.lehealth.pay.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.Ipv4Utils;
+import com.lehealth.common.util.WeixinPayUtils;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.SystemVariableKeyType;
 import com.lehealth.pay.entity.WeixinOrder;
@@ -104,35 +108,10 @@ public class WeixinPayController {
 				WeixinOrder order = this.weixinPayService.buildOrder(user.getUserId(), openId, ip, goodsId);
 				if(order != null){
 					// 调用微信接口下单
-					String prepayId = this.weixinPayService.prePayOrder(order);
+					Map<String, String> map = this.weixinPayService.prePayOrder(order, timestamp);
+					ErrorCodeType type = map.containsKey("error")? ErrorCodeType.weixinError : ErrorCodeType.success;
 					// 构造返回前端的信息
-					if(StringUtils.isNotBlank(prepayId)){
-						String appId = this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID);
-						String noncestr = this.systemVariableService.getValue(SystemVariableKeyType.weixinPrePayNoncestr);
-						String packageStr = "prepay_id=" + prepayId;
-						String signtype = "MD5";
-						StringBuilder sb = new StringBuilder();
-						sb.append("appId=")
-							.append(appId)
-							.append("&nonceStr=")
-							.append(noncestr)
-							.append("&package=")
-							.append(packageStr)
-							.append("&signType=")
-							.append(signtype)
-							.append("&timeStamp=")
-							.append(timestamp);
-						String paysign = DigestUtils.md5Hex(sb.toString());
-						Map<String, String> map = new HashMap<String, String>();
-						map.put("appid", appId);
-						map.put("timestamp", String.valueOf(timestamp));
-						map.put("noncestr", noncestr);
-						map.put("package", packageStr);
-						map.put("signtype", signtype);
-						map.put("paysign", paysign);
-						map.put("orderid", order.getOrderId());
-						return new MapResponse(ErrorCodeType.success, map).toJson();
-					}
+					return new MapResponse(type, map).toJson();
 				}
 			}
 			return new BaseResponse(ErrorCodeType.failed).toJson();
@@ -146,14 +125,46 @@ public class WeixinPayController {
 	@ResponseBody
 	@RequestMapping(value = "/check/pay", method = RequestMethod.GET)
 	public JSONObject checkPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
+		if(user != null){
+			// 向微信查询
+			
+		}
 		return new BaseResponse(ErrorCodeType.success).toJson();
 	}
 	
 	// 微信回调接口
 	@ResponseBody
-	@RequestMapping(value = "/callback/pay", method = RequestMethod.GET)
-	public JSONObject callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/callback/pay")
+	public String callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		//结果校验
 		
-		return new BaseResponse(ErrorCodeType.success).toJson();
+		String requestBody = null;
+		try {
+			requestBody = IOUtils.toString(request.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Map<String, String> result = new HashMap<String, String>();
+		if(StringUtils.isNotBlank(requestBody)){
+			Map<String, String> map = WeixinPayUtils.transf2Xml(requestBody);
+			if(map != null && !map.isEmpty()){
+				//检查参数
+				
+				//更新数据库
+				
+			}
+		}
+		result.put("return_code", "FAIL");
+		result.put("return_msg", "request is null");
+		return WeixinPayUtils.transf2String(result); 
+	}
+	
+	// 关闭建单超过1天的数据
+	@Scheduled(cron = "5 1 * * * ?")
+	public void cleanTimeOutOrder(){
+		
 	}
 }

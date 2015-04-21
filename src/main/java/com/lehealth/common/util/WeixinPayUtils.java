@@ -81,10 +81,12 @@ public class WeixinPayUtils {
 			Element root = document.createElement("xml");
 			document.appendChild(root);
 			
-			for(Entry<String, String> e : map.entrySet()){
-				Element element = document.createElement(e.getKey());
-				element.setTextContent(e.getValue());
-				root.appendChild(element);
+			if(map != null && !map.isEmpty()){
+				for(Entry<String, String> e : map.entrySet()){
+					Element element = document.createElement(e.getKey());
+					element.setTextContent(e.getValue());
+					root.appendChild(element);
+				}
 			}
 			
 			TransformerFactory transFactory = TransformerFactory.newInstance();

@@ -30,7 +30,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	public boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode){
 		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendIdentifyingCodeMessageSwitch);
 		logger.info("sendIdentifyingCodeSMS flag is : " + flag + "!");
-		if(switchFlag.equals(flag)){
+		if(StringUtils.equals(switchFlag, flag)){
 			String[] datas = {identifyingCode, String.valueOf(Constant.identifyingCodeValidityMinute)};
 			return this.sendTemplateSMS(phoneNumber, "7779", datas);
 		}else{
@@ -42,7 +42,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	public boolean sendNoticeSMS(String phoneNumber,String userPhoneNumber, String sbp, String dbp){
 		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendNoticeMessageSwitch);
 		logger.info("sendNoticeSMS flag is : " + flag + "!");
-		if(switchFlag.equals(flag)){
+		if(StringUtils.equals(switchFlag, flag)){
 			String[] datas = {userPhoneNumber, sbp, dbp};
 			return this.sendTemplateSMS(phoneNumber, "7780", datas);
 		}else{
@@ -80,7 +80,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 		logger.info(sb.toString());
 		
 		if(result.has("statusCode")
-				&& "000000".equals(result.getString("statusCode"))){
+				&& StringUtils.equals("000000", result.getString("statusCode"))){
 			return true;
 		}else{
 			return false;

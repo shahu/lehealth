@@ -13,15 +13,13 @@ public interface WeixinPayDao {
 	// 修改订单状态
 	// 订单预付
 	public int updateStatus2PrePay(String orderId,String prePayId);
-	
-	// 修改订单状态
 	// 订单支付
-	public int updateStatus2Pay(String orderId,String weixinOrderId);
-	
-	// 修改订单状态
+	public int updateStatus2Pay(String orderId);
+	// 订单完成
+	public int updateStatus2Success(String orderId, String weixinOrderId);
+	// 订单异常关闭
+	public int updateStatus2Error(String orderId);
 	// 订单关闭
 	public int updateStatus2Close(String orderId);
 	
-	// 修改订单信息
-	public int updateInfo(WeixinOrder order);
 }

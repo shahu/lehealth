@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -60,21 +63,51 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 	private void updateWeixinCache(){
 		logger.info("update weixin token and ticket begin");
 		StringBuilder accessTokenApi = new StringBuilder();
-		accessTokenApi.append("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid")
+		accessTokenApi.append("https://api.weixin.qq.com/cgi-bin/token")
+			.append("?grant_type=client_credential")
+			.append("&appid=")
 			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID))
 			.append("&secret=")
 			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret));
-		String tempToken = HttpUtils.getGetResponse(accessTokenApi.toString());
-		if(StringUtils.isNotBlank(tempToken)){
-			this.weixinToken = tempToken;
-			StringBuilder jsTicketApi = new StringBuilder();
-			jsTicketApi.append("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=")
-				.append(tempToken)
-				.append("&type=jsapi");
-			String tempTicket = HttpUtils.getGetResponse(jsTicketApi.toString());
-			if(StringUtils.isNotBlank(tempTicket)){
-				this.weixinTicket = tempTicket;
+		String tokenResponse = HttpUtils.getGetResponse(accessTokenApi.toString());
+		if(StringUtils.isNotBlank(tokenResponse)){
+			System.out.println(tokenResponse);
+			JSONObject tokenJson = null;
+			try{
+				tokenJson = JSONObject.fromObject(tokenResponse);
+			}catch(JSONException e){
+				e.printStackTrace();
+			}catch(Exception e){
+				e.printStackTrace();
 			}
+			if(tokenJson != null
+					&& tokenJson.containsKey("access_token")){
+				this.weixinToken = tokenJson.getString("access_token");
+				
+				StringBuilder jsTicketApi = new StringBuilder();
+				jsTicketApi.append("https://api.weixin.qq.com/cgi-bin/ticket/getticket")
+					.append("?access_token=")
+					.append(this.weixinToken)
+					.append("&type=jsapi");
+				String ticketResponse = HttpUtils.getGetResponse(jsTicketApi.toString());
+				if(StringUtils.isNotBlank(ticketResponse)){
+					System.out.println(ticketResponse);
+					JSONObject ticketJson = null;
+					try{
+						ticketJson = JSONObject.fromObject(ticketResponse);
+					}catch(JSONException e){
+						e.printStackTrace();
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					if(ticketJson != null
+							&& ticketJson.containsKey("ticket")){
+						this.weixinTicket = ticketJson.getString("ticket");
+					}
+				}
+			}
+			
+			
 		}
 		logger.info("update weixin token and ticket end");
 	}

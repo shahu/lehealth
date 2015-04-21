@@ -2,12 +2,14 @@ package com.lehealth.pay.web;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -33,6 +35,7 @@ import com.lehealth.data.type.SystemVariableKeyType;
 import com.lehealth.pay.entity.WeixinOrder;
 import com.lehealth.pay.service.WeixinPayService;
 import com.lehealth.response.bean.BaseResponse;
+import com.lehealth.response.bean.JsonArrayResponse;
 import com.lehealth.response.bean.MapResponse;
 
 @Controller
@@ -159,25 +162,27 @@ public class WeixinPayController {
 		return WeixinPayUtils.transf2String(result); 
 	}
 	
-	// 关闭建单超过1天的数据
-	@Scheduled(cron = "5 1 * * * ?")
-	public void cleanTimeOutOrder(){
-		
-	}
-	
-	// 查询支付结果
-	// request 订单id
-	// response trade_state_desc
 	@ResponseBody
-	@RequestMapping(value = "/check/pay", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/list")
 	public JSONObject checkPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
-			// 向微信查询
-			
+			List<WeixinOrder> list=this.weixinPayService.getOrderList(user.getUserId());
+			JSONArray arr=new JSONArray();
+			for(WeixinOrder order:list){
+				arr.add(order.toJsonObj());
+			}
+			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}
-		return new BaseResponse(ErrorCodeType.success).toJson();
+		return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 	}
+	
+	// 关闭建单超过1天的数据
+	@Scheduled(cron = "5 1 * * * ?")
+	public void cleanOrder(){
+		this.weixinPayService.cleanOrders();
+	}
+	
 }

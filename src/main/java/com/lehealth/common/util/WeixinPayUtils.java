@@ -38,7 +38,7 @@ public class WeixinPayUtils {
 		StringBuilder sb = new StringBuilder();
 		for(Entry<String, String> e : map.entrySet()){
 			if(StringUtils.isNotBlank(e.getValue())
-					&& !"sign".equals(e.getKey())){
+					&& !StringUtils.equals("sign", e.getKey())){
 				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
 			}
 		}

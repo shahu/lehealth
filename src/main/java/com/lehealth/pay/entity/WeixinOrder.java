@@ -10,16 +10,28 @@ public class WeixinOrder {
 	
 	private int id;
 	private String orderId;
+	private String orderSecret;
+	private String prepayId;
 	
 	private String userId;
 	private String openId;
 	private String ip;
 	
-	private GoodsInfo goodsInfo;
-	private String ext;
+	private String subscribe;
 	
+	private GoodsInfo goodsInfo = new GoodsInfo();
+	
+	private int status = -1;
+	
+	// 订单创建时间
 	private Date createTime;
+	// 订单交易时间
+	private Date startTime;
+	private Date expireTime;
+	// 订单支付时间
 	private Date payTime;
+	private Date callbackTime;
+	// 订单关闭时间
 	private Date closeTime;
 	
 	public int getId() {
@@ -34,6 +46,12 @@ public class WeixinOrder {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+	public String getOrderSecret() {
+		return orderSecret;
+	}
+	public void setOrderSecret(String orderSecret) {
+		this.orderSecret = orderSecret;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -46,17 +64,23 @@ public class WeixinOrder {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+	public String getPrepayId() {
+		return prepayId;
+	}
+	public void setPrepayId(String prepayId) {
+		this.prepayId = prepayId;
+	}
+	public String getSubscribe() {
+		return subscribe;
+	}
+	public void setSubscribe(String subscribe) {
+		this.subscribe = subscribe;
+	}
 	public GoodsInfo getGoodsInfo() {
 		return goodsInfo;
 	}
 	public void setGoodsInfo(GoodsInfo goodsInfo) {
 		this.goodsInfo = goodsInfo;
-	}
-	public String getExt() {
-		return ext;
-	}
-	public void setExt(String ext) {
-		this.ext = ext;
 	}
 	public String getOpenId() {
 		return openId;
@@ -64,23 +88,47 @@ public class WeixinOrder {
 	public void setOpenId(String openId) {
 		this.openId = openId;
 	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreateTime(long createTime) {
+		this.createTime = new Date(createTime);
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(long startTime) {
+		this.startTime = new Date(startTime);
+	}
+	public Date getExpireTime() {
+		return expireTime;
+	}
+	public void setExpireTime(long expireTime) {
+		this.expireTime = new Date(expireTime);
+	}
+	public Date getCallbackTime() {
+		return callbackTime;
+	}
+	public void setCallbackTime(long callbackTime) {
+		this.callbackTime = new Date(callbackTime);
 	}
 	public Date getPayTime() {
 		return payTime;
 	}
-	public void setPayTime(Date payTime) {
-		this.payTime = payTime;
+	public void setPayTime(long payTime) {
+		this.payTime = new Date(payTime);
 	}
 	public Date getCloseTime() {
 		return closeTime;
 	}
-	public void setCloseTime(Date closeTime) {
-		this.closeTime = closeTime;
+	public void setCloseTime(long closeTime) {
+		this.closeTime = new Date(closeTime);
 	}
 	
 	public JSONObject toJsonObj(){

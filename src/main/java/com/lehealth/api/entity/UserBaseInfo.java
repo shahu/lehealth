@@ -42,7 +42,8 @@ public class UserBaseInfo {
 	}
 	
 	public boolean validToken(String token){
-		return StringUtils.isNotBlank(this.userId) && token.equals(TokenUtils.buildToken(this.loginId, this.pwdmd5));
+		return StringUtils.isNotBlank(this.userId) 
+				&& StringUtils.equals(token ,TokenUtils.buildToken(this.loginId, this.pwdmd5));
 	}
 	
 	public JSONObject toJsonObj(){

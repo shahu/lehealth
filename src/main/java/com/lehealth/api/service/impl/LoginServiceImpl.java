@@ -87,7 +87,7 @@ public class LoginServiceImpl implements LoginService{
 	public ErrorCodeType checkIdentifyingCode(String phoneNumber, String identifyingCode) {
 		if(this.identifyingCodeCache.containsKey(phoneNumber)
 			&& identifyingCodeTime.containsKey(phoneNumber)){
-			boolean codeCheck = identifyingCode.equals(this.identifyingCodeCache.get(phoneNumber));
+			boolean codeCheck = StringUtils.equals(identifyingCode, this.identifyingCodeCache.get(phoneNumber));
 			if(!codeCheck){
 				return ErrorCodeType.invalidIdentifyingCode;
 			}

@@ -1,7 +1,6 @@
 package com.lehealth.api.service.impl;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,14 +12,15 @@ import org.springframework.util.CollectionUtils;
 import com.lehealth.api.dao.BloodpressureDao;
 import com.lehealth.api.dao.LoginDao;
 import com.lehealth.api.dao.PanientDao;
+import com.lehealth.api.entity.BloodpressureConfig;
+import com.lehealth.api.entity.BloodpressureRecord;
+import com.lehealth.api.entity.BloodpressureResult;
+import com.lehealth.api.entity.PanientGuardianInfo;
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.BloodpressureService;
 import com.lehealth.common.service.SendTemplateSMSService;
-import com.lehealth.common.util.CheckStatusUtil;
-import com.lehealth.data.bean.BloodpressureConfig;
-import com.lehealth.data.bean.BloodpressureRecord;
-import com.lehealth.data.bean.BloodpressureResult;
-import com.lehealth.data.bean.PanientGuardianInfo;
-import com.lehealth.data.bean.UserBaseInfo;
+import com.lehealth.common.util.CheckStatusUtils;
+import com.lehealth.common.util.ComparatorUtils;
 import com.lehealth.data.type.BloodPressStatusType;
 
 @Service("bloodpressureService")
@@ -47,12 +47,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		BloodpressureResult result=new BloodpressureResult();
 		List<BloodpressureRecord> list=this.bloodpressureDao.selectRecords(userId,days);
 		if(!list.isEmpty()){
-			Collections.sort(list, new Comparator<BloodpressureRecord>() {
-				@Override
-				public int compare(BloodpressureRecord o1, BloodpressureRecord o2) {
-					return (int) (o1.getDate()-o2.getDate());
-				}
-			});
+			Collections.sort(list, ComparatorUtils.bpComparator);
 			result.setRecords(list);
 		}
 		BloodpressureConfig config=this.bloodpressureDao.selectConfig(userId);
@@ -87,7 +82,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 		if(user != null){
 			BloodpressureConfig config=this.bloodpressureDao.selectConfig(user.getUserId());
 			if(StringUtils.isNotBlank(config.getUserId())){
-				BloodPressStatusType statusCode = CheckStatusUtil.bloodpress(sbp, dbp, heartrate, config);
+				BloodPressStatusType statusCode = CheckStatusUtils.bloodpress(sbp, dbp, heartrate, config);
 				if(statusCode != BloodPressStatusType.normal){
 					//获取监护人手机
 					List<PanientGuardianInfo> list = this.panientDao.selectGuardianList(user.getUserId());

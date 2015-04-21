@@ -15,9 +15,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.MedicineDao;
+import com.lehealth.api.entity.MedicineConfig;
+import com.lehealth.api.entity.MedicineRecord;
 import com.lehealth.common.util.TokenUtils;
-import com.lehealth.data.bean.MedicineConfig;
-import com.lehealth.data.bean.MedicineRecord;
 
 @Repository("medicineDao")
 public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
@@ -61,9 +61,10 @@ public class MedicineDaoImpl extends BaseJdbcDao implements MedicineDao {
 	@Override
 	public List<MedicineRecord> selectRecords(String userId, int days) {
 		String sql="SELECT t1.userid,t1.medicineid,t2.name AS medicinename,t1.updatetime "
-				+"FROM medicine_record t1 "
-				+"INNER JOIN medicine t2 ON t1.medicineid=t2.id "
-				+"WHERE t1.userid=:userid AND Date(t1.updatetime)>=:date";
+				+ "FROM medicine_record t1 "
+				+ "INNER JOIN medicine t2 ON t1.medicineid=t2.id "
+				+ "WHERE t1.userid=:userid AND Date(t1.updatetime)>=:date "
+				+ "order by t1.updatetime asc";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
 		msps.addValue("date", new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), -days).getTime()));

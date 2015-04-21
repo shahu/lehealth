@@ -1,7 +1,5 @@
 target/
 .DS_Store
 .classpath
-.externalToolBuilders
 .project
-.pydevproject
 .settings

@@ -1,6 +1,7 @@
 package com.lehealth.api.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +10,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.MedicineDao;
+import com.lehealth.api.entity.MedicineConfig;
+import com.lehealth.api.entity.MedicineRecord;
 import com.lehealth.api.service.MedicineService;
-import com.lehealth.data.bean.MedicineConfig;
-import com.lehealth.data.bean.MedicineRecord;
+import com.lehealth.common.util.ComparatorUtils;
 
 @Service("medicineService")
 public class MedicineServiceImpl implements MedicineService{
@@ -22,14 +24,17 @@ public class MedicineServiceImpl implements MedicineService{
 	
 	@Override
 	public List<MedicineRecord> getTodayRecords(String userId){
-		Map<Integer,MedicineRecord> map=this.medicineDao.selectTodayRecords(userId);
-		List<MedicineRecord> list=new ArrayList<MedicineRecord>(map.values());
+		Map<Integer,MedicineRecord> map = this.medicineDao.selectTodayRecords(userId);
+		List<MedicineRecord> list = new ArrayList<MedicineRecord>(map.values());
+		Collections.sort(list, ComparatorUtils.medicineComparator);
 		return list;
 	}
 	
 	@Override
 	public List<MedicineRecord> getHistoryRecords(String userId,int days){
-		return this.medicineDao.selectRecords(userId, days);
+		List<MedicineRecord> list = this.medicineDao.selectRecords(userId, days);
+		Collections.sort(list, ComparatorUtils.medicineComparator);
+		return list;
 	}
 	
 	@Override

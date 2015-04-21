@@ -1,4 +1,4 @@
-package com.lehealth.data.bean;
+package com.lehealth.api.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-public class MedicineCategroy {
+public class DiseaseCategroy {
 
 	private int cateId=0;
 	private String cateName="";
 	
-	private List<MedicineInfo> medicines=new ArrayList<MedicineInfo>();
+	private List<DiseaseInfo> diseases=new ArrayList<DiseaseInfo>();
 
 
 	public int getCateId() {
@@ -26,24 +26,23 @@ public class MedicineCategroy {
 	public void setCateName(String cateName) {
 		this.cateName = cateName;
 	}
-	public List<MedicineInfo> getMedicines() {
-		return medicines;
+	public List<DiseaseInfo> getDiseases() {
+		return diseases;
 	}
-	public void setMedicines(List<MedicineInfo> medicines) {
-		this.medicines = medicines;
+	public void setDiseases(List<DiseaseInfo> diseases) {
+		this.diseases = diseases;
 	}
-	public void addMedicine(MedicineInfo medicine) {
-		this.medicines.add(medicine);
+	public void addDisease(DiseaseInfo diseases) {
+		this.diseases.add(diseases);
 	}
-	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("catename", cateName);
 		JSONArray arr=new JSONArray();
-		for(MedicineInfo m:medicines){
-			arr.add(m.toJsonObj());
+		for(DiseaseInfo d:diseases){
+			arr.add(d.toJsonObj());
 		}
-		obj.accumulate("medicines", arr);
+		obj.accumulate("diseases", arr);
 		return obj;
 	}
 }

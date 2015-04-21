@@ -6,7 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.LoginDao;
-import com.lehealth.data.bean.UserBaseInfo;
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.data.type.UserRoleType;
 
 @Repository("loginDao")

@@ -2,11 +2,11 @@ package com.lehealth.common.util;
 
 import java.util.List;
 
-import com.lehealth.data.bean.BloodpressureConfig;
-import com.lehealth.data.bean.BloodpressureRecord;
+import com.lehealth.api.entity.BloodpressureConfig;
+import com.lehealth.api.entity.BloodpressureRecord;
 import com.lehealth.data.type.BloodPressStatusType;
 
-public class CheckStatusUtil {
+public class CheckStatusUtils {
 
 	public static BloodPressStatusType bloodpress(int sbp, int dbp, int heartrate, BloodpressureConfig config) {
 		if((dbp >= config.getDbp2() && config.getDbp2() > 0)
@@ -24,7 +24,7 @@ public class CheckStatusUtil {
 	public static BloodPressStatusType bloodpress(List<BloodpressureRecord> records, BloodpressureConfig config) {
 		if(records != null && !records.isEmpty()){
 			for(BloodpressureRecord record : records){
-				BloodPressStatusType statusCode = Constant.getBpStatus(record.getSbp(), record.getDbp(), record.getHeartrate(), config);
+				BloodPressStatusType statusCode = bloodpress(record.getSbp(), record.getDbp(), record.getHeartrate(), config);
 				if(statusCode != BloodPressStatusType.normal){
 					return statusCode;
 				}

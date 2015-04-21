@@ -2,7 +2,7 @@ package com.lehealth.api.dao;
 
 import java.util.List;
 
-import com.lehealth.data.bean.DiseaseHistory;
+import com.lehealth.api.entity.DiseaseHistory;
 
 public interface DiseaseDao {
 	

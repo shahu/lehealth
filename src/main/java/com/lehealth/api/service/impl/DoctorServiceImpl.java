@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.DoctorDao;
+import com.lehealth.api.entity.DoctorInfo;
 import com.lehealth.api.service.DoctorService;
-import com.lehealth.data.bean.DoctorInfo;
 
 @Service("doctorService")
 public class DoctorServiceImpl implements DoctorService{

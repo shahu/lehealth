@@ -10,11 +10,15 @@ public enum ErrorCodeType {
 	invalidPhoneNumber(111,"不是正确的手机号"),
 	repeatPhoneNumber(112,"手机号已注册"),
 	
-	invalidIdentifyingCode(111,"验证码错误"),
-	expireIdentifyingCode(112,"验证码过期"),
-	noneIdentifyingCode(113,"尚未获取验证码"),
-	failedIdentifyingCode(114,"获取验证码失败，请稍后再试"),
-	muchIdentifyingCode(115,"获取验证码频繁"),
+	invalidIdentifyingCode(121,"验证码错误"),
+	expireIdentifyingCode(122,"验证码过期"),
+	noneIdentifyingCode(123,"尚未获取验证码"),
+	failedIdentifyingCode(124,"获取验证码失败，请稍后再试"),
+	muchIdentifyingCode(125,"获取验证码频繁"),
+	
+	noneData(131, "没有数据"),
+	
+	weixinError(141, "微信业务错误"),
 	
 	failed(199,"数据异常，请稍后再试");
 	

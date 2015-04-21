@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-	var jssdk = require('http://res.wx.qq.com/open/js/jweixin-1.0.0.js');
+	var wx = require('http://res.wx.qq.com/open/js/jweixin-1.0.0.js');
 	var $ = require('jquery_mobile');
 	var util = require('./common');
 

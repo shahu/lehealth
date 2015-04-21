@@ -39,6 +39,53 @@ define(function(require, exports, module) {
 		return res;
 	};
 
+	exports.parseUri = function(url) {
+		//url的正则，黑科技勿动
+		var urlreg = /^([^:]+):\/\/([0-9a-zA-Z_\.]+)(?::(\d+))?(\/[0-9a-zA-Z_\/\.]*)?(?:\?((?:[^=&#\?]+=[^&#\?]*)?(?:(?:&[^=&#\?]+=[^&#\?]*)*)))?(?:#((?:[^=&#\?]+=[^&#\?]*)?(?:(?:&[^=&#\?]+=[^&#\?]*)*)))?$/;
+		var parser = urlreg.exec(url);
+		if (parser == null) {
+			parser = [];
+		}
+		var paramMap = {};
+		if (parser[5]) {
+			var query = parser[5];
+			var reg = /([^=&]+)=([^&]*)/g;
+			var rs;
+			while ((rs = reg.exec(query)) !== null) {
+				if (rs && rs.length == 3 && rs[1]) {
+					paramMap[rs[1]] = decodeURIComponent(rs[2] ? rs[2] : "");
+				}
+			}
+		}
+		console.info(parser);
+		return {
+			url: url,
+			getSchema: function() {
+				return parser[1] || "";
+			},
+
+			getHost: function() {
+				return parser[2] || "";
+			},
+
+			getPort: function() {
+				return parser[3] || 80;
+			},
+
+			getPath: function() {
+				return parser[4] || "";
+			},
+
+			getQueryStr: function() {
+				return parser[5] || "";
+			},
+
+			getQueryParameter: function(key) {
+				return paramMap[key];
+			}
+		};
+	}	
+
 	exports.getParams = function(key) {
 		var url = window.location.href;
 		var params = parseUrl(url)["search"];

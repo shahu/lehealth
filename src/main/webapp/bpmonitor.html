@@ -15,10 +15,16 @@
 			<div data-role="content">
 				<div style="float:right;">
 					<div data-role="controlgroup" data-type="horizontal" data-mini="true">
-					  <a id="sevendaybtn" data-role="button">7天</a>
-					  <a id="halfmonbtn" data-role="button">15天</a>
-					  <a id="monbtn" data-role="button">30天</a>
-					</div>					
+						<a id="chartmode" data-role="button">图表</a>
+						<a id="listmode" data-role="button">列表</a>
+					</div>
+				</div>
+				<div style="float:left;">
+					<div data-role="controlgroup" data-type="horizontal" data-mini="true">
+						<a id="sevendaybtn" data-role="button">7天</a>
+						<a id="halfmonbtn" data-role="button">15天</a>
+						<a id="monbtn" data-role="button">30天</a>
+					</div>
 				</div>
 				<div style="clear:both"></div>
 				<div id="trend" style="margin-top:20px;margin-left:-20px;overflow-x: auto">
@@ -26,6 +32,18 @@
 						
 					</div>
 				</div>
+				<div id="bplist" style="margin-top:20px;display: none;">
+					<ul data-role="listview" data-inset="true" id="bplist" data-theme="f">
+						<li>
+							<h3>4月6日</h3>
+							<p style="margin-bottom: -8px; margin-top: 10px;">低压：90&nbsp;&nbsp;高压：120&nbsp;&nbsp;心率：80</p>	
+						</li>
+						<li>
+							<h3>4月6日</h3>
+							<p  style="margin-bottom: -8px; margin-top: 10px;">低压：90&nbsp;&nbsp;高压：120&nbsp;&nbsp;心率：80</p>	
+						</li>						
+					</ul>						
+				</div>				
 				<div id="judge" class="dp_tips">
 					<div style="padding:1em; text-shadow:0 1px 0 #f3f3f3;">
 						<h3>评估和建议</h3>

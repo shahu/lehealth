@@ -36,22 +36,27 @@ public class LoginServiceImpl implements LoginService{
 	private SendTemplateSMSService sendTemplateSMSService;
 	
 	@Override
-	public ErrorCodeType registerUser(String loginId,String password,UserRoleType role) {
+	public ErrorCodeType registerUser(String loginId, String password, String identifyingCode, UserRoleType role) {
 		//是否用户名存在
 		UserBaseInfo user=this.loginDao.selectUserBaseInfo(loginId);
 		if(isValidUser(user)){
 			return ErrorCodeType.repeatPhoneNumber;
 		}else{
-			String userId=TokenUtils.buildUserId(loginId);
-			user = new UserBaseInfo(userId, loginId, password, role);
-			boolean isSuccess=this.loginDao.insertUser(user);
-			if(isSuccess){
-				// 如果注册成功则清理掉
-				this.identifyingCodeCache.remove(loginId);
-				this.identifyingCodeTime.remove(loginId);
-				return ErrorCodeType.success;
+			ErrorCodeType errorCode = this.checkIdentifyingCode(loginId, identifyingCode);
+			if(errorCode == ErrorCodeType.success){
+				String userId=TokenUtils.buildUserId(loginId);
+				user = new UserBaseInfo(userId, loginId, password, role);
+				boolean isSuccess=this.loginDao.insertUser(user);
+				if(isSuccess){
+					// 如果注册成功则清理掉
+					this.identifyingCodeCache.remove(loginId);
+					this.identifyingCodeTime.remove(loginId);
+					return ErrorCodeType.success;
+				}else{
+					return ErrorCodeType.failed;
+				}
 			}else{
-				return ErrorCodeType.failed;
+				return errorCode;
 			}
 		}
 	}
@@ -80,7 +85,6 @@ public class LoginServiceImpl implements LoginService{
 
 	@Override
 	public ErrorCodeType checkIdentifyingCode(String phoneNumber, String identifyingCode) {
-		
 		if(this.identifyingCodeCache.containsKey(phoneNumber)
 			&& identifyingCodeTime.containsKey(phoneNumber)){
 			boolean codeCheck = identifyingCode.equals(this.identifyingCodeCache.get(phoneNumber));
@@ -136,7 +140,7 @@ public class LoginServiceImpl implements LoginService{
 		}
 		
 		// 发送验证短信
-		String identifyingCode = String.valueOf(random.nextInt(89999999)+10000000);
+		String identifyingCode = String.valueOf(random.nextInt(899999)+100000);
 		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);

@@ -44,13 +44,9 @@ import com.lehealth.common.util.PoolConnectionManager;
 public class TestCCPRestSDK {
 
 	private static final String TemplateSMS = "SMS/TemplateSMS";
-	public static final String SERVER_IP = "sandboxapp.cloopen.com";
 	public static final String SERVER_PORT = "8883";
 	public static final String PROTOCOL = "TLS";
 	public static final String SCHEME = "https";
-	public static final String ACCOUNT_SID = "8a48b55149896cfd0149cac015792970";
-	public static final String ACCOUNT_TOKEN = "4417bab1343f44a5811a3feb95d3009c";
-	public static final String App_ID = "8a48b55149896cfd0149cac296812979";
 
 	/**
 	 * 发送短信模板请求
@@ -63,24 +59,24 @@ public class TestCCPRestSDK {
 	 *            可选参数 内容数据，用于替换模板中{序号}
 	 * @return
 	 */
-	public JSONObject sendTemplateSMS(String to, String templateId, String[] datas) {
-		JSONObject errorInfo = this.accountValidate();
+	public JSONObject sendTemplateSMS(String to, String templateId, String[] datas, String domain,String appId,String sid, String token) {
+		JSONObject errorInfo = this.accountValidate(domain, appId, sid, token);
 		if(errorInfo != null){
 			return errorInfo;
 		}
 			
 		if (StringUtils.isBlank(to) 
-				|| StringUtils.isBlank(App_ID) 
+				|| StringUtils.isBlank(appId) 
 				|| StringUtils.isBlank(templateId)){
 			throw new IllegalArgumentException("必选参数:" + (StringUtils.isBlank(to) ? " 手机号码 " : "") + (StringUtils.isBlank(templateId) ? " 模板Id " : "") + "为空");
 		}
 			
 		String timestamp = DateFormatUtils.format(new Date(), Constant.dateFormat_yyyymmddhhmmss);
-		String acountName = ACCOUNT_SID;
-		String sig = ACCOUNT_SID + ACCOUNT_TOKEN + timestamp;
+		String acountName = sid;
+		String sig = sid + token + timestamp;
 		String acountType = "Accounts";
 		String signature = DigestUtils.md5Hex(sig);
-		String url = getBaseUrl().append("/" + acountType + "/").append(acountName).append("/" + TemplateSMS + "?sig=").append(signature).toString();
+		String url = getBaseUrl(domain).append("/" + acountType + "/").append(acountName).append("/" + TemplateSMS + "?sig=").append(signature).toString();
 		
 		String src = acountName + ":" + timestamp;
 		String auth = Base64.encodeBase64String(src.getBytes());
@@ -90,7 +86,7 @@ public class TestCCPRestSDK {
 		header.put("Authorization", auth);
 		
 		JSONObject json = new JSONObject();
-		json.accumulate("appId", App_ID);
+		json.accumulate("appId", appId);
 		json.accumulate("to", to);
 		json.accumulate("templateId", templateId);
 		if (datas != null) {
@@ -105,7 +101,7 @@ public class TestCCPRestSDK {
 		DefaultHttpClient httpclient = null;
 		HttpPost postMethod = null;
 		try{
-			httpclient = new CcopHttpClient().registerSSL(SERVER_IP, NumberUtils.toInt(SERVER_PORT), "TLS", "https");
+			httpclient = new CcopHttpClient().registerSSL(domain, NumberUtils.toInt(SERVER_PORT), "TLS", "https");
 			postMethod = new HttpPost(url);
 			if(header != null && !header.isEmpty()){
 				for(Entry<String,String> e:header.entrySet()){
@@ -146,27 +142,27 @@ public class TestCCPRestSDK {
 	}
 
 
-	private StringBuffer getBaseUrl() {
+	private StringBuffer getBaseUrl(String domain) {
 		StringBuffer sb = new StringBuffer("https://");
-		sb.append(SERVER_IP).append(":").append(SERVER_PORT);
+		sb.append(domain).append(":").append(SERVER_PORT);
 		sb.append("/2013-12-26");
 		return sb;
 	}
 	
-	private JSONObject accountValidate() {
-		if ((StringUtils.isBlank(SERVER_IP))) {
+	private JSONObject accountValidate(String domain, String appId, String sid, String token) {
+		if ((StringUtils.isBlank(domain))) {
 			return getMyError("172004", "IP为空");
 		}
 		if ((StringUtils.isBlank(SERVER_PORT))) {
 			return getMyError("172005", "端口错误");
 		}
-		if ((StringUtils.isBlank(ACCOUNT_SID))) {
+		if ((StringUtils.isBlank(sid))) {
 			return getMyError("172006", "主帐号为空");
 		}
-		if ((StringUtils.isBlank(ACCOUNT_TOKEN))) {
+		if ((StringUtils.isBlank(token))) {
 			return getMyError("172007", "主帐号令牌为空");
 		}
-		if ((StringUtils.isBlank(App_ID))) {
+		if ((StringUtils.isBlank(appId))) {
 			return getMyError("172012", "应用ID为空");
 		}
 		return null;

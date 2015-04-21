@@ -9,7 +9,7 @@ import com.lehealth.data.type.UserRoleType;
 public interface LoginService {
 	
 	// 注册新用户
-	public ErrorCodeType registerUser(String loginId, String password, UserRoleType role);
+	public ErrorCodeType registerUser(String loginId, String password, String identifyingCode, UserRoleType role);
 	
 	// 用户登录
 	public UserBaseInfo getUserByPassword(String loginId, String password);

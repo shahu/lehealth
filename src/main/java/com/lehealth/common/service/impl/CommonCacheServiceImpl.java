@@ -72,6 +72,7 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 				.append(tempToken)
 				.append("&type=jsapi");
 			String tempTicket = HttpUtils.getGetResponse(jsTicketApi.toString());
+			logger.info("new ticket: " + tempTicket);
 			if(StringUtils.isNotBlank(tempTicket)){
 				this.weixinTicket = tempTicket;
 			}

@@ -3,7 +3,11 @@ package com.lehealth.common.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -18,6 +22,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,43 +31,39 @@ import org.xml.sax.SAXException;
 
 public class WeixinPayUtils {
 	
-	public static void main(String[] args) {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("appid", "wx2421b1c4370ec43b");
-		map.put("attach", "支付测试");
-		map.put("body", "JSAPI支付测试");
-		map.put("mch_id", "10000100");
-		map.put("nonce_str", "1add1a30ac87aa2db72f57a2375d8fec");
-		map.put("notify_url", "http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php");
-		map.put("openid", "oUpF8uMuAJO_M2pxb1Q9zNjWeS6o");
-		map.put("out_trade_no", "1415659990");
-		map.put("spbill_create_ip", "14.23.150.211");
-		map.put("total_fee", "1");
-		map.put("trade_type", "JSAPI");
-		System.out.println(getSign(map,"test"));
-		map.put("sign", getSign(map,"test"));
-		
-		String requestBody = transf2String(map);
-		System.out.println("========================================");
-		System.out.println(requestBody);
-		
-		String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
-		System.out.println("========================================");
-        System.out.println(responseBody);
-        String result = findKeyInXml(responseBody, "return_msg");
-        System.out.println("========================================");
-        System.out.println(result);
-	}
-	
-	public static String getSign(Map<String, String> map,String key){
+	public static String getSign(Map<String, String> map, String key, boolean sortFlag){
+		if(sortFlag){
+			sortBySpell(map);
+		}
 		StringBuilder sb = new StringBuilder();
 		for(Entry<String, String> e : map.entrySet()){
-			sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			if(StringUtils.isNotBlank(e.getValue())
+					&& !"sign".equals(e.getKey())){
+				sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
+			}
 		}
 		sb.append("key=").append(key);
 		String temp = sb.toString();
 		String sign = DigestUtils.md5Hex(temp);
-		return sign;
+		return StringUtils.trimToEmpty(sign);
+	}
+	
+	private static final Comparator<String> spellComparator = new Comparator<String>() {
+		@Override
+		public int compare(String s1, String s2) {
+			return s1.compareTo(s2);
+		}
+	};
+	
+	private static void sortBySpell(Map<String, String> map){
+		List<String> keys = new ArrayList<String>(map.keySet());
+		Collections.sort(keys, spellComparator);
+		Map<String, String> temp = new LinkedHashMap<String, String>();
+		for(String key : keys){
+			temp.put(key, map.get(key));
+		}
+		map.clear();
+		map.putAll(temp);
 	}
 	
 	public static String transf2String(Map<String, String> map){

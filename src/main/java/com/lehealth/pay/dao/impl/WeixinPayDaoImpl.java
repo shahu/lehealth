@@ -11,7 +11,7 @@ import com.lehealth.pay.entity.WeixinOrder;
 public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 
 	@Override
-	public void insertNewOrder(WeixinOrder order) {
+	public void insert(WeixinOrder order) {
 		String sql = "INSERT INTO weixin_order VALUE(NULL,:userid,:openid,:orderid,0,:goodsid,NULL,NULL,NULL,NOW(),NULL,NULL,NULL);";
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		msps.addValue("userid", order.getUserId());
@@ -22,29 +22,33 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 	}
 
 	@Override
-	public int updateOrderStatus2PrePay(String orderId, String prePayId) {
+	public WeixinOrder selectInfo(String orderId){
+		
+	}
+	
+	@Override
+	public int updateStatus2PrePay(String orderId, String prePayId) {
 		String sql = "";
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		return this.namedJdbcTemplate.update(sql, msps);
 	}
 
 	@Override
-	public int updateOrderStatus2Pay(String orderId, String weixinOrderId) {
+	public int updateStatus2Pay(String orderId, String weixinOrderId) {
 		String sql = "";
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		return this.namedJdbcTemplate.update(sql, msps);
 	}
 
 	@Override
-	public int updateOrderStatus2Close(String orderId) {
+	public int updateStatus2Close(String orderId) {
 		String sql = "";
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		return this.namedJdbcTemplate.update(sql, msps);
 	}
 
 	@Override
-	public int updateOrderInfo(String orderId, String weixinOrderId,
-			int status, int toStatus) {
+	public int updateInfo(WeixinOrder order) {
 		String sql = "";
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		return this.namedJdbcTemplate.update(sql, msps);

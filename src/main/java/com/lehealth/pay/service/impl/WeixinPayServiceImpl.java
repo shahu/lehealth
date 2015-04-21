@@ -1,7 +1,11 @@
 package com.lehealth.pay.service.impl;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,12 +17,10 @@ import org.springframework.stereotype.Service;
 import com.lehealth.api.entity.GoodsInfo;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SystemVariableService;
-import com.lehealth.common.service.impl.CommonCacheServiceImpl;
 import com.lehealth.common.util.Constant;
 import com.lehealth.common.util.HttpUtils;
 import com.lehealth.common.util.OrderUtils;
 import com.lehealth.common.util.WeixinPayUtils;
-import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.SystemVariableKeyType;
 import com.lehealth.pay.dao.WeixinPayDao;
 import com.lehealth.pay.entity.WeixinOrder;
@@ -42,6 +44,39 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	private static Logger logger = Logger.getLogger(WeixinPayServiceImpl.class);
 	
 	@Override
+	public String getOpenId(String code){
+		StringBuilder sb = new StringBuilder();
+		sb.append("https://api.weixin.qq.com/sns/oauth2/access_token?appid=")
+			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID))
+			.append("&secret=")
+			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret))
+			.append("&code=")
+			.append(code)
+			.append("&grant_type=authorization_code");
+		String response = HttpUtils.getGetResponse(sb.toString());
+		if(StringUtils.isNotBlank(response)){
+			JSONObject result = null;
+			try{
+				result = JSONObject.fromObject(response);
+			}catch(JSONException e){
+				e.printStackTrace();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			if(result != null){
+				if(result.containsKey("openid")){
+					return StringUtils.trimToEmpty(result.getString("openid"));
+				}else if(result.containsKey("errcode") && result.containsKey("errmsg")){
+					logger.info("weixin get openid errcode=" + result.getString("errcode") + ",errmsg=" + result.getString("errmsg"));
+				}
+			}else{
+				logger.info("weixin get openid parse json error");
+			}
+		}
+		return "";
+	}
+	
+	@Override
 	public WeixinOrder buildOrder(String userId, String openId, String ip, int goodsId) {
 		GoodsInfo goodsInfo = this.commonCacheService.getGoodsInfo(goodsId);
 		if(goodsInfo != null){
@@ -55,7 +90,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 			order.setIp(ip);
 			order.setGoodsInfo(goodsInfo);
 			// 记录数据库
-			this.weixinPayDao.insertNewOrder(order);
+			this.weixinPayDao.insert(order);
 			return order;
 		}
 		return null;
@@ -79,7 +114,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		requestMap.put("spbill_create_ip", order.getIp());
 		requestMap.put("total_fee", String.valueOf(order.getGoodsInfo().getFee()));
 		requestMap.put("trade_type", Constant.weixinTradeType);
-		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret)));
+		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
 		
     	String requestBody = WeixinPayUtils.transf2String(requestMap);
     	System.out.println(requestBody);
@@ -124,19 +159,23 @@ public class WeixinPayServiceImpl implements WeixinPayService{
             					responseMap.put("paysign", paysign);
             					responseMap.put("orderid", order.getOrderId());
             					//更新订单状态，预付成功
-            					int result = this.weixinPayDao.updateOrderStatus2PrePay(order.getOrderId(), prePayId);
+            					int result = this.weixinPayDao.updateStatus2PrePay(order.getOrderId(), prePayId);
             					if(result == 1){
             						return responseMap;
             					}else{
             						logger.info("update prepay order failed");
             						// 关闭订单
-            						
+            						closeOrder(order.getOrderId());
             					}
                 			}else{
                 				logger.info("weixin prepay api response prepay_id is empty");
                 			}
                 		}else{
                 			logger.info("weixin prepay api response result_code=" + resultCode + ",code=" + resultMap.get("err_code") + ",message=" + resultMap.get("err_code_des"));
+                			Map<String, String> responseMap = new HashMap<String, String>();
+                			responseMap.put("message", resultMap.get("err_code_des"));
+                			responseMap.put("error", resultMap.get("err_code"));
+                			return responseMap;
                 		}
                 	}else{
                 		logger.info("weixin prepay api response return_code=" + returnCode + ",message=" + resultMap.get("return_msg"));
@@ -154,20 +193,51 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	}
 
 	@Override
-	public WeixinOrder getOrderInfo(String orderId) {
-		return null;
+	public String payOrder(Map<String, String> requestMap) {
+		//检查参数
+		String sign = WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), true);
+		if(!sign.equals(requestMap.get("sign"))){
+			return "签名不正确";
+		}
+		String orderId = requestMap.get("out_trade_no");
+		if(StringUtils.isBlank(orderId)){
+			return "订单号为空";
+		}
+		WeixinOrder order = this.weixinPayDao.selectInfo(orderId);
+		if(checkPayInfo(order, requestMap)){
+			return "订单信息异常";
+		}
+		//更新数据库
+		int result = this.weixinPayDao.updateStatus2Pay(orderId, requestMap.get("transaction_id"));
+		if(result == 1){
+			return "";
+		}else{
+			return "该订单不是预付订单";
+		}
 	}
 
-	@Override
-	public ErrorCodeType payOrder(String orderId, String weixinOrderId) {
-		int result = this.weixinPayDao.updateOrderStatus2Pay(orderId, weixinOrderId);
-		return null;
+	private boolean checkPayInfo(WeixinOrder order, Map<String, String> requestMap){
+		
+		return true;
 	}
-
+	
 	@Override
-	public ErrorCodeType closeOrder(String orderId, String weixinOrderId) {
-		int result = this.weixinPayDao.updateOrderStatus2Close(orderId);
+	public String closeOrder(String orderId) {
+		int result = this.weixinPayDao.updateStatus2Close(orderId);
 		return null;
 	}
 	
+	@Override
+	public WeixinOrder getOrderInfo(String orderId) {
+		// 请求获取微信订单信息
+		
+		// 获取订单信息
+		WeixinOrder order = this.weixinPayDao.selectInfo(orderId);
+		
+		// 检查差异
+		
+		// 状态变化修改数据库
+		
+		return null;
+	}
 }

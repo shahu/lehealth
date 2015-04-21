@@ -100,23 +100,69 @@ public class WeixinPayController {
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
 			int goodsId = NumberUtils.toInt(request.getParameter("goodsid"));
-			String openId = StringUtils.trimToEmpty(request.getParameter("openid"));
-			if(goodsId != 0 && StringUtils.isNotBlank(openId)){
+			String code = StringUtils.trimToEmpty(request.getParameter("code"));
+			if(goodsId != 0 && StringUtils.isNotBlank(code)){
 				String ip = Ipv4Utils.getIp(request);
 				long timestamp = NumberUtils.toLong(request.getParameter("timestamp"), System.currentTimeMillis()/1000);
-				// 创建我们的订单
-				WeixinOrder order = this.weixinPayService.buildOrder(user.getUserId(), openId, ip, goodsId);
-				if(order != null){
-					// 调用微信接口下单
-					Map<String, String> map = this.weixinPayService.prePayOrder(order, timestamp);
-					ErrorCodeType type = map.containsKey("error")? ErrorCodeType.weixinError : ErrorCodeType.success;
-					// 构造返回前端的信息
-					return new MapResponse(type, map).toJson();
+				// 获取openid
+				String openId = this.weixinPayService.getOpenId(code);
+				if(StringUtils.isNotBlank(openId)){
+					// 创建我们的订单
+					WeixinOrder order = this.weixinPayService.buildOrder(user.getUserId(), openId, ip, goodsId);
+					if(order != null){
+						// 调用微信接口下单
+						Map<String, String> map = this.weixinPayService.prePayOrder(order, timestamp);
+						if(map != null){
+							ErrorCodeType type = map.containsKey("error")? ErrorCodeType.weixinError : ErrorCodeType.success;
+							// 构造返回前端的信息
+							return new MapResponse(type, map).toJson();
+						}
+					}
 				}
+				return new BaseResponse(ErrorCodeType.weixinError).toJson();
 			}
 			return new BaseResponse(ErrorCodeType.failed).toJson();
 		}
 		return new BaseResponse(ErrorCodeType.invalidToken).toJson();
+	}
+	
+	// 微信回调接口
+	@ResponseBody
+	@RequestMapping(value = "/callback/pay")
+	public String callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String requestBody = null;
+		try {
+			requestBody = IOUtils.toString(request.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Map<String, String> result = new HashMap<String, String>();
+		if(StringUtils.isNotBlank(requestBody)){
+			Map<String, String> map = WeixinPayUtils.transf2Xml(requestBody);
+			if(map != null && !map.isEmpty()){
+				String message = this.weixinPayService.payOrder(map);
+				if(StringUtils.isBlank(message)){
+					result.put("return_code", "SUCCESS");
+					result.put("return_msg", "OK");
+				}else{
+					result.put("return_code", "FAIL");
+					result.put("return_msg", "message");
+				}
+			}else{
+				result.put("return_code", "FAIL");
+				result.put("return_msg", "xml parse failed");
+			}
+		}else{
+			result.put("return_code", "FAIL");
+			result.put("return_msg", "request is null");
+		}
+		return WeixinPayUtils.transf2String(result); 
+	}
+	
+	// 关闭建单超过1天的数据
+	@Scheduled(cron = "5 1 * * * ?")
+	public void cleanTimeOutOrder(){
+		
 	}
 	
 	// 查询支付结果
@@ -133,38 +179,5 @@ public class WeixinPayController {
 			
 		}
 		return new BaseResponse(ErrorCodeType.success).toJson();
-	}
-	
-	// 微信回调接口
-	@ResponseBody
-	@RequestMapping(value = "/callback/pay")
-	public String callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		//结果校验
-		
-		String requestBody = null;
-		try {
-			requestBody = IOUtils.toString(request.getInputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Map<String, String> result = new HashMap<String, String>();
-		if(StringUtils.isNotBlank(requestBody)){
-			Map<String, String> map = WeixinPayUtils.transf2Xml(requestBody);
-			if(map != null && !map.isEmpty()){
-				//检查参数
-				
-				//更新数据库
-				
-			}
-		}
-		result.put("return_code", "FAIL");
-		result.put("return_msg", "request is null");
-		return WeixinPayUtils.transf2String(result); 
-	}
-	
-	// 关闭建单超过1天的数据
-	@Scheduled(cron = "5 1 * * * ?")
-	public void cleanTimeOutOrder(){
-		
 	}
 }

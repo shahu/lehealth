@@ -87,7 +87,7 @@ public class WeixinPayController {
 			map.put("timestamp", String.valueOf(timestamp));
 			map.put("nonceStr", noncestr);
 			map.put("signature", signature);
-			map.put("jsapi_ticket", jsapi_ticket);
+			// map.put("jsapi_ticket", jsapi_ticket);
 			return new MapResponse(ErrorCodeType.success, map).toJson();
 		}
 		return new BaseResponse(ErrorCodeType.invalidToken).toJson();

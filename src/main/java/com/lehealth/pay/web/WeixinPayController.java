@@ -31,6 +31,7 @@ import com.lehealth.common.util.Ipv4Utils;
 import com.lehealth.common.util.WeixinPayUtils;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.SystemVariableKeyType;
+import com.lehealth.data.type.UserRoleType;
 import com.lehealth.pay.entity.WeixinOrder;
 import com.lehealth.pay.service.WeixinPayService;
 import com.lehealth.response.bean.BaseResponse;
@@ -194,7 +195,11 @@ public class WeixinPayController {
 			List<WeixinOrder> list=this.weixinPayService.getOrderList(user);
 			JSONArray arr=new JSONArray();
 			for(WeixinOrder order:list){
-				arr.add(order.toJsonObj());
+				if(user.getRole() == UserRoleType.admin){
+					arr.add(order.toBackJsonObj());
+				}else{
+					arr.add(order.toJsonObj());
+				}
 			}
 			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}

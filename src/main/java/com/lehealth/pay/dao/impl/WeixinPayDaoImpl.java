@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.lehealth.api.dao.impl.BaseJdbcDao;
 import com.lehealth.api.entity.UserBaseInfo;
+import com.lehealth.common.util.Constant;
 import com.lehealth.data.type.UserRoleType;
 import com.lehealth.pay.dao.WeixinPayDao;
 import com.lehealth.pay.entity.WeixinOrder;
@@ -37,8 +39,8 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			.append("NULL,")
 			.append("NULL,")
 			.append("now(),")
-			.append("NULL,")
-			.append("NULL,")
+			.append(":startTime,")
+			.append(":expireTime,")
 			.append("NULL,")
 			.append("NULL,")
 			.append("NULL,")
@@ -53,6 +55,8 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 		msps.addValue("goodsid", order.getGoodsInfo().getId());
 		msps.addValue("fee", order.getGoodsInfo().getId());
 		msps.addValue("period", order.getGoodsInfo().getId());
+		msps.addValue("startTime", DateFormatUtils.format(order.getStartTime(), Constant.dateFormat_yyyy_mm_dd_hh_mm_ss));
+		msps.addValue("expireTime", DateFormatUtils.format(order.getExpireTime(), Constant.dateFormat_yyyy_mm_dd_hh_mm_ss));
 		this.namedJdbcTemplate.update(sql.toString(), msps);
 	}
 

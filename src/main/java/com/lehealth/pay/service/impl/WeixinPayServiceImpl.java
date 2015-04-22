@@ -325,8 +325,19 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 			                		String resultCode = resultMap.get("result_code");
 			                		if(StringUtils.equals(successFlag, resultCode)){
 			                			// 更新订单状态
-			                			
-			                			
+			                			String trade_state = resultMap.get("trade_state");
+			                			if(StringUtils.equals("SUCCESS", trade_state)){
+			                				String transactionId = resultMap.get("transaction_id");
+			                				String timeEnd = resultMap.get("time_end");
+			                				Date payTime = new Date();
+			                				try {
+			                					payTime=DateUtils.parseDate(timeEnd, Constant.dateFormat_yyyymmddhhmmss);
+			                				} catch (ParseException e) {
+			                					e.printStackTrace();
+			                				}
+			                				this.weixinPayDao.updateStatus2Success(order.getOrderId(), transactionId, payTime);
+			                				order.setStatus(WeixinOrderStatusType.success.getCode());
+			                			}
 			                		}else{
 			                			logger.info("weixin search api response result_code=" + resultCode + ",code=" + resultMap.get("err_code") + ",message=" + resultMap.get("err_code_des"));
 			                		}

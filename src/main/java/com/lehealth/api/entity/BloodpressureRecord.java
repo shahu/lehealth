@@ -1,4 +1,4 @@
-package com.lehealth.data.bean;
+package com.lehealth.api.entity;
 
 import net.sf.json.JSONObject;
 

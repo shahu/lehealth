@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-public class Ipv4Util {
+public class Ipv4Utils {
 	
 	private static Pattern localIpPattern = Pattern.compile("^192\\.168.*|^10\\..*|^172\\.(1[6-9]|2\\d|3[0-1]).*|^127\\..*");
 	private static Pattern ipv4Pattern = Pattern.compile("^(1?\\d\\d?|2[0-4]\\d|25[0-5])\\.(1?\\d\\d?|2[0-4]\\d|25[0-5])\\.(1?\\d\\d?|2[0-4]\\d|25[0-5])\\.(1?\\d\\d?|2[0-4]\\d|25[0-5])$");

@@ -1,7 +1,7 @@
 package com.lehealth.api.service;
 
-import com.lehealth.data.bean.HomeResult;
-import com.lehealth.data.bean.UserBaseInfo;
+import com.lehealth.api.entity.HomeResult;
+import com.lehealth.api.entity.UserBaseInfo;
 
 public interface HomeService {
 	

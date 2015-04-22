@@ -1,9 +1,9 @@
-package com.lehealth.data.bean;
+package com.lehealth.api.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lehealth.common.util.CheckStatusUtil;
+import com.lehealth.common.util.CheckStatusUtils;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -14,7 +14,7 @@ public class BloodpressureResult {
 	private BloodpressureConfig config=new BloodpressureConfig();
 	
 	public int getStatus() {
-		return CheckStatusUtil.bloodpress(records, config).getCode();
+		return CheckStatusUtils.bloodpress(records, config).getCode();
 	}
 	
 	public void setConfig(BloodpressureConfig config) {

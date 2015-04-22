@@ -1,8 +1,8 @@
-package com.lehealth.data.bean;
+package com.lehealth.api.entity;
 
 import net.sf.json.JSONObject;
 
-public class DiseaseInfo {
+public class MedicineInfo {
 	
 	private int id=0;
 	private String name="";

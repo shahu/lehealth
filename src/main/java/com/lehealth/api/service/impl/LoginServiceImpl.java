@@ -16,11 +16,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lehealth.api.dao.LoginDao;
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.SendTemplateSMSService;
 import com.lehealth.common.util.Constant;
 import com.lehealth.common.util.TokenUtils;
-import com.lehealth.data.bean.UserBaseInfo;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.UserRoleType;
 

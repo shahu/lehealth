@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class JacksonGlobalMappers {
+public class JacksonUtils {
 	private static ObjectMapper defaultMapper = new ObjectMapper();
 	private static ObjectMapper noNullMapper = new ObjectMapper();;
 	

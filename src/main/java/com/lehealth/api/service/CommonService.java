@@ -2,9 +2,9 @@ package com.lehealth.api.service;
 
 import java.util.List;
 
-import com.lehealth.data.bean.Activity;
-import com.lehealth.data.bean.DiseaseCategroy;
-import com.lehealth.data.bean.MedicineCategroy;
+import com.lehealth.api.entity.Activity;
+import com.lehealth.api.entity.DiseaseCategroy;
+import com.lehealth.api.entity.MedicineCategroy;
 
 public interface CommonService {
 	
@@ -16,4 +16,5 @@ public interface CommonService {
 	
 	//获取疾病列表
 	public List<DiseaseCategroy> getDiseases();
+	
 }

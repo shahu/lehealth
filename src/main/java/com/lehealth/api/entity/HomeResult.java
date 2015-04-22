@@ -1,4 +1,4 @@
-package com.lehealth.data.bean;
+package com.lehealth.api.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
-import com.lehealth.common.util.CheckStatusUtil;
+import com.lehealth.common.util.CheckStatusUtils;
 import com.lehealth.common.util.Constant;
 
 import net.sf.json.JSONArray;
@@ -67,13 +67,54 @@ public class HomeResult{
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj = new JSONObject();
+		
 		if(this.bpRecords != null && !this.bpRecords.isEmpty()){
-			JSONArray bpArr = new JSONArray();
+			Map<String,List<BloodpressureRecord>> bpTemp = new HashMap<String,List<BloodpressureRecord>>();
 			for(BloodpressureRecord record : this.bpRecords){
-				bpArr.add(record.toJsonObj());
+				Date date = new Date(record.getDate());
+				String key = DateFormatUtils.format(date, Constant.dateFormat_yyyy_mm_dd);
+				if(!bpTemp.containsKey(key)){
+					bpTemp.put(key, new ArrayList<BloodpressureRecord>());
+				}
+				bpTemp.get(key).add(record);
 			}
-			obj.accumulate("status", this.getStatus());
-			obj.accumulate("records", bpArr);
+			
+			Date today = new Date();
+			Date tempDate = DateUtils.addDays(today, -this.days);
+			JSONArray bpArr = new JSONArray();
+			while(!tempDate.after(today)){
+				String tempKey = DateFormatUtils.format(tempDate, Constant.dateFormat_yyyy_mm_dd);
+				if(bpTemp.containsKey(tempKey)){
+					List<BloodpressureRecord> list = bpTemp.get(tempKey);
+					int size = list.size();
+					if(size > 0){
+						BloodpressureRecord tempRecord = new BloodpressureRecord();
+						tempRecord.setDate(list.get(0).getDate());
+						
+						int tempDbp = 0;
+						int tempSbp = 0;
+						int tempHeartrate = 0;
+						
+						for(BloodpressureRecord bpRecord : list){
+							tempDbp = tempDbp + bpRecord.getDbp();
+							tempSbp = tempSbp + bpRecord.getSbp();
+							tempHeartrate = tempHeartrate + bpRecord.getHeartrate();
+						}
+						
+						tempRecord.setDbp(tempDbp/size);
+						tempRecord.setSbp(tempSbp/size);
+						tempRecord.setHeartrate(tempHeartrate/size);
+						
+						bpArr.add(tempRecord.toJsonObj());
+					}
+				}
+				tempDate = DateUtils.addDays(tempDate, 1);
+			}
+			
+			if(bpArr.size() > 0){
+				obj.accumulate("status", this.getStatus());
+				obj.accumulate("records", bpArr);
+			}
 		}
 		
 		if(this.medicineRecords != null && !this.medicineRecords.isEmpty()){
@@ -171,6 +212,6 @@ public class HomeResult{
 	}
 	
 	public int getStatus() {
-		return CheckStatusUtil.bloodpress(bpRecords, bpConfig).getCode();
+		return CheckStatusUtils.bloodpress(bpRecords, bpConfig).getCode();
 	}
 }

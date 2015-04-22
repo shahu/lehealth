@@ -2,8 +2,8 @@ package com.lehealth.api.dao;
 
 import java.util.List;
 
-import com.lehealth.data.bean.PanientGuardianInfo;
-import com.lehealth.data.bean.PanientInfo;
+import com.lehealth.api.entity.PanientGuardianInfo;
+import com.lehealth.api.entity.PanientInfo;
 
 public interface PanientDao {
 	

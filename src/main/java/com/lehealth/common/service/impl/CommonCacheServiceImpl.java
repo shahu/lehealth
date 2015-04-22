@@ -106,8 +106,6 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 					}
 				}
 			}
-			
-			
 		}
 		logger.info("update weixin token and ticket end");
 	}

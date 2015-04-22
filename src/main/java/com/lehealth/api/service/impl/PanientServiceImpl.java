@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.entity.PanientGuardianInfo;
 import com.lehealth.api.entity.PanientInfo;
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.PanientService;
 
 @Service("panientService")
@@ -59,8 +60,8 @@ public class PanientServiceImpl implements PanientService{
 	
 	// 获取被关注病人列表
 	@Override
-	public List<PanientInfo> getPanientListByDoctor(String doctorId) {
-		return this.panientDao.selectPanientListByDoctor(doctorId);
+	public List<PanientInfo> getPanientListByRole(UserBaseInfo user) {
+		return this.panientDao.selectPanientListByRole(user);
 	}
 
 }

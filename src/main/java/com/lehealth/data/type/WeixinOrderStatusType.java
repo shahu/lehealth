@@ -6,13 +6,11 @@ public enum WeixinOrderStatusType {
 	// 未支付
 	prepay(1),
 	// 已支付
-	pay(2),
-	// 已到账
-	success(3),
+	success(2),
 	// 异常结束
-	error(4),
+	error(3),
 	// 关闭
-	close(5);
+	close(4);
 	
 	private WeixinOrderStatusType(int code) {
 		this.code = code;

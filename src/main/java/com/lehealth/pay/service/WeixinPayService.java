@@ -3,6 +3,7 @@ package com.lehealth.pay.service;
 import java.util.List;
 import java.util.Map;
 
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.pay.entity.WeixinOrder;
 
 public interface WeixinPayService {
@@ -19,10 +20,10 @@ public interface WeixinPayService {
 	// 订单付费
 	public String payOrder(Map<String, String> requestMap);
 	
-	// 获取订单列表
-	public List<WeixinOrder> getOrderList(String userId);
-
-	// 关闭订单
-	public void cleanOrders();
+	// 获取订单详情
+	public int getOrderStatus(String orderId);
 	
+	// 获取订单列表
+	public List<WeixinOrder> getOrderList(UserBaseInfo user);
+
 }

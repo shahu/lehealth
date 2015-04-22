@@ -59,7 +59,7 @@ public class AdminController {
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
-			List<PanientInfo> list=this.panientService.getPanientListByDoctor(user.getUserId());
+			List<PanientInfo> list=this.panientService.getPanientListByRole(user);
 			JSONArray arr=new JSONArray();
 			for(PanientInfo p:list){
 				arr.add(p.toBaseJsonObj());

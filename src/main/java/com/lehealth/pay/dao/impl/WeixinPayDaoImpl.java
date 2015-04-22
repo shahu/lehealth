@@ -193,6 +193,5 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 		msps.addValue("orderId", orderId);
 		return this.namedJdbcTemplate.update(sql.toString(), msps);
 	}
-	
 
 }

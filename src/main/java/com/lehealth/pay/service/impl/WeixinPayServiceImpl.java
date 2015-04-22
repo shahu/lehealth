@@ -294,22 +294,58 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	public List<WeixinOrder> getOrderList(UserBaseInfo user){
 		// 获取订单列表
 		List<WeixinOrder> orderList = this.weixinPayDao.selectInfos(user);
-		//TODO
 		// 用户支付中状态需要查询微信接口
 		if(orderList != null && !orderList.isEmpty()){
 			for(WeixinOrder order : orderList){
 				if(order.getStatus() == WeixinOrderStatusType.prepay.getCode()){
+					Map<String, String> requestMap = new LinkedHashMap<String, String>();
+					requestMap.put("appid", this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID));
+					requestMap.put("mch_id", this.systemVariableService.getValue(SystemVariableKeyType.weixinMchId));
+					requestMap.put("nonce_str", this.systemVariableService.getValue(SystemVariableKeyType.weixinCheckOrderNocestr));
+					requestMap.put("out_trade_no", order.getOpenId());
+					if(StringUtils.isNotBlank(order.getTransactionId())){
+						requestMap.put("transaction_id", order.getTransactionId());
+					}
+					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
 					
+					String requestBody = WeixinPayUtils.transf2String(requestMap);
+			    	System.out.println(requestBody);
+			        if(StringUtils.isNotBlank(requestBody)){
+			        	// 发送请求
+			            String responseBody = HttpUtils.getPostResponse(Constant.weixinSearchApi, requestBody);
+			            System.out.println(responseBody);
+			            // 解析返回
+			            if(StringUtils.isNotBlank(responseBody)){
+			            	Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);
+			            	if(resultMap != null && !resultMap.isEmpty()){
+			            		// 通信标识
+			                	String returnCode = resultMap.get("return_code");
+			                	if(StringUtils.equals(successFlag, returnCode)){
+			                		// 业务标识
+			                		String resultCode = resultMap.get("result_code");
+			                		if(StringUtils.equals(successFlag, resultCode)){
+			                			// 更新订单状态
+			                			
+			                			
+			                		}else{
+			                			logger.info("weixin search api response result_code=" + resultCode + ",code=" + resultMap.get("err_code") + ",message=" + resultMap.get("err_code_des"));
+			                		}
+			                	}else{
+			                		logger.info("weixin search api response return_code=" + returnCode + ",message=" + resultMap.get("return_msg"));
+			                	}
+			            	}else{
+			            		logger.info("weixin search api response tranf2map failed");
+			            	}
+			            }else{
+			            	logger.info("weixin search api response is empty");
+			            }
+					}else{
+						logger.info("weixin search api request is empty");
+					}
 				}
 			}
 		}
-		// 更新订单状态
-		
-		
-		// 返回结果查询
-		
-		
-		return null;
+		return orderList;
 	}
 	
 	@Override

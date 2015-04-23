@@ -134,7 +134,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 //		// 微信单位是分
 		requestMap.put("total_fee", String.valueOf((int)order.getGoodsInfo().getFee()));
 		requestMap.put("trade_type", Constant.weixinTradeType);
-		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), true));
+		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
 		
     	String requestBody = WeixinPayUtils.transf2String(requestMap);
     	logger.info("weixin prepay api requestbody :" + requestBody);
@@ -308,7 +308,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 					if(StringUtils.isNotBlank(order.getTransactionId())){
 						requestMap.put("transaction_id", order.getTransactionId());
 					}
-					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), true));
+					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
 					
 					String requestBody = WeixinPayUtils.transf2String(requestMap);
 					logger.info("weixin search api requestBody :" + requestBody);

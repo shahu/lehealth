@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -31,38 +32,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class WeixinPayUtils {
-	
-	public static void main(String[] args) {
-		Map<String, String> testMap = new LinkedHashMap<String, String>();
-		testMap.put("appid", "wxe4b3e1f50a76f240");
-		testMap.put("attach", "eb2ccda0f8f855428fda644affcb3a0a");
-		testMap.put("body", "info1");
-		testMap.put("detail", "detail1");
-		testMap.put("mch_id", "1238122402");
-		testMap.put("nonce_str", "bbb");
-		testMap.put("notify_url", "http://lehealth.net.cn/weixin/callback/pay");
-		testMap.put("openid", "o2KUDt-Ex21Cb_QhEJoBQwvMZG_w");
-		testMap.put("out_trade_no", "O201504240000261");
-		testMap.put("spbill_create_ip", "127.0.0.1");
-		testMap.put("time_expire", "20150425000026");
-		testMap.put("time_start", "20150424000026");
-		testMap.put("total_fee", "1");
-		testMap.put("trade_type", "JSAPI");
-		testMap.put("sign", WeixinPayUtils.getSign(testMap, "20a402a0fb8840c93d7a7d91b334784b",true));
-		
-		String requestBody = WeixinPayUtils.transf2String(testMap);
-		requestBody = StringUtils.replace(requestBody, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", "");
-		System.out.println(requestBody);
-		System.out.println("==================================================");
-		String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
-		System.out.println(responseBody);
-		System.out.println("==================================================");
-		Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);
-		for(Entry<String,String> e:resultMap.entrySet()){
-			System.out.println("key="+e.getKey()+",value="+e.getValue());
-		}
-
-	}
 	
 	public static String getSign(Map<String, String> map, String key, boolean sortFlag){
 		if(sortFlag){
@@ -78,9 +47,9 @@ public class WeixinPayUtils {
 		sb.append("key=").append(key);
 		String temp = sb.toString();
 		System.out.println("md5="+temp);
-		String sign = DigestUtils.md5Hex(temp);
+		String sign = StringUtils.trimToEmpty(DigestUtils.md5Hex(temp).toUpperCase());
 		System.out.println("sign="+sign);
-		return StringUtils.trimToEmpty(sign.toUpperCase());
+		return sign;
 	}
 	
 	private static final Comparator<String> spellComparator = new Comparator<String>() {
@@ -120,7 +89,8 @@ public class WeixinPayUtils {
 			if(map != null && !map.isEmpty()){
 				for(Entry<String, String> e : map.entrySet()){
 					Element element = document.createElement(e.getKey());
-					element.setTextContent(e.getValue());
+					CDATASection cdata = document.createCDATASection(e.getValue());
+					element.appendChild(cdata);
 					root.appendChild(element);
 				}
 			}

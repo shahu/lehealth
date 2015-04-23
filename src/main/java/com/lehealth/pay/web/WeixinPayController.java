@@ -36,6 +36,7 @@ import com.lehealth.pay.entity.WeixinOrder;
 import com.lehealth.pay.service.WeixinPayService;
 import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.JsonArrayResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 import com.lehealth.response.bean.MapResponse;
 
 @Controller
@@ -163,7 +164,7 @@ public class WeixinPayController {
 		return WeixinPayUtils.transf2String(result); 
 	}
 	
-	// 订单列表接口
+	// 订单信息
 	@ResponseBody
 	@RequestMapping(value = "/order/status")
 	public JSONObject orderStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -173,10 +174,12 @@ public class WeixinPayController {
 		if(user != null){
 			String orderId = StringUtils.trimToEmpty(request.getParameter("orderid"));
 			if(StringUtils.isNotBlank(orderId)){
-				int status = this.weixinPayService.getOrderStatus(orderId);
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("status", String.valueOf(status));
-				return new MapResponse(ErrorCodeType.success, map).toJson();
+				WeixinOrder order = this.weixinPayService.getOrderStatus(orderId);
+				if(order != null){
+					return new JsonObjectResponse(ErrorCodeType.success, order.toJsonObj()).toJson();
+				}else{
+					return new BaseResponse(ErrorCodeType.noneData).toJson();
+				}
 			}else{
 				return new BaseResponse(ErrorCodeType.invalidParam).toJson();
 			}

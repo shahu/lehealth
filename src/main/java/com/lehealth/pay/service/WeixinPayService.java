@@ -21,7 +21,7 @@ public interface WeixinPayService {
 	public String payOrder(Map<String, String> requestMap);
 	
 	// 获取订单详情
-	public int getOrderStatus(String orderId);
+	public WeixinOrder getOrderStatus(String orderId);
 	
 	// 获取订单列表
 	public List<WeixinOrder> getOrderList(UserBaseInfo user);

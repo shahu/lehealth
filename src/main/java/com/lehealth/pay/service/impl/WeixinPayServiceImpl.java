@@ -361,11 +361,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	}
 	
 	@Override
-	public int getOrderStatus(String orderId) {
-		WeixinOrder order = this.weixinPayDao.selectInfo(orderId);
-		if(order != null){
-			return order.getStatus();
-		}
-		return -1;
+	public WeixinOrder getOrderStatus(String orderId) {
+		return this.weixinPayDao.selectInfo(orderId);
 	}
 }

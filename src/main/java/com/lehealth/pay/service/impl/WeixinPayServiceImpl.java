@@ -130,7 +130,8 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		requestMap.put("spbill_create_ip", order.getIp());
 		requestMap.put("time_start", DateFormatUtils.format(order.getStartTime(), Constant.dateFormat_yyyymmddhhmmss));
 		requestMap.put("time_expire", DateFormatUtils.format(order.getExpireTime(), Constant.dateFormat_yyyymmddhhmmss));
-		requestMap.put("total_fee", String.valueOf(order.getGoodsInfo().getFee()));
+		// 微信单位是分
+		requestMap.put("total_fee", String.valueOf((int)order.getGoodsInfo().getFee()));
 		requestMap.put("trade_type", Constant.weixinTradeType);
 		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
 		

@@ -125,7 +125,7 @@ public class WeixinPayController {
 				}
 				return new BaseResponse(ErrorCodeType.weixinError).toJson();
 			}
-			return new BaseResponse(ErrorCodeType.failed).toJson();
+			return new BaseResponse(ErrorCodeType.invalidParam).toJson();
 		}
 		return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 	}

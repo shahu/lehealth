@@ -155,9 +155,7 @@ public class WeixinOrder {
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("orderid", this.orderId);
-		obj.accumulate("userid", this.userId);
 		obj.accumulate("fee", this.fee);
-		obj.accumulate("period", this.period);
 		obj.accumulate("status", this.status);
 		if(this.createTime != null){
 			obj.accumulate("createTime", this.createTime.getTime());

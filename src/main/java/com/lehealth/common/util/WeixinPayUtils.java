@@ -121,7 +121,7 @@ public class WeixinPayUtils {
 		}
 		Document document = null;
         try {
-			document= builder.parse(xmlStr);
+			document= builder.parse(new ByteArrayInputStream(xmlStr.getBytes()));
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

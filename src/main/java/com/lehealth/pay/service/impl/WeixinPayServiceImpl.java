@@ -122,25 +122,26 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		requestMap.put("appid", this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID));
 		requestMap.put("attach", order.getOrderSecret());
 		requestMap.put("body", order.getGoodsInfo().getInfo());
+		requestMap.put("detail", order.getGoodsInfo().getDetail());
 		requestMap.put("mch_id", this.systemVariableService.getValue(SystemVariableKeyType.weixinMchId));
 		requestMap.put("nonce_str", this.systemVariableService.getValue(SystemVariableKeyType.weixinPrePayNoncestr));
 		requestMap.put("notify_url", Constant.weixinNotifyUrl);
 		requestMap.put("openid", order.getOpenId());
 		requestMap.put("out_trade_no", order.getOrderId());
 		requestMap.put("spbill_create_ip", order.getIp());
-		requestMap.put("time_start", DateFormatUtils.format(order.getStartTime(), Constant.dateFormat_yyyymmddhhmmss));
 		requestMap.put("time_expire", DateFormatUtils.format(order.getExpireTime(), Constant.dateFormat_yyyymmddhhmmss));
-		// 微信单位是分
+		requestMap.put("time_start", DateFormatUtils.format(order.getStartTime(), Constant.dateFormat_yyyymmddhhmmss));
+//		// 微信单位是分
 		requestMap.put("total_fee", String.valueOf((int)order.getGoodsInfo().getFee()));
 		requestMap.put("trade_type", Constant.weixinTradeType);
-		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
+		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), true));
 		
     	String requestBody = WeixinPayUtils.transf2String(requestMap);
-    	System.out.println(requestBody);
+    	logger.info("weixin prepay api requestbody :" + requestBody);
         if(StringUtils.isNotBlank(requestBody)){
         	// 发送请求
             String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
-            System.out.println(responseBody);
+            logger.info("weixin prepay api responseBody :" + responseBody);
             // 解析返回
             if(StringUtils.isNotBlank(responseBody)){
             	Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);
@@ -307,14 +308,14 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 					if(StringUtils.isNotBlank(order.getTransactionId())){
 						requestMap.put("transaction_id", order.getTransactionId());
 					}
-					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
+					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), true));
 					
 					String requestBody = WeixinPayUtils.transf2String(requestMap);
-			    	System.out.println(requestBody);
+					logger.info("weixin search api requestBody :" + requestBody);
 			        if(StringUtils.isNotBlank(requestBody)){
 			        	// 发送请求
 			            String responseBody = HttpUtils.getPostResponse(Constant.weixinSearchApi, requestBody);
-			            System.out.println(responseBody);
+			            logger.info("weixin search api responseBody :" + responseBody);
 			            // 解析返回
 			            if(StringUtils.isNotBlank(responseBody)){
 			            	Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);

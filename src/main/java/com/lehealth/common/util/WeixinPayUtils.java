@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -31,6 +32,38 @@ import org.xml.sax.SAXException;
 
 public class WeixinPayUtils {
 	
+	public static void main(String[] args) {
+		Map<String, String> testMap = new LinkedHashMap<String, String>();
+		testMap.put("appid", "wxe4b3e1f50a76f240");
+		testMap.put("attach", "eb2ccda0f8f855428fda644affcb3a0a");
+		testMap.put("body", "info1");
+		testMap.put("detail", "detail1");
+		testMap.put("mch_id", "1238122402");
+		testMap.put("nonce_str", "bbb");
+		testMap.put("notify_url", "http://lehealth.net.cn/weixin/callback/pay");
+		testMap.put("openid", "o2KUDt-Ex21Cb_QhEJoBQwvMZG_w");
+		testMap.put("out_trade_no", "O201504240000261");
+		testMap.put("spbill_create_ip", "127.0.0.1");
+		testMap.put("time_expire", "20150425000026");
+		testMap.put("time_start", "20150424000026");
+		testMap.put("total_fee", "1");
+		testMap.put("trade_type", "JSAPI");
+		testMap.put("sign", WeixinPayUtils.getSign(testMap, "20a402a0fb8840c93d7a7d91b334784b",true));
+		
+		String requestBody = WeixinPayUtils.transf2String(testMap);
+		requestBody = StringUtils.replace(requestBody, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", "");
+		System.out.println(requestBody);
+		System.out.println("==================================================");
+		String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
+		System.out.println(responseBody);
+		System.out.println("==================================================");
+		Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);
+		for(Entry<String,String> e:resultMap.entrySet()){
+			System.out.println("key="+e.getKey()+",value="+e.getValue());
+		}
+
+	}
+	
 	public static String getSign(Map<String, String> map, String key, boolean sortFlag){
 		if(sortFlag){
 			sortBySpell(map);
@@ -44,8 +77,10 @@ public class WeixinPayUtils {
 		}
 		sb.append("key=").append(key);
 		String temp = sb.toString();
+		System.out.println("md5="+temp);
 		String sign = DigestUtils.md5Hex(temp);
-		return StringUtils.trimToEmpty(sign);
+		System.out.println("sign="+sign);
+		return StringUtils.trimToEmpty(sign.toUpperCase());
 	}
 	
 	private static final Comparator<String> spellComparator = new Comparator<String>() {
@@ -96,6 +131,7 @@ public class WeixinPayUtils {
             Transformer transFormer = null;
 			try {
 				transFormer = transFactory.newTransformer();
+				transFormer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 				transFormer.transform(domSource, new StreamResult(bos));
 			} catch (TransformerConfigurationException e) {
 				e.printStackTrace();
@@ -103,8 +139,8 @@ public class WeixinPayUtils {
 				e.printStackTrace();
 			}
             if(transFormer != null){
-            	String requestBody = bos.toString();
-            	return requestBody;
+            	String result = bos.toString();
+            	return result;
             }
 		}
 		return "";
@@ -121,7 +157,7 @@ public class WeixinPayUtils {
 		}
 		Document document = null;
         try {
-			document= builder.parse(new ByteArrayInputStream(xmlStr.getBytes()));
+			document= builder.parse(new ByteArrayInputStream(xmlStr.getBytes("UTF-8")));
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -132,7 +168,9 @@ public class WeixinPayUtils {
             NodeList nodes = root.getChildNodes();
             for(int i = 0 ; i < nodes.getLength() ; i++){
             	Node node = nodes.item(i);
-            	map.put(node.getNodeName(), node.getNodeValue());
+            	if(node.getNodeType() == Node.ELEMENT_NODE){
+            		map.put(node.getNodeName(), node.getTextContent());
+            	}
             }
         }
         return map;

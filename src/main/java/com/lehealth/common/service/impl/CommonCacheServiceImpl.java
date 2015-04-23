@@ -71,7 +71,7 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret));
 		String tokenResponse = HttpUtils.getGetResponse(accessTokenApi.toString());
 		if(StringUtils.isNotBlank(tokenResponse)){
-			System.out.println(tokenResponse);
+			logger.info("jssdk token response:" + tokenResponse);
 			JSONObject tokenJson = null;
 			try{
 				tokenJson = JSONObject.fromObject(tokenResponse);
@@ -91,7 +91,7 @@ public class CommonCacheServiceImpl implements CommonCacheService,InitializingBe
 					.append("&type=jsapi");
 				String ticketResponse = HttpUtils.getGetResponse(jsTicketApi.toString());
 				if(StringUtils.isNotBlank(ticketResponse)){
-					System.out.println(ticketResponse);
+					logger.info("jssdk ticket response:" + ticketResponse);
 					JSONObject ticketJson = null;
 					try{
 						ticketJson = JSONObject.fromObject(ticketResponse);

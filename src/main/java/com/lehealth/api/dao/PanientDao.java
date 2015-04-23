@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lehealth.api.entity.PanientGuardianInfo;
 import com.lehealth.api.entity.PanientInfo;
+import com.lehealth.api.entity.UserBaseInfo;
 
 public interface PanientDao {
 	
@@ -26,5 +27,5 @@ public interface PanientDao {
 	public List<PanientInfo> selectPanientListByGuardian(String guardianPhoneNumber);
 	
 	//获取被关注病人列表
-	public List<PanientInfo> selectPanientListByDoctor(String doctorUserId);
+	public List<PanientInfo> selectPanientListByRole(UserBaseInfo user);
 }

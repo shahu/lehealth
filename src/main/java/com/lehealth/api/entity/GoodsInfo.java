@@ -13,6 +13,7 @@ public class GoodsInfo {
 	private String feeType;
 	private String[] images;
 	private double fee;
+	private int period;
 	private GoodsStatusType status = GoodsStatusType.offline;
 	
 	public int getId() {
@@ -56,6 +57,12 @@ public class GoodsInfo {
 	}
 	public void setFee(double fee) {
 		this.fee = fee;
+	}
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
 	}
 	public GoodsStatusType getStatus() {
 		return status;

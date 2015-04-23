@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +31,7 @@ import com.lehealth.common.util.Ipv4Utils;
 import com.lehealth.common.util.WeixinPayUtils;
 import com.lehealth.data.type.ErrorCodeType;
 import com.lehealth.data.type.SystemVariableKeyType;
+import com.lehealth.data.type.UserRoleType;
 import com.lehealth.pay.entity.WeixinOrder;
 import com.lehealth.pay.service.WeixinPayService;
 import com.lehealth.response.bean.BaseResponse;
@@ -163,27 +163,47 @@ public class WeixinPayController {
 		return WeixinPayUtils.transf2String(result); 
 	}
 	
+	// 订单列表接口
 	@ResponseBody
-	@RequestMapping(value = "/order/list")
-	public JSONObject checkPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/order/status")
+	public JSONObject orderStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
 		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
 		if(user != null){
-			List<WeixinOrder> list=this.weixinPayService.getOrderList(user.getUserId());
+			String orderId = StringUtils.trimToEmpty(request.getParameter("orderid"));
+			if(StringUtils.isNotBlank(orderId)){
+				int status = this.weixinPayService.getOrderStatus(orderId);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("status", String.valueOf(status));
+				return new MapResponse(ErrorCodeType.success, map).toJson();
+			}else{
+				return new BaseResponse(ErrorCodeType.invalidParam).toJson();
+			}
+		}
+		return new BaseResponse(ErrorCodeType.invalidToken).toJson();
+	}
+	
+	// 订单列表接口
+	@ResponseBody
+	@RequestMapping(value = "/order/list")
+	public JSONObject orderList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
+		String token=StringUtils.trimToEmpty(request.getParameter("token"));
+		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
+		if(user != null){
+			List<WeixinOrder> list=this.weixinPayService.getOrderList(user);
 			JSONArray arr=new JSONArray();
 			for(WeixinOrder order:list){
-				arr.add(order.toJsonObj());
+				if(user.getRole() == UserRoleType.admin){
+					arr.add(order.toBackJsonObj());
+				}else{
+					arr.add(order.toJsonObj());
+				}
 			}
 			return new JsonArrayResponse(ErrorCodeType.success, arr).toJson();
 		}
 		return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 	}
-	
-	// 关闭建单超过1天的数据
-	@Scheduled(cron = "5 1 * * * ?")
-	public void cleanOrder(){
-		this.weixinPayService.cleanOrders();
-	}
-	
+		
 }

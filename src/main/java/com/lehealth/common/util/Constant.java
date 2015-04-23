@@ -14,4 +14,5 @@ public class Constant {
 	public static final String weixinNotifyUrl = "http://lehealth.net.cn/weixin/callback/pay";
 	public static final String weixinTradeType = "JSAPI";
 	public static final String weixinPrePayApi = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+	public static final String weixinSearchApi = "https://api.mch.weixin.qq.com/pay/orderquery";
 }

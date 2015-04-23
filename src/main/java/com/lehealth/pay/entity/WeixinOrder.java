@@ -12,6 +12,7 @@ public class WeixinOrder {
 	private String orderId;
 	private String orderSecret;
 	private String prepayId;
+	private String transactionId;
 	
 	private String userId;
 	private String openId;
@@ -20,6 +21,8 @@ public class WeixinOrder {
 	private String subscribe;
 	
 	private GoodsInfo goodsInfo = new GoodsInfo();
+	private double fee;
+	private int period;
 	
 	private int status = -1;
 	
@@ -52,6 +55,12 @@ public class WeixinOrder {
 	public void setOrderSecret(String orderSecret) {
 		this.orderSecret = orderSecret;
 	}
+	public String getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -81,6 +90,18 @@ public class WeixinOrder {
 	}
 	public void setGoodsInfo(GoodsInfo goodsInfo) {
 		this.goodsInfo = goodsInfo;
+	}
+	public double getFee() {
+		return fee;
+	}
+	public void setFee(double fee) {
+		this.fee = fee;
+	}
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
 	}
 	public String getOpenId() {
 		return openId;
@@ -133,11 +154,54 @@ public class WeixinOrder {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("id", this.id);
 		obj.accumulate("orderid", this.orderId);
 		obj.accumulate("userid", this.userId);
+		obj.accumulate("fee", this.fee);
+		obj.accumulate("period", this.period);
+		obj.accumulate("status", this.status);
+		if(this.createTime != null){
+			obj.accumulate("createTime", this.createTime.getTime());
+		}
+		obj.accumulate("goodsname", this.goodsInfo.getName());
+		obj.accumulate("goodsinfo", this.goodsInfo.getInfo());
+		obj.accumulate("goodsdetail", this.goodsInfo.getDetail());
+		return obj;
+	}
+	
+	public JSONObject toBackJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("orderid", this.orderId);
+		obj.accumulate("transactionid", this.transactionId);
+		obj.accumulate("userid", this.userId);
 		obj.accumulate("openid", this.openId);
-		obj.accumulate("ip", this.ip);
+		obj.accumulate("subscribe", this.subscribe);
+		obj.accumulate("fee", this.fee);
+		obj.accumulate("period", this.period);
+		obj.accumulate("status", this.status);
+		
+		if(this.createTime != null){
+			obj.accumulate("createTime", this.createTime.getTime());
+		}
+		if(this.startTime != null){
+			obj.accumulate("startTime", this.startTime.getTime());
+		}
+		if(this.expireTime != null){
+			obj.accumulate("expireTime", this.expireTime.getTime());
+		}
+		if(this.payTime != null){
+			obj.accumulate("payTime", this.payTime.getTime());
+		}
+		if(this.callbackTime != null){
+			obj.accumulate("callbackTime", this.callbackTime.getTime());
+		}
+		if(this.closeTime != null){
+			obj.accumulate("closeTime", this.closeTime.getTime());
+		}
+		
+		obj.accumulate("goodsname", this.goodsInfo.getName());
+		obj.accumulate("goodsinfo", this.goodsInfo.getInfo());
+		obj.accumulate("goodsdetail", this.goodsInfo.getDetail());
+		
 		return obj;
 	}
 }

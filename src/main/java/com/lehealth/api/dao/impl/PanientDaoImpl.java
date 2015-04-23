@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.entity.PanientGuardianInfo;
 import com.lehealth.api.entity.PanientInfo;
+import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.common.util.TokenUtils;
+import com.lehealth.data.type.UserRoleType;
 
 @Repository("panientDao")
 public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
@@ -140,13 +142,15 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	}
 	
 	@Override
-	public List<PanientInfo> selectPanientListByDoctor(String doctorUserId) {
+	public List<PanientInfo> selectPanientListByRole(UserBaseInfo user) {
 		List<PanientInfo> list=new ArrayList<PanientInfo>();
 		String sql="SELECT t1.patinetid,t2.username FROM mapping_doctor_patient_attention t1 "
-				+"LEFT JOIN user_patient_info t2 ON t1.patinetid=t2.userid "
-				+"WHERE t1.doctorid=:doctorid ";
+				+"LEFT JOIN user_patient_info t2 ON t1.patinetid=t2.userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
-		msps.addValue("doctorid", doctorUserId);
+		if(user.getRole() == UserRoleType.dotcor){
+			sql += "WHERE t1.doctorid=:doctorid ";
+			msps.addValue("doctorid", user.getUserId());
+		}
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
 			PanientInfo info=new PanientInfo();

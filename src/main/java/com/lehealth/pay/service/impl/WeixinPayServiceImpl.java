@@ -134,7 +134,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 //		// 微信单位是分
 		requestMap.put("total_fee", String.valueOf((int)order.getGoodsInfo().getFee()));
 		requestMap.put("trade_type", Constant.weixinTradeType);
-		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
+		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinApiKey), false));
 		
     	String requestBody = WeixinPayUtils.transf2String(requestMap);
     	logger.info("weixin prepay api requestbody :" + requestBody);

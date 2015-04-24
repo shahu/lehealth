@@ -168,15 +168,17 @@ public class WeixinPayServiceImpl implements WeixinPayService{
             						.append("&signType=")
             						.append(signtype)
             						.append("&timeStamp=")
-            						.append(timestamp);
-            					String paysign = DigestUtils.md5Hex(sb.toString());
+            						.append(timestamp)
+            						.append("&key=")
+            						.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinApiKey));
+            					String paySign = StringUtils.trimToEmpty(DigestUtils.md5Hex(sb.toString())).toUpperCase();
             					Map<String, String> responseMap = new LinkedHashMap<String, String>();
             					responseMap.put("appid", appId);
             					responseMap.put("timestamp", String.valueOf(timestamp));
             					responseMap.put("noncestr", noncestr);
             					responseMap.put("package", packageStr);
             					responseMap.put("signtype", signtype);
-            					responseMap.put("paysign", paysign);
+            					responseMap.put("paysign", paySign);
             					responseMap.put("orderid", order.getOrderId());
             					//更新订单状态，预付成功
             					this.weixinPayDao.updateStatus2PrePay(order.getOrderId(), prePayId);

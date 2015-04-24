@@ -228,8 +228,6 @@ define(function(require, exports, module) {
 			if(queryRsIntervalHandler) {
 				clearInterval(queryRsIntervalHandler);
 			}
-
-			$.mobile.loading('hide');
 		});
 	};
 

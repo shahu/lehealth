@@ -11,7 +11,7 @@ public class Constant {
 	public static final long identifyingCodeValidityTime = identifyingCodeValidityMinute*60*1000;
 	public static final long identifyingCodeValidityClearTime = 60*60*1000;
 	
-	public static final String weixinNotifyUrl = "http://lehealth.net.cn/weixin/callback/pay";
+	public static final String weixinNotifyUrl = "http://lehealth.net.cn/lehealth/weixin/callback/pay";
 	public static final String weixinTradeType = "JSAPI";
 	public static final String weixinPrePayApi = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	public static final String weixinSearchApi = "https://api.mch.weixin.qq.com/pay/orderquery";

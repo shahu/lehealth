@@ -53,8 +53,8 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 		msps.addValue("orderid", order.getOrderId());
 		msps.addValue("ordersecret", order.getOrderSecret());
 		msps.addValue("goodsid", order.getGoodsInfo().getId());
-		msps.addValue("fee", order.getGoodsInfo().getId());
-		msps.addValue("period", order.getGoodsInfo().getId());
+		msps.addValue("fee", order.getGoodsInfo().getFee());
+		msps.addValue("period", order.getGoodsInfo().getPeriod());
 		msps.addValue("startTime", DateFormatUtils.format(order.getStartTime(), Constant.dateFormat_yyyy_mm_dd_hh_mm_ss));
 		msps.addValue("expireTime", DateFormatUtils.format(order.getExpireTime(), Constant.dateFormat_yyyy_mm_dd_hh_mm_ss));
 		this.namedJdbcTemplate.update(sql.toString(), msps);
@@ -72,8 +72,8 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			.append("t1.goods_id,t1.fee,t1.period,")
 			.append("t2.name,t2.info,t2.detail,t2.fee as goods_fee ")
 			.append("from weixin_order t1 ")
-			.append("inner join goods_info t2 on t1.goods_id=t2.id")
-			.append("where t1.order_id = :orderId ");
+			.append("inner join goods_info t2 on t1.goods_id=t2.id ")
+			.append("where t1.order_id = :orderid ");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		msps.addValue("orderid", orderId);
 		SqlRowSet rs = this.namedJdbcTemplate.queryForRowSet(sql.toString(), msps);
@@ -105,6 +105,8 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			order.getGoodsInfo().setFee(goodsFee);
 			order.setFee(fee);
 			order.setPeriod(period);
+			
+			return order;
 		}
 		return null;
 	}
@@ -139,7 +141,6 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			String goodsInfo = StringUtils.trimToEmpty(rs.getString("info"));
 			String goodsDetail = StringUtils.trimToEmpty(rs.getString("detail"));
 			double goodsFee = rs.getDouble("goods_fee");
-			
 			WeixinOrder order = new WeixinOrder();
 			order.setUserId(userId);
 			order.setOpenId(openId);
@@ -163,17 +164,17 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 	@Override
 	public int updateStatus2PrePay(String orderId, String prePayId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE weixin_order SET status=1,prepay_id=:prePayId,prepaytime=now() WHERE orderid=:orderId AND STATUS=0");
+		sql.append("UPDATE weixin_order SET status=1,prepay_id=:prePayid,prepaytime=now() WHERE order_id=:orderid AND STATUS=0");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
-		msps.addValue("prePayId", prePayId);
-		msps.addValue("orderId", orderId);
+		msps.addValue("prePayid", prePayId);
+		msps.addValue("orderid", orderId);
 		return this.namedJdbcTemplate.update(sql.toString(), msps);
 	}
 
 	@Override
 	public int updateStatus2Success(String orderId, String weixinOrderId, Date payTime) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE weixin_order SET status=2,transaction_id=:weixinOrderId,paytime=:payTime,callbacktime=now() WHERE orderid=:orderId AND STATUS=1");
+		sql.append("UPDATE weixin_order SET status=2,transaction_id=:weixinOrderId,paytime=:payTime,callbacktime=now() WHERE order_id=:orderId AND STATUS=1");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		msps.addValue("weixinOrderId", weixinOrderId);
 		msps.addValue("payTime", payTime);
@@ -184,7 +185,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 	@Override
 	public int updateStatus2Error(String orderId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE weixin_order SET status=3,callbacktime=now() WHERE orderid=:orderId AND STATUS=1");
+		sql.append("UPDATE weixin_order SET status=3,callbacktime=now() WHERE order_id=:orderId AND STATUS=1");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		return this.namedJdbcTemplate.update(sql.toString(), msps);
 	}
@@ -192,7 +193,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 	@Override
 	public int updateStatus2Close(String orderId) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE weixin_order SET status=4,closetime=now() WHERE orderid=:orderId");
+		sql.append("UPDATE weixin_order SET status=4,closetime=now() WHERE order_id=:orderId");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		msps.addValue("orderId", orderId);
 		return this.namedJdbcTemplate.update(sql.toString(), msps);

@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -23,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,6 +32,32 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class WeixinPayUtils {
+	
+	public static void main(String[] args) {
+		Map<String, String> requestMap = new LinkedHashMap<String, String>();
+		requestMap.put("appid", "wxe4b3e1f50a76f240");
+		requestMap.put("attach", "b71a8859d76867338c5078fc357d3713");
+		requestMap.put("body", "info1");
+		requestMap.put("detail", "detail1");
+		requestMap.put("mch_id", "1238122402");
+		requestMap.put("nonce_str", "bbb");
+		requestMap.put("notify_url", "http://lehealth.net.cn/weixin/callback/pay");
+		requestMap.put("openid", "o2KUDt-Ex21Cb_QhEJoBQwvMZG_w");
+		requestMap.put("out_trade_no", "O201504242225331");
+		requestMap.put("spbill_create_ip", "127.0.0.1");
+		requestMap.put("time_expire", "20150425222533");
+		requestMap.put("time_start", "20150424222533");
+//		// 微信单位是分
+		requestMap.put("total_fee", "1");
+		requestMap.put("trade_type", "JSAPI");
+		String sign = getSign(requestMap, "fa9b9bcd5c7780705cb706b6b04e1075",true);
+		requestMap.put("sign", sign);
+		
+		String requestBody = WeixinPayUtils.transf2String(requestMap);
+		System.out.println(requestBody);
+        String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
+        System.out.println(responseBody);
+	}
 	
 	public static String getSign(Map<String, String> map, String key, boolean sortFlag){
 		if(sortFlag){
@@ -44,8 +72,10 @@ public class WeixinPayUtils {
 		}
 		sb.append("key=").append(key);
 		String temp = sb.toString();
-		String sign = DigestUtils.md5Hex(temp);
-		return StringUtils.trimToEmpty(sign);
+		System.out.println("md5="+temp);
+		String sign = StringUtils.trimToEmpty(DigestUtils.md5Hex(temp).toUpperCase());
+		System.out.println("sign="+sign);
+		return sign;
 	}
 	
 	private static final Comparator<String> spellComparator = new Comparator<String>() {
@@ -85,7 +115,8 @@ public class WeixinPayUtils {
 			if(map != null && !map.isEmpty()){
 				for(Entry<String, String> e : map.entrySet()){
 					Element element = document.createElement(e.getKey());
-					element.setTextContent(e.getValue());
+					CDATASection cdata = document.createCDATASection(e.getValue());
+					element.appendChild(cdata);
 					root.appendChild(element);
 				}
 			}
@@ -96,6 +127,7 @@ public class WeixinPayUtils {
             Transformer transFormer = null;
 			try {
 				transFormer = transFactory.newTransformer();
+				transFormer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 				transFormer.transform(domSource, new StreamResult(bos));
 			} catch (TransformerConfigurationException e) {
 				e.printStackTrace();
@@ -103,8 +135,8 @@ public class WeixinPayUtils {
 				e.printStackTrace();
 			}
             if(transFormer != null){
-            	String requestBody = bos.toString();
-            	return requestBody;
+            	String result = bos.toString();
+            	return result;
             }
 		}
 		return "";
@@ -121,7 +153,7 @@ public class WeixinPayUtils {
 		}
 		Document document = null;
         try {
-			document= builder.parse(xmlStr);
+			document= builder.parse(new ByteArrayInputStream(xmlStr.getBytes("UTF-8")));
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -132,7 +164,9 @@ public class WeixinPayUtils {
             NodeList nodes = root.getChildNodes();
             for(int i = 0 ; i < nodes.getLength() ; i++){
             	Node node = nodes.item(i);
-            	map.put(node.getNodeName(), node.getNodeValue());
+            	if(node.getNodeType() == Node.ELEMENT_NODE){
+            		map.put(node.getNodeName(), node.getTextContent());
+            	}
             }
         }
         return map;

@@ -16,6 +16,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ import com.lehealth.pay.entity.WeixinOrder;
 import com.lehealth.pay.service.WeixinPayService;
 import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.JsonArrayResponse;
+import com.lehealth.response.bean.JsonObjectResponse;
 import com.lehealth.response.bean.MapResponse;
 
 @Controller
@@ -57,6 +59,8 @@ public class WeixinPayController {
 	@Autowired
 	@Qualifier("weixinPayService")
 	private WeixinPayService weixinPayService;
+	
+	private static Logger logger = Logger.getLogger(WeixinPayController.class);
 	
 	// 刚进页面，请求这个接口获取
 	// request timestamp、url
@@ -109,6 +113,8 @@ public class WeixinPayController {
 				String ip = Ipv4Utils.getIp(request);
 				long timestamp = NumberUtils.toLong(request.getParameter("timestamp"), System.currentTimeMillis()/1000);
 				// 获取openid
+				// TODO test
+				//String openId = code;
 				String openId = this.weixinPayService.getOpenId(code);
 				if(StringUtils.isNotBlank(openId)){
 					// 创建我们的订单
@@ -125,7 +131,7 @@ public class WeixinPayController {
 				}
 				return new BaseResponse(ErrorCodeType.weixinError).toJson();
 			}
-			return new BaseResponse(ErrorCodeType.failed).toJson();
+			return new BaseResponse(ErrorCodeType.invalidParam).toJson();
 		}
 		return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 	}
@@ -135,11 +141,13 @@ public class WeixinPayController {
 	@RequestMapping(value = "/callback/pay")
 	public String callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String requestBody = null;
+		logger.info("test call back ,request path info = "+request.getPathInfo());
 		try {
 			requestBody = IOUtils.toString(request.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		logger.info("test call back ,request body = "+requestBody);
 		Map<String, String> result = new HashMap<String, String>();
 		if(StringUtils.isNotBlank(requestBody)){
 			Map<String, String> map = WeixinPayUtils.transf2Xml(requestBody);
@@ -150,7 +158,7 @@ public class WeixinPayController {
 					result.put("return_msg", "OK");
 				}else{
 					result.put("return_code", "FAIL");
-					result.put("return_msg", "message");
+					result.put("return_msg", message);
 				}
 			}else{
 				result.put("return_code", "FAIL");
@@ -160,12 +168,13 @@ public class WeixinPayController {
 			result.put("return_code", "FAIL");
 			result.put("return_msg", "request is null");
 		}
+		logger.info("test call back ,response return_code = "+result.get("return_code")+",return_msg="+result.get("return_msg"));
 		return WeixinPayUtils.transf2String(result); 
 	}
 	
-	// 订单列表接口
+	// 订单信息
 	@ResponseBody
-	@RequestMapping(value = "/order/status")
+	@RequestMapping(value = "/order/info")
 	public JSONObject orderStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));
@@ -173,10 +182,12 @@ public class WeixinPayController {
 		if(user != null){
 			String orderId = StringUtils.trimToEmpty(request.getParameter("orderid"));
 			if(StringUtils.isNotBlank(orderId)){
-				int status = this.weixinPayService.getOrderStatus(orderId);
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("status", String.valueOf(status));
-				return new MapResponse(ErrorCodeType.success, map).toJson();
+				WeixinOrder order = this.weixinPayService.getOrderStatus(orderId);
+				if(order != null){
+					return new JsonObjectResponse(ErrorCodeType.success, order.toJsonObj()).toJson();
+				}else{
+					return new BaseResponse(ErrorCodeType.noneData).toJson();
+				}
 			}else{
 				return new BaseResponse(ErrorCodeType.invalidParam).toJson();
 			}

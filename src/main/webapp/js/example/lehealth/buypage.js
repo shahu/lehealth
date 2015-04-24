@@ -143,10 +143,12 @@ define(function(require, exports, module) {
 									success: function(res) {
 										weixinCallbackSuccess = true;
 										if(weixinCallbackSuccess && serverCbSuccess) {
+											$.mobile.loading('hide');
 											$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");	
 										}	
 									},
 									fail: function(res) {
+										$.mobile.loading('hide');
 										//go to 支付完成页面
 										$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");
 									},
@@ -161,6 +163,7 @@ define(function(require, exports, module) {
 									}
 								});
 								queryRsTimeoutHandler = setTimeout(function() {
+									$.mobile.loading('hide');
 									//go to 支付完成页面
 									$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");
 								}, 30000);
@@ -181,11 +184,14 @@ define(function(require, exports, module) {
 												if(orderDetail.status == 2) {
 													serverCbSuccess = true;
 													if(serverCbSuccess && weixinCallbackSuccess) {
+														$.mobile.loading('hide');
 														$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");	
 													}
 												} else if(orderDetail.status == 3) {
+													$.mobile.loading('hide');
 													$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");
 												} else if(orderDetail.status == 4) {
+													$.mobile.loading('hide');
 													$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");	
 												}												
 											}

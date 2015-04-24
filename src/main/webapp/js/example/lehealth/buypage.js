@@ -139,7 +139,7 @@ define(function(require, exports, module) {
 									nonceStr: data.noncestr,
 									package: data.package,
 									signType: data.signtype,
-									paySign: data.paysign,
+									paySign: data.paysign.toUpperCase(),
 									success: function(res) {
 										weixinCallbackSuccess = true;
 										if(weixinCallbackSuccess && serverCbSuccess) {
@@ -222,6 +222,8 @@ define(function(require, exports, module) {
 			if(queryRsIntervalHandler) {
 				clearInterval(queryRsIntervalHandler);
 			}
+
+			$.mobile.loading('hide');
 		});
 	};
 

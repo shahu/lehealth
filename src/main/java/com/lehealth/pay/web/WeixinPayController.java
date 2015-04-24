@@ -16,6 +16,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,8 @@ public class WeixinPayController {
 	@Autowired
 	@Qualifier("weixinPayService")
 	private WeixinPayService weixinPayService;
+	
+	private static Logger logger = Logger.getLogger(WeixinPayController.class);
 	
 	// 刚进页面，请求这个接口获取
 	// request timestamp、url
@@ -111,8 +114,8 @@ public class WeixinPayController {
 				long timestamp = NumberUtils.toLong(request.getParameter("timestamp"), System.currentTimeMillis()/1000);
 				// 获取openid
 				// TODO test
-				String openId = code;
-				//String openId = this.weixinPayService.getOpenId(code);
+				//String openId = code;
+				String openId = this.weixinPayService.getOpenId(code);
 				if(StringUtils.isNotBlank(openId)){
 					// 创建我们的订单
 					WeixinOrder order = this.weixinPayService.buildOrder(user.getUserId(), openId, ip, goodsId);
@@ -138,11 +141,13 @@ public class WeixinPayController {
 	@RequestMapping(value = "/callback/pay")
 	public String callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String requestBody = null;
+		logger.info("test call back ,request path info = "+request.getPathInfo());
 		try {
 			requestBody = IOUtils.toString(request.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		logger.info("test call back ,request body = "+requestBody);
 		Map<String, String> result = new HashMap<String, String>();
 		if(StringUtils.isNotBlank(requestBody)){
 			Map<String, String> map = WeixinPayUtils.transf2Xml(requestBody);
@@ -153,7 +158,7 @@ public class WeixinPayController {
 					result.put("return_msg", "OK");
 				}else{
 					result.put("return_code", "FAIL");
-					result.put("return_msg", "message");
+					result.put("return_msg", message);
 				}
 			}else{
 				result.put("return_code", "FAIL");
@@ -163,12 +168,13 @@ public class WeixinPayController {
 			result.put("return_code", "FAIL");
 			result.put("return_msg", "request is null");
 		}
+		logger.info("test call back ,response return_code = "+result.get("return_code")+",return_msg="+result.get("return_msg"));
 		return WeixinPayUtils.transf2String(result); 
 	}
 	
 	// 订单信息
 	@ResponseBody
-	@RequestMapping(value = "/order/status")
+	@RequestMapping(value = "/order/info")
 	public JSONObject orderStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
 		String token=StringUtils.trimToEmpty(request.getParameter("token"));

@@ -33,6 +33,32 @@ import org.xml.sax.SAXException;
 
 public class WeixinPayUtils {
 	
+	public static void main(String[] args) {
+		Map<String, String> requestMap = new LinkedHashMap<String, String>();
+		requestMap.put("appid", "wxe4b3e1f50a76f240");
+		requestMap.put("attach", "b71a8859d76867338c5078fc357d3713");
+		requestMap.put("body", "info1");
+		requestMap.put("detail", "detail1");
+		requestMap.put("mch_id", "1238122402");
+		requestMap.put("nonce_str", "bbb");
+		requestMap.put("notify_url", "http://lehealth.net.cn/weixin/callback/pay");
+		requestMap.put("openid", "o2KUDt-Ex21Cb_QhEJoBQwvMZG_w");
+		requestMap.put("out_trade_no", "O201504242225331");
+		requestMap.put("spbill_create_ip", "127.0.0.1");
+		requestMap.put("time_expire", "20150425222533");
+		requestMap.put("time_start", "20150424222533");
+//		// 微信单位是分
+		requestMap.put("total_fee", "1");
+		requestMap.put("trade_type", "JSAPI");
+		String sign = getSign(requestMap, "fa9b9bcd5c7780705cb706b6b04e1075",true);
+		requestMap.put("sign", sign);
+		
+		String requestBody = WeixinPayUtils.transf2String(requestMap);
+		System.out.println(requestBody);
+        String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
+        System.out.println(responseBody);
+	}
+	
 	public static String getSign(Map<String, String> map, String key, boolean sortFlag){
 		if(sortFlag){
 			sortBySpell(map);

@@ -2,6 +2,8 @@ package com.lehealth.pay.entity;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.lehealth.api.entity.GoodsInfo;
 
 import net.sf.json.JSONObject;
@@ -154,25 +156,25 @@ public class WeixinOrder {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("orderid", this.orderId);
+		obj.accumulate("orderid", StringUtils.trimToEmpty(this.orderId));
 		obj.accumulate("fee", this.fee);
 		obj.accumulate("status", this.status);
 		if(this.createTime != null){
 			obj.accumulate("createTime", this.createTime.getTime());
 		}
-		obj.accumulate("goodsname", this.goodsInfo.getName());
-		obj.accumulate("goodsinfo", this.goodsInfo.getInfo());
-		obj.accumulate("goodsdetail", this.goodsInfo.getDetail());
+		obj.accumulate("goodsname", StringUtils.trimToEmpty(this.goodsInfo.getName()));
+		obj.accumulate("goodsinfo", StringUtils.trimToEmpty(this.goodsInfo.getInfo()));
+		obj.accumulate("goodsdetail", StringUtils.trimToEmpty(this.goodsInfo.getDetail()));
 		return obj;
 	}
 	
 	public JSONObject toBackJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("orderid", this.orderId);
-		obj.accumulate("transactionid", this.transactionId);
-		obj.accumulate("userid", this.userId);
-		obj.accumulate("openid", this.openId);
-		obj.accumulate("subscribe", this.subscribe);
+		obj.accumulate("orderid", StringUtils.trimToEmpty(this.orderId));
+		obj.accumulate("transactionid", StringUtils.trimToEmpty(this.transactionId));
+		obj.accumulate("userid", StringUtils.trimToEmpty(this.userId));
+		obj.accumulate("openid", StringUtils.trimToEmpty(this.openId));
+		obj.accumulate("subscribe", StringUtils.trimToEmpty(this.subscribe));
 		obj.accumulate("fee", this.fee);
 		obj.accumulate("period", this.period);
 		obj.accumulate("status", this.status);
@@ -196,9 +198,9 @@ public class WeixinOrder {
 			obj.accumulate("closeTime", this.closeTime.getTime());
 		}
 		
-		obj.accumulate("goodsname", this.goodsInfo.getName());
-		obj.accumulate("goodsinfo", this.goodsInfo.getInfo());
-		obj.accumulate("goodsdetail", this.goodsInfo.getDetail());
+		obj.accumulate("goodsname", StringUtils.trimToEmpty(this.goodsInfo.getName()));
+		obj.accumulate("goodsinfo", StringUtils.trimToEmpty(this.goodsInfo.getInfo()));
+		obj.accumulate("goodsdetail", StringUtils.trimToEmpty(this.goodsInfo.getDetail()));
 		
 		return obj;
 	}

@@ -180,6 +180,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
             					responseMap.put("orderid", order.getOrderId());
             					//更新订单状态，预付成功
             					this.weixinPayDao.updateStatus2PrePay(order.getOrderId(), prePayId);
+            					return responseMap;
                 			}else{
                 				logger.info("weixin prepay api response prepay_id is empty");
                 			}
@@ -308,7 +309,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 					if(StringUtils.isNotBlank(order.getTransactionId())){
 						requestMap.put("transaction_id", order.getTransactionId());
 					}
-					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret), false));
+					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinApiKey), false));
 					
 					String requestBody = WeixinPayUtils.transf2String(requestMap);
 					logger.info("weixin search api requestBody :" + requestBody);

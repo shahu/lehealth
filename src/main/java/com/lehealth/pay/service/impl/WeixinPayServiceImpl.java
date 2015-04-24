@@ -169,7 +169,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
             						.append(signtype)
             						.append("&timeStamp=")
             						.append(timestamp);
-            					String paysign = DigestUtils.md5Hex(sb.toString());
+            					String paysign = StringUtils.trimToEmpty(DigestUtils.md5Hex(sb.toString())).toUpperCase();
             					Map<String, String> responseMap = new LinkedHashMap<String, String>();
             					responseMap.put("appid", appId);
             					responseMap.put("timestamp", String.valueOf(timestamp));

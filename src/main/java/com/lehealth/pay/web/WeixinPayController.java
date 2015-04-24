@@ -114,8 +114,8 @@ public class WeixinPayController {
 				long timestamp = NumberUtils.toLong(request.getParameter("timestamp"), System.currentTimeMillis()/1000);
 				// 获取openid
 				// TODO test
-				//String openId = code;
-				String openId = this.weixinPayService.getOpenId(code);
+				String openId = code;
+				//String openId = this.weixinPayService.getOpenId(code);
 				if(StringUtils.isNotBlank(openId)){
 					// 创建我们的订单
 					WeixinOrder order = this.weixinPayService.buildOrder(user.getUserId(), openId, ip, goodsId);

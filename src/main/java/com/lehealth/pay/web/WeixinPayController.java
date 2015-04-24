@@ -141,7 +141,6 @@ public class WeixinPayController {
 	@RequestMapping(value = "/callback/pay")
 	public String callbackPay(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String requestBody = null;
-		logger.info("test call back ,request path info = "+request.getPathInfo());
 		try {
 			requestBody = IOUtils.toString(request.getInputStream());
 		} catch (IOException e) {

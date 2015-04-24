@@ -108,12 +108,7 @@ define(function(require, exports, module) {
 				//绑定点击购买事件
 				$('#dobuy').off("click");
 				$('#dobuy').on("click", function() {
-					$.mobile.loading( 'show', {
-						text: '支付中...',
-						textVisible: true,
-						theme: 'c',
-						html: ''
-					});
+					
 					var weixinCallbackSuccess = false,
 						serverCbSuccess = false;
 

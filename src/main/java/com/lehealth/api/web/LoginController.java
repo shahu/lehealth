@@ -45,7 +45,12 @@ public class LoginController {
 			return new BaseResponse(ErrorCodeType.invalidPassword).toJson();
 		}else{
 			ErrorCodeType type = this.loginService.registerUser(loginId, password, identifyingCode, UserRoleType.panient);
-			return new BaseResponse(type).toJson();
+			if(type == ErrorCodeType.success){
+				UserBaseInfo user = new UserBaseInfo(loginId, password, UserRoleType.panient);
+				return new JsonObjectResponse(type, user.toJsonObj()).toJson();
+			}else{
+				return new BaseResponse(type).toJson();
+			}
 		}
 	}
 	

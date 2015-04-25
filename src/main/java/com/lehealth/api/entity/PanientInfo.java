@@ -85,7 +85,7 @@ public class PanientInfo {
 		JSONObject obj=new JSONObject();
 		if(StringUtils.isNotBlank(this.userName)){
 			obj.accumulate("username", this.userName);
-		}else{
+		}else if(StringUtils.isNotBlank(this.phoneNumber)){
 			obj.accumulate("username", this.phoneNumber);
 		}
 		obj.accumulate("userid", this.userId);

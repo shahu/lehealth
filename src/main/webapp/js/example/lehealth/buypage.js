@@ -72,7 +72,7 @@ define(function(require, exports, module) {
 									return;
 								}
 								wx.config({
-									debug: true,
+									debug: false,
 									appId: rsp.result.appid,
 									timestamp: tm,
 									nonceStr: rsp.result.nonceStr,

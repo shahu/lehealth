@@ -139,13 +139,13 @@ define(function(require, exports, module) {
 										weixinCallbackSuccess = true;
 										if (weixinCallbackSuccess && serverCbSuccess) {
 											$.mobile.loading('hide');
-											$.mobile.changePage("myorder.html?id=" + orderId, "slide");
+											$.mobile.changePage("myorder.html", "slide");
 										}
 									},
 									fail: function(res) {
 										$.mobile.loading('hide');
 										//go to 支付完成页面
-										$.mobile.changePage("myorder.html?id=" + orderId, "slide");
+										$.mobile.changePage("myorder.html", "slide");
 									},
 									cancel: function() {
 										$.mobile.loading('hide');
@@ -155,6 +155,7 @@ define(function(require, exports, module) {
 										if (queryRsIntervalHandler) {
 											clearInterval(queryRsIntervalHandler);
 										}
+										window.location.reload();
 									}
 								});
 								queryRsTimeoutHandler = setTimeout(function() {
@@ -174,8 +175,8 @@ define(function(require, exports, module) {
 											token: token
 										},
 										succss: function(res) {
+											alert(JSON.stringify(res));
 											if (!res.errorcode) {
-												alert(JSON.stringify(res));
 												var orderDetail = res.result;
 												if (orderDetail.status == 2) {
 													serverCbSuccess = true;

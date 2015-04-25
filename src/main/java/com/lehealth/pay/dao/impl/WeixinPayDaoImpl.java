@@ -32,6 +32,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			.append(":orderid,")
 			.append(":ordersecret,")
 			.append("0,")
+			.append("NULL,")
 			.append(":goodsid,")
 			.append(":fee,")
 			.append(":period,")
@@ -196,10 +197,12 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 	}
 
 	@Override
-	public int updateStatus2Error(String orderId) {
+	public int updateStatus2Error(String orderId, String message) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE weixin_order SET status=3,callbacktime=now() WHERE order_id=:orderId AND STATUS=1");
+		sql.append("UPDATE weixin_order SET status=3,message=:message,callbacktime=now() WHERE order_id=:orderId AND STATUS=1");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
+		msps.addValue("message", message);
+		msps.addValue("orderId", orderId);
 		return this.namedJdbcTemplate.update(sql.toString(), msps);
 	}
 

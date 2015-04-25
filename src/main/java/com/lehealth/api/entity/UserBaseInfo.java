@@ -10,22 +10,33 @@ import com.lehealth.data.type.UserRoleType;
 
 public class UserBaseInfo {
 
-	private String userId="";
-	private String loginId="";
-	private String pwdmd5="";
-	private UserRoleType role=UserRoleType.panient;
+	private String userId = "";
+	private String loginId = "";
+	private String pwdmd5 = "";
+	private UserRoleType role = UserRoleType.panient;
+	private String token = "";
 	
-	public UserBaseInfo(String userId, String loginId, String password,UserRoleType role){
+	public UserBaseInfo(String userId, String loginId, String password, UserRoleType role, boolean md5Flag){
 		this.userId = userId;
 		this.loginId = loginId;
-		this.pwdmd5 = DigestUtils.md5Hex(password);
+		if(md5Flag){
+			this.pwdmd5 = DigestUtils.md5Hex(password);
+		}else{
+			this.pwdmd5 = password;
+		}
 		this.role = role;
+		this.token = TokenUtils.buildToken(this.loginId, this.pwdmd5);
 	}
 	
-	public UserBaseInfo(String loginId, String pwdmd5,UserRoleType role){
+	public UserBaseInfo(String loginId, String password,UserRoleType role, boolean md5Flag){
 		this.loginId = loginId;
-		this.pwdmd5 = pwdmd5;
+		if(md5Flag){
+			this.pwdmd5 = DigestUtils.md5Hex(password);
+		}else{
+			this.pwdmd5 = password;
+		}
 		this.role = role;
+		this.token = TokenUtils.buildToken(this.loginId, this.pwdmd5);
 	}
 	
 	public String getUserId() {
@@ -43,13 +54,13 @@ public class UserBaseInfo {
 	
 	public boolean validToken(String token){
 		return StringUtils.isNotBlank(this.userId) 
-				&& StringUtils.equals(token ,TokenUtils.buildToken(this.loginId, this.pwdmd5));
+				&& StringUtils.equals(token, this.token);
 	}
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("loginid", loginId);
-		obj.accumulate("token", TokenUtils.buildToken(this.loginId, this.pwdmd5));
+		obj.accumulate("token", this.token);
 		obj.accumulate("roleid", role.getRoleId());
 		return obj;
 	}

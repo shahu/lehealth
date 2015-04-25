@@ -53,15 +53,17 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	
 	@Override
 	public String getOpenId(String code){
-		StringBuilder sb = new StringBuilder();
-		sb.append("https://api.weixin.qq.com/sns/oauth2/access_token?appid=")
+		String logKey = "weixin get openid;code=" + code +",";
+		StringBuilder url = new StringBuilder();
+		url.append("https://api.weixin.qq.com/sns/oauth2/access_token?appid=")
 			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID))
 			.append("&secret=")
 			.append(this.systemVariableService.getValue(SystemVariableKeyType.weixinAppSecret))
 			.append("&code=")
 			.append(code)
 			.append("&grant_type=authorization_code");
-		String response = HttpUtils.getGetResponse(sb.toString());
+		logger.info(logKey + "url=" + url.toString());
+		String response = HttpUtils.getGetResponse(url.toString());
 		if(StringUtils.isNotBlank(response)){
 			JSONObject result = null;
 			try{
@@ -75,11 +77,13 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 				if(result.containsKey("openid")){
 					return StringUtils.trimToEmpty(result.getString("openid"));
 				}else if(result.containsKey("errcode") && result.containsKey("errmsg")){
-					logger.info("weixin get openid errcode=" + result.getString("errcode") + ",errmsg=" + result.getString("errmsg"));
+					logger.info(logKey + "response errcode=" + result.getString("errcode") + ",errmsg=" + result.getString("errmsg"));
 				}
 			}else{
-				logger.info("weixin get openid parse json error");
+				logger.info(logKey + "parse response json error");
 			}
+		}else{
+			logger.info(logKey + "parse response is null");
 		}
 		return "";
 	}
@@ -117,6 +121,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	
 	@Override
 	public Map<String, String> prePayOrder(WeixinOrder order, long timestamp) {
+		String logKey = "weixin prepay api;order id=" + order.getOrderId() +",";
 		// 整理请求参数
 		Map<String, String> requestMap = new LinkedHashMap<String, String>();
 		requestMap.put("appid", this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID));
@@ -137,11 +142,11 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinApiKey), false));
 		
     	String requestBody = WeixinPayUtils.transf2String(requestMap);
-    	logger.info("weixin prepay api requestbody :" + requestBody);
+    	logger.info(logKey + "requestbody :" + requestBody);
         if(StringUtils.isNotBlank(requestBody)){
         	// 发送请求
             String responseBody = HttpUtils.getPostResponse(Constant.weixinPrePayApi, requestBody);
-            logger.info("weixin prepay api responseBody :" + responseBody);
+            logger.info(logKey + "responseBody :" + responseBody);
             // 解析返回
             if(StringUtils.isNotBlank(responseBody)){
             	Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);
@@ -184,26 +189,26 @@ public class WeixinPayServiceImpl implements WeixinPayService{
             					this.weixinPayDao.updateStatus2PrePay(order.getOrderId(), prePayId);
             					return responseMap;
                 			}else{
-                				logger.info("weixin prepay api response prepay_id is empty");
+                				logger.info(logKey + "response prepay_id is null");
                 			}
                 		}else{
-                			logger.info("weixin prepay api response result_code=" + resultCode + ",code=" + resultMap.get("err_code") + ",message=" + resultMap.get("err_code_des"));
+                			logger.info(logKey + "response result_code=" + resultCode + ",code=" + resultMap.get("err_code") + ",message=" + resultMap.get("err_code_des"));
                 			Map<String, String> responseMap = new HashMap<String, String>();
                 			responseMap.put("message", resultMap.get("err_code_des"));
                 			responseMap.put("error", resultMap.get("err_code"));
                 			return responseMap;
                 		}
                 	}else{
-                		logger.info("weixin prepay api response return_code=" + returnCode + ",message=" + resultMap.get("return_msg"));
+                		logger.info(logKey + "response return_code=" + returnCode + ",message=" + resultMap.get("return_msg"));
                 	}
             	}else{
-            		logger.info("weixin prepay api response tranf2map failed");
+            		logger.info(logKey + "response tranf2map failed");
             	}
             }else{
-            	logger.info("weixin prepay api response is empty");
+            	logger.info(logKey + "response is empty");
             }
 		}else{
-			logger.info("weixin prepay api request is empty");
+			logger.info(logKey + "request is empty");
 		}
 		return null;
 	}
@@ -220,13 +225,16 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		if(StringUtils.isBlank(orderId)){
 			return "订单号为空";
 		}
-		
+		String logKey = "weixin callback;order id=" + orderId +",";
 		String resultCode = requestMap.get("result_code");
 		if(!StringUtils.equalsIgnoreCase(successFlag, resultCode)){
-			this.weixinPayDao.updateStatus2Error(orderId);
 			String errCode = requestMap.get("err_code");
 			String errCodeDes = requestMap.get("err_code_des");
-			logger.info("weixin callback result_code=" + resultCode + ",errCode=" + errCode + ",errCodeDes=" + errCodeDes);
+			JSONObject message =new JSONObject();
+			message.accumulate("code", errCode);
+			message.accumulate("errCodeDes", errCodeDes);
+			this.weixinPayDao.updateStatus2Error(orderId, message.toString());
+			logger.info(logKey + "result_code=" + resultCode + "," + message.toString());
 			return "result_code不是SUCCESS";
 		}
 		
@@ -303,6 +311,8 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		if(orderList != null && !orderList.isEmpty()){
 			for(WeixinOrder order : orderList){
 				if(order.getStatus() == WeixinOrderStatusType.prepay.getCode()){
+					String orderId = order.getOrderId();
+					String logKey = "weixin search api;order id=" + orderId +",";
 					Map<String, String> requestMap = new LinkedHashMap<String, String>();
 					requestMap.put("appid", this.systemVariableService.getValue(SystemVariableKeyType.weixinAppID));
 					requestMap.put("mch_id", this.systemVariableService.getValue(SystemVariableKeyType.weixinMchId));
@@ -314,11 +324,11 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 					requestMap.put("sign", WeixinPayUtils.getSign(requestMap, this.systemVariableService.getValue(SystemVariableKeyType.weixinApiKey), false));
 					
 					String requestBody = WeixinPayUtils.transf2String(requestMap);
-					logger.info("weixin search api requestBody :" + requestBody);
+					logger.info(logKey + "requestBody :" + requestBody);
 			        if(StringUtils.isNotBlank(requestBody)){
 			        	// 发送请求
 			            String responseBody = HttpUtils.getPostResponse(Constant.weixinSearchApi, requestBody);
-			            logger.info("weixin search api responseBody :" + responseBody);
+			            logger.info(logKey + "responseBody :" + responseBody);
 			            // 解析返回
 			            if(StringUtils.isNotBlank(responseBody)){
 			            	Map<String, String> resultMap = WeixinPayUtils.transf2Xml(responseBody);
@@ -344,19 +354,25 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 			                				order.setStatus(WeixinOrderStatusType.success.getCode());
 			                			}
 			                		}else{
-			                			logger.info("weixin search api response result_code=" + resultCode + ",code=" + resultMap.get("err_code") + ",message=" + resultMap.get("err_code_des"));
+			                			String errCode = resultMap.get("err_code");
+			                			String errCodeDes = resultMap.get("err_code_des");
+			                			JSONObject message =new JSONObject();
+			                			message.accumulate("code", errCode);
+			                			message.accumulate("errCodeDes", errCodeDes);
+			                			this.weixinPayDao.updateStatus2Error(orderId, message.toString());
+			                			logger.info(logKey + "response result_code=" + resultCode + "," + message.toString());
 			                		}
 			                	}else{
-			                		logger.info("weixin search api response return_code=" + returnCode + ",message=" + resultMap.get("return_msg"));
+			                		logger.info(logKey + "response return_code=" + returnCode + ",message=" + resultMap.get("return_msg"));
 			                	}
 			            	}else{
-			            		logger.info("weixin search api response tranf2map failed");
+			            		logger.info(logKey + "response tranf2map failed");
 			            	}
 			            }else{
-			            	logger.info("weixin search api response is empty");
+			            	logger.info(logKey + "response is empty");
 			            }
 					}else{
-						logger.info("weixin search api request is empty");
+						logger.info(logKey + "request is empty");
 					}
 				}
 			}

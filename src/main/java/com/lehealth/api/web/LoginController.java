@@ -46,7 +46,7 @@ public class LoginController {
 		}else{
 			ErrorCodeType type = this.loginService.registerUser(loginId, password, identifyingCode, UserRoleType.panient);
 			if(type == ErrorCodeType.success){
-				UserBaseInfo user = new UserBaseInfo(loginId, password, UserRoleType.panient);
+				UserBaseInfo user = new UserBaseInfo(loginId, password, UserRoleType.panient, true);
 				return new JsonObjectResponse(type, user.toJsonObj()).toJson();
 			}else{
 				return new BaseResponse(type).toJson();

@@ -11,17 +11,6 @@ public class TokenUtils {
 	
 	public static String buildToken(String loginId,String password){
 		StringBuilder sb=new StringBuilder();
-		sb.append(password)
-			.append("lehealth")
-			.append(DigestUtils.md5Hex(loginId))
-			.append(DigestUtils.md5Hex("lehealth"))
-			.append(DigestUtils.md5Hex("password"))
-			.append(loginId);
-		return DigestUtils.md5Hex(sb.toString());
-	}
-	
-	public static String buildToken1(String loginId,String password){
-		StringBuilder sb=new StringBuilder();
 		sb.append("&lehealth=").append(DigestUtils.sha1Hex(loginId))
 			.append("&loginId=").append(DigestUtils.sha1Hex(password))
 			.append("&password=").append(DigestUtils.sha1Hex(tokenKey));

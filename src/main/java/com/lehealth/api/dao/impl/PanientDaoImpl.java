@@ -157,8 +157,9 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
 			PanientInfo info=new PanientInfo();
-			info.setUserId(StringUtils.trimToEmpty(rs.getString("patinetid")));
+			info.setUserId(StringUtils.trimToEmpty(rs.getString("userid")));
 			info.setUserName(StringUtils.trimToEmpty(rs.getString("username")));
+			info.setPhoneNumber(StringUtils.trimToEmpty(rs.getString("loginid")));
 			list.add(info);
 		}
 		return list;

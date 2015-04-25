@@ -51,7 +51,7 @@ define(function(require, exports, module) {
 							var ordercard = $('#ordercard-tmpl').clone();
 							ordercard.removeAttr('id');
 							ordercard.css("display", "block");
-							var timestr = new Date(orderlist[i].createtime).format("yyyy年 MM月dd日 HH:mm:ss");
+							var timestr = new Date(orderlist[i].createtime).format("yyyy年 MM月dd日 hh:mm:ss");
 							var state = "支付中";
 							if (orderlist[i].status == 2) {
 								state = "支付完成";

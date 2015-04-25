@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService{
 			ErrorCodeType errorCode = this.checkIdentifyingCode(loginId, identifyingCode);
 			if(errorCode == ErrorCodeType.success){
 				String userId=TokenUtils.buildUserId(loginId);
-				user = new UserBaseInfo(userId, loginId, password, role);
+				user = new UserBaseInfo(userId, loginId, password, role, true);
 				boolean isSuccess=this.loginDao.insertUser(user);
 				if(isSuccess){
 					// 如果注册成功则清理掉

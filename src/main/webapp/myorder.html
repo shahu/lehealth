@@ -60,11 +60,28 @@
 						</tr>
 					</table>						
 				</div>
-				<div style="height:60px"></div>
-				<div style="position:fixed; bottom:0px; left:0px;right:0px;padding: 0px 16px 0px 16px;background-color:#f9f9f9">
-					<a data-theme="f" id="record_bpdata" data-role="button" href="/lehealth/bpinput.html" data-transition="slide">查看详情</a>
-				</div>				
 			</div>
+			<div data-role="footer" data-position="fixed">
+				<div data-role="navbar" data-theme="c">
+					<ul>
+						<li>
+							<a href="/lehealth/home.html">首页</a>
+						</li>
+						<li>
+							<a href="/lehealth/bpmonitor.html">血压</a>
+						</li>
+						<li>
+							<a href="/lehealth/medicationrecord.html">用药</a>
+						</li>
+						<li>
+							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe4b3e1f50a76f240&redirect_uri=http%3A%2F%2Flehealth.net.cn%2Flehealth%2Fbuypage.html%3Fid%3D1&response_type=code&scope=snsapi_base&state=123#wechat_redirect">康复</a>
+						</li>						
+						<li>
+							<a href="/lehealth/config.html" class="ui-btn-active ui-state-persist">我的</a>
+						</li>
+					</ul>
+				</div>
+			</div>				
 			<script>
 					seajs.use(seajs.prefix + 'example/lehealth/myorder', function(lehealth) {
 						lehealth.render();

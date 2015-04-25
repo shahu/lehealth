@@ -180,22 +180,22 @@ public class WeixinOrder {
 		obj.accumulate("status", this.status);
 		
 		if(this.createTime != null){
-			obj.accumulate("createTime", this.createTime.getTime());
+			obj.accumulate("createtime", this.createTime.getTime());
 		}
 		if(this.startTime != null){
-			obj.accumulate("startTime", this.startTime.getTime());
+			obj.accumulate("starttime", this.startTime.getTime());
 		}
 		if(this.expireTime != null){
-			obj.accumulate("expireTime", this.expireTime.getTime());
+			obj.accumulate("expiretime", this.expireTime.getTime());
 		}
 		if(this.payTime != null){
-			obj.accumulate("payTime", this.payTime.getTime());
+			obj.accumulate("paytime", this.payTime.getTime());
 		}
 		if(this.callbackTime != null){
-			obj.accumulate("callbackTime", this.callbackTime.getTime());
+			obj.accumulate("callbacktime", this.callbackTime.getTime());
 		}
 		if(this.closeTime != null){
-			obj.accumulate("closeTime", this.closeTime.getTime());
+			obj.accumulate("closetime", this.closeTime.getTime());
 		}
 		
 		obj.accumulate("goodsname", StringUtils.trimToEmpty(this.goodsInfo.getName()));

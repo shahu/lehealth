@@ -48,7 +48,7 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 			String userid=StringUtils.trimToEmpty(rs.getString("userid"));
 			String password=StringUtils.trimToEmpty(rs.getString("pwdmd5"));
 			UserRoleType role = UserRoleType.getTypeById(rs.getInt("roleid")) ;
-			return new UserBaseInfo(userid, loginId, password, role);
+			return new UserBaseInfo(userid, loginId, password, role, false);
 		}else{
 			return null;
 		}

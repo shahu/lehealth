@@ -175,6 +175,7 @@ define(function(require, exports, module) {
 										},
 										succss: function(res) {
 											if (!res.errorcode) {
+												alert(JSON.stringify(res));
 												var orderDetail = res.result;
 												if (orderDetail.status == 2) {
 													serverCbSuccess = true;

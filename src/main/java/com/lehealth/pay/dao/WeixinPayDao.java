@@ -22,7 +22,7 @@ public interface WeixinPayDao {
 	// 订单完成
 	public int updateStatus2Success(String orderId, String weixinOrderId, Date payTime);
 	// 订单异常关闭
-	public int updateStatus2Error(String orderId);
+	public int updateStatus2Error(String orderId, String message);
 	// 订单关闭
 	public int updateStatus2Close(String orderId);
 	

@@ -13,22 +13,21 @@
 		<style>
 				#baseInfo td { padding: 8px;}
 				fieldset.scheduler-border {
-				    border: 1px groove #ddd !important;
-				    padding: 0 1.4em 1.4em 1.4em !important;
-				    margin: 0 0 1.5em 0 !important;
-				    -webkit-box-shadow:  0px 0px 0px 0px #000;
-				            box-shadow:  0px 0px 0px 0px #000;
+				border: 1px groove #ddd !important;
+				padding: 0 1.4em 1.4em 1.4em !important;
+				margin: 0 0 1.5em 0 !important;
+				-webkit-box-shadow:  0px 0px 0px 0px #000;
+				box-shadow:  0px 0px 0px 0px #000;
 				}
-
-			    legend.scheduler-border {
-			        font-size: 1.2em !important;
-			        font-weight: bold !important;
-			        text-align: left !important;
-			        width:auto;
-			        padding:0 10px;
-			        border-bottom:none;
-			        margin-bottom: 0px;
-			    }
+			legend.scheduler-border {
+			font-size: 1.2em !important;
+			font-weight: bold !important;
+			text-align: left !important;
+			width:auto;
+			padding:0 10px;
+			border-bottom:none;
+			margin-bottom: 0px;
+			}
 		</style>
 	</head>
 	<body>
@@ -40,14 +39,16 @@
 			<h3 style="color:#888888; padding-left: 20px; cursor: pointer;">
 			我的病人<i class="icon-chevron-up icon-white" id="sideupdown_icon" style="float:right; margin-right: 20px;margin-top: 10px; vertical-align:middle"></i>
 			</h3>
-			<div id="list_div" style="padding-left: 20px;padding-right: 5px;">
-				<ul class="nav nav-pills nav-stacked" id="patients">
-				</ul>
+			<div style="height:200px; width:100%; overflow:hidden;">
+				<div id="list_div" style="padding-left: 20px;padding-right: 5px;height: 200px;width:100%; margin: 0px 20px; overflow-y:scroll;">
+					<ul class="nav nav-pills nav-stacked" id="patients">
+					</ul>
+				</div>
 			</div>
 			<hr style="opacity:0.05">
 			<h3 id="myorder" style="color:#888888; padding-left: 20px; cursor: pointer;">
 			我的订单
-			</h3>			
+			</h3>
 			<hr style="opacity:0.05">
 			<h3 style="color:#888888; padding-left: 20px; cursor: pointer">我的设置</h3>
 			<div style="padding-left: 20px; padding-right: 5px;">
@@ -109,7 +110,7 @@
 							<fieldset class="scheduler-border">
 								<legend class="scheduler-border">病情描述</legend>
 								<p class="deseasedesc">
-										
+									
 								</p>
 							</fieldset>
 							<fieldset class="scheduler-border">
@@ -117,18 +118,46 @@
 								<p class="meditiondesc">
 									
 								</p>
-							</fieldset>						
+							</fieldset>
 						</div>
 					</div>
-				</div>					
+				</div>
 			</div>
 			<div id="orderpage" style="background-color: #f5f5f5">
-				<div style="background-color: white; margin-top: 10px; padding: 10px 0px 10px 40px; color:#555; border: #e7eaec 1px solid;">
-					<h2>订单查询</h2>
+				<div style="background-color: white; margin-top: 10px; padding: 5px 0px 5px 40px; color:#555; border: #e7eaec 1px solid;">
+					<h3>订单查询</h3>
 				</div>
-				<div style="width: 90%;margin: auto; background-color: white; padding: 20px; margin-top: 15px;border: #e7eaec 1px solid;">
-					<div>
-						订单日期：<input type="date" id="orderDate">	
+				<div style=" background-color: white; width: 96%; margin-top: 15px;border: #e7eaec 1px solid; padding: 20px; margin: 15px auto;">
+					<div class="row text-center vertical-middle-sm" style="text-align:center;margin-right: -40px;">
+						<table
+							class="table table-condensed table-bordered"
+							style="width: 96%;margin:auto;">
+							<thead>
+								<tr>
+									<th style="width:20%;">订单编号</th>
+									<th style="width:20%;">订单时间</th>
+									<th style="width:15%;">订单金额</th>
+									<th style="width:15%;">订单状态</th>
+									<th style="width:30%;">订单描述</th>
+								</tr>
+							</thead>
+							<tbody id="orderlistdata">
+								<tr>
+									<td height="20" colspan="15">
+										<p align="center">没有数据</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table style="display:none;">
+							<tr id="tr_tmpl">
+								<td class="ordercode"></td>
+								<td class="ordertime"></td>
+								<td class="orderfee"></td>
+								<td class="orderstate"></td>
+								<td class="orderdesc"></td>
+							</tr>								
+						</table>
 					</div>
 				</div>
 			</div>
@@ -136,9 +165,12 @@
 		<div style="clear:both"></div>
 		
 		<script>
-				seajs.use(seajs.prefix + 'example/lehealth/bghome', function(lehealth) {
-					lehealth.render();
-				});
+				if(!window.isExcuted) {
+					seajs.use(seajs.prefix + 'example/lehealth/bghome', function(lehealth) {
+						lehealth.render();
+					});
+					window.isExcuted = true;					
+				}
 		</script>
 	</body>
 </html>

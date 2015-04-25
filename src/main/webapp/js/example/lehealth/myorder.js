@@ -46,7 +46,7 @@ define(function(require, exports, module) {
 						util.toast("获取订单信息失败");
 					} else {
 						var orderlist = rsp.result;
-						$("#orderlist").empty();
+						$("#orderlistdata").empty();
 						for (var i = 0; i < orderlist.length; i++) {
 							var ordercard = $('#ordercard-tmpl').clone();
 							ordercard.removeAttr('id');
@@ -62,7 +62,7 @@ define(function(require, exports, module) {
 							}
 							ordercard.find("td.td_orderId").text(orderlist[i].orderid);
 							ordercard.find("td.td_time").text(timestr);
-							ordercard.find("td.td_fee").text(orderlist[i].fee);
+							ordercard.find("td.td_fee").text("￥" + orderlist[i].fee);
 							ordercard.find("td.td_state").text(state);
 							ordercard.find("td.td_desc").text(orderlist[i].goodsdetail);
 							$("#orderlist").append(ordercard);

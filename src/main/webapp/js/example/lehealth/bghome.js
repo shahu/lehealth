@@ -2,8 +2,10 @@ define(function(require, exports, module) {
 
 	var $ = require('jquery');
 	var util = require('./bgcommon');
+	var util2 = require('./common');
 
 	var loginUrl = "/lehealth/api/login.do";
+	var getOrderInfoUrl = "weixin/order/list";
 
 	var username = $('#login_username').val(),
 		token = $('#login_pwd').val();
@@ -43,7 +45,53 @@ define(function(require, exports, module) {
 		$("#myorder").on('click', function() {
 			$('#orderpage').css("display", "block");
 			$('#patientpage').css("display", "none");
-			$('.mainDiv').css('display', 'block');		
+			$('.mainDiv').css('display', 'block');
+			//获取订单
+			var username = util.getCookieByKey("loginid"),
+				token = util.getCookieByKey("tk");
+			//获取
+			$.ajax({
+				url: getOrderInfoUrl,
+				type: 'GET',
+				dataType: 'json',
+				data: {
+					loginid: username,
+					token: token
+				},
+				success: function(rsp) {
+					if (rsp.errorcode) {
+
+						util.toast("获取订单信息失败");
+					} else {
+						var orderlist = rsp.result;
+						$("#orderlistdata").empty();
+						for (var i = 0; i < orderlist.length; i++) {
+							var ordercard = $('#tr_tmpl').clone();
+							ordercard.removeAttr('id');
+							var timestr = new Date(orderlist[i].createtime).format("yyyy年 MM月dd日 hh:mm:ss");
+							var state = "支付中";
+							if (orderlist[i].status == 2) {
+								state = "支付完成";
+							} else if (orderlist[i].status == 3) {
+								state = "支付失败";
+							} else if (orderlist[i].status == 4) {
+								state = "订单取消";
+							}
+							ordercard.find("td.ordercode").text(orderlist[i].orderid);
+							ordercard.find("td.ordertime").text(timestr);
+							ordercard.find("td.orderfee").text("￥" + orderlist[i].fee);
+							ordercard.find("td.orderstate").text(state);
+							ordercard.find("td.orderdesc").text(orderlist[i].goodsdetail);
+							$("#orderlistdata").append(ordercard);
+						}
+					}
+				},
+				error: function() {
+
+					util.toast("获取订单信息失败");
+				}
+			});			
+
 		});
 
 		$('#sideupdown_icon').on('click', function() {

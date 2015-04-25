@@ -161,9 +161,11 @@ define(function(require, exports, module) {
 								queryRsTimeoutHandler = setTimeout(function() {
 									$.mobile.loading('hide');
 									//go to 支付完成页面
-									$.mobile.changePage("myorder.html?id=" + orderId, "slide");
+									// $.mobile.changePage("myorder.html", "slide");
+									window.location.href = "/lehealth/myorder.html";
 								}, 30000);
 								queryRsIntervalHandler = setInterval(function() {
+									try {
 									//query bill lastest info
 									$.ajax({
 										url: getOrderRsUrl,
@@ -192,8 +194,14 @@ define(function(require, exports, module) {
 													$.mobile.changePage("myorder.html", "slide");
 												}
 											}
+										}, 
+										error: function(res) {
+											alert(JSON.stringify(res));
 										}
 									});
+								} catch(e) {
+									alert(e.message);
+								}
 								}, 1000);
 							}
 						},

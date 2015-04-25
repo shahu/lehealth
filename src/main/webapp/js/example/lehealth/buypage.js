@@ -11,17 +11,17 @@ define(function(require, exports, module) {
 		getAccessCodeUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 
 	exports.render = function() {
-		
+
 	};
 
 	exports.bindEvent = function() {
 
-		$.mobile.loading( 'show', {
-				text: '页面加载中...',
-				textVisible: true,
-				theme: 'c',
-				html: ''
-		});		
+		$.mobile.loading('show', {
+			text: '页面加载中...',
+			textVisible: true,
+			theme: 'c',
+			html: ''
+		});
 
 		$(document).off("pageshow", "#buypage");
 
@@ -34,10 +34,10 @@ define(function(require, exports, module) {
 			var goodsId = util.parseUri(window.location.href).getQueryParameter('id');
 			var code = util.parseUri(window.location.href).getQueryParameter('code');
 			var username = util.getCookieByKey("loginid"),
-				token = util.getCookieByKey("tk");				
-			if(!code) {
+				token = util.getCookieByKey("tk");
+			if (!code) {
 				util.toast("页面加载失败");
-				return;	
+				return;
 			}
 			//获取
 			$.ajax({
@@ -55,7 +55,7 @@ define(function(require, exports, module) {
 						$('#goodsfee').text(rsp.result.fee);
 
 						//通过code获取openid
-						var tm = parseInt((new Date()).getTime()/1000);
+						var tm = parseInt((new Date()).getTime() / 1000);
 						$.ajax({
 							url: getWxConfigUrl,
 							type: 'GET',
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
 								url: window.location.href
 							},
 							success: function(rsp) {
-								if(rsp.errcode) {
+								if (rsp.errcode) {
 									util.toast("获取商品信息失败");
 									return;
 								}
@@ -90,7 +90,7 @@ define(function(require, exports, module) {
 
 						$.mobile.loading('hide');
 
-						util.toast("获取商品信息失败");							
+						util.toast("获取商品信息失败");
 					}
 				},
 				error: function() {
@@ -98,7 +98,7 @@ define(function(require, exports, module) {
 
 					$.mobile.loading('hide');
 
-					util.toast("获取商品信息失败");				
+					util.toast("获取商品信息失败");
 				}
 			});
 
@@ -108,7 +108,7 @@ define(function(require, exports, module) {
 				//绑定点击购买事件
 				$('#dobuy').off("click");
 				$('#dobuy').on("click", function() {
-					
+
 					var weixinCallbackSuccess = false,
 						serverCbSuccess = false;
 
@@ -123,9 +123,9 @@ define(function(require, exports, module) {
 							code: code
 						},
 						success: function(rsp) {
-							if(rsp.errorcode) {
+							if (rsp.errorcode) {
 								$.mobile.loading('hide');
-								util.toast("创建订单失败，请重新支付");									
+								util.toast("创建订单失败，请重新支付");
 							} else {
 								var data = rsp.result;
 								var orderId = data.orderid;
@@ -137,10 +137,10 @@ define(function(require, exports, module) {
 									paySign: data.paysign.toUpperCase(),
 									success: function(res) {
 										weixinCallbackSuccess = true;
-										if(weixinCallbackSuccess && serverCbSuccess) {
+										if (weixinCallbackSuccess && serverCbSuccess) {
 											$.mobile.loading('hide');
-											$.mobile.changePage("myorder.html?id=" + orderId, "slide");	
-										}	
+											$.mobile.changePage("myorder.html?id=" + orderId, "slide");
+										}
 									},
 									fail: function(res) {
 										$.mobile.loading('hide');
@@ -149,12 +149,12 @@ define(function(require, exports, module) {
 									},
 									cancel: function() {
 										$.mobile.loading('hide');
-										if(queryRsTimeoutHandler) {
+										if (queryRsTimeoutHandler) {
 											clearTimeout(queryRsTimeoutHandler);
 										}
-										if(queryRsIntervalHandler) {
+										if (queryRsIntervalHandler) {
 											clearInterval(queryRsIntervalHandler);
-										}										
+										}
 									}
 								});
 								queryRsTimeoutHandler = setTimeout(function() {
@@ -174,30 +174,30 @@ define(function(require, exports, module) {
 											token: token
 										},
 										succss: function(res) {
-											if(!res.errorcode) {
+											if (!res.errorcode) {
 												var orderDetail = res.result;
-												if(orderDetail.status == 2) {
+												if (orderDetail.status == 2) {
 													serverCbSuccess = true;
-													if(serverCbSuccess && weixinCallbackSuccess) {
+													if (serverCbSuccess && weixinCallbackSuccess) {
 														$.mobile.loading('hide');
-														$.mobile.changePage("myorder.html", "slide");	
+														$.mobile.changePage("myorder.html", "slide");
 													}
-												} else if(orderDetail.status == 3) {
+												} else if (orderDetail.status == 3) {
 													$.mobile.loading('hide');
 													$.mobile.changePage("myorder.html", "slide");
-												} else if(orderDetail.status == 4) {
+												} else if (orderDetail.status == 4) {
 													$.mobile.loading('hide');
-													$.mobile.changePage("myorder.html", "slide");	
-												}												
+													$.mobile.changePage("myorder.html", "slide");
+												}
 											}
 										}
 									});
-								}, 1000);															
+								}, 1000);
 							}
 						},
 						error: function(e) {
 							$.mobile.loading('hide');
-							util.toast("创建订单失败，请重新支付");	
+							util.toast("创建订单失败，请重新支付");
 						}
 					})
 
@@ -208,19 +208,19 @@ define(function(require, exports, module) {
 				//出错了，可以更新签名
 				$("#buypagecover").css("display", "none");
 				$.mobile.loading('hide');
-				util.toast("微信验证失败");	
-				console.info(res);			
+				util.toast("微信验证失败");
+				console.info(res);
 			});
-			
+
 		});
 
 		$(document).off("pagehide", "#buypage");
 
 		$(document).on("pagehide", "#buypage", function() {
-			if(queryRsTimeoutHandler) {
+			if (queryRsTimeoutHandler) {
 				clearTimeout(queryRsTimeoutHandler);
 			}
-			if(queryRsIntervalHandler) {
+			if (queryRsIntervalHandler) {
 				clearInterval(queryRsIntervalHandler);
 			}
 		});

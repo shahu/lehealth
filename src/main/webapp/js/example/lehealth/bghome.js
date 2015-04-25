@@ -2,8 +2,6 @@ define(function(require, exports, module) {
 
 	var $ = require('jquery');
 	var util = require('./bgcommon');
-	//渲染图表原始界面,先填充默认数据，然后再通过网络请求填充真实数据
-	var highcharts = require('highcharts');
 
 	var loginUrl = "/lehealth/api/login.do";
 
@@ -21,8 +19,8 @@ define(function(require, exports, module) {
 	var isloading = false;
 
 	exports.render = function() {
-		$('#patients').on('click', 'a',function() {
-			if(isloading) {
+		$('#patients').on('click', 'a', function() {
+			if (isloading) {
 				return;
 			}
 			isloading = true;
@@ -35,42 +33,42 @@ define(function(require, exports, module) {
 		});
 
 		$('#exit').on('click', function() {
-				util.setCookie('loginid', '');
-				util.setCookie('tk', '');
-				window.location.href = "/lehealth/backendlogin.html"		
+			util.setCookie('loginid', '');
+			util.setCookie('tk', '');
+			window.location.href = "/lehealth/backendlogin.html"
 		});
 
 		$('#sideupdown_icon').on('click', function() {
-			if($(this).hasClass('icon-chevron-up')) {
+			if ($(this).hasClass('icon-chevron-up')) {
 				$(this).removeClass('icon-chevron-up');
 				$(this).addClass('icon-chevron-down');
 				$('#list_div').slideUp('slow', function() {
-					
+
 				});
-			} else if($(this).hasClass('icon-chevron-down')) {
+			} else if ($(this).hasClass('icon-chevron-down')) {
 				$(this).removeClass('icon-chevron-down');
 				$(this).addClass('icon-chevron-up');
 				$('#list_div').slideDown('slow', function() {
-					
+
 				});
 			}
 		});
 
 		getUserBasicInfo(function(err, role) {
-			if(err) {
+			if (err) {
 				alertMsg("请求失败，请稍后重试");
 				return;
 			}
-			if(role == roles.admin || role == roles.doctor) {
+			if (role == roles.admin || role == roles.doctor) {
 				//显示我的病人标签，同时请求第一个病人数据展示
 				getPatients(function(err, patientArr) {
-					if(err) {
+					if (err) {
 						alertMsg("获取病人列表失败");
 						return;
 					}
 					$('#patients').empty();
 					var html = "";
-					for(var i = 0; i < patientArr.length; i++) {
+					for (var i = 0; i < patientArr.length; i++) {
 						html += '<li><a href="#" pid="' + patientArr[i].userid + '">' + patientArr[i].username + '</a></li>'
 					}
 					$('#patients').html(html);
@@ -83,12 +81,15 @@ define(function(require, exports, module) {
 	};
 
 	function showPatientInfo(patientId, cb) {
+		//渲染图表原始界面,先填充默认数据，然后再通过网络请求填充真实数据
+		var highcharts = require('highcharts');
+		//渲染血压趋势图
 		var gridTheme = require('highcharts_theme').getGridThemeOption();
 		highcharts.setOptions(gridTheme);
 		$('#medicationInfo').highcharts({
 			chart: {
 				type: 'line',
-				backgroundColor: '#f9f9f9'
+				backgroundColor: 'white'
 			},
 			title: {
 				text: ''
@@ -97,7 +98,7 @@ define(function(require, exports, module) {
 				text: ''
 			},
 			xAxis: {
-				categories: ['1日', '2日', '3日', '4日', '5日', '6日', '7日', '8日', '9日', '10日', '11日', '12日', '13日', '14日', '15日']
+				categories: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
 			},
 			yAxis: [{
 				title: {
@@ -130,15 +131,15 @@ define(function(require, exports, module) {
 			//default data
 			series: [{
 				name: '舒张压',
-				data: [90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90],
+				data: [90, 90, 90, 90, 90, 90, 90],
 				yAxis: 0
 			}, {
 				name: '收缩压',
-				data: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
+				data: [120, 120, 120, 120, 120, 120, 120],
 				yAxis: 0
 			}, {
 				name: '心率',
-				data: [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80],
+				data: [80, 80, 80, 80, 80, 80, 80],
 				yAxis: 1
 			}],
 			credits: {
@@ -152,22 +153,22 @@ define(function(require, exports, module) {
 		var count = 3;
 		getAndRenderPatientInfo(patientId, function(err) {
 			count--;
-			if(count == 0) {
+			if (count == 0) {
 				cb();
 			}
 		});
 		getAndRenderPatientBpData(patientId, function(err) {
 			count--;
-			if(count == 0) {
+			if (count == 0) {
 				cb();
-			}			
+			}
 		});
 		getAndRenderDiseaseHistory(patientId, function(err) {
 			count--;
-			if(count == 0) {
+			if (count == 0) {
 				cb();
-			}			
-		});		
+			}
+		});
 	}
 
 	/**
@@ -187,7 +188,7 @@ define(function(require, exports, module) {
 				token: pwd
 			},
 			success: function(rsp) {
-				if(rsp.errorcode) {
+				if (rsp.errorcode) {
 					cb(rsp.errorcode);
 				} else {
 					cb(0, rsp.result.roleid);
@@ -216,16 +217,16 @@ define(function(require, exports, module) {
 				token: pwd
 			},
 			success: function(rsp) {
-				if(rsp.errorcode) {
+				if (rsp.errorcode) {
 					cb(rsp.errorcode);
 				} else {
-					cb(0,  rsp.result);
+					cb(0, rsp.result);
 				}
 			},
 			error: function(xhr, errorMsg) {
 				cb(1);
 			}
-		});	
+		});
 	}
 
 	/**
@@ -236,7 +237,7 @@ define(function(require, exports, module) {
 	 */
 	function getAndRenderPatientInfo(patientId, cb) {
 		var loginId = util.getCookieByKey("loginid"),
-			pwd = util.getCookieByKey("tk");		
+			pwd = util.getCookieByKey("tk");
 		var url = '/lehealth/admin/patient/info';
 		$.ajax({
 			url: url,
@@ -248,13 +249,13 @@ define(function(require, exports, module) {
 				pid: patientId
 			},
 			success: function(rsp) {
-				if(rsp.errorcode) {
+				if (rsp.errorcode) {
 					cb();
 				} else {
 					var rs = rsp.result;
 					$('#username').html(rs.username);
 					$('#phonenum').html(loginId);
-					$('#gender').html(rs.gender == 0? '女' : '男');
+					$('#gender').html(rs.gender == 0 ? '女' : '男');
 					$('#height').html(rs.height + 'cm');
 					$('#weight').html(rs.weight + '公斤');
 					$('#age').html(rs.age + '岁');
@@ -296,14 +297,19 @@ define(function(require, exports, module) {
 					cb();
 				} else {
 					//更新评价文案
-					
+					var judge = rspData.result.status;
+					var latestData = rspData.result.records ? rspData.result.records[rspData.result.records.length - 1] : undefined;
+					if (latestData) {
+						// showJudgePannel(judge, latestData.heartrate, latestData.sbp, latestData.dbp);
+					}
+
 					var dayInms = 3600 * 1000 * 24;
 					//更新趋势图
-					var bpDataArr = rspData.result.records || {},
-						medicalhistory = rspData.result.history || {},
+					var bpDataArr = rspData.result.records || [],
+						medicalhistory = rspData.result.history || [],
 						newDataArr = [];
 					var now = new Date();
-					
+
 					console.info(now.getTime());
 
 					now.setHours(0);
@@ -312,7 +318,7 @@ define(function(require, exports, module) {
 					now.setMilliseconds(0);
 
 					console.info(now.getTime());
-					var beginBaseline = now.getTime()  - (dayInms * dayTotal);
+					var beginBaseline = now.getTime() - (dayInms * dayTotal);
 					//循环筛选数据
 					for (var i = 1; i <= dayTotal; i++) {
 						var found = false;
@@ -322,9 +328,8 @@ define(function(require, exports, module) {
 							tmpDate.setHours(0);
 							tmpDate.setMinutes(0);
 							tmpDate.setSeconds(0);
-							tmpDate.setMilliseconds(0);	
-							bpDataArr[j].date = bpdate = tmpDate.getTime();						
-
+							tmpDate.setMilliseconds(0);
+							bpDataArr[j].date = bpdate = tmpDate.getTime();
 							if (bpdate >= (beginBaseline + i * dayInms) && bpdate < (beginBaseline + (i + 1) * dayInms)) {
 								newDataArr.push(bpDataArr[j]);
 								console.info('bpdate: ' + bpdate);
@@ -352,7 +357,7 @@ define(function(require, exports, module) {
 						xAxisArr.push((new Date(bpobj.date)).getDate() + '日');
 						console.info("date day:" + bpobj.date + ", day: " + (new Date(bpobj.date)).getDate());
 						var daynum = (new Date(bpobj.date)).getDate();
-						if(!medicalByDate[bpobj.date]) {
+						if (!medicalByDate[bpobj.date]) {
 							medicalByDate[bpobj.date] = {};
 						}
 						dbpArr.push(bpobj.dbp);
@@ -361,7 +366,7 @@ define(function(require, exports, module) {
 					}
 					console.info(medicalByDate);
 					//计算背景区段
-					for(var item in medicalhistory) {
+					for (var item in medicalhistory) {
 						var mname = medicalhistory[item]['medicinename'];
 						var date = new Date(medicalhistory[item]['date']);
 						date.setHours(0);
@@ -369,28 +374,27 @@ define(function(require, exports, module) {
 						date.setSeconds(0);
 						date.setMilliseconds(0);
 						var dayMap = medicalByDate[date.getTime()];
-						if(dayMap) {
+						if (dayMap) {
 							dayMap[mname] = true;
 						}
 					}
 					console.info(medicalByDate);
 					var tmpArr = [];
-					for(var tm in medicalByDate)
-					{
+					for (var tm in medicalByDate) {
 						var tmpItems = medicalByDate[tm];
 						// var fname = "";
 						var namearr = [];
-						for(var _mname in tmpItems) {
+						for (var _mname in tmpItems) {
 							namearr.push(_mname);
 						}
-						
+
 						tmpArr.push({
 							tm: parseInt(tm),
 							name: namearr,
 							day: new Date(parseInt(tm)).getDate()
 						});
 					}
-					tmpArr.sort(function(o1,o2) {
+					tmpArr.sort(function(o1, o2) {
 						return o1.tm - o2.tm;
 					});
 					console.info('tmpArr: ');
@@ -401,35 +405,35 @@ define(function(require, exports, module) {
 					var from, to;
 
 					//合并相邻位置
-					for(var i = 0; i < tmpArr.length; i++) {
+					for (var i = 0; i < tmpArr.length; i++) {
 						var tmpobj = tmpArr[i];
 						var nextobj = tmpArr[i + 1];
-						if(i == 0) {
-							var minDay = tmpArr[i].day;		
+						if (i == 0) {
+							var minDay = tmpArr[i].day;
 						}
 
-						if(!from) {
+						if (!from) {
 							from = tmpobj.day - minDay - 0.5;
 						}
-						if(!nextobj) {
+						if (!nextobj) {
 							to = tmpobj.day + 0.5 - minDay; //?
 							finalObj.push({
 								from: from,
 								to: to,
 								label: {
 									text: tmpobj.name.join('+')
-								},										
+								},
 								color: 'blue'
 							});
 							tips.push({
 								name: tmpobj.name.join('+'),
 								color: '#87CEFF'
-							});									
+							});
 							from = 0;
 							to = 0;
 							continue;
 						}
-						if(nextobj && util.arrayEqual(nextobj.name, tmpobj.name)) {
+						if (nextobj && util.arrayEqual(nextobj.name, tmpobj.name)) {
 							continue;
 						} else {
 							to = tmpobj.day + 0.5 - minDay;
@@ -447,7 +451,7 @@ define(function(require, exports, module) {
 							});
 							from = 0;
 							to = 0;
-							continue;								
+							continue;
 						}
 					}
 					console.info(finalObj);
@@ -462,31 +466,46 @@ define(function(require, exports, module) {
 						"#BCEE68",
 						"#EEEE00"
 					];
-					
+
 					console.info(tips);
 
 					var colorIdx = 0,
 						colorByName = {};
 					$('#medicationtips').empty();
-					for(var i = 0; i < finalObj.length; i++) {
-						if(colorByName[finalObj[i].label.text])
-						{
+					var hasMedicalHistory = false;
+					trendchart.xAxis[0].update({
+						plotBands: []
+					});
+					for (var i = 0; i < finalObj.length; i++) {
+						if (colorByName[finalObj[i].label.text]) {
 							finalObj[i]['color'] = color[i];
 							tips[i].color = color[i];
 						}
 
 						finalObj[i]['color'] = color[i];
 						tips[i].color = color[i];
-						if(!finalObj[i].label.text) {
+						if (!finalObj[i].label.text) {
 							continue;
 						} else {
+							hasMedicalHistory = true;
 							delete finalObj[i].label;
-							$('#medicationtips').append('<div style="height: 20px; line-height: 20px; width: 100%; overflow: auto"><div style="width: 12px; height: 12px; margin: 4px;float:left; background-color: ' + tips[i].color + '"></div> <div style="float:left; margin-left: 8px; font-size: 12px; width: 80%; overflow: auto">' + tips[i].name+'</div><div style="clear:both"></div></div>');
+							$('#medicationtips').append('<div style="height: 20px; line-height: 20px; width: 100%; overflow: auto"><div style="width: 12px; height: 12px; margin: 4px;float:left; background-color: ' + tips[i].color + '"></div> <div style="float:left; margin-left: 8px; font-size: 12px; width: 80%; overflow: auto">' + tips[i].name + '</div><div style="clear:both"></div></div>');
 						}
 						trendchart.xAxis[0].addPlotBand(finalObj[i]);
 					}
-					
+					if (!hasMedicalHistory) {
+						$('#medicationtips').append('<div style="height: 20px; line-height: 20px; width: 100%; overflow: auto"><div style="float:left; margin-left: 8px; font-size: 12px; width: 80%; overflow: auto">没有您的用药数据</div><div style="clear:both"></div></div>');
+					}
+
 					trendchart.xAxis[0].setCategories(xAxisArr);
+					trendchart.yAxis[0].update({
+						min: 0,
+						max: 200
+					});
+					trendchart.yAxis[1].update({
+						min: 0,
+						max: 200
+					});
 					trendchart.series[0].setData(dbpArr);
 					trendchart.series[1].setData(sbpArr);
 					trendchart.series[2].setData(rateArr);
@@ -496,7 +515,7 @@ define(function(require, exports, module) {
 			error: function(xhr, errormsg) {
 				cb(0);
 			}
-		});				
+		});
 
 	}
 
@@ -520,29 +539,25 @@ define(function(require, exports, module) {
 				pid: patientId
 			},
 			success: function(rsp) {
-				if(rsp.errorcode) {
+				if (rsp.errorcode) {
 					cb();
 				} else {
 					var rs = rsp.result;
 					$('#deaselist').empty();
-					for(var i = 0; i < rs.length; i++) {
+					for (var i = 0; i < rs.length; i++) {
 						var info = rs[i];
-						$('#deaselist').append('<div style="margin-right: 20px; margin-left: 40px;"><div style="background-color:#888888; color: white; font-size: 18px; height: 30px; line-height: 30px;  border-radius:5px;padding-left: 20px;">'
-							+ '<span class="deseasename">' 
-							+ (i + 1) + '.' + info.diseasename 
-							+ '</span><div style="clear:both"></div></div><div><fieldset class="scheduler-border"><legend class="scheduler-border">病情描述</legend>'
-							+ '<p class="deseasedesc">'+ info.diseasedescription 
-							+'</p></fieldset><fieldset class="scheduler-border"><legend class="scheduler-border">用药不良反应</legend><p class="meditiondesc">' 
-							+ info.medicinedescription 
-							+ '</p></fieldset></div></div>');
+						$('#deaselist').append('<div style="margin-right: 20px; margin-left: 40px;"><div style="background-color:#888888; color: white; font-size: 18px; height: 30px; line-height: 30px;  border-radius:5px;padding-left: 20px;">' + '<span class="deseasename">' + (i + 1) + '.' + info.diseasename + '</span><div style="clear:both"></div></div><div><fieldset class="scheduler-border"><legend class="scheduler-border">病情描述</legend>' + '<p class="deseasedesc">' + info.diseasedescription + '</p></fieldset><fieldset class="scheduler-border"><legend class="scheduler-border">用药不良反应</legend><p class="meditiondesc">' + info.medicinedescription + '</p></fieldset></div></div>');
 					}
 					cb();
+				}
+				if (rs.length == 0) {
+					$('#deaselist').append('<h4 style="margin-left: 20px; margin-top: 20px; margin-bottom: 20px;">暂无病史信息</h4>');
 				}
 			},
 			error: function(xhr, errorMsg) {
 				cb();
 			}
-		});		
+		});
 	}
 
 	function alertMsg(msg) {

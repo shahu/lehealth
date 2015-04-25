@@ -6,17 +6,17 @@ define(function(require, exports, module) {
 	var getOrderInfoUrl = "weixin/order/list";
 
 	exports.render = function() {
-		
+
 	};
 
 	exports.bindEvent = function() {
 
-		$.mobile.loading( 'show', {
-				text: '页面加载中...',
-				textVisible: true,
-				theme: 'c',
-				html: ''
-		});		
+		$.mobile.loading('show', {
+			text: '页面加载中...',
+			textVisible: true,
+			theme: 'c',
+			html: ''
+		});
 
 		$(document).off("pageshow", "#myorder");
 
@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 			$.mobile.loading('hide');
 
 			var username = util.getCookieByKey("loginid"),
-				token = util.getCookieByKey("tk");						
+				token = util.getCookieByKey("tk");
 			//获取
 			$.ajax({
 				url: getOrderInfoUrl,
@@ -38,24 +38,24 @@ define(function(require, exports, module) {
 					token: token
 				},
 				success: function(rsp) {
-					if(rsp.errorcode) {
+					if (rsp.errorcode) {
 						$("#ordercover").css("display", "none");
 
 						$.mobile.loading('hide');
 
-						util.toast("获取订单信息失败");							
+						util.toast("获取订单信息失败");
 					} else {
 						var orderlist = rsp.result;
 						$("#orderlist").empty();
-						for(var i = 0; i < orderlist.length; i++) {
+						for (var i = 0; i < orderlist.length; i++) {
 							var ordercard = $('#ordercard-tmpl').clone();
 							ordercard.removeAttr('id');
 							ordercard.css("display", "block");
 							var timestr = new Date(orderlist[i].createtime).format("yyyy年 MM月dd日 HH:mm:ss");
 							var state = "支付中";
-							if(orderlist[i].status == 2) {
+							if (orderlist[i].status == 2) {
 								state = "支付完成";
-							} else if(orderlist[i].status == 3) {
+							} else if (orderlist[i].status == 3) {
 								state = "支付失败";
 							} else if (orderlist[i].status == 4) {
 								state = "订单取消";
@@ -74,7 +74,7 @@ define(function(require, exports, module) {
 
 					$.mobile.loading('hide');
 
-					util.toast("获取订单信息失败");				
+					util.toast("获取订单信息失败");
 				}
 			});
 		});

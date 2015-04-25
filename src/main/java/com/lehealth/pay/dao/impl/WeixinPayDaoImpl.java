@@ -127,7 +127,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			.append("t1.goods_id,t1.fee,t1.period,")
 			.append("t2.name,t2.info,t2.detail,t2.fee as goods_fee ")
 			.append("from weixin_order t1 ")
-			.append("inner join goods_info t2 on t1.goods_id=t2.id");
+			.append("inner join goods_info t2 on t1.goods_id=t2.id ");
 		if(user.getRole() != UserRoleType.admin){
 			sql.append("where t1.userid = :userid ");
 		}

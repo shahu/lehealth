@@ -26,6 +26,8 @@ define(function(require, exports, module) {
 			isloading = true;
 			$('#patients li.active').removeClass('active');
 			$(this).parent().addClass('active');
+			$('#orderpage').css("display", "none");
+			$('#patientpage').css("display", "block");
 			showPatientInfo($(this).attr('pid'), function() {
 				isloading = false;
 				$('.mainDiv').css('display', 'block');
@@ -36,6 +38,12 @@ define(function(require, exports, module) {
 			util.setCookie('loginid', '');
 			util.setCookie('tk', '');
 			window.location.href = "/lehealth/backendlogin.html"
+		});
+
+		$("#myorder").on('click', function() {
+			$('#orderpage').css("display", "block");
+			$('#patientpage').css("display", "none");
+			$('.mainDiv').css('display', 'block');		
 		});
 
 		$('#sideupdown_icon').on('click', function() {

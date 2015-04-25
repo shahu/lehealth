@@ -125,8 +125,6 @@ define(function(require, exports, module) {
 
 							setTimeout(function() {
 								var jumpUrl = jumpUrl || "/lehealth/home.html";
-								util.setCookie("loginid", encodeURIComponent(rspData.result.loginid));
-								util.setCookie("tk", encodeURIComponent(rspData.result.token));
 								$.mobile.changePage(jumpUrl, {
 									transition: "slide",
 									changeHash: true

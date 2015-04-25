@@ -144,13 +144,16 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 	@Override
 	public List<PanientInfo> selectPanientListByRole(UserBaseInfo user) {
 		List<PanientInfo> list=new ArrayList<PanientInfo>();
-		String sql="SELECT t1.patinetid,t2.username FROM mapping_doctor_patient_attention t1 "
-				+"LEFT JOIN user_patient_info t2 ON t1.patinetid=t2.userid ";
+		String sql="SELECT t1.userid,t2.username,t1.loginid "
+				+"FROM user_base_info t1 "
+				+"LEFT JOIN user_patient_info t2 ON t1.userid=t2.userid ";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		if(user.getRole() == UserRoleType.dotcor){
-			sql += "WHERE t1.doctorid=:doctorid ";
+			sql += "LEFT JOIN mapping_doctor_patient_attention t3 on t1.userid=t3.patientid "
+					+ "WHERE t3.doctorid=:doctorid ";
 			msps.addValue("doctorid", user.getUserId());
 		}
+		sql += "ORDER BY t1.createtime desc ";
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
 			PanientInfo info=new PanientInfo();

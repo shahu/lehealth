@@ -14,7 +14,7 @@ public class LoginDaoImpl extends BaseJdbcDao implements LoginDao {
 
 	@Override
 	public boolean insertUser(UserBaseInfo user) {
-		String sql="INSERT INTO user_base_info VALUE(:userid,:loginid,:pwdmd5,:roleid)";
+		String sql="INSERT INTO user_base_info VALUE(:userid,:loginid,:pwdmd5,:roleid,now())";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", user.getUserId());
 		msps.addValue("loginid", user.getLoginId());

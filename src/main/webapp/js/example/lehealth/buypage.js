@@ -139,13 +139,13 @@ define(function(require, exports, module) {
 										weixinCallbackSuccess = true;
 										if (weixinCallbackSuccess && serverCbSuccess) {
 											$.mobile.loading('hide');
-											$.mobile.changePage("myorder.html", "slide");
+											window.location.href = "/lehealth/myorder.html";
 										}
 									},
 									fail: function(res) {
 										$.mobile.loading('hide');
 										//go to 支付完成页面
-										$.mobile.changePage("myorder.html", "slide");
+										window.location.href = "/lehealth/myorder.html";
 									},
 									cancel: function() {
 										$.mobile.loading('hide');
@@ -155,7 +155,7 @@ define(function(require, exports, module) {
 										if (queryRsIntervalHandler) {
 											clearInterval(queryRsIntervalHandler);
 										}
-										window.location.reload();
+										window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe4b3e1f50a76f240&redirect_uri=http%3A%2F%2Flehealth.net.cn%2Flehealth%2Fbuypage.html%3Fid%3D1&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
 									}
 								});
 								queryRsTimeoutHandler = setTimeout(function() {
@@ -165,8 +165,6 @@ define(function(require, exports, module) {
 									window.location.href = "/lehealth/myorder.html";
 								}, 30000);
 								queryRsIntervalHandler = setInterval(function() {
-									alert(1111);
-									try {
 									//query bill lastest info
 									$.ajax({
 										url: getOrderRsUrl,
@@ -178,31 +176,24 @@ define(function(require, exports, module) {
 											token: token
 										},
 										succss: function(res) {
-											alert(JSON.stringify(res));
 											if (!res.errorcode) {
 												var orderDetail = res.result;
 												if (orderDetail.status == 2) {
 													serverCbSuccess = true;
 													if (serverCbSuccess && weixinCallbackSuccess) {
 														$.mobile.loading('hide');
-														$.mobile.changePage("myorder.html", "slide");
+														window.location.href = "/lehealth/myorder.html";
 													}
 												} else if (orderDetail.status == 3) {
 													$.mobile.loading('hide');
-													$.mobile.changePage("myorder.html", "slide");
+													window.location.href = "/lehealth/myorder.html";
 												} else if (orderDetail.status == 4) {
 													$.mobile.loading('hide');
-													$.mobile.changePage("myorder.html", "slide");
+													window.location.href = "/lehealth/myorder.html";
 												}
 											}
-										}, 
-										error: function(res) {
-											alert(JSON.stringify(res));
 										}
 									});
-								} catch(e) {
-									alert(e.message);
-								}
 								}, 1000);
 							}
 						},
@@ -220,7 +211,6 @@ define(function(require, exports, module) {
 				$("#buypagecover").css("display", "none");
 				$.mobile.loading('hide');
 				util.toast("微信验证失败");
-				console.info(res);
 			});
 
 		});
@@ -228,7 +218,6 @@ define(function(require, exports, module) {
 		$(document).off("pagehide", "#buypage");
 
 		$(document).on("pagehide", "#buypage", function() {
-			alert("exit");
 			if (queryRsTimeoutHandler) {
 				clearTimeout(queryRsTimeoutHandler);
 			}

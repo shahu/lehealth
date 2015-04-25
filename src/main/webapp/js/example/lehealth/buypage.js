@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 	var getGoodInfoUrl = "/lehealth/api/goods/detail",
 		getWxConfigUrl = "/lehealth/weixin/signature",
 		generateOrderUrl = "weixin/pre/pay",
-		getOrderRsUrl = "order/info",
+		getOrderRsUrl = "weixin/order/info",
 		getAccessCodeUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 
 	exports.render = function() {
@@ -165,6 +165,7 @@ define(function(require, exports, module) {
 									window.location.href = "/lehealth/myorder.html";
 								}, 30000);
 								queryRsIntervalHandler = setInterval(function() {
+									alert(1111);
 									try {
 									//query bill lastest info
 									$.ajax({
@@ -227,6 +228,7 @@ define(function(require, exports, module) {
 		$(document).off("pagehide", "#buypage");
 
 		$(document).on("pagehide", "#buypage", function() {
+			alert("exit");
 			if (queryRsTimeoutHandler) {
 				clearTimeout(queryRsTimeoutHandler);
 			}

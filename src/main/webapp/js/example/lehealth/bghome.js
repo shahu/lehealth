@@ -98,13 +98,13 @@ define(function(require, exports, module) {
 			if ($(this).hasClass('icon-chevron-up')) {
 				$(this).removeClass('icon-chevron-up');
 				$(this).addClass('icon-chevron-down');
-				$('#list_div').slideUp('slow', function() {
+				$('#list_divwraper').slideUp('slow', function() {
 
 				});
 			} else if ($(this).hasClass('icon-chevron-down')) {
 				$(this).removeClass('icon-chevron-down');
 				$(this).addClass('icon-chevron-up');
-				$('#list_div').slideDown('slow', function() {
+				$('#list_divwraper').slideDown('slow', function() {
 
 				});
 			}

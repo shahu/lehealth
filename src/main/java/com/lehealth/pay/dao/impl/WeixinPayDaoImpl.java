@@ -67,7 +67,8 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			.append("t1.order_id,t1.transaction_id,t1.order_secret,t1.status,")
 //			.append("t1.id,t1.ip,t1.subscribe,")
 //			.append("t1.prepay_id,t1.code_url,")
-//			.append("t1.creattime,t1.starttime,t1.expiretime,t1.prepaytime,")
+			.append("t1.createtime,")
+//			.append("t1.starttime,t1.expiretime,t1.prepaytime,")
 //			.append("t1.paytime,t1.callbacktime,t1.closetime,")
 			.append("t1.goods_id,t1.fee,t1.period,")
 			.append("t2.name,t2.info,t2.detail,t2.fee as goods_fee ")
@@ -106,6 +107,10 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			order.setFee(fee);
 			order.setPeriod(period);
 			
+			if(rs.getTimestamp("createtime") != null){
+				order.setCreateTime(rs.getTimestamp("createtime").getTime());
+			}
+			
 			return order;
 		}
 		return null;
@@ -116,6 +121,9 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT t1.userid,t1.openid,")
 			.append("t1.order_id,t1.transaction_id,t1.order_secret,t1.status,")
+			.append("t1.createtime,")
+//			.append("t1.starttime,t1.expiretime,t1.prepaytime,")
+//			.append("t1.paytime,t1.callbacktime,t1.closetime,")
 			.append("t1.goods_id,t1.fee,t1.period,")
 			.append("t2.name,t2.info,t2.detail,t2.fee as goods_fee ")
 			.append("from weixin_order t1 ")
@@ -123,6 +131,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 		if(user.getRole() != UserRoleType.admin){
 			sql.append("where t1.userid = :userid ");
 		}
+		sql.append("order by t1.createtime desc");
 		MapSqlParameterSource msps = new MapSqlParameterSource();
 		msps.addValue("userid", user.getUserId());
 		SqlRowSet rs = this.namedJdbcTemplate.queryForRowSet(sql.toString(), msps);
@@ -141,6 +150,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			String goodsInfo = StringUtils.trimToEmpty(rs.getString("info"));
 			String goodsDetail = StringUtils.trimToEmpty(rs.getString("detail"));
 			double goodsFee = rs.getDouble("goods_fee");
+			
 			WeixinOrder order = new WeixinOrder();
 			order.setUserId(userId);
 			order.setOpenId(openId);
@@ -156,6 +166,9 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			order.setFee(fee);
 			order.setPeriod(period);
 			
+			if(rs.getTimestamp("createtime") != null){
+				order.setCreateTime(rs.getTimestamp("createtime").getTime());
+			}
 			list.add(order);
 		}
 		return list;

@@ -139,13 +139,13 @@ define(function(require, exports, module) {
 										weixinCallbackSuccess = true;
 										if(weixinCallbackSuccess && serverCbSuccess) {
 											$.mobile.loading('hide');
-											$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");	
+											$.mobile.changePage("myorder.html?id=" + orderId, "slide");	
 										}	
 									},
 									fail: function(res) {
 										$.mobile.loading('hide');
 										//go to 支付完成页面
-										$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");
+										$.mobile.changePage("myorder.html?id=" + orderId, "slide");
 									},
 									cancel: function() {
 										$.mobile.loading('hide');
@@ -160,7 +160,7 @@ define(function(require, exports, module) {
 								queryRsTimeoutHandler = setTimeout(function() {
 									$.mobile.loading('hide');
 									//go to 支付完成页面
-									$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");
+									$.mobile.changePage("myorder.html?id=" + orderId, "slide");
 								}, 30000);
 								queryRsIntervalHandler = setInterval(function() {
 									//query bill lastest info
@@ -180,19 +180,19 @@ define(function(require, exports, module) {
 													serverCbSuccess = true;
 													if(serverCbSuccess && weixinCallbackSuccess) {
 														$.mobile.loading('hide');
-														$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");	
+														$.mobile.changePage("myorder.html", "slide");	
 													}
 												} else if(orderDetail.status == 3) {
 													$.mobile.loading('hide');
-													$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");
+													$.mobile.changePage("myorder.html", "slide");
 												} else if(orderDetail.status == 4) {
 													$.mobile.loading('hide');
-													$.mobile.changePage("buysuccess.html?id=" + orderId, "slide");	
+													$.mobile.changePage("myorder.html", "slide");	
 												}												
 											}
 										}
 									});
-								}, 3000);															
+								}, 1000);															
 							}
 						},
 						error: function(e) {

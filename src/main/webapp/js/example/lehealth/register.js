@@ -118,11 +118,17 @@ define(function(require, exports, module) {
 						if (rspData.errorcode) {
 							util.toast("注册失败，" + rspData.errormsg);
 						} else {
-							util.toast("注册成功, 请登录");
+							var jumpUrl = util.getCookieByKey("jump");
+							util.setCookie("jump", "");
+							util.setCookie("loginid", encodeURIComponent(username));
+							util.setCookie("tk", encodeURIComponent(rspData.result.token));
+
 							setTimeout(function() {
-								$.mobile.changePage("/lehealth/login.html", {
+								var jumpUrl = jumpUrl || "/lehealth/home.html";
+								util.setCookie("loginid", encodeURIComponent(rspData.result.loginid));
+								util.setCookie("tk", encodeURIComponent(rspData.result.token));
+								$.mobile.changePage(jumpUrl, {
 									transition: "slide",
-									reverse: "true",
 									changeHash: true
 								});
 							}, 2000);

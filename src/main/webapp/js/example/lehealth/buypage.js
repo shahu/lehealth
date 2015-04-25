@@ -175,7 +175,7 @@ define(function(require, exports, module) {
 											loginid: username,
 											token: token
 										},
-										succss: function(res) {
+										success: function(res) {
 											if (!res.errorcode) {
 												var orderDetail = res.result;
 												if (orderDetail.status == 2) {

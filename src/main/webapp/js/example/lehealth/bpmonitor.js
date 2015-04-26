@@ -119,15 +119,26 @@ define(function(require, exports, module) {
 
 	}
 
-	function showList(bpdataArr) {
+	function showList(bpDataArr) {
 		$('#bplist').show();
 		$('#trend').hide();
-		return;
-		$('#bplist').empty();
-		var html = "";
-		for(var i = 0; i < bpDataArr.length; i++) {
+		$('#bplistul').empty();
+		for(var i = bpDataArr.length - 1; i >= 0; i--) {
 			var dt = bpDataArr[i];
+			var tmplobj = $('#list-tmpl').clone();
+			tmplobj.find(".bptime").text(new Date(dt.date).format("MM月dd日 hh:mm"));
+			tmplobj.find(".dbpnum").text(dt.dbp);
+			tmplobj.find(".sbpnum").text(dt.sbp);
+			tmplobj.find(".hratenum").text(dt.heartrate);
+			$('#bplistul').append(tmplobj);
 		}
+		if(bpDataArr.length == 0) {
+			var tmplobj = $('#list-tmpl').clone();
+			tmplobj.find(".bptime").text("暂无数据");
+			tmplobj.find(".datap").hide();
+			$('#bplistul').append(tmplobj);
+		}
+		$('#bplistul').listview("refresh");
 	}
 
 	function showCharts(ranges, isEmpty) {

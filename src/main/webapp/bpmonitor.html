@@ -33,14 +33,13 @@
 					</div>
 				</div>
 				<div id="bplist" style="margin-top:20px;display: none;">
-					<ul data-role="listview" data-inset="true" id="bplist" data-theme="f">
-						<li>
-							<h3>4月6日</h3>
-							<p style="margin-bottom: -8px; margin-top: 10px;">低压：90&nbsp;&nbsp;高压：120&nbsp;&nbsp;心率：80</p>	
-						</li>
-						<li>
-							<h3>4月6日</h3>
-							<p  style="margin-bottom: -8px; margin-top: 10px;">低压：90&nbsp;&nbsp;高压：120&nbsp;&nbsp;心率：80</p>	
+					<ul data-role="listview" data-inset="true" id="bplistul" data-theme="f">
+												
+					</ul>
+					<ul style="display:none;">
+						<li id="list-tmpl">
+							<h3 class="bptime"></h3>
+							<p class="datap" style="margin-bottom: -8px; margin-top: 10px;">低压：<span class="dbpnum"></span>&nbsp;&nbsp;高压：<span class="sbpnum"></span>&nbsp;&nbsp;心率：<span class="hratenum"></span></p>	
 						</li>						
 					</ul>						
 				</div>				

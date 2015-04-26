@@ -160,7 +160,7 @@ public class WeixinOrder {
 		obj.accumulate("fee", this.fee);
 		obj.accumulate("status", this.status);
 		if(this.createTime != null){
-			obj.accumulate("createTime", this.createTime.getTime());
+			obj.accumulate("createtime", this.createTime.getTime());
 		}
 		obj.accumulate("goodsname", StringUtils.trimToEmpty(this.goodsInfo.getName()));
 		obj.accumulate("goodsinfo", StringUtils.trimToEmpty(this.goodsInfo.getInfo()));

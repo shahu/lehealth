@@ -96,4 +96,9 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 			}
 		}
 	}
+
+	@Override
+	public boolean delRecord(String id) {
+		return this.bloodpressureDao.delRecord(id);
+	}
 }

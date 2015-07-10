@@ -6,6 +6,8 @@ define(function(require, exports, module) {
 
 	var getBpRecordUrl = "/lehealth/api/bp/record/list";
 
+	var delBpRecordUrl = "/lehealth/api/bp/record/remove";
+
 	var trendchart;
 
 	var isChartMode = true;
@@ -126,6 +128,8 @@ define(function(require, exports, module) {
 		for(var i = bpDataArr.length - 1; i >= 0; i--) {
 			var dt = bpDataArr[i];
 			var tmplobj = $('#list-tmpl').clone();
+			tmplobj.attr('data-icon', 'delete');
+			tmplobj.attr("rid", dt.id);
 			tmplobj.find(".bptime").text(new Date(dt.date).format("MM月dd日 hh:mm"));
 			tmplobj.find(".dbpnum").text(dt.dbp);
 			tmplobj.find(".sbpnum").text(dt.sbp);
@@ -134,8 +138,8 @@ define(function(require, exports, module) {
 		}
 		if(bpDataArr.length == 0) {
 			var tmplobj = $('#list-tmpl').clone();
-			tmplobj.find(".bptime").text("暂无数据");
-			tmplobj.find(".datap").hide();
+			tmplobj.find(".nodata").css("display", "block");
+			tmplobj.find("a").remove();
 			$('#bplistul').append(tmplobj);
 		}
 		$('#bplistul').listview("refresh");
@@ -272,6 +276,29 @@ define(function(require, exports, module) {
 			isChartMode = true;
 			timeInterval = 7;
 			$('#chartmode').click();
+
+			$("#bplist").off("click");
+			$("#bplist").on("click", ".delitem", function(evt) {
+				var that = $(this);
+				var username = util.getCookieByKey("loginid"),
+					token = util.getCookieByKey("tk");				
+				$.ajax({
+					url: delBpRecordUrl,
+					dataType: "json",
+					type: "GET",
+					data: {
+						id: that.parent().attr("rid"),
+						loginid: username,
+						token: token
+					},
+					success: function(rsp) {
+						if(!rsp.errorcode) {
+							that.parent().remove();
+							$("#bplistul").listview("refresh");							
+						}
+					}
+				});
+			});
 		});
 	};
 });

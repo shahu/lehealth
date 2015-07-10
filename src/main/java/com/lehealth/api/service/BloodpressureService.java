@@ -12,6 +12,8 @@ public interface BloodpressureService {
 	//更新用户血压记录
 	public boolean addRecord(BloodpressureRecord bpInfo, String phoneNumber);
 	
+	public boolean delRecord(String id);
+	
 	//获取血压控制设置
 	public BloodpressureConfig getConfig(String userId);
 	

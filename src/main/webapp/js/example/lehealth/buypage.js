@@ -51,7 +51,7 @@ define(function(require, exports, module) {
 					if (!rsp.errorcode) {
 
 						$('#goodsname').text(rsp.result.name);
-						$('#goodsdetail').text(rsp.result.detail);
+						$('#goodsdetail').html(rsp.result.detail);
 						$('#goodsfee').text(rsp.result.fee);
 
 						//通过code获取openid

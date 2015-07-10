@@ -4,6 +4,7 @@ import net.sf.json.JSONObject;
 
 public class BloodpressureRecord {
 	
+	private String id;
 	private String userId="";
 	private long date=0;
 	private int dbp=0;
@@ -11,6 +12,14 @@ public class BloodpressureRecord {
 	private int heartrate=0;
 	private int dosed=-1;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -50,6 +59,7 @@ public class BloodpressureRecord {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
+		obj.accumulate("id", id);
 		obj.accumulate("date", date);
 		obj.accumulate("dbp", dbp);
 		obj.accumulate("sbp", sbp);

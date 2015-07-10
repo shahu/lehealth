@@ -20,7 +20,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 
 	@Override
 	public List<BloodpressureRecord> selectRecords(String userId,int days) {
-		String sql="SELECT updateTime,dbp,heartrate,sbp,dosed FROM bp_record "
+		String sql="SELECT id,updateTime,dbp,heartrate,sbp,dosed FROM bp_record "
 				+"WHERE userid=:userid AND Date(updatetime)>=:date";
 		MapSqlParameterSource msps=new MapSqlParameterSource();
 		msps.addValue("userid", userId);
@@ -29,6 +29,7 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 		SqlRowSet rs=this.namedJdbcTemplate.queryForRowSet(sql, msps);
 		while(rs.next()){
 			BloodpressureRecord info=new BloodpressureRecord();
+			info.setId(rs.getString("id"));
 			info.setDate(rs.getDate("updateTime").getTime());
 			info.setDbp(rs.getInt("dbp"));
 			info.setHeartrate(rs.getInt("heartrate"));
@@ -106,6 +107,15 @@ public class BloodpressureDaoImpl extends BaseJdbcDao implements BloodpressureDa
 				return false;
 			}
 		}
+		return true;
+	}
+
+	@Override
+	public boolean delRecord(String id) {
+		String sql = "delete from bp_record where id=:rid";
+		MapSqlParameterSource mps = new MapSqlParameterSource();
+		mps.addValue("rid", id);
+		this.namedJdbcTemplate.update(sql, mps);
 		return true;
 	}
 }

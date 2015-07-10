@@ -18,4 +18,7 @@ public interface BloodpressureDao {
 	
 	//更新血压控制设置
 	public boolean updateConfig(BloodpressureConfig bpConfig);
+	
+	//删除记录
+	public boolean delRecord(String id);
 }

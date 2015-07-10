@@ -52,7 +52,7 @@ define(function(require, exports, module) {
 
 						$('#goodsname').text(rsp.result.name);
 						$('#goodsdetail').html(rsp.result.detail);
-						$('#goodsfee').text(rsp.result.fee);
+						$('#goodsfee').text(parseInt(rsp.result.fee/100));
 
 						//通过code获取openid
 						var tm = parseInt((new Date()).getTime() / 1000);

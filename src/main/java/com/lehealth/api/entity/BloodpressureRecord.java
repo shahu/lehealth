@@ -59,7 +59,9 @@ public class BloodpressureRecord {
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
-		obj.accumulate("id", id);
+		if(id != null) {
+			obj.accumulate("id", id);
+		}
 		obj.accumulate("date", date);
 		obj.accumulate("dbp", dbp);
 		obj.accumulate("sbp", sbp);

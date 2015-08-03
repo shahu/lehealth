@@ -134,7 +134,7 @@ public class HomeResult{
 		}
 		
 		if(this.info != null && StringUtils.isNotBlank(this.info.getUserId())){
-			obj.accumulate("info", this.info.toJsonObj());
+			obj.accumulate("info", this.info.toBackendJsonObj());
 		}
 		
 		return obj;
@@ -205,7 +205,7 @@ public class HomeResult{
 		}
 		
 		if(this.info != null && StringUtils.isNotBlank(this.info.getUserId())){
-			obj.accumulate("info", this.info.toJsonObj());
+			obj.accumulate("info", this.info.toBackendJsonObj());
 		}
 		
 		return obj;

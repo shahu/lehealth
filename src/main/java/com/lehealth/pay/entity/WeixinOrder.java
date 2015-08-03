@@ -17,6 +17,7 @@ public class WeixinOrder {
 	private String transactionId;
 	
 	private String userId;
+	private String userName;
 	private String openId;
 	private String ip;
 	
@@ -153,6 +154,12 @@ public class WeixinOrder {
 	public void setCloseTime(long closeTime) {
 		this.closeTime = new Date(closeTime);
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
@@ -168,7 +175,7 @@ public class WeixinOrder {
 		return obj;
 	}
 	
-	public JSONObject toBackJsonObj(){
+	public JSONObject toBackendJsonObj(){
 		JSONObject obj=new JSONObject();
 		obj.accumulate("orderid", StringUtils.trimToEmpty(this.orderId));
 		obj.accumulate("transactionid", StringUtils.trimToEmpty(this.transactionId));
@@ -202,6 +209,7 @@ public class WeixinOrder {
 		obj.accumulate("goodsinfo", StringUtils.trimToEmpty(this.goodsInfo.getInfo()));
 		obj.accumulate("goodsdetail", StringUtils.trimToEmpty(this.goodsInfo.getDetail()));
 		
+		obj.accumulate("username", StringUtils.trimToEmpty(this.userName));
 		return obj;
 	}
 }

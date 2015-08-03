@@ -50,7 +50,7 @@ public class PanientController {
 		if(user != null){
 			PanientInfo info=this.panientService.getPanient(user.getUserId());
 			if(StringUtils.isNotBlank(info.getUserId())){
-				return new JsonObjectResponse(ErrorCodeType.success, info.toJsonObj()).toJson();
+				return new JsonObjectResponse(ErrorCodeType.success, info.toBackendJsonObj()).toJson();
 			}else{
 				return new BaseResponse(ErrorCodeType.failed).toJson();
 			}
@@ -72,10 +72,12 @@ public class PanientController {
 			long birthday=NumberUtils.toLong(request.getParameter("birthday"));;
 			float height=NumberUtils.toFloat(request.getParameter("height"));;
 			float weight=NumberUtils.toFloat(request.getParameter("weight"));
+			String idNum = StringUtils.trimToEmpty(request.getParameter("idnum"));
 			PanientInfo info=new PanientInfo();
 			info.setBirthday(birthday);
 			info.setGender(gender);
 			info.setHeight(height);
+			info.setIDNumber(idNum);
 			info.setUserId(user.getUserId());
 			info.setUserName(userName);
 			info.setWeight(weight);

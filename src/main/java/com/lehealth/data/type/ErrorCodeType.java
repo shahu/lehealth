@@ -6,6 +6,7 @@ public enum ErrorCodeType {
 	invalidPassword(101,"用户名或密码错误"),
 	invalidToken(1,"请重新登录"),
 	invalidParam(103,"请求参数错误"),
+	invalidRole(104,"权限不足"),
 	
 	invalidPhoneNumber(111,"不是正确的手机号"),
 	repeatPhoneNumber(112,"手机号已注册"),

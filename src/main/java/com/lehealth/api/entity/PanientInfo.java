@@ -1,6 +1,8 @@
 package com.lehealth.api.entity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,6 +17,8 @@ public class PanientInfo {
 	private long birthday=0;
 	private float height=0;
 	private float weight=0;
+	private String IDNumber = "";
+	private List<String> files = new ArrayList<String>();
 	
 	public String getUserId() {
 		return userId;
@@ -69,6 +73,35 @@ public class PanientInfo {
 	public void setBirthday(long birthday) {
 		this.birthday = birthday;
 	}
+	public String getIDNumber() {
+		return IDNumber;
+	}
+	public void setIDNumber(String iDNumber) {
+		IDNumber = iDNumber;
+	}
+	public List<String> getFiles() {
+		return files;
+	}
+	public void setFiles(String fileStr) {
+		if(StringUtils.isNotBlank(fileStr)){
+			for(String file : fileStr.split(",")){
+				this.files.add(file);
+			}
+		}
+	}
+	
+	public JSONObject toBackendJsonObj(){
+		JSONObject obj=new JSONObject();
+		obj.accumulate("username", this.userName);
+		obj.accumulate("gender", this.gender);
+		obj.accumulate("weight", this.weight);
+		obj.accumulate("height", this.height);
+		obj.accumulate("birthday", this.birthday);
+		obj.accumulate("age", getAge());
+		obj.accumulate("idNum", this.IDNumber);
+		obj.accumulate("files", this.files);
+		return obj;
+	}
 	
 	public JSONObject toJsonObj(){
 		JSONObject obj=new JSONObject();
@@ -78,6 +111,7 @@ public class PanientInfo {
 		obj.accumulate("height", this.height);
 		obj.accumulate("birthday", this.birthday);
 		obj.accumulate("age", getAge());
+		obj.accumulate("idnum", this.IDNumber);
 		return obj;
 	}
 	

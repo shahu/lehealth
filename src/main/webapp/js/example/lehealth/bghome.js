@@ -81,7 +81,8 @@ define(function(require, exports, module) {
 							ordercard.find("td.ordertime").text(timestr);
 							ordercard.find("td.orderfee").text("￥" + orderlist[i].fee);
 							ordercard.find("td.orderstate").text(state);
-							ordercard.find("td.orderdesc").text(orderlist[i].goodsdetail);
+							ordercard.find("td.username").text(orderlist[i].username);
+							ordercard.find("td.goodsname").text(orderlist[i].goodsname);
 							$("#orderlistdata").append(ordercard);
 						}
 					}

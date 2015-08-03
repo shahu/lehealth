@@ -206,7 +206,7 @@ public class WeixinPayController {
 			JSONArray arr=new JSONArray();
 			for(WeixinOrder order:list){
 				if(user.getRole() == UserRoleType.admin){
-					arr.add(order.toBackJsonObj());
+					arr.add(order.toBackendJsonObj());
 				}else{
 					arr.add(order.toJsonObj());
 				}

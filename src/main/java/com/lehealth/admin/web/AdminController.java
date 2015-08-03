@@ -80,7 +80,7 @@ public class AdminController {
 		if(user != null){
 			String pid=StringUtils.trimToEmpty(request.getParameter("pid"));
 			PanientInfo p=this.panientService.getPanient(pid);
-			return new JsonObjectResponse(ErrorCodeType.success, p.toJsonObj()).toJson();
+			return new JsonObjectResponse(ErrorCodeType.success, p.toBackendJsonObj()).toJson();
 		}else{
 			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
 		}

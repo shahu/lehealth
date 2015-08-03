@@ -31,4 +31,16 @@ public class DiseaseServiceImpl implements DiseaseService{
 	public DiseaseHistory getHistory(String userId, int diseaseId) {
 		return this.diseaseDao.selectHistory(userId,diseaseId);
 	}
+
+	@Override
+	public boolean uploadPanientFiles(String userId, List<String> files) {
+		StringBuilder sb = new StringBuilder();
+		for(String file : files){
+			sb.append(",").append(file);
+		}
+		if(sb.length() > 0){
+			return this.diseaseDao.updatePanientFiles(userId, sb.substring(1));
+		}
+		return false;
+	}
 }

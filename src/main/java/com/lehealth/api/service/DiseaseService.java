@@ -10,9 +10,12 @@ public interface DiseaseService {
 	public List<DiseaseHistory> getHistoryList(String userId);
 	
 	//获取病例内容
-	public DiseaseHistory getHistory(String userId,int diseaseId);
+	public DiseaseHistory getHistory(String userId, int diseaseId);
 	
 	//更新病例
 	public boolean modifyHistory(DiseaseHistory diseaseHistory);
+	
+	//保存上传的文件
+	public boolean uploadPanientFiles(String userId, List<String> files);
 	
 }

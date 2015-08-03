@@ -21,7 +21,7 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 
 	@Override
 	public PanientInfo selectPanient(String userid) {
-		String sql="SELECT t1.loginid,t1.userid, t2.username, t2.gender, t2.birthday, t2.height, t2.weight "
+		String sql="SELECT t1.loginid,t1.userid, t2.username, t2.gender, t2.birthday, t2.height, t2.weight, t2.idnumber, t2.files "
 				+ "FROM user_base_info t1 "
 				+ "left join user_patient_info t2 on t1.userid=t2.userid "
 				+ "where t1.userid=:userid ";
@@ -39,12 +39,15 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 			}
 			float height=rs.getFloat("height");
 			float weight=rs.getFloat("weight");
+			String idNum = StringUtils.trimToEmpty(rs.getString("idnumber"));
+			String files = StringUtils.trimToEmpty(rs.getString("files"));
 			info.setUserId(id);
 			info.setUserName(userName);
 			info.setGender(gender);
 			info.setHeight(height);
 			info.setWeight(weight);
-			
+			info.setIDNumber(idNum);
+			info.setFiles(files);
 		}
 		return info;
 	}
@@ -58,10 +61,11 @@ public class PanientDaoImpl extends BaseJdbcDao implements PanientDao {
 		msps.addValue("height", info.getHeight());
 		msps.addValue("weight", info.getWeight());
 		msps.addValue("username", info.getUserName());
-		String sql="UPDATE user_patient_info SET gender=:gender,birthday=:birthday,height=:height,weight=:weight,username=:username WHERE userid=:userid";
+		msps.addValue("idnumber", info.getIDNumber());
+		String sql="UPDATE user_patient_info SET gender=:gender,birthday=:birthday,height=:height,weight=:weight,username=:username,idnumber=:idnumber WHERE userid=:userid";
 		int i=this.namedJdbcTemplate.update(sql, msps);
 		if(i==0){
-			sql="INSERT INTO user_patient_info VALUE(:uuid,:userid,:gender,:birthday,:height,:weight,:username)";
+			sql="INSERT INTO user_patient_info(id,userid,gender,birthday,height,weight,username,idnumber,files) VALUE(:uuid,:userid,:gender,:birthday,:height,:weight,:username,:idnumber,'')";
 			msps.addValue("uuid", TokenUtils.buildUUid());
 			i=this.namedJdbcTemplate.update(sql, msps);
 			if(i==0){

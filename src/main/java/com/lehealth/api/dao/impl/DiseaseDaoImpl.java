@@ -77,4 +77,18 @@ public class DiseaseDaoImpl extends BaseJdbcDao implements DiseaseDao {
 		return h;
 	}
 
+	@Override
+	public boolean updatePanientFiles(String userId, String fileStr) {
+		MapSqlParameterSource msps=new MapSqlParameterSource();
+		msps.addValue("userid", userId);
+		msps.addValue("files", fileStr);
+		String sql="UPDATE user_patient_info SET files=:files WHERE userid=:userid";
+		int i=this.namedJdbcTemplate.update(sql, msps);
+		if(i==1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

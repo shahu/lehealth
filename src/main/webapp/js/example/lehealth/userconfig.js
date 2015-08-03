@@ -53,6 +53,7 @@ define(function(require, exports, module) {
 							birthday = birthDate.getFullYear() + '-' + month + "-" + dayInMon;
 							console.info(birthday);
 							$('#ubirthday').val(birthday);
+							$('#idnum').val(userconfig.idnum).textinput();
 						}
 					},
 					error: function(xhr, errormsg) {
@@ -77,7 +78,8 @@ define(function(require, exports, module) {
 					gender = $('#male').attr('checked')? 0 : 1,
 					birthday = $('#ubirthday').val(),
 					height = $('#uheight').val(),
-					weight = $('#uweight').val();
+					weight = $('#uweight').val(),
+					idnum = $('#idnum').val();
 				if(!username || !birthday) {
 					util.toast("请填写完整的用户信息");	
 					return;

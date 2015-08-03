@@ -14,4 +14,7 @@ public interface DiseaseDao {
 	
 	//更新病例
 	public boolean updateHistory(DiseaseHistory diseaseHistory);
+	
+	//更新病例文件
+	public boolean updatePanientFiles(String userId, String fileStr);
 }

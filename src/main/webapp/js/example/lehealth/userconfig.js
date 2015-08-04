@@ -99,6 +99,7 @@ define(function(require, exports, module) {
 						birthday: birthday,
 						height: height,
 						weight: weight,
+						idnum: idnum
 					},
 					success: function(rspData) {
 						if (rspData.errorcode) {

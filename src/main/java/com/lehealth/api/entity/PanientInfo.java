@@ -98,7 +98,7 @@ public class PanientInfo {
 		obj.accumulate("height", this.height);
 		obj.accumulate("birthday", this.birthday);
 		obj.accumulate("age", getAge());
-		obj.accumulate("idNum", this.IDNumber);
+		obj.accumulate("idnum", this.IDNumber);
 		obj.accumulate("files", this.files);
 		return obj;
 	}

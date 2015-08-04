@@ -130,9 +130,11 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 //			.append("t1.starttime,t1.expiretime,t1.prepaytime,")
 //			.append("t1.paytime,t1.callbacktime,t1.closetime,")
 			.append("t1.goods_id,t1.fee,t1.period,")
-			.append("t2.name,t2.info,t2.detail,t2.fee as goods_fee ")
+			.append("t2.name,t2.info,t2.detail,t2.fee as goods_fee,")
+			.append("t3.username ")
 			.append("from weixin_order t1 ")
-			.append("inner join goods_info t2 on t1.goods_id=t2.id ");
+			.append("inner join goods_info t2 on t1.goods_id=t2.id ")
+			.append("left join user_patient_info t3 on t1.userid=t3.userid ");
 		if(user.getRole() != UserRoleType.admin){
 			sql.append("where t1.userid = :userid ");
 		}
@@ -143,6 +145,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 		List<WeixinOrder> list = new ArrayList<WeixinOrder>();
 		while(rs.next()){
 			String userId = StringUtils.trimToEmpty(rs.getString("userid"));
+			String userName = StringUtils.trimToEmpty(rs.getString("username"));
 			String openId = StringUtils.trimToEmpty(rs.getString("openid"));
 			String orderId = StringUtils.trimToEmpty(rs.getString("order_id"));
 			String orderSecret = StringUtils.trimToEmpty(rs.getString("order_secret"));
@@ -158,6 +161,7 @@ public class WeixinPayDaoImpl extends BaseJdbcDao implements WeixinPayDao {
 			
 			WeixinOrder order = new WeixinOrder();
 			order.setUserId(userId);
+			order.setUserName(userName);;
 			order.setOpenId(openId);
 			order.setOrderId(orderId);
 			order.setOrderSecret(orderSecret);

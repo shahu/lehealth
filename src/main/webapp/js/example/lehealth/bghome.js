@@ -79,7 +79,7 @@ define(function(require, exports, module) {
 							}
 							ordercard.find("td.ordercode").text(orderlist[i].orderid);
 							ordercard.find("td.ordertime").text(timestr);
-							ordercard.find("td.orderfee").text("￥" + orderlist[i].fee);
+							ordercard.find("td.orderfee").text("￥" + orderlist[i].fee/100);
 							ordercard.find("td.orderstate").text(state);
 							ordercard.find("td.username").text(orderlist[i].username);
 							ordercard.find("td.goodsname").text(orderlist[i].goodsname);

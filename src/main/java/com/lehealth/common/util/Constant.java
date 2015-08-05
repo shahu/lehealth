@@ -15,4 +15,9 @@ public class Constant {
 	public static final String weixinTradeType = "JSAPI";
 	public static final String weixinPrePayApi = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	public static final String weixinSearchApi = "https://api.mch.weixin.qq.com/pay/orderquery";
+	
+	public static String switchFlag = "1";
+	public static String sendIdentifyingCodeTempleteId = "7779";
+	public static String sendSituationNoticeTempleteId = "7780";
+	public static String sendOrderNoticeTempleteId = "7781";
 }

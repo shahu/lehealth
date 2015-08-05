@@ -11,6 +11,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,12 @@ import org.springframework.stereotype.Service;
 import com.lehealth.api.dao.LoginDao;
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.LoginService;
-import com.lehealth.common.service.SendTemplateSMSService;
+import com.lehealth.common.service.SendSMSService;
+import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.Constant;
 import com.lehealth.common.util.TokenUtils;
 import com.lehealth.data.type.ErrorCodeType;
+import com.lehealth.data.type.SystemVariableKeyType;
 import com.lehealth.data.type.UserRoleType;
 
 @Service("loginService")
@@ -32,8 +35,14 @@ public class LoginServiceImpl implements LoginService{
 	private LoginDao loginDao;
 	
 	@Autowired
-	@Qualifier("sendTemplateSMSService")
-	private SendTemplateSMSService sendTemplateSMSService;
+	@Qualifier("sendSMSService")
+	private SendSMSService sendSMSService;
+	
+	@Autowired
+	@Qualifier("systemVariableService")
+	private SystemVariableService systemVariableService;
+	
+	private static Logger logger = Logger.getLogger(LoginServiceImpl.class);
 	
 	@Override
 	public ErrorCodeType registerUser(String loginId, String password, String identifyingCode, UserRoleType role) {
@@ -141,7 +150,7 @@ public class LoginServiceImpl implements LoginService{
 		
 		// 发送验证短信
 		String identifyingCode = String.valueOf(random.nextInt(899999)+100000);
-		boolean flag = this.sendTemplateSMSService.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
+		boolean flag = this.sendIdentifyingCodeSMS(phoneNumber, identifyingCode);
 		if(flag){
 			this.identifyingCodeCache.put(phoneNumber, identifyingCode);
 			this.identifyingCodeTime.put(phoneNumber, System.currentTimeMillis());
@@ -204,5 +213,16 @@ public class LoginServiceImpl implements LoginService{
 			result.accumulate("identifyingCodeCache", arr);
 		}
 		return result;
+	}
+	
+	private boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode){
+		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendIdentifyingCodeMessageSwitch);
+		logger.info("sendIdentifyingCodeSMS flag is : " + flag + "!");
+		if(StringUtils.equals(Constant.switchFlag, flag)){
+			String[] datas = {identifyingCode, String.valueOf(Constant.identifyingCodeValidityMinute)};
+			return this.sendSMSService.sendTemplateSMS(phoneNumber, Constant.sendIdentifyingCodeTempleteId, datas);
+		}else{
+			return true;
+		}
 	}
 }

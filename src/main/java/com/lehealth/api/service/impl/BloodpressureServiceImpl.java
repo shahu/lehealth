@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,13 @@ import com.lehealth.api.entity.BloodpressureResult;
 import com.lehealth.api.entity.PanientGuardianInfo;
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.BloodpressureService;
-import com.lehealth.common.service.SendTemplateSMSService;
+import com.lehealth.common.service.SendSMSService;
+import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.CheckStatusUtils;
 import com.lehealth.common.util.ComparatorUtils;
+import com.lehealth.common.util.Constant;
 import com.lehealth.data.type.BloodPressStatusType;
+import com.lehealth.data.type.SystemVariableKeyType;
 
 @Service("bloodpressureService")
 public class BloodpressureServiceImpl implements BloodpressureService{
@@ -35,12 +39,18 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	private PanientDao panientDao;
 	
 	@Autowired
-	@Qualifier("sendTemplateSMSService")
-	private SendTemplateSMSService sendTemplateSMSService;
+	@Qualifier("sendSMSService")
+	private SendSMSService sendSMSService;
+	
+	@Autowired
+	@Qualifier("systemVariableService")
+	private SystemVariableService systemVariableService;
 	
 	@Autowired
 	@Qualifier("loginDao")
 	private LoginDao loginDao;
+	
+	private static Logger logger = Logger.getLogger(BloodpressureServiceImpl.class);
 	
 	@Override
 	public BloodpressureResult getRecords(String userId,int days) {
@@ -89,7 +99,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 					//调用短信通知监护人
 					if(!CollectionUtils.isEmpty(list)){
 						for(PanientGuardianInfo info : list){
-							this.sendTemplateSMSService.sendSituationNoticeSMS(info.getGuardianNumber(), phoneNumber, String.valueOf(sbp), String.valueOf(dbp));
+							this.sendSituationNoticeSMS(info.getGuardianNumber(), phoneNumber, String.valueOf(sbp), String.valueOf(dbp));
 						}
 					}
 				}
@@ -100,5 +110,18 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 	@Override
 	public boolean delRecord(String id) {
 		return this.bloodpressureDao.delRecord(id);
+	}
+	
+	private void sendSituationNoticeSMS(String phoneNumber,String userPhoneNumber, String sbp, String dbp){
+		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendSituationNoticeMessageSwitch);
+		logger.info("sendSituationNoticeSMS flag is : " + flag + "!");
+		if(StringUtils.equals(Constant.switchFlag, flag)){
+			String[] datas = {userPhoneNumber, sbp, dbp};
+			if(this.sendSMSService.sendTemplateSMS(phoneNumber, Constant.sendSituationNoticeTempleteId, datas)){
+				logger.info("sendSituationNoticeSMS success,phone=" + phoneNumber);
+			} else {
+				logger.info("sendSituationNoticeSMS failed,phone=" + phoneNumber);
+			}
+		}
 	}
 }

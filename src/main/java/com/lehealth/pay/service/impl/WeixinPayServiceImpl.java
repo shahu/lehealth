@@ -26,7 +26,7 @@ import com.lehealth.api.entity.PanientInfo;
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SendMailService;
-import com.lehealth.common.service.SendTemplateSMSService;
+import com.lehealth.common.service.SendSMSService;
 import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.Constant;
 import com.lehealth.common.util.HttpUtils;
@@ -54,8 +54,8 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	private SystemVariableService systemVariableService;
 	
 	@Autowired
-	@Qualifier("sendTemplateSMSService")
-	private SendTemplateSMSService sendTemplateSMSService;
+	@Qualifier("sendSMSService")
+	private SendSMSService sendSMSService;
 	
 	@Autowired
 	@Qualifier("sendMailService")
@@ -401,12 +401,32 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		int result = this.weixinPayDao.updateStatus2Success(orderId, transactionId, payTime);
 		if(result == 1){
 			// 邮件通知
-			this.sendMailService.sendMail(toMails, ccMails, mailTitle, fromMail, templateName, model, inlineFiles, attachmentFiles, content)
+			this.sendOrderNoticeMail(userPhoneNumber);
 			// 短信通知
-			this.sendTemplateSMSService.sendOrderNoticeSMS(userPhoneNumber);
+			this.sendOrderNoticeSMS(userPhoneNumber);
 			return "";
 		}else{
 			return "该订单状态已变更";
+		}
+	}
+	
+	private void sendOrderNoticeMail(String userPhoneNumber){
+		this.sendMailService.sendMail(toMails, ccMails, mailTitle, fromMail, templateName, model, inlineFiles, attachmentFiles, content);
+	}
+	
+	private void sendOrderNoticeSMS(String userPhoneNumber){
+		String flag = this.systemVariableService.getValue(SystemVariableKeyType.sendOrderNoticeMessageSwitch);
+		logger.info("sendOrderNoticeSMS flag is : " + flag + "!");
+		if(StringUtils.equals(Constant.switchFlag, flag)){
+			String phoneNumbers = this.systemVariableService.getValue(SystemVariableKeyType.noticeToPhoneNumber);
+			for(String phoneNumber : phoneNumbers.split(",")){
+				String[] datas = {userPhoneNumber};
+				if(this.sendSMSService.sendTemplateSMS(phoneNumber, Constant.sendOrderNoticeTempleteId, datas)){
+					logger.info("sendOrderNoticeSMS success,phone=" + phoneNumber);
+				} else {
+					logger.info("sendOrderNoticeSMS failed,phone=" + phoneNumber);
+				}
+			}
 		}
 	}
 }

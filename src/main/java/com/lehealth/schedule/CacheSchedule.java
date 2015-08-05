@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.CommonCacheService;
-import com.lehealth.common.service.SendTemplateSMSService;
+import com.lehealth.common.service.SendSMSService;
 import com.lehealth.common.service.SystemVariableService;
 
 @Controller
@@ -20,8 +20,8 @@ public class CacheSchedule {
 	private LoginService loginService;
 	
 	@Autowired
-	@Qualifier("sendTemplateSMSService")
-	private SendTemplateSMSService sendTemplateSMSService;
+	@Qualifier("sendSMSService")
+	private SendSMSService sendSMSService;
 	
 	@Autowired
 	@Qualifier("systemVariableService")

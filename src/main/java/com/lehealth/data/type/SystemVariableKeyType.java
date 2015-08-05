@@ -24,7 +24,7 @@ public enum SystemVariableKeyType {
 	weixinApiKey("weixin_api_key"),
 	
 	noticeToPhoneNumber("notice_to_phone_number"),
-	noticeToMailAddr("notice_to_phone_addr"),
+	noticeToMailAddr("notice_to_mail_addr"),
 	
 	noticeFromMailAccount("notice_from_mail_account"),
 	noticeFromMailPassword("notice_from_mail_password")

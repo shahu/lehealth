@@ -1,15 +1,22 @@
 package com.lehealth.schedule;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lehealth.api.service.LoginService;
 import com.lehealth.common.service.CommonCacheService;
 import com.lehealth.common.service.SendSMSService;
 import com.lehealth.common.service.SystemVariableService;
+import com.lehealth.pay.service.WeixinPayService;
 
 @Controller
 @RequestMapping("/test")
@@ -30,6 +37,10 @@ public class CacheSchedule {
 	@Autowired
 	@Qualifier("commonCacheService")
 	private CommonCacheService commonCacheService;
+	
+	@Autowired
+	@Qualifier("weixinPayService")
+	private WeixinPayService weixinPayService;
 	
 	// 定时清理验证码
 	@Scheduled(cron = "5 1 * * * ?")
@@ -77,4 +88,10 @@ public class CacheSchedule {
 //		obj.accumulate("systemvariable", this.systemVariableService.getCache());
 //		return obj.toString();
 //	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/notice.do", method = RequestMethod.GET)
+	public String getCache(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		return "o";
+	}
 }

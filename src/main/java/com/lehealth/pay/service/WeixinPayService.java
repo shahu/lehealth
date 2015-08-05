@@ -25,5 +25,5 @@ public interface WeixinPayService {
 	
 	// 获取订单列表
 	public List<WeixinOrder> getOrderList(UserBaseInfo user);
-
+	
 }

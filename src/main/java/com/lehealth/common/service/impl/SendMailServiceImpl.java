@@ -1,7 +1,5 @@
 package com.lehealth.common.service.impl;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -10,7 +8,6 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,29 +17,31 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.lehealth.api.entity.SmtpAuthenticator;
 import com.lehealth.common.service.SendMailService;
 import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.data.type.SystemVariableKeyType;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-
+// TODO 暂不处理模板模式
 @Service("sendMailService")
 public class SendMailServiceImpl implements InitializingBean,SendMailService {
     
     private static Log logger = LogFactory.getLog(SendMailServiceImpl.class);
     
-    private FreeMarkerConfigurer freeMarkerConf;
+//    private FreeMarkerConfigurer freeMarkerConf;
     private JavaMailSenderImpl sender;
     
     @Autowired
 	@Qualifier("systemVariableService")
 	private SystemVariableService systemVariableService;
+    
+    // POP3服务器 host:pop.126.com port:110
+    // SMTP服务器 host:smtp.126.com port:25
+    // IMAP服务器 host:imap.126.com port:143
+    
+    private static String smtpHost = "smtp.126.com";
+    private static int smtpPort = 25;
     
     @Override
 	public void afterPropertiesSet() throws Exception {
@@ -55,18 +54,18 @@ public class SendMailServiceImpl implements InitializingBean,SendMailService {
     	mailSettings.setProperty("mail.smtp.auth", "true");
     	Session mailSession = Session.getInstance(mailSettings, smtpAuthenticator);
     	this.sender = new JavaMailSenderImpl();
-    	this.sender.setHost("host");
-    	this.sender.setPort(111);
+    	this.sender.setHost(smtpHost);
+    	this.sender.setPort(smtpPort);
     	this.sender.setSession(mailSession);
     	
     	// freeMarker
-    	this.freeMarkerConf = new FreeMarkerConfigurer();
-    	this.freeMarkerConf.setTemplateLoaderPath("/freemarkertemplate/");
-    	Properties freeMarkerSettings = new Properties();
-    	freeMarkerSettings.setProperty("template_update_delay", "86400");
-    	freeMarkerSettings.setProperty("default_encoding", "UTF-8");
-    	freeMarkerSettings.setProperty("locale", "zh_CN");
-    	this.freeMarkerConf.setFreemarkerSettings(freeMarkerSettings);
+//    	this.freeMarkerConf = new FreeMarkerConfigurer();
+//    	this.freeMarkerConf.setTemplateLoaderPath("/freemarkertemplate/");
+//    	Properties freeMarkerSettings = new Properties();
+//    	freeMarkerSettings.setProperty("template_update_delay", "86400");
+//    	freeMarkerSettings.setProperty("default_encoding", "UTF-8");
+//    	freeMarkerSettings.setProperty("locale", "zh_CN");
+//    	this.freeMarkerConf.setFreemarkerSettings(freeMarkerSettings);
 	}
     
     /**
@@ -85,9 +84,110 @@ public class SendMailServiceImpl implements InitializingBean,SendMailService {
      * @param 
      *            邮件正文，为空则使用模版发送
      */
-    @Override
-    public String sendMail(String[] toMails,String[] ccMails,String mailTitle,String fromMail,String templateName,Map<String, Object> model,Map<String,FileSystemResource> inlineFiles,Map<String,FileSystemResource> attachmentFiles,String content) {
-        String errmsg="";
+//    @Override
+//    public String sendTempleteMail(String[] toMails, String[] ccMails, 
+//    		String mailTitle, String fromMail, 
+//    		String templateName, Map<String, Object> model, 
+//    		Map<String,FileSystemResource> inlineFiles, 
+//    		Map<String,FileSystemResource> attachmentFiles) {
+//        String errmsg="";
+//        try {
+//            MimeMessage msg = sender.createMimeMessage();
+//            MimeMessageHelper helper = null;
+//            helper = new MimeMessageHelper(msg, true, "utf8");
+//            if(toMails!=null){
+//                helper.setTo(toMails);
+//            }
+//            if(ccMails!=null){
+//                helper.setCc(ccMails);
+//            }
+//            helper.setSubject(mailTitle);
+//            helper.setFrom(fromMail);
+//            String htmlText = getEmailContent(templateName, model);//使用模板生成html邮件内容
+//            if (htmlText == null || htmlText.trim().equals("")) {
+//                logger.info("No content is gernerated.");
+//                return "No content is gernerated.";
+//            }
+//            helper.setText(htmlText, true);
+//            //这个必须放在setText后面，否则图会挂
+//            //内联多媒体文件
+//            if(inlineFiles!=null&&inlineFiles.size()>0){
+//                for(Entry<String,FileSystemResource> e:inlineFiles.entrySet()){
+//                    helper.addInline(e.getKey(),e.getValue());
+//                }
+//            }
+//            //发送附件
+//            if(attachmentFiles!=null&&attachmentFiles.size()>0){
+//                for(Entry<String,FileSystemResource> e:attachmentFiles.entrySet()){
+//                    helper.addAttachment(e.getKey(),e.getValue());
+//                }
+//            }
+//            int retry = 0;
+//            boolean flag = true;
+//            while(retry < 3){
+//                try{
+//                    flag = true;
+//                    sender.send(msg);
+//                } catch (Exception ex) {
+//                    flag = false;
+//                    retry++;
+//                    logger.info("Send templated mail failed! retry:" + retry);
+//                    logger.error(ex.getMessage());
+//                    errmsg="MailException";
+//                } finally {
+//                    if (flag) {
+//                        errmsg="";
+//                        logger.info("Send templated mail success!");
+//                        break;
+//                    }
+//                }
+//            }
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//            logger.error(e.getMessage(), e);
+//            errmsg="MessagingException";
+//        } 
+//        return errmsg;
+//    }
+    
+    /**
+     * 通过模板产生邮件正文
+     * 
+     * @param templateName
+     *            邮件模板名称
+     * @param map
+     *            模板中要填充的对象
+     * @return 邮件正文（HTML）
+     */
+//    private String getEmailContent(String templateName, Map<?, ?> map) {
+//        try {
+//            if(map!=null){
+//                logger.info("Try to get content.");
+//                Configuration config = freeMarkerConf.getConfiguration();
+//                Template temp = config.getTemplate(templateName);
+//                return FreeMarkerTemplateUtils.processTemplateIntoString(temp, map);
+//            }else{
+//                return "";
+//            }
+//        } catch (TemplateException e) {
+//            logger.error("Error while processing freemarker template ", e);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            logger.error("Error while open template file ", e);
+//        } catch (IOException e) {
+//            logger.error("Error while generate Email Content ", e);
+//        } catch (Exception e) {
+//            logger.error("Error while generate Email Content ", e);
+//        }
+//        return null;
+//    }
+
+	@Override
+	public String sendContentMail(String[] toMails, String[] ccMails, 
+			String mailTitle, String fromMail, String content, 
+			Map<String, FileSystemResource> inlineFiles, 
+			Map<String, FileSystemResource> attachmentFiles) {
+		String errmsg="";
         try {
             MimeMessage msg = sender.createMimeMessage();
             MimeMessageHelper helper = null;
@@ -100,15 +200,7 @@ public class SendMailServiceImpl implements InitializingBean,SendMailService {
             }
             helper.setSubject(mailTitle);
             helper.setFrom(fromMail);
-            String htmlText = content;
-            if(StringUtils.isBlank(htmlText)){
-                htmlText = getEmailContent(templateName, model);//使用模板生成html邮件内容
-                if (htmlText == null || htmlText.trim().equals("")) {
-                    logger.info("No content is gernerated.");
-                    return "No content is gernerated.";
-                }
-            }
-            helper.setText(htmlText, true);
+            helper.setText(content, true);
             //这个必须放在setText后面，否则图会挂
             //内联多媒体文件
             if(inlineFiles!=null&&inlineFiles.size()>0){
@@ -148,38 +240,6 @@ public class SendMailServiceImpl implements InitializingBean,SendMailService {
             errmsg="MessagingException";
         } 
         return errmsg;
-    }
-    
-    /**
-     * 通过模板产生邮件正文
-     * 
-     * @param templateName
-     *            邮件模板名称
-     * @param map
-     *            模板中要填充的对象
-     * @return 邮件正文（HTML）
-     */
-    private String getEmailContent(String templateName, Map<?, ?> map) {
-        try {
-            if(map!=null){
-                logger.info("Try to get content.");
-                Configuration config = freeMarkerConf.getConfiguration();
-                Template temp = config.getTemplate(templateName);
-                return FreeMarkerTemplateUtils.processTemplateIntoString(temp, map);
-            }else{
-                return "";
-            }
-        } catch (TemplateException e) {
-            logger.error("Error while processing freemarker template ", e);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            logger.error("Error while open template file ", e);
-        } catch (IOException e) {
-            logger.error("Error while generate Email Content ", e);
-        } catch (Exception e) {
-            logger.error("Error while generate Email Content ", e);
-        }
-        return null;
     }
 	
 }

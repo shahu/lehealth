@@ -410,8 +410,19 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		}
 	}
 	
+	private static String fromMail = "ryl1990@126.com";
+	
 	private void sendOrderNoticeMail(String userPhoneNumber){
-		this.sendMailService.sendMail(toMails, ccMails, mailTitle, fromMail, templateName, model, inlineFiles, attachmentFiles, content);
+		String toMailStr = this.systemVariableService.getValue(SystemVariableKeyType.noticeToMailAddr);
+		if(StringUtils.isNotBlank(toMailStr)){
+			String[] toMails = toMailStr.split(",");
+			String mailTitle = "用户：" + userPhoneNumber + "已经在微信下单了。";
+			String content = "用户：" + userPhoneNumber + "已经在微信下单，请联系用户";
+			this.sendMailService.sendContentMail(toMails, null, mailTitle, fromMail, content, null, null);
+		} else {
+			logger.info("sendOrderNoticeMail no tomails !");
+		}
+		
 	}
 	
 	private void sendOrderNoticeSMS(String userPhoneNumber){

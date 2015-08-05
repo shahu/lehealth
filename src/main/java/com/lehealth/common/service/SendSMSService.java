@@ -1,6 +1,6 @@
 package com.lehealth.common.service;
 
-public interface SendTemplateSMSService {
+public interface SendSMSService {
 	
 	public boolean sendIdentifyingCodeSMS(String phoneNumber, String identifyingCode);
 	

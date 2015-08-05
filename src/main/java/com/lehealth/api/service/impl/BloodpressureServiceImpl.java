@@ -89,7 +89,7 @@ public class BloodpressureServiceImpl implements BloodpressureService{
 					//调用短信通知监护人
 					if(!CollectionUtils.isEmpty(list)){
 						for(PanientGuardianInfo info : list){
-							this.sendTemplateSMSService.sendNoticeSMS(info.getGuardianNumber(), phoneNumber, String.valueOf(sbp), String.valueOf(dbp));
+							this.sendTemplateSMSService.sendSituationNoticeSMS(info.getGuardianNumber(), phoneNumber, String.valueOf(sbp), String.valueOf(dbp));
 						}
 					}
 				}

@@ -6,7 +6,8 @@ import java.util.Map;
 public enum SystemVariableKeyType {
 
 	unknown("unknown"),
-	sendNoticeMessageSwitch("send_notice_message_switch"),
+	sendSituationNoticeMessageSwitch("send_situation_notice_message_switch"),
+	sendOrderNoticeMessageSwitch("send_order_notice_message_switch"),
 	sendIdentifyingCodeMessageSwitch("send_identifyingcode_message_switch"),
 	sendSMSMessageDomain("send_SMS_message_domain"),
 	
@@ -21,6 +22,12 @@ public enum SystemVariableKeyType {
 	weixinCheckOrderNocestr("weixin_check_order_noncestr"),
 	weixinMchId("weixin_mch_id"),
 	weixinApiKey("weixin_api_key"),
+	
+	noticeToPhoneNumber("notice_to_phone_number"),
+	noticeToMailAddr("notice_to_phone_addr"),
+	
+	noticeFromMailAccount("notice_from_mail_account"),
+	noticeFromMailPassword("notice_from_mail_password")
 	;
 	
 	private SystemVariableKeyType(String key) {

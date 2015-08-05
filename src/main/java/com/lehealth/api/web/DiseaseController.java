@@ -1,6 +1,5 @@
 package com.lehealth.api.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,6 @@ import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.api.service.DiseaseService;
 import com.lehealth.api.service.LoginService;
 import com.lehealth.data.type.ErrorCodeType;
-import com.lehealth.data.type.UserRoleType;
 import com.lehealth.response.bean.BaseResponse;
 import com.lehealth.response.bean.JsonArrayResponse;
 import com.lehealth.response.bean.JsonObjectResponse;
@@ -106,41 +104,4 @@ public class DiseaseController {
 		}
 	}
 	
-	// 上传病例资料等文件
-	@ResponseBody
-	@RequestMapping(value = "/files/upload")
-	public JSONObject uploadPanientFiles(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String loginId=StringUtils.trimToEmpty(request.getParameter("loginid"));
-		String token=StringUtils.trimToEmpty(request.getParameter("token"));
-		UserBaseInfo user=this.loginService.getUserByToken(loginId, token);
-		if(user != null){
-			String pid = StringUtils.trimToEmpty(request.getParameter("pid"));
-			if(user.getRole() == UserRoleType.panient){
-				pid = user.getUserId();
-			}
-			
-			String fileStr=StringUtils.trimToEmpty(request.getParameter("files"));
-			if(StringUtils.isNotBlank(fileStr)){
-				List<String> files = new ArrayList<String>();
-				for(String file : fileStr.split(",")){
-					if(StringUtils.isNotBlank(file)){
-						files.add(file);
-					}
-				}
-				if(!files.isEmpty()){
-					if(this.diseaseService.uploadPanientFiles(pid, files)){
-						return new BaseResponse(ErrorCodeType.success).toJson();
-					}else{
-						return new BaseResponse(ErrorCodeType.failed).toJson();
-					}
-				}else{
-					return new BaseResponse(ErrorCodeType.invalidParam).toJson();
-				}
-			}else{
-				return new BaseResponse(ErrorCodeType.invalidParam).toJson();
-			}
-		}else{
-			return new BaseResponse(ErrorCodeType.invalidToken).toJson();
-		}
-	}
 }

@@ -20,9 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.lehealth.api.dao.PanientDao;
 import com.lehealth.api.entity.GoodsInfo;
+import com.lehealth.api.entity.PanientInfo;
 import com.lehealth.api.entity.UserBaseInfo;
 import com.lehealth.common.service.CommonCacheService;
+import com.lehealth.common.service.SendMailService;
+import com.lehealth.common.service.SendTemplateSMSService;
 import com.lehealth.common.service.SystemVariableService;
 import com.lehealth.common.util.Constant;
 import com.lehealth.common.util.HttpUtils;
@@ -48,6 +52,18 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	@Autowired
 	@Qualifier("systemVariableService")
 	private SystemVariableService systemVariableService;
+	
+	@Autowired
+	@Qualifier("sendTemplateSMSService")
+	private SendTemplateSMSService sendTemplateSMSService;
+	
+	@Autowired
+	@Qualifier("sendMailService")
+	private SendMailService sendMailService;
+	
+	@Autowired
+	@Qualifier("panientDao")
+	private PanientDao panientDao;
 
 	private static Logger logger = Logger.getLogger(WeixinPayServiceImpl.class);
 	
@@ -250,13 +266,9 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		PanientInfo info = this.panientDao.selectPanient(order.getUserId());
 		//更新数据库
-		int result = this.weixinPayDao.updateStatus2Success(orderId, requestMap.get("transaction_id"), date);
-		if(result == 1){
-			return "";
-		}else{
-			return "该订单状态已变更";
-		}
+		return this.orderSuccess(orderId, requestMap.get("transaction_id"), date, info.getPhoneNumber());
 	}
 
 	private String checkPayInfo(WeixinOrder order, Map<String, String> requestMap){
@@ -350,7 +362,7 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 			                				} catch (ParseException e) {
 			                					e.printStackTrace();
 			                				}
-			                				this.weixinPayDao.updateStatus2Success(order.getOrderId(), transactionId, payTime);
+			                				this.orderSuccess(order.getOrderId(), transactionId, payTime, user.getLoginId());
 			                				order.setStatus(WeixinOrderStatusType.success.getCode());
 			                			}
 			                		}else{
@@ -383,5 +395,18 @@ public class WeixinPayServiceImpl implements WeixinPayService{
 	@Override
 	public WeixinOrder getOrderStatus(String orderId) {
 		return this.weixinPayDao.selectInfo(orderId);
+	}
+	
+	private String orderSuccess(String orderId, String transactionId, Date payTime, String userPhoneNumber){
+		int result = this.weixinPayDao.updateStatus2Success(orderId, transactionId, payTime);
+		if(result == 1){
+			// 邮件通知
+			this.sendMailService.sendMail(toMails, ccMails, mailTitle, fromMail, templateName, model, inlineFiles, attachmentFiles, content)
+			// 短信通知
+			this.sendTemplateSMSService.sendOrderNoticeSMS(userPhoneNumber);
+			return "";
+		}else{
+			return "该订单状态已变更";
+		}
 	}
 }

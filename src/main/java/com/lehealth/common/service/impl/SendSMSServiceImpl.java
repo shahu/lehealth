@@ -15,7 +15,7 @@ import com.lehealth.common.util.Constant;
 import com.lehealth.data.type.SystemVariableKeyType;
 
 @Service("sendTemplateSMSService")
-public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
+public class SendSMSServiceImpl implements SendTemplateSMSService{
 
 	@Autowired
 	@Qualifier("systemVariableService")
@@ -23,7 +23,7 @@ public class SendTemplateSMSServiceImpl implements SendTemplateSMSService{
 	
 	private CCPRestSDK restAPI = new CCPRestSDK();
 	
-	private static Logger logger = Logger.getLogger(SendTemplateSMSServiceImpl.class);
+	private static Logger logger = Logger.getLogger(SendSMSServiceImpl.class);
 	private static String switchFlag = "1";
 	
 	@Override

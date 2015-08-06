@@ -19,5 +19,5 @@ public class Constant {
 	public static String switchFlag = "1";
 	public static String sendIdentifyingCodeTempleteId = "7779";
 	public static String sendSituationNoticeTempleteId = "7780";
-	public static String sendOrderNoticeTempleteId = "7781";
+	public static String sendOrderNoticeTempleteId = "29694";
 }

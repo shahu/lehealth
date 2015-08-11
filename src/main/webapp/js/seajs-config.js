@@ -102,7 +102,7 @@ if(seajs.production){
 seajs.config({
 
 	alias: {
-		jquery: 'jquery/jquery/1.7.2/jquery',
+		jquery: 'jquery/jquery/1.9.1/jquery',
 		jquery_mobile: 'jquery-mobile/1.4.4/jquery.mobile',
 		highcharts: 'highcharts/4.0.3/highcharts-all',
 		highcharts_theme: 'highcharts/4.0.3/highchartsTheme'

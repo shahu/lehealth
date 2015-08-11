@@ -64,7 +64,7 @@ define(function(require, exports, module) {
 							ordercard.find("td.td_time").text(timestr);
 							ordercard.find("td.td_fee").text("￥" + orderlist[i].fee);
 							ordercard.find("td.td_state").text(state);
-							ordercard.find("td.td_desc").text(orderlist[i].goodsdetail);
+							ordercard.find("td.td_desc").html(orderlist[i].goodsdetail);
 							$("#orderlist").append(ordercard);
 						}
 					}

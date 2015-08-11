@@ -316,6 +316,17 @@ define(function(require, exports, module) {
 					$('#height').html(rs.height + 'cm');
 					$('#weight').html(rs.weight + '公斤');
 					$('#age').html(rs.age + '岁');
+					$("#resultList").find(".resultItem").remove();
+					for(var i = 0; i < rs.files.length; i++) {
+						var fileObj = rs.files[i];
+						var resultItem = $("#resultItemtmpl").clone();
+						resultItem.css("display", "block");
+						resultItem.removeAttr('id');
+						resultItem.addClass('resultItem');
+						resultItem.find(".resultfile").attr("href", fileObj);
+						resultItem.find(".resultfile").text(fileObj);
+						resultItem.appendTo("#resultList");
+					}
 					cb();
 				}
 			},
@@ -620,5 +631,29 @@ define(function(require, exports, module) {
 	function alertMsg(msg) {
 		alert(msg);
 	}
+
+	$("#resultList").on("click", ".delfile", function(evt) {
+		$(this).parent().remove();
+		var loginId = util.getCookieByKey("loginid"),
+			pwd = util.getCookieByKey("tk");
+		var files = [];
+		$(".resultItem").find(".resultfile").each(function() {
+    		files.push($(this).text());
+    	});			
+		$.ajax({
+    		url: "/lehealth/admin/reports/upload",
+    		type: "post",
+    		dataType: "json",
+    		data: {
+    			loginid: loginId,
+    			token: pwd,
+    			files: files.join(","),
+    			pid: $('#patients li.active').find('a').attr("pid")
+    		},
+    		success: function(rsp) {
+    			console.info(rsp);
+    		}
+    	});		
+	});
 
 });
